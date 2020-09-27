@@ -1,0 +1,89 @@
+---
+title: "An R companion to Statistics: data analysis and modelling"
+author: "Maarten Speekenbrink"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    dev: svg
+    config:
+      edit : null
+      source: null
+      download: null
+      search: yes
+      fontsettings:
+        theme: white
+        family: serif
+        size: 3
+    css: style.css
+    lib_dir: "book_assets"
+  bookdown::pdf_book:
+    keep_tex: yes
+    dev: "cairo_pdf"
+    latex_engine: xelatex
+    citation_package: natbib
+    template: null
+    pandoc_args: --top-level-division=chapter
+    toc_depth: 3
+    toc_unnumbered: no
+    toc_appendix: yes
+    quote_footer: ["\\VA{", "}{}"]
+  bookdown::epub_book:
+    dev: svglite
+    stylesheet: css/style.css
+documentclass: book
+bibliography: [packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: mspeekenbrink/sdam-book
+description: "A book about how to use R related to the book Statistics: Data analysis and modelling."
+---
+
+# Preface {-}
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.align = "center")
+
+knitr::opts_hooks$set(echo = function(options) {
+  if (options$fig.width < options$fig.height) {
+    options$fig.width <- options$fig.height
+  }
+  options
+})
+
+library(sdamr)
+```
+
+```{r myFunctions, echo=FALSE}
+options(digits=3)
+pretNum <- function(x) {
+  prettyNum(x, big.mark=",")
+}
+```
+
+This is a companion to the book "Statistics: Data analysis and modelling". It covers 
+
+R is a programming language and environment specifically designed for data analysis. It is flexible, relatively fast, and has a large number of users and contributors. However, R is known to have a somewhat steep learning curve, so if you want to learn R, you will have to put in some extra effort (compared to e.g. JASP or SPSS). This effort will certainly pay off in the end, but it is up to you to decide whether you want to make this investment. 
+
+This companion is meant to show you how to use R to do the types of analyses covered in "Statistics: Data analysis and modelling". It is certainly not meant as a complete course on R. There are lots of good resources on R available on the internet and I suggest that, if you are serious about learning R, you also look elsewhere. Some sources you might find useful are:
+
++ [Beginner's guide to R (Computer World)](http://www.computerworld.com/s/article/9239625/Beginner_s_guide_to_R_Introduction)
++ [Interactive introduction to R programming (DataCamp)](https://campus.datacamp.com/courses/free-introduction-to-r/)
++ [Try R (another interactive tutorial by codeschool)](http://tryr.codeschool.com/)
+A freely downloadable book on R and statistics specifically focused on psychology students (especially part II and III are relevant):
++ [Learning statistics with R (Danielle Navarro)](https://learningstatisticswithr.com/)
+
+
+## Acknowledgements
+
+Parts of these notes were adapted from other sources (if there is a licence allowing that). I acknowledge these sources in footnotes.
+
+```{r}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
