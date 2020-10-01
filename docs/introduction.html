@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
-<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdam-r-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdam-r</code> package</a></li>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
 <li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
@@ -164,10 +164,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-likelihood"><i class="fa fa-check"></i><b>2.2.1</b> Calculating likelihood</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.3.1</b> Calculating the likelihood ratio</a></li>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -202,9 +199,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="getting-started" class="section level2">
 <h2><span class="header-section-number">1.2</span> Getting started</h2>
+<p>If you want to use R and RStudio, you should <em>first install R</em>, and after that install RStudio. R and RStudio are separate programs, and RStudio requires R to be installed.</p>
 <div id="download-r" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> Download R</h3>
-<p>You can download R from <a href="https://cran.r-project.org/">CRAN (The Comprehensive R Archive Network)</a>. Select the link appropriate for your operating system.</p>
+<p>You can download R from <a href="https://cran.r-project.org/">CRAN (The Comprehensive R Archive Network)</a>. Select the link appropriate for your operating system and follow the instructions. You will want to download the installer for the latest release (currently version 4.0.2) of the base R software.</p>
 <iframe src="https://cran.r-project.org/" width="672" height="400px">
 </iframe>
 <p>As you can see, the CRAN website has a rather distinctive “old-school” look. Don’t let that fool you though. R itself is anything but old school.</p>
@@ -232,8 +230,8 @@ Figure 1.1: The RStudio interface consists of four main panels. The <em>source</
 <div id="installing-packages" class="section level2">
 <h2><span class="header-section-number">1.4</span> Installing packages</h2>
 <p>Part of the popularity of R stems from the thousands of packages that extent the basic capabilities of R.</p>
-<div id="installing-the-sdam-r-package" class="section level3">
-<h3><span class="header-section-number">1.4.1</span> Installing the <code>sdam-r</code> package</h3>
+<div id="installing-the-sdamr-package" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Installing the <code>sdamr</code> package</h3>
 <p>The “Statistics: Data analysis and modelling” book has an associated R package which contains the data sets used as examples in the book, as well as some additional functions. As it is still in development as I’m writing, it is not hosted on CRAN yet. That doesn’t mean you can’t install the package, but it requires a tiny bit more work.</p>
 <p>The source code of the <code>sdamr</code> package is hosted in GitHub, and the package can be installed from there with help of the <code>remotes</code> package. So you will first need to install that package, and then you can use the <code>install_github</code> function to install the <code>sdamr</code> package:</p>
 <!-- Much of this is related to installing packages from source code rather than from pre-compiled binary sources. Linux and Mac OSX versions of R by default come with the ability to install packages from source. On Microsoft Windows, you will need to install some additional software to do this.
@@ -300,7 +298,7 @@ groups (if desired).</li>
 </div>
 <div id="data" class="section level2">
 <h2><span class="header-section-number">1.7</span> Data</h2>
-<p>You can load in data files that come with R packages by using the <code>data</code> function, with as argument the name of the dataset you want to load (as a string, so make sure you use quote signs). For instance, you can load the datset <code>fifa2010teams</code> from the <code>sdamr</code> package as follows:</p>
+<p>You can load in data files that come with R packages by using the <code>data</code> function, with as argument the name of the dataset you want to load (as a string, so make sure you use quote signs). For instance, you can load the dataset <code>fifa2010teams</code> from the <code>sdamr</code> package as follows:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="introduction.html#cb20-1"></a><span class="kw">library</span>(sdamr)</span>
 <span id="cb20-2"><a href="introduction.html#cb20-2"></a><span class="kw">data</span>(<span class="st">&quot;fifa2010teams&quot;</span>)</span></code></pre></div>
 <p>A loaded dataset will show up in the Environment panel in RStudio. If you click on the name of the dataset, you can then see the data as a table in the Source panel. You can also view the data in the R console by simply typing the name of the dataset. This will often produce a lot of output. If you just want to view a part of the dataset, you can use the <code>head</code> function, which will show the first 6 rows:</p>
@@ -365,36 +363,93 @@ groups (if desired).</li>
 </div>
 <div id="objects" class="section level3">
 <h3><span class="header-section-number">1.7.2</span> Objects</h3>
-<ul>
-<li>A <strong>matrix</strong> is a collection of vectors of the same length, joined as columns or rows.</li>
-</ul>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="introduction.html#cb35-1"></a>mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dt">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb35-2"><a href="introduction.html#cb35-2"></a>mat <span class="co"># matrices are filled column-wise</span></span></code></pre></div>
+<p>Objects are named things that are stored in memory and available to functions etc. Objects can be vectors, such as discussed above, but also more general types, such as matrices, factors, and data frames. If you want to create an object, you use the assignment operator <code>&lt;-</code>, with on the left side the name you want to give to the object, and on the right side the content of the object. For instance, we can store a numeric vector as the object <code>my_vector</code> as follows:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="introduction.html#cb35-1"></a>my_vector &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">10</span><span class="op">:</span><span class="dv">20</span>)</span></code></pre></div>
+<p>Note a little trick above, where <code>10:20</code> stands for a sequence of integers, i.e. <span class="math inline">\(10, 11, 12, \ldots, 20\)</span>. <code>my_vector</code> is now an object in R memory (you should see it show up in the Environment panel), and can be called by name, as in:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="introduction.html#cb36-1"></a>my_vector</span></code></pre></div>
+<pre><code>##  [1]  1  2 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<p>A <strong>matrix</strong> is a collection of vectors of the same length, joined as columns or rows.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="introduction.html#cb38-1"></a>mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb38-2"><a href="introduction.html#cb38-2"></a>mat <span class="co"># matrices are filled column-wise</span></span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    1    6
 ## [2,]    2    7
 ## [3,]    3    8
 ## [4,]    4    9
 ## [5,]    5   10</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="introduction.html#cb37-1"></a>mat[,<span class="dv">2</span>] <span class="co"># select the second columns</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="introduction.html#cb40-1"></a>mat[,<span class="dv">2</span>] <span class="co"># select the second column (the result is a vector)</span></span></code></pre></div>
 <pre><code>## [1]  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="introduction.html#cb39-1"></a>mat[<span class="dv">3</span>,<span class="dv">1</span>] <span class="co"># select the value in the third row and first column</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="introduction.html#cb42-1"></a>mat[<span class="dv">3</span>,<span class="dv">1</span>] <span class="co"># select the value in the third row and first column</span></span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<ul>
-<li>A <strong>factor</strong> is useful for nominal and ordinal data. A factor is a vector with integers, where each integer is provided with a unique label. For instance</li>
-</ul>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="introduction.html#cb41-1"></a><span class="co"># construct a factor by giving integer values and specifying the accompanying </span></span>
-<span id="cb41-2"><a href="introduction.html#cb41-2"></a><span class="co"># labels</span></span>
-<span id="cb41-3"><a href="introduction.html#cb41-3"></a>fact &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
-<span id="cb41-4"><a href="introduction.html#cb41-4"></a>fact <span class="co"># display it</span></span></code></pre></div>
+<p>A <strong>factor</strong> is useful for nominal and ordinal data. A factor is a vector with integers, where each integer is provided with a unique label. For instance</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="introduction.html#cb44-1"></a><span class="co"># construct a factor by giving integer values and specifying the accompanying </span></span>
+<span id="cb44-2"><a href="introduction.html#cb44-2"></a><span class="co"># labels</span></span>
+<span id="cb44-3"><a href="introduction.html#cb44-3"></a>fact &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
+<span id="cb44-4"><a href="introduction.html#cb44-4"></a>fact <span class="co"># display it</span></span></code></pre></div>
 <pre><code>## [1] red   green green blue 
 ## Levels: red green blue</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="introduction.html#cb43-1"></a>fact <span class="op">==</span><span class="st"> &quot;green&quot;</span> <span class="co"># determine which elements equal (==) &#39;green&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="introduction.html#cb46-1"></a>fact <span class="op">==</span><span class="st"> &quot;green&quot;</span> <span class="co"># determine which elements equal (==) &#39;green&#39;</span></span></code></pre></div>
 <pre><code>## [1] FALSE  TRUE  TRUE FALSE</code></pre>
+<p>A <strong>list</strong> is a collection of different R objects. This is a very general type of object, and the elements of a list can even by lists themselves. A list allows you to keep different types of information together, but you probably won’t need to use it much for the content discussed here. But let’s quickly look at some aspects of a list:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="introduction.html#cb48-1"></a>lst &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a=</span>mat, <span class="dt">b=</span>fact) <span class="co"># construct a named list with a matrix and factor</span></span>
+<span id="cb48-2"><a href="introduction.html#cb48-2"></a>lst</span></code></pre></div>
+<pre><code>## $a
+##      [,1] [,2]
+## [1,]    1    6
+## [2,]    2    7
+## [3,]    3    8
+## [4,]    4    9
+## [5,]    5   10
+## 
+## $b
+## [1] red   green green blue 
+## Levels: red green blue</code></pre>
+<p>If a list is <em>named</em>, meaning the elements have names, like above, you can select elements from the list by using a dollar sign and then the name of the elements:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="introduction.html#cb50-1"></a>lst<span class="op">$</span>a</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1    6
+## [2,]    2    7
+## [3,]    3    8
+## [4,]    4    9
+## [5,]    5   10</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="introduction.html#cb52-1"></a>lst<span class="op">$</span>b</span></code></pre></div>
+<pre><code>## [1] red   green green blue 
+## Levels: red green blue</code></pre>
+<p>You can also select elements by an index number, which should go in between double square brackets. For instance, if you want to select the first element, you can type</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="introduction.html#cb54-1"></a>lst[[<span class="dv">1</span>]]</span></code></pre></div>
 <ul>
-<li><p>A <strong>list</strong> is a collection of different R objects. This is a very general type of object, and the elements of a list can even by lists themselves.</p></li>
-<li><p>A <strong>data.frame</strong> is probably one of the most useful features of R for data analysis. A <code>data.frame</code> is like a matrix, in that it is a rectangular collection of data, but the columns are variables which can be of a different type (e.g., numeric, factors, or characters).</p></li>
+<li>A <strong>data.frame</strong> is probably one of the most useful features of R for data analysis. A <code>data.frame</code> is like a matrix, in that it is a rectangular collection of data, but the columns are variables which can be of a different type (e.g., numeric, factors, or characters). You can construct data frames through the <code>data.frame</code> function, for instance as</li>
 </ul>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="introduction.html#cb55-1"></a>my_data_frame &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">var1 =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">var2 =</span> <span class="dv">10</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">var3 =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>),<span class="dt">times=</span><span class="dv">5</span>))</span>
+<span id="cb55-2"><a href="introduction.html#cb55-2"></a>my_data_frame</span></code></pre></div>
+<pre><code>##    var1 var2 var3
+## 1     1   10    a
+## 2     2    9    b
+## 3     3    8    a
+## 4     4    7    b
+## 5     5    6    a
+## 6     6    5    b
+## 7     7    4    a
+## 8     8    3    b
+## 9     9    2    a
+## 10   10    1    b</code></pre>
+<p>Constructing a data frame looks similar to constructing a list, but all the (named) arguments should have the same length. If you for instance try</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="introduction.html#cb57-1"></a><span class="kw">data.frame</span>(<span class="dt">var1 =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">var2 =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">11</span>)</span></code></pre></div>
+<p>you will get an error. You won’t always get an error. If the length of longer elements are multiples of the length of shorter elements, R will fill in the missing values by repeating the shorter elements until they are of the same length as the longer elements. For instance</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="introduction.html#cb58-1"></a><span class="kw">data.frame</span>(<span class="dt">var1 =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">var2 =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">var3 =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##    var1 var2 var3
+## 1     1    1    1
+## 2     2    2    1
+## 3     3    3    1
+## 4     4    4    1
+## 5     5    5    1
+## 6     6    1    1
+## 7     7    2    1
+## 8     8    3    1
+## 9     9    4    1
+## 10   10    5    1</code></pre>
+<p>This can be handy, but also risky, as sometimes you might not realise that R is filling in values for you, and your analyses might give rather unexpected results. I would therefore always ensure that you create a data frame with elements of the same length.</p>
+<p>Most of the time, you won’t create data frames yourself within R, but you will load in external data as a data frame.</p>
 </div>
 <div id="importing-data" class="section level3">
 <h3><span class="header-section-number">1.7.3</span> Importing data</h3>
@@ -405,19 +460,22 @@ groups (if desired).</li>
 </div>
 <div id="exploring-data-descriptive-statistics" class="section level2">
 <h2><span class="header-section-number">1.8</span> Exploring data: Descriptive statistics</h2>
-<p>Measures of location and spread can be computed through specialized functions, namely <code>mean</code>, <code>median</code>, <code>var</code> (variance), <code>sd</code> (standard deviation), e.g.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="introduction.html#cb45-1"></a><span class="kw">mean</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<p>Measures of location and spread can be computed through specialized functions, namely <code>mean</code>, <code>median</code>, <code>IQR</code> (inter-quartile range), <code>var</code> (variance), and <code>sd</code> (standard deviation). E.g.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="introduction.html#cb60-1"></a><span class="kw">mean</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
 <pre><code>## [1] 4.53</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="introduction.html#cb47-1"></a><span class="kw">median</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="introduction.html#cb62-1"></a><span class="kw">median</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>will give you the mean and median of variable <code>goals_for</code> in data.frame <code>fifa2010teams</code>.</p>
-<p>The <code>var</code> and <code>sd</code> function do not actually provide the <em>sample</em> variance_ and <em>sample</em> standard deviation. Rather, they give unbiased estimates of the “true” (population) variance and standard deviation. To compute the variance and standard deviation of the sample data, you can use the <code>sample_var</code> and <code>sample_sd</code> functions in the <code>sdamr</code> package:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="introduction.html#cb49-1"></a><span class="kw">sample_var</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<p>You can obtain the inter-quartile range as</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="introduction.html#cb64-1"></a><span class="kw">IQR</span>(fifa2010teams<span class="op">$</span>goals_for,<span class="dt">type=</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>The <code>var</code> and <code>sd</code> functions from base R do not actually provide the <em>sample</em> variance_ and <em>sample</em> standard deviation. Rather, they give unbiased estimates of the “true” (population) variance and standard deviation. To compute the variance and standard deviation of the sample data, you can use the <code>sample_var</code> and <code>sample_sd</code> functions in the <code>sdamr</code> package:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="introduction.html#cb66-1"></a><span class="kw">sample_var</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
 <pre><code>## [1] 13.2</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="introduction.html#cb51-1"></a><span class="kw">sample_sd</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="introduction.html#cb68-1"></a><span class="kw">sample_sd</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
 <pre><code>## [1] 3.64</code></pre>
 <p>There is no function in base R to compute the mode<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, but the <code>sdamr</code> package provides the function <code>sample_mode</code> to do just that:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="introduction.html#cb53-1"></a><span class="kw">sample_mode</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="introduction.html#cb70-1"></a><span class="kw">sample_mode</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 </div>
 <div id="exploring-data-creating-plots" class="section level2">
@@ -426,42 +484,47 @@ groups (if desired).</li>
 <div id="histogram" class="section level3">
 <h3><span class="header-section-number">1.9.1</span> Histogram</h3>
 <p>R has many built-in plotting functions. These tend to be a little basic, and much prettier plots can be made with packages such as <code>ggplot2</code> (my current favourite!). But for quick data exploration, the built-in plotting functions are faster. A histogram is plotted through the <code>hist</code> function. In the following example, I first generate some random data, store it in an object called <code>dat</code> and then plot a histogram:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="introduction.html#cb55-1"></a><span class="kw">hist</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-20-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="introduction.html#cb72-1"></a><span class="kw">hist</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-29-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>There are many parameters you can change. In the following, I give the plot a new title and x-axis labels, as well as request the number of bins to be 20:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="introduction.html#cb56-1"></a><span class="kw">hist</span>(fifa2010teams<span class="op">$</span>goals_for,<span class="dt">main=</span><span class="st">&quot;Histogram of points scored by teams in the FIFA 2010 World Cup&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Goals for&quot;</span>, <span class="dt">breaks=</span><span class="dv">20</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-21-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="introduction.html#cb73-1"></a><span class="kw">hist</span>(fifa2010teams<span class="op">$</span>goals_for,<span class="dt">main=</span><span class="st">&quot;Histogram of points scored by teams in the FIFA 2010 World Cup&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Goals for&quot;</span>, <span class="dt">breaks=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>To create a nicer looking plot, you can use <code>ggplot2</code>.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="introduction.html#cb57-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb57-2"><a href="introduction.html#cb57-2"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">x=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="introduction.html#cb74-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb74-2"><a href="introduction.html#cb74-2"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">x=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>Well, that’s not actually so pretty. We can make it better by changing some of the defaults:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="introduction.html#cb58-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb58-2"><a href="introduction.html#cb58-2"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">x=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">bins=</span><span class="dv">10</span>, <span class="dt">colour=</span><span class="st">&quot;black&quot;</span>, <span class="dt">fill=</span><span class="st">&#39;#8C8279&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Goals scored&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-23-1.svg" width="672" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="introduction.html#cb75-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb75-2"><a href="introduction.html#cb75-2"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">x=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">bins=</span><span class="dv">10</span>, <span class="dt">colour=</span><span class="st">&quot;black&quot;</span>, <span class="dt">fill=</span><span class="st">&#39;#8C8279&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Goals scored&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-32-1.svg" width="672" style="display: block; margin: auto;" />
 Note that within the <code>geom_histogram</code> function, I’ve specified to use 10 bins, and draw a black line around the bars, and fill the bars with colour specified by the hexadecimal colour code ‘#8C8279’. Finally,, I’m using the <code>xlab</code> function to generate a better label for the x-axis. <code>ggplot2</code> is very powerful and flexible, so there are many such adjustments you can make.</p>
 </div>
 <div id="boxplot" class="section level3">
 <h3><span class="header-section-number">1.9.2</span> Boxplot</h3>
 <p>For a quick boxplot, you can use the base R function with the same name:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="introduction.html#cb59-1"></a><span class="kw">boxplot</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-24-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="introduction.html#cb76-1"></a><span class="kw">boxplot</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-33-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p><code>ggplot2</code> also provides a boxplot through the <code>geom_boxplot</code> function. Note that in the <code>aes</code> specification, I’m now using <code>goals_for</code> as the y-axis.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="introduction.html#cb60-1"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">y=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-25-1.svg" width="672" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="introduction.html#cb77-1"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">y=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-34-1.svg" width="672" style="display: block; margin: auto;" />
 Not very pretty! A somewhat better version can be obtained by:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="introduction.html#cb61-1"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>,<span class="dt">y=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>(<span class="dt">width=</span>.<span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-26-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="introduction.html#cb78-1"></a><span class="kw">ggplot</span>(fifa2010teams,<span class="kw">aes</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>,<span class="dt">y=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>(<span class="dt">width=</span>.<span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-35-1.svg" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="scatterplot" class="section level2">
 <h2><span class="header-section-number">1.10</span> Scatterplot</h2>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="introduction.html#cb79-1"></a><span class="kw">plot</span>(<span class="dt">x=</span>fifa2010teams<span class="op">$</span>matches_played, <span class="dt">y=</span>fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-36-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="introduction.html#cb80-1"></a><span class="kw">ggplot</span>(fifa2010teams, <span class="kw">aes</span>(<span class="dt">x=</span>matches_played, <span class="dt">y=</span>goals_for)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-37-1.svg" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="raincloud-plot" class="section level2">
 <h2><span class="header-section-number">1.11</span> Raincloud plot</h2>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="introduction.html#cb62-1"></a><span class="kw">set.seed</span>(<span class="dv">467</span>)</span>
-<span id="cb62-2"><a href="introduction.html#cb62-2"></a><span class="kw">plot_raincloud</span>(fifa2010teams, goals_for)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-27-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>A basic (but reasonably flexible) function to create a raincloud plot is provided in the <code>sdamr</code> package through the <code>plot_raincloud</code> function. The <code>data</code> argument expects a data frame, and the <code>y</code> argument expects the name of the variable for which you want to create the plot. Note that as the jitter applied to the plot is random, to get exactly the same plot again, you need to set the random number seed through <code>set.seed</code> before. This is only necessary if you want to recreate a plot exactly. We’ll talk more about random number generation later.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="introduction.html#cb81-1"></a><span class="kw">set.seed</span>(<span class="dv">467</span>)</span>
+<span id="cb81-2"><a href="introduction.html#cb81-2"></a><span class="kw">plot_raincloud</span>(<span class="dt">data=</span>fifa2010teams, <span class="dt">y=</span>goals_for)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-1.svg" width="672" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
@@ -527,6 +590,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

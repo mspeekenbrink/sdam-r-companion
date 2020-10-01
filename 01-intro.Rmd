@@ -21,9 +21,11 @@ If you need any more convincing, why are we using R and not one of the many othe
 
 ## Getting started
 
+If you want to use R and RStudio, you should _first install R_, and after that install RStudio. R and RStudio are separate programs, and RStudio requires R to be installed. 
+
 ### Download R
 
-You can download R from [CRAN (The Comprehensive R Archive Network)](https://cran.r-project.org/). Select the link appropriate for your operating system. 
+You can download R from [CRAN (The Comprehensive R Archive Network)](https://cran.r-project.org/). Select the link appropriate for your operating system and follow the instructions. You will want to download the installer for the latest release (currently version 4.0.2) of the base R software.
 
 ```{r, echo=FALSE}
 knitr::include_url("https://cran.r-project.org/")
@@ -45,14 +47,23 @@ knitr::include_url("https://rstudio.com/products/rstudio/download/#download")
 
 ## Working with RStudio
 
-`Tools -> Options -> Pane Layout`
+When you open RStudio, you will see something like Figure \@ref(fig:rstudio-interface-image). You will probably not see exactly the same layout, but once you click on `File` in the top menu, and then `New File > R Script`, you should be pretty close. You can get direct access to the R environment itself in the __console__ panel. If you type in commands here, they will be interpreted by R, and possibly some output is given. Working directly within the R console is handy if you want to do simple calculations, or try out different commands and functions. When you are conducting analyses, you will want to keep the commands that produce useful results somewhere, so you don't have to type in everything again if you want to rerun the analyses, or if you need to change something. That is where R _scripts_ come in handy. Basically, these are text files where you store a collection of commands that can be interpreted by R. Within RStudio, you can select lines of the script, and by clicking on `Run`, those lines will get pasted to the R console.  
 
+```{r rstudio-interface-image, echo=FALSE, fig.cap='The RStudio interface consists of four main panels. The _source_ panel (top left) is where you can keep scripts. The _console_ panel (bottom left) is where the R commands and text output go; this is where R truly lives. The _environment and history_ panel (top right) shows which R objects are currently available in memory and a history of all the R commands the R console received.  The _files, plots, packages, etc_ panel contains a file browser, a display panel for all plots, a list of installed R packages, and a browser for help files.', out.width="100%"}
+knitr::include_graphics("images/RStudio-open-script.png")
+```
+
+Another useful way to store R commands is in a different file format, called `RMarkdown`. Rmarkdown allows you to combine text, plots, and R commands all in a single file. This file can then be "parsed" to produce a variety of document formats, such as HTML, pdf, and even Microsoft Word. If you click on `File > New File > R Markdown`, you can see an example of such a file. Using a package like `bookdown`, you can even write whole books in R Markdown (like this one)! We will discuss R Markdown more at a later point.
 
 ## Installing packages
 
-### Installing the `sdam-r` package
+Part of the popularity of R stems from the thousands of packages that extent the basic capabilities of R.
 
-The "Statistics: Data analysis and modelling" book has an associated R package which contains the data sets used as examples in the book, as well as some additional functions, and interactive R tutorials. As it is still in quite rapid development as I'm writing, it is not hosted on CRAN yet. That doesn't mean you can't install the package, but it requires a tiny bit more work. 
+### Installing the `sdamr` package
+
+The "Statistics: Data analysis and modelling" book has an associated R package which contains the data sets used as examples in the book, as well as some additional functions. As it is still in development as I'm writing, it is not hosted on CRAN yet. That doesn't mean you can't install the package, but it requires a tiny bit more work.
+
+The source code of the `sdamr` package is hosted in GitHub, and the package can be installed from there with help of the `remotes` package. So you will first need to install that package, and then you can use the `install_github` function to install the `sdamr` package: 
 
 <!-- Much of this is related to installing packages from source code rather than from pre-compiled binary sources. Linux and Mac OSX versions of R by default come with the ability to install packages from source. On Microsoft Windows, you will need to install some additional software to do this.
 
@@ -66,18 +77,16 @@ knitr::include_url("https://cran.r-project.org/bin/windows/Rtools/")
 
 ```{r, eval=FALSE}
 install.packages("remotes")
+remotes::install_github("mspeekenbrink/sdam-r")
 ```
 
-```{r}
-remotes::install_github("mspeekenbrink/sdamr")
-```
+Note that by typing `remotes::` before the function call, we are telling R that the function is available in the `remotes` package. This avoids you having to load the package (i.e. by `library(remotes)`) first. 
 
 To check whether the package is installed, type 
 
 ```{r}
 library(sdamr)
-````
-
+```
 
 ## Getting help
 
@@ -87,12 +96,13 @@ R may be tricky to master, especially at the start, but help is never far away:
     + If you want more information on a specific function, use a question mark before it (e.g., `?plot`) or the `help` function (e.g., `help(plot)`)
     + If you don't know the function name, use two question marks (e.g., `??plot`) or the `help.search` function (e.g., `help.search("plot")`)
     + If you know a function is in a package, use search help on the package (e.g., `?ggplot2`)
-* Online
     + The `RSiteSearch("keyword")` function will will search for "keyword" in
 all functions available in R, associated packages, and the R-Help News
 groups (if desired).
-    + R has an active help-list (make sure to read the posting guidelines first; some of the older gang can get a bit grumpy!)
-    + The meta-search engine at [www.rseek.org](http://www.rseek.org) is also handy!
+* Online
+    + [Stack Overflow](https://stackoverflow.com/) is a platform in which you can ask questions about R and its many packages. Many questions will already have been asked, so its archive of questions and answers is particularly useful. 
+    + The meta-search engine at [www.rseek.org](http://www.rseek.org) may also be handy.
+    + R has an active [help mailing list](https://stat.ethz.ch/mailman/listinfo/r-help) as well, but when asking questions there, make sure you read the [posting guide](http://www.r-project.org/posting-guide.html), as some people on there sometimes get a little grumpy. 
 
 ## First steps: R as a calculator
 
@@ -114,148 +124,199 @@ Note that the hash symbol ("#") is used for comments, such that anything followi
 
 ## Data
 
+You can load in data files that come with R packages by using the `data` function, with as argument the name of the dataset you want to load (as a string, so make sure you use quote signs). For instance, you can load the dataset `fifa2010teams` from the `sdamr` package as follows:
 ```{r}
 library(sdamr)
 data("fifa2010teams")
 ```
 
+A loaded dataset will show up in the Environment panel in RStudio. If you click on the name of the dataset, you can then see the data as a table in the Source panel. You can also view the data in the R console by simply typing the name of the dataset. This will often produce a lot of output. If you just want to view a part of the dataset, you can use the `head` function, which will show the first 6 rows:
 ```{r}
 head(fifa2010teams)
 ```
 
+You can also get a quick summary of the characteristics of the variables in the data through the `summary` function:
 ```{r}
 summary(fifa2010teams)
 ```
 
 ### Data types
 
-#### Numeric
+Data in R is generally stored in __vectors__, which are fixed-length collections of values of a particular data type. Common data types are
 
-#### Character
+* __logical__: values which can either be `TRUE` or `FALSE`
+* __numeric__: numbers of all kinds, such as `1`, `356`, and `34.5782`
+* __character__: characters and strings, such as `q` and `Hello`
 
-#### Logical
+You can combine values of a data type in a vector by using the `c()` function (which stands for "combine"). For instance
 
-#### Factor
+```{r}
+c(TRUE, FALSE, TRUE, TRUE)
+c(3,4,802.376)
+c("Coffee","now","please")
+```
 
-#### List
+If you combine elements of different data types, then R will convert them to the most "general" type necessary. Combining a logical value with a numeric one, for instance, will convert logical value `TRUE` to 1, and `FALSE` to 0. Combining a character element with other elements, will convert everything to character elements:
+```{r}
+c(TRUE, FALSE, 12)
+c(TRUE, 5.67788, "let's see what happens")
+```
 
-#### Data frame
+### Objects
+
+Objects are named things that are stored in memory and available to functions etc. Objects can be vectors, such as discussed above, but also more general types, such as matrices, factors, and data frames. If you want to create an object, you use the assignment operator `<-`, with on the left side the name you want to give to the object, and on the right side the content of the object. For instance, we can store a numeric vector as the object `my_vector` as follows:
+```{r}
+my_vector <- c(1,2,10:20)
+```
+Note a little trick above, where `10:20` stands for a sequence of integers, i.e. $10, 11, 12, \ldots, 20$. `my_vector` is now an object in R memory (you should see it show up in the Environment panel), and can be called by name, as in:
+```{r}
+my_vector
+```
+
+A __matrix__ is a collection of vectors of the same length, joined as columns or rows. 
+```{r}
+mat <- matrix(1:10,ncol=2)
+mat # matrices are filled column-wise
+mat[,2] # select the second column (the result is a vector)
+mat[3,1] # select the value in the third row and first column
+```
+
+A __factor__ is useful for nominal and ordinal data. A factor is a vector with integers, where each integer is provided with a unique label. For instance
+```{r}
+# construct a factor by giving integer values and specifying the accompanying 
+# labels
+fact <- factor(c(1,2,2,3),labels=c("red","green","blue"))
+fact # display it
+fact == "green" # determine which elements equal (==) 'green'
+```
+
+A __list__ is a collection of different R objects. This is a very general type of object, and the elements of a list can even by lists themselves. A list allows you to keep different types of information together, but you probably won't need to use it much for the content discussed here. But let's quickly look at some aspects of a list:
+```{r}
+lst <- list(a=mat, b=fact) # construct a named list with a matrix and factor
+lst
+```
+If a list is _named_, meaning the elements have names, like above, you can select elements from the list by using a dollar sign and then the name of the elements:
+```{r}
+lst$a
+lst$b
+```
+You can also select elements by an index number, which should go in between double square brackets. For instance, if you want to select the first element, you can type
+```{r, eval=FALSE}
+lst[[1]]
+```
+
+* A __data.frame__ is probably one of the most useful features of R for data analysis. A `data.frame` is like a matrix, in that it is a rectangular collection of data, but the columns are variables which can be of a different type (e.g., numeric, factors, or characters). You can construct data frames through the `data.frame` function, for instance as
+```{r}
+my_data_frame <- data.frame(var1 = 1:10, var2 = 10:1, var3 = rep(c("a","b"),times=5))
+my_data_frame
+```
+Constructing a data frame looks similar to constructing a list, but all the (named) arguments should have the same length. If you for instance try
+```{r, eval=FALSE}
+data.frame(var1 = 1:10, var2 = 1:11)
+```
+you will get an error. You won't always get an error. If the length of longer elements are multiples of the length of shorter elements, R will fill in the missing values by repeating the shorter elements until they are of the same length as the longer elements. For instance
+```{r}
+data.frame(var1 = 1:10, var2 = 1:5, var3 = 1)
+```
+This can be handy, but also risky, as sometimes you might not realise that R is filling in values for you, and your analyses might give rather unexpected results. I would therefore always ensure that you create a data frame with elements of the same length.
+
+Most of the time, you won't create data frames yourself within R, but you will load in external data as a data frame.
 
 ### Importing data
 
-R can load data in many formats. Personally, I mainly use data stored in "comma separated value" (CSV) format. This is one of the most portable ways of storing data, so that it can be used in a variety of programs like R, SPSS, JASP, Excel, _etc_. 
+R can load data in many formats. Personally, I mainly use data stored in "comma separated value" (CSV) format. This is one of the most portable ways of storing data, so that it can be used in a variety of programs like R, SPSS, JASP, Excel, _etc_. Data in a comma-separated value (CSV) format can be read through the `read.csv` function.
 
-A nice thing about R is that it can read data directly from the World Wide Web. So you don't need to first download data, and then open it from within R. [TODO: example] 
+A nice thing about R is that it can read data directly from the World Wide Web. So you don't need to first download data, and then open it from within R. [TODO: example]
 
-For R, the latter is actually easier to work with, but you will probably also come across data stored in SPSS format, so it will be useful to work with both formats. To load data in SPSS format, you will need the functionality of an add-on package `foreign`, which needs to be loaded into R first through the `library` function:
-```{r}
-library(foreign)
-```
-As the name suggests, the `foreign` package provides tools to work with data in "foreign" formats. To load SPSS data, you can use the function `read.spss`. If you have never used a function before, it is wise to first read the help file for the function. From the console window, you can open the helpfile by typing in a question mark followed by the function name, as in
-```{r, eval = FALSE}
-?read.spss
-```
-In the help file, you can see that the first argument of the function is called `file` and it expects a character string with the name of the file, or an URL. Unless you are working from the directory in which the datafile is stored, the name should include the full path (including all directories and subdirectories). On my own computer, I would load in the data as follows:
-```{r}
-# IQ <- read.spss("../data/IQscores.sav")
-IQ <- data.frame(id=1:100,IQ = rnorm(100,mean=100,sd=15))
-```
-Note that preceding the `read.spss` command, there is a name ("IQ") and a left-pointed arrow. This means I'm assigning the return value of the function to an object named "IQ". In the helpfile, you can see that the return value of the `read.spss` function is "a list (or optionally a data frame)". To see which of these it is, we can use the following function: 
-```{r}
-is(IQ)
-```
-which shows it is a list (a list is a special type of vector, which is why you also see "vector" as output of this call. Data frames are the preferred way to deal with data, so we will transform it into a data frame through
-```{r}
-IQ <- as.data.frame(IQ)
-is(IQ)
-```
-A `data.frame` is a special type of object in R which makes it so useful for data analysis. A `data.frame` builds upon the general list class. Let's have a look at the data.frame by showing the first few rows:
-```{r}
-head(IQ)
-```
-The `head` function prints the first 6 rows of a data frame and also the variable names, which here are `id` and `IQ`.  Another useful function to call on a data.frame is
-```{r}
-summary(IQ)
-```
-which shows that both variables are numeric, as well as measures such as the mean, etc.
-
-Data in a comma-separated value (CSV) format can be read through the `read.csv` function.
-
-## Computing new variables (e.g., absolute and squared errors)
-
-Compared to SPSS, R makes it quite a bit easier to manipulate data. Suppose that our predicted value of a variable is 80. We can compute the Sum of Absolute Errors as:
-```{r}
-absError <- abs(IQ$IQ - 80) # compute a new variable called absError
-sum(absError) # sum up the values
-```
-Here, we first computed a new variable (or object) called "absError" which is the absolute error for each observation. On the next line, we compute the sum over all observations.
-
-Computing a new variable can be handy if you want to use it again. However, if you only need the sum of the values once, you can skip computing an intermediate variable. For instance, if we need the sum of squared error when the prediction is 80, we can so this immediately as
-```{r}
-sum((IQ$IQ - 80)^2)
-```
-A nice feature is that instead of 80, you can also use the output of a function for your predictions. For instance, if you want to use the mean of the IQ scores as your prediction, you can use e.g.
-```{r eval=FALSE}
-sum((IQ$IQ - mean(IQ$IQ))^2)
-```
+At some point, you will probably also come across data stored in Excel or SPSS format. regarding Excel, it is safest to first save a spreadsheet as a CSV file, and then load this file into R. Alternatively, the `xlsx` package provides the function `read.xlsx` to directly read a spreadsheet into R. To load data in SPSS format, the package `foreign` package provides the `read.spss` function.
 
 ## Exploring data: Descriptive statistics
 
-Measures of location and spread can be computed through specialized functions, namely `mean`, `median`, `var` (variance), `sd` (standard deviation), e.g.
-```{r, eval=FALSE}
-mean(IQ$IQ)
-```
-will give you the mean of the variable `IQ` in data.frame `IQ`.
-
-Unfortunately, there is no function to compute the mode, so we'll have to write our own. A quick Google search provided the following example, which I have adapted to explicitly deal with the possibility of multiple modes:
+Measures of location and spread can be computed through specialized functions, namely `mean`, `median`, `IQR` (inter-quartile range), `var` (variance), and `sd` (standard deviation). E.g.
 ```{r}
-sdamr_mode <- function(x) {
-  ## extract only the unique values in x
-  ux <- unique(x)
-  ## 
-  nx <- tabulate(match(x, ux))
-  ## 'max' returns the maximum value of it's argument (e.g. a vector)
-  ## 'which' returns the counters of all elements which match its argument
-  ## so which == max returns the counters of nx which equal the maximum
-  maxid <- which(nx == max(nx))
-  ## if there are multiple modes, which returns a vector of length > 1
-  ## in that case, there is no single mode and we might as well return
-  ## the first one, but with a warning
-  if(length(maxid) > 1) {
-    warning("There are multiple modes, only the first value is returned, other modes are at: ",paste(ux[maxid[2:length(maxid)]],collapse=", "))
-  }
-  ux[maxid[1]]
-}
+mean(fifa2010teams$goals_for)
+median(fifa2010teams$goals_for)
 ```
-If you run the code above, you will have defined a new function that you can call like anyu other function. Note that the function name `Mode` is capitalized, as the function `mode` is already defined, but is used to get the "storage mode" of an R object.
+will give you the mean and median of variable `goals_for` in data.frame `fifa2010teams`.
+
+You can obtain the inter-quartile range as
+```{r}
+IQR(fifa2010teams$goals_for,type=4)
+```
+
+The `var` and `sd` functions from base R do not actually provide the _sample_ variance_ and _sample_ standard deviation. Rather, they give unbiased estimates of the "true" (population) variance and standard deviation. To compute the variance and standard deviation of the sample data, you can use the `sample_var` and `sample_sd` functions in the `sdamr` package:
+```{r}
+sample_var(fifa2010teams$goals_for)
+sample_sd(fifa2010teams$goals_for)
+```
+
+There is no function in base R to compute the mode^[There is a function `mode`, but this does something rather different!], but the `sdamr` package provides the function `sample_mode` to do just that:
+
+```{r}
+sample_mode(fifa2010teams$goals_for)
+```
 
 ## Exploring data: Creating plots
 
-### Plotting a histogram
+There are two common ways to plot data with R. Base R has various plotting functions, such as `plot`, `hist`, `boxplot`, which are useful for quick plots to explore your data. The resulting plots are not always the most aesthetically pleasing. The R package `ggplot2` provides means to create a wide range of useful _and_ beautiful plots. It is based on the idea of a "grammar of graphics", which makes it extremely flexible, but also a little difficult to get your head around. In the following, I will show you how to use both base R and ggplot2.
+
+### Histogram
 
 R has many built-in plotting functions. These tend to be a little basic, and much prettier plots can be made with packages such as `ggplot2` (my current favourite!). But for quick data exploration, the built-in plotting functions are faster. A histogram is plotted through the `hist` function. In the following example, I first generate some random data, store it in an object called `dat` and then plot a histogram:
 ```{r}
-# generate a sample of 100 observations from a Normal distribution with mean=100 and sd=15.
-dat <- rnorm(100,mean=100,sd=15)
-hist(dat)
+hist(fifa2010teams$goals_for)
 ```
 
-There are many parameters you can change. In the following, I give the plot a new title and x-axis labels, as well as request the number of bins to be 11:
+There are many parameters you can change. In the following, I give the plot a new title and x-axis labels, as well as request the number of bins to be 20:
 ```{r}
-hist(dat,main="Histogram of some random data", xlab="IQ", breaks=11)
+hist(fifa2010teams$goals_for,main="Histogram of points scored by teams in the FIFA 2010 World Cup", xlab="Goals for", breaks=20)
 ```
 
-Unfortunately, specified this way, the number of bins is only a request, and R will determine the number of bins the way the programmers thought its best. To force the number of bins to be exactly 11, we can use the following code:
+To create a nicer looking plot, you can use `ggplot2`. 
 ```{r}
-hist(dat,main="Histogram of some random data",xlab="IQ",breaks=seq(min(dat),max(dat),length=11+1))
+library(ggplot2)
+ggplot(fifa2010teams,aes(x=goals_for)) + geom_histogram()
 ```
 
-If you look carefully at the code, we now pass to the `breaks` argument the output of a function called `seq` (which stands for sequence). We use the `seq` function here to compute a vector of length: number of bins + 1, which starts at the minimum value in the object `dat` and ends at the maximum value in `dat`. This vector contains the break-points between all the bins in the histogram and looks like this:
+Well, that's not actually so pretty. We can make it better by changing some of the defaults:
 ```{r}
-seq(min(dat),max(dat),length=11+1)
+library(ggplot2)
+ggplot(fifa2010teams,aes(x=goals_for)) + geom_histogram(bins=10, colour="black", fill='#8C8279') + xlab("Goals scored")
 ```
-As you can see, while R is flexible, it has it's quirks (such as not always giving you what you ask for) and sometimes simple tasks require a bit more work than e.g. SPSS. But hey, how else could you make a (pretty useless!) histogram with 11 randomdly sized bins as in the following?
+Note that within the `geom_histogram` function, I've specified to use 10 bins, and draw a black line around the bars, and fill the bars with colour specified by the hexadecimal colour code '#8C8279'. Finally,, I'm using the `xlab` function to generate a better label for the x-axis. `ggplot2` is very powerful and flexible, so there are many such adjustments you can make.
+
+### Boxplot
+
+For a quick boxplot, you can use the base R function with the same name:
 ```{r}
-breaks <- c(min(dat),runif(9,min(dat),max(dat)),max(dat))
-hist(dat,main="Histogram with random bin size",xlab="Random data",breaks=breaks[order(breaks)],freq=TRUE)
+boxplot(fifa2010teams$goals_for)
 ```
+
+`ggplot2` also provides a boxplot through the `geom_boxplot` function. Note that in the `aes` specification, I'm now using `goals_for` as the y-axis.
+```{r}
+ggplot(fifa2010teams,aes(y=goals_for)) + geom_boxplot()
+```
+Not very pretty! A somewhat better version can be obtained by:
+```{r}
+ggplot(fifa2010teams,aes(x="",y=goals_for)) + geom_boxplot(width=.2) + xlab("")
+```
+
+## Scatterplot
+
+```{r}
+plot(x=fifa2010teams$matches_played, y=fifa2010teams$goals_for)
+```
+
+```{r}
+ggplot(fifa2010teams, aes(x=matches_played, y=goals_for)) + geom_point()
+```
+
+## Raincloud plot
+
+A basic (but reasonably flexible) function to create a raincloud plot is provided in the `sdamr` package through the `plot_raincloud` function. The `data` argument expects a data frame, and the `y` argument expects the name of the variable for which you want to create the plot. Note that as the jitter applied to the plot is random, to get exactly the same plot again, you need to set the random number seed through `set.seed` before. This is only necessary if you want to recreate a plot exactly. We'll talk more about random number generation later.
+
+```{r}
+set.seed(467)
+plot_raincloud(data=fifa2010teams, y=goals_for)
+```
+

@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
-<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdam-r-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdam-r</code> package</a></li>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
 <li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
@@ -164,10 +164,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-likelihood"><i class="fa fa-check"></i><b>2.2.1</b> Calculating likelihood</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.3.1</b> Calculating the likelihood ratio</a></li>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -189,26 +186,92 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="statistical-modelling" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Statistical modelling</h1>
+<p>As R was written by statisticians for statisticians, it naturally has very good support for statistical modelling.</p>
 <div id="distributions" class="section level2">
 <h2><span class="header-section-number">2.1</span> Distributions</h2>
+<p>R includes functions to calculate probabilities and generate random data from a wide variety of distributions (type <code>?distributions</code> for an overview).</p>
+<table>
+<thead>
+<tr class="header">
+<th>Distribution</th>
+<th>R name</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Binomial</td>
+<td><code>binom</code></td>
+<td><code>size</code> (<span class="math inline">\(n\)</span>), <code>prob</code> (<span class="math inline">\(\theta\)</span>)</td>
+</tr>
+<tr class="even">
+<td>Chi-squared</td>
+<td><code>chisq</code></td>
+<td><code>df</code></td>
+</tr>
+<tr class="odd">
+<td>F</td>
+<td><code>f</code></td>
+<td><code>df1</code>, <code>df2</code></td>
+</tr>
+<tr class="even">
+<td>Normal</td>
+<td><code>norm</code></td>
+<td><code>mean</code> (<span class="math inline">\(\mu\)</span>), <code>sd</code> (<span class="math inline">\(\sigma\)</span>)</td>
+</tr>
+<tr class="odd">
+<td>Student’s t</td>
+<td><code>t</code></td>
+<td><code>df</code></td>
+</tr>
+</tbody>
+</table>
+<p>The statistical distribution functions all have a similar interface:</p>
+<ul>
+<li>you can generate random data by calling the R name with an <code>r</code> (for random) before it (e.g. <code>rbinom</code>)</li>
+<li>you can compute the probability (or density function value) of a particular value by calling the function with a <code>d</code> (for density) before it (e.g. <code>dbinom</code>)</li>
+<li>you can compute a cumulative probability (the probability of a particular value and anything lower than it) by calling the function with a <code>p</code> (for probability) before it (e.g. <code>pbinom</code>)</li>
+<li>you can compute a quantile (the value such that there is a particular probability of sampling a value equal to or lower that it) by calling the function with a <code>q</code> (for probability) before it (e.g. <code>qbinom</code>)</li>
+</ul>
 <div id="generating-random-data" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Generating random data</h3>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="statistical-modelling.html#cb63-1"></a><span class="kw">rbinom</span>(<span class="dt">n=</span><span class="dv">100</span>, <span class="dt">size=</span><span class="dv">8</span>, <span class="dt">prob=</span><span class="fl">0.5</span>)</span></code></pre></div>
-<pre><code>##   [1] 3 1 4 7 6 3 3 2 5 3 3 4 6 3 2 6 4 4 4 6 4 3 5 4 6 5 2 4 7 4 5 6 4 3 4 4 6
-##  [38] 6 6 5 5 4 5 5 5 2 4 3 4 4 3 3 5 5 6 4 2 3 5 5 5 7 5 5 2 6 4 3 1 3 5 5 3 3
-##  [75] 3 3 2 3 4 6 6 3 5 5 5 3 6 3 5 2 2 4 5 4 4 4 2 3 5 4</code></pre>
+<p>let’s use a coin tossing model to generate lots of replications of an experiment in which Paul is asked to provide 8 predictions. The dependent variable in each experiment is <span class="math inline">\(Y_i = k\)</span>, where <span class="math inline">\(k\)</span> is the number of correct predictions (out of <span class="math inline">\(n=8\)</span>). To generate 100 replications of such an experiment (e.g. 100 “alternate universes” where Paul might have made different predictions), we can use the <code>rbinom</code> function:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="statistical-modelling.html#cb82-1"></a><span class="kw">set.seed</span>(<span class="dv">4638</span>)</span>
+<span id="cb82-2"><a href="statistical-modelling.html#cb82-2"></a>Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dt">n=</span><span class="dv">100</span>, <span class="dt">size=</span><span class="dv">8</span>, <span class="dt">prob=</span><span class="fl">0.5</span>)</span>
+<span id="cb82-3"><a href="statistical-modelling.html#cb82-3"></a>Y</span></code></pre></div>
+<pre><code>##   [1] 5 4 5 2 5 2 4 5 3 4 3 5 4 5 3 4 6 3 2 3 0 3 5 5 1 2 5 4 6 3 5 4 4 1 3 5 3
+##  [38] 5 6 8 5 5 3 2 3 3 3 5 4 5 4 2 2 4 5 3 5 4 4 5 3 5 5 5 2 3 4 8 1 6 4 3 4 4
+##  [75] 3 6 3 4 5 4 1 3 1 5 3 5 4 5 5 4 5 3 3 6 4 4 3 5 1 6</code></pre>
+<p>You can see quite some variability in the outcomes, perhaps easier in a histogram</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="statistical-modelling.html#cb84-1"></a><span class="kw">hist</span>(Y, <span class="dt">breaks=</span><span class="dv">8</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-41-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>Computers can’t actually generate real random data. Computers are deterministic, performing computations according to instructions. But clever algorithms have been designed that produce sequences of numbers that are (almost) indistinguishable from purely random sequences. These algorithms are called <strong>random number generators</strong> and the default in R is the so-called “Mersenne-Twister” algorithm. You don’t have to worry about the details of such algorithms. We can just pretend that they produce truly random numbers. One thing I do want to point out is that before you use one of such algorithms, they need to be initialized with a special number, called the <strong>random seed</strong>. A number like this basically sets the algorithm in motion. Starting it with a different seed will produce a different sequence of random numbers. If you start it with the same random seed, you get exactly the same sequence of random numbers. If you don’t supply a value, R will use the current time as the random seed the first time you ask it to produce a random number in a session. For the purposes of replicating things, it may be useful to set the seed explicitly (so that a subsequent call to a random number generator will produce exactly the same results.) Therefore, you will now and then see calls such as <code>set.seed(4638)</code> in these notes, which ensures that these notes have the same content every time I run R.</p>
 </div>
 </div>
 <div id="estimation" class="section level2">
 <h2><span class="header-section-number">2.2</span> Estimation</h2>
-<div id="calculating-likelihood" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> Calculating likelihood</h3>
-</div>
-</div>
-<div id="hypothesis-testing" class="section level2">
-<h2><span class="header-section-number">2.3</span> Hypothesis testing</h2>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="statistical-modelling.html#cb65-1"></a><span class="kw">binom.test</span>(<span class="dt">x=</span><span class="dv">8</span>, <span class="dt">n =</span> <span class="dv">8</span>, <span class="dt">p =</span> <span class="fl">0.5</span>)</span></code></pre></div>
-<pre><code>## 
+<div id="the-likelihood-function" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> The likelihood function</h3>
+<p>If we take a particular result, e.g. <span class="math inline">\(Y=8\)</span> correct, it is straightforward to compute the probability of that result for different values of <span class="math inline">\(\theta\)</span>. Earlier, we already used <code>1:10</code> to obtain a sequence of integers from 1 to 10. Not we ae going to use a more general function <code>seq</code>, to obtain a sequence of possible values for <span class="math inline">\(\theta\)</span> between 0 and 1. We will then supply this sequence as the <code>prob</code> argument to calculate the probability of the result according to each.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="statistical-modelling.html#cb85-1"></a>possible_theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">length=</span><span class="dv">100</span>)</span>
+<span id="cb85-2"><a href="statistical-modelling.html#cb85-2"></a>lik_theta &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dv">8</span>,<span class="dt">size=</span><span class="dv">8</span>,possible_theta)</span>
+<span id="cb85-3"><a href="statistical-modelling.html#cb85-3"></a><span class="kw">plot</span>(<span class="dt">x=</span>possible_theta,<span class="dt">y=</span>lik_theta,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-42-1.svg" width="672" style="display: block; margin: auto;" />
+Instead of the first argument in <code>dbinom</code> being 8, you can try this for different values.</p>
+<p>The maximum likelihood estimate <span class="math inline">\(\hat{\theta} = \frac{k}{n}\)</span> is very simple to compute. Moreover, computations with R are <em>vectorized</em>. For instance, if <code>Y</code> is a vector, then <code>Y/8</code> divides each element of <code>Y</code> by 8. And if <code>Y</code> and <code>X</code> are vectors of the same length, then <code>Y/X</code> divides each element of <code>Y</code> by the corresponding element of <code>X</code>.</p>
+<p>So, to compute the maximum likelihood estimate of <span class="math inline">\(\theta\)</span> for each of the simulated replications of the experiment, we can simply run:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="statistical-modelling.html#cb86-1"></a>theta_est &lt;-<span class="st"> </span>Y<span class="op">/</span><span class="dv">8</span></span></code></pre></div>
+<p>which stores the estimates in the object <code>theta_est</code>.</p>
+<!--
+## Hypothesis testing
+
+
+```r
+binom.test(x=8, n = 8, p = 0.5)
+```
+
+```
+## 
 ## 	Exact binomial test
 ## 
 ## data:  8 and 8
@@ -218,9 +281,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  0.631 1.000
 ## sample estimates:
 ## probability of success 
-##                      1</code></pre>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="statistical-modelling.html#cb67-1"></a><span class="kw">binom.test</span>(<span class="dt">x=</span><span class="dv">8</span>, <span class="dt">n =</span> <span class="dv">8</span>, <span class="dt">p =</span> <span class="fl">0.5</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
-<pre><code>## 
+##                      1
+```
+
+
+```r
+binom.test(x=8, n = 8, p = 0.5, alternative = "greater")
+```
+
+```
+## 
 ## 	Exact binomial test
 ## 
 ## data:  8 and 8
@@ -230,9 +300,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  0.688 1.000
 ## sample estimates:
 ## probability of success 
-##                      1</code></pre>
-<div id="calculating-the-likelihood-ratio" class="section level3">
-<h3><span class="header-section-number">2.3.1</span> Calculating the likelihood ratio</h3>
+##                      1
+```
+
+### Calculating the likelihood ratio
+
+-->
 
 </div>
 </div>
@@ -299,6 +372,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
