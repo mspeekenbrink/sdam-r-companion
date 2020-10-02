@@ -241,8 +241,9 @@ will give you the mean and median of variable `goals_for` in data.frame `fifa201
 
 You can obtain the inter-quartile range as
 ```{r}
-IQR(fifa2010teams$goals_for,type=4)
+IQR(fifa2010teams$goals_for,type=1)
 ```
+Note the use of the `type` argument here. There are many ways in which to compute and estimate percentiles and quantiles. Using `type=1` gives you the same result as the way I explained how to compute the IQR in the book. By default, R will use `type = 7`, which gives different results (type `?quantile` for more information).
 
 The `var` and `sd` functions from base R do not actually provide the _sample_ variance_ and _sample_ standard deviation. Rather, they give unbiased estimates of the "true" (population) variance and standard deviation. To compute the variance and standard deviation of the sample data, you can use the `sample_var` and `sample_sd` functions in the `sdamr` package:
 ```{r}
