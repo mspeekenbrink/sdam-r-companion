@@ -190,7 +190,7 @@ fact # display it
 fact == "green" # determine which elements equal (==) 'green'
 ```
 
-A __list__ is a collection of different R objects. This is a very general type of object, and the elements of a list can even by lists themselves. A list allows you to keep different types of information together, but you probably won't need to use it much for the content discussed here. But let's quickly look at some aspects of a list:
+A __list__ is a collection of different R objects. This is a very general type of object, and the elements of a list can even be lists themselves. A list allows you to keep different types of information together, but you probably won't need to use it much for the content discussed here. But let's quickly look at some aspects of a list:
 ```{r}
 lst <- list(a=mat, b=fact) # construct a named list with a matrix and factor
 lst
