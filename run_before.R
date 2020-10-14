@@ -7,5 +7,4 @@ scale_fill_continuous <- scale_fill_viridis_c
 scale_colour_binned <- scale_colour_viridis_b
 scale_fill_binned <- scale_fill_viridis_b
 
-
 my_theme <- ggplot2::theme_get()

@@ -9,4 +9,4 @@ before_chapter_script: "run_before.R"
 #edit: https://github.com/mspeekenbrink/sdam-book/edit/master/%s
 #output_dir: "book-output"
 clean: ["sdam.bbl", "R-packages.bib"]
-rmd_files: ["index.Rmd", "01-intro.Rmd", "02-modelling.Rmd"]
+rmd_files: ["index.Rmd", "01-intro.Rmd", "02-modelling.Rmd", "03-GLM-simple.Rmd"]

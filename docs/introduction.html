@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2020-10-06" />
+<meta name="date" content="2020-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -165,7 +165,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
 <li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+<li class="chapter" data-level="2.2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#working-out-the-theoretical-distribution-of-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.3</b> Working out the theoretical distribution of the likelihood ratio</a></li>
 </ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.1</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
 </ul></li>
 </ul>
 
@@ -282,13 +292,13 @@ groups (if desired).</li>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="introduction.html#cb6-1"></a><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">11</span> <span class="co"># multiplication</span></span></code></pre></div>
 <pre><code>## [1] 22</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="introduction.html#cb8-1"></a><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">11</span> <span class="co"># division</span></span></code></pre></div>
-<pre><code>## [1] 0.182</code></pre>
+<pre><code>## [1] 0.1818182</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="introduction.html#cb10-1"></a><span class="dv">2</span><span class="op">^</span>(<span class="dv">11</span>) <span class="co"># exponentiation</span></span></code></pre></div>
 <pre><code>## [1] 2048</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="introduction.html#cb12-1"></a><span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="co"># square root</span></span></code></pre></div>
-<pre><code>## [1] 1.41</code></pre>
+<pre><code>## [1] 1.414214</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="introduction.html#cb14-1"></a><span class="dv">2</span><span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>) <span class="co"># another way to compute the square root</span></span></code></pre></div>
-<pre><code>## [1] 1.41</code></pre>
+<pre><code>## [1] 1.414214</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="introduction.html#cb16-1"></a><span class="co"># the order matters!</span></span>
 <span id="cb16-2"><a href="introduction.html#cb16-2"></a><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">11</span><span class="op">*</span><span class="dv">3</span></span></code></pre></div>
 <pre><code>## [1] 35</code></pre>
@@ -319,27 +329,27 @@ groups (if desired).</li>
 ## 6            0             0            8                  0                0</code></pre>
 <p>You can also get a quick summary of the characteristics of the variables in the data through the <code>summary</code> function:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction.html#cb23-1"></a><span class="kw">summary</span>(fifa2010teams)</span></code></pre></div>
-<pre><code>##        nr           team           matches_played   goals_for    
-##  Min.   : 1.0   Length:32          Min.   :3.00   Min.   : 0.00  
-##  1st Qu.: 8.8   Class :character   1st Qu.:3.00   1st Qu.: 2.00  
-##  Median :16.5   Mode  :character   Median :3.50   Median : 3.00  
-##  Mean   :16.5                      Mean   :4.00   Mean   : 4.53  
-##  3rd Qu.:24.2                      3rd Qu.:4.25   3rd Qu.: 5.25  
-##  Max.   :32.0                      Max.   :7.00   Max.   :16.00  
-##   goals_scored   goals_against    penalty_goal   own_goals_for  yellow_cards  
-##  Min.   : 0.00   Min.   : 1.00   Min.   :0.000   Min.   :0     Min.   : 2.00  
-##  1st Qu.: 2.00   1st Qu.: 3.00   1st Qu.:0.000   1st Qu.:0     1st Qu.: 6.00  
-##  Median : 3.00   Median : 5.00   Median :0.000   Median :0     Median : 7.50  
-##  Mean   : 4.47   Mean   : 4.53   Mean   :0.281   Mean   :0     Mean   : 8.16  
-##  3rd Qu.: 5.25   3rd Qu.: 5.25   3rd Qu.:0.250   3rd Qu.:0     3rd Qu.: 9.00  
-##  Max.   :16.00   Max.   :12.00   Max.   :2.000   Max.   :0     Max.   :24.00  
-##  indirect_red_cards direct_red_cards
-##  Min.   :0          Min.   :0.000   
-##  1st Qu.:0          1st Qu.:0.000   
-##  Median :0          Median :0.000   
-##  Mean   :0          Mean   :0.281   
-##  3rd Qu.:0          3rd Qu.:0.250   
-##  Max.   :0          Max.   :2.000</code></pre>
+<pre><code>##        nr            team           matches_played   goals_for     
+##  Min.   : 1.00   Length:32          Min.   :3.00   Min.   : 0.000  
+##  1st Qu.: 8.75   Class :character   1st Qu.:3.00   1st Qu.: 2.000  
+##  Median :16.50   Mode  :character   Median :3.50   Median : 3.000  
+##  Mean   :16.50                      Mean   :4.00   Mean   : 4.531  
+##  3rd Qu.:24.25                      3rd Qu.:4.25   3rd Qu.: 5.250  
+##  Max.   :32.00                      Max.   :7.00   Max.   :16.000  
+##   goals_scored    goals_against     penalty_goal    own_goals_for
+##  Min.   : 0.000   Min.   : 1.000   Min.   :0.0000   Min.   :0    
+##  1st Qu.: 2.000   1st Qu.: 3.000   1st Qu.:0.0000   1st Qu.:0    
+##  Median : 3.000   Median : 5.000   Median :0.0000   Median :0    
+##  Mean   : 4.469   Mean   : 4.531   Mean   :0.2812   Mean   :0    
+##  3rd Qu.: 5.250   3rd Qu.: 5.250   3rd Qu.:0.2500   3rd Qu.:0    
+##  Max.   :16.000   Max.   :12.000   Max.   :2.0000   Max.   :0    
+##   yellow_cards    indirect_red_cards direct_red_cards
+##  Min.   : 2.000   Min.   :0          Min.   :0.0000  
+##  1st Qu.: 6.000   1st Qu.:0          1st Qu.:0.0000  
+##  Median : 7.500   Median :0          Median :0.0000  
+##  Mean   : 8.156   Mean   :0          Mean   :0.2812  
+##  3rd Qu.: 9.000   3rd Qu.:0          3rd Qu.:0.2500  
+##  Max.   :24.000   Max.   :0          Max.   :2.0000</code></pre>
 <div id="data-types" class="section level3">
 <h3><span class="header-section-number">1.7.1</span> Data types</h3>
 <p>Data in R is generally stored in <strong>vectors</strong>, which are fixed-length collections of values of a particular data type. Common data types are</p>
@@ -352,7 +362,7 @@ groups (if desired).</li>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction.html#cb25-1"></a><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>, <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1]  TRUE FALSE  TRUE  TRUE</code></pre>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction.html#cb27-1"></a><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="fl">802.376</span>)</span></code></pre></div>
-<pre><code>## [1]   3   4 802</code></pre>
+<pre><code>## [1]   3.000   4.000 802.376</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="introduction.html#cb29-1"></a><span class="kw">c</span>(<span class="st">&quot;Coffee&quot;</span>,<span class="st">&quot;now&quot;</span>,<span class="st">&quot;please&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Coffee&quot; &quot;now&quot;    &quot;please&quot;</code></pre>
 <p>If you combine elements of different data types, then R will convert them to the most “general” type necessary. Combining a logical value with a numeric one, for instance, will convert logical value <code>TRUE</code> to 1, and <code>FALSE</code> to 0. Combining a character element with other elements, will convert everything to character elements:</p>
@@ -462,7 +472,7 @@ groups (if desired).</li>
 <h2><span class="header-section-number">1.8</span> Exploring data: Descriptive statistics</h2>
 <p>Measures of location and spread can be computed through specialized functions, namely <code>mean</code>, <code>median</code>, <code>IQR</code> (inter-quartile range), <code>var</code> (variance), and <code>sd</code> (standard deviation). E.g.</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="introduction.html#cb60-1"></a><span class="kw">mean</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
-<pre><code>## [1] 4.53</code></pre>
+<pre><code>## [1] 4.53125</code></pre>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="introduction.html#cb62-1"></a><span class="kw">median</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>will give you the mean and median of variable <code>goals_for</code> in data.frame <code>fifa2010teams</code>.</p>
@@ -472,9 +482,9 @@ groups (if desired).</li>
 <p>Note the use of the <code>type</code> argument here. There are many ways in which to compute and estimate percentiles and quantiles. Using <code>type=1</code> gives you the same result as the way I explained how to compute the IQR in the book. By default, R will use <code>type = 7</code>, which gives different results (type <code>?quantile</code> for more information).</p>
 <p>The <code>var</code> and <code>sd</code> functions from base R do not actually provide the <em>sample</em> variance_ and <em>sample</em> standard deviation. Rather, they give unbiased estimates of the “true” (population) variance and standard deviation. To compute the variance and standard deviation of the sample data, you can use the <code>sample_var</code> and <code>sample_sd</code> functions in the <code>sdamr</code> package:</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="introduction.html#cb66-1"></a><span class="kw">sample_var</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
-<pre><code>## [1] 13.2</code></pre>
+<pre><code>## [1] 13.24902</code></pre>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="introduction.html#cb68-1"></a><span class="kw">sample_sd</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
-<pre><code>## [1] 3.64</code></pre>
+<pre><code>## [1] 3.639921</code></pre>
 <p>There is no function in base R to compute the mode<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, but the <code>sdamr</code> package provides the function <code>sample_mode</code> to do just that:</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="introduction.html#cb70-1"></a><span class="kw">sample_mode</span>(fifa2010teams<span class="op">$</span>goals_for)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>

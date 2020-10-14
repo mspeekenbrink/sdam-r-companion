@@ -1,0 +1,107 @@
+# The one-sample t-test
+
+You can open the anchoring data as follows:
+```{r}
+library(sdamr)
+data(anchoring)
+```
+
+
+```{r}
+head(anchoring)
+```
+
+## Missing values
+
+Sometimes a data set has missing values. In R, a missing value is shown as `NA` (for Not Available). For example, you can see missing in the `everest_meters` variable. If a variable has missing values, functions such as `mean` and `sd` will return a missing value, rather than a numeric value. For instance:
+```{r}
+mean(anchoring$everest_meters)
+sd(anchoring$everest_meters)
+```
+You could get rid of all the missing values from your `data.frame` by using a subset function, but generally, I think it is better to keep the dataset as is, and use other means to avoid problems with missing values. Luckily, many functions have arguments to deal with missing values. For instance, the two functions above have an `na.rm` argument (for not-available-remove). Setting this to true will call the function only on the non-missing-values:
+```{r}
+mean(anchoring$everest_meters,na.rm=TRUE)
+sd(anchoring$everest_meters,na.rm=TRUE)
+```
+
+## Selecting subsets of data
+
+There are two main ways to select a subset of observations in R. You can either use an "indexing variable", or use the `subset` function. 
+### Indexing variables
+
+An indexing variable is used to specify the rows in a `data.frame` that you want to use. Generally, an indexing variable is a logical variable, which takes the value `TRUE` for cases (rows) that you want to include, and `FALSE` for cases that you want to exclude. Using an index variable, we will treat the `data.frame` as a matrix, which allows us to use square brackets, as in `data[row,column]` to either select rows or columns. For example, `anchoring[,"age"]` selects the column named "age" and returns it, while `anchoring[1:10,]` selects rows 1 to 10. The nice thing about R is that instead of providing row row numbers, we can create a logical variable based on the data itself to select rows. To do so, we can use the logical comparators and operators:
+
+|       |               |
+| ----- |-------------- |
+|  `==` | "equal to"      |
+|  `!=` | "not equal to"  |
+|  `>`  | "greater than"  |
+|  `>=` | "greater than or equal to" | 
+|  `<`  | "smaller than"  | 
+|  `<=` | "smaller than or equal to" |
+|  `&`  | "and" |
+| `|`   | "or"  |
+
+Some examples of using index variables are as follows. An index variable which is `TRUE` for males and `FALSE` for females can be computed as follows:
+```{r}
+index <- anchoring$sex == "m"
+```
+Let's see what this variable looks like:
+```{r}
+head(index)
+```
+It is indeed a logical variable which is `TRUE`  whenever `sex` is equal to `"m"`, and `FALSE` otherwise. You can use it to select all the males in the anchoring data by:
+```{r}
+dat <- anchoring[index,]
+```
+Note that you don't have to create an index variable separately. You can obtain the same result by computing the index variable within the brackets, like so:
+```{r}
+dat <- anchoring[dat$anchoring == "m",]
+```
+You can select all males over 30 years of age, and check the number of observations in this subset by the `nrow` function, as follows:
+```{r}
+dat <- anchoring[anchoring$age > 30 & anchoring$sex == "m",]
+nrow(dat)
+```
+You can select all participants who are male and over 30 years of age, or females who are female and over 30 years of age by:
+```{r}
+dat <- anchoring[(anchoring$age > 30 & anchoring$sex == "m") | (anchoring$age > 30 & anchoring$sex == "f"),]
+```
+
+### The `subset` function
+
+The subset function is quite similar to using index variables, but it doesn't require the treatment of the `data.frame` as a matrix and it looks for variable names in the `data.frame` so you don't have to use e.g. `anchoring$` before the variable name. This makes the subset function a bit easier to use than using indexing variables. The `subset` function has the following arguments:
+* `x`: the object (e.g. the `data.frame`) for which you want to select a subset of cases
+* `subset`: a logical expression indicating elements or rows to keep
+* `select`: an optional expression which indicates which columns to select from a data frame
+
+I generally use just the first two arguments. We can replicate the selections above using the `subset` function as follows:
+```{r}
+dat <- subset(anchoring, sex == "m")
+dat <- subset(anchoring, age > 30 & sex == "m")
+dat <- subset(anchoring, (age > 30 & sex == "m") | (age > 30 & sex == "f"))
+```
+
+For more information on indexing and subsetting, have a look at e.g. http://www.cookbook-r.com/Basics/Getting_a_subset_of_a_data_structure/
+
+The data analysed in the SDAM book was selected as follows:
+```{r}
+dat <- subset(anchoring,(referrer == "swps" | referrer == "swpson") & anchor == "low")
+```
+
+## One-sample t-test
+
+R has a `t.test` function which allows you to compute a variety of t-tests. For a one-sample t-test, you would use the following arguments
+* `x`: the variable for which to compute the t-test
+* `mu`: the assumed value of the mean, i.e. $\underline{\mu}$
+* `alternative`: similar as in `binom.test`, the range of values for `mu` (i.e. $\mu$) considered in MODEL G. This must be either `two.sided` (all values allowed), `greater` (only values $\mu > \underline{\mu}$ allowed), or `less` (only values $\mu < \underline{\mu}$ allowed). The default value is `alternative = "two.sided"`.
+
+For instance, we can run the two-sided t-test also reported in the SDAM book by
+```{r}
+t.test(dat$everest_meters, mu=8848)
+```
+
+A one-sided test where MODEL R assumes $\mu = 8848$ and MODEL G assumes that $\mu < 8848$, is obtained by
+```{r}
+t.test(dat$everest_meters, mu=8848, alternative = "less")
+```

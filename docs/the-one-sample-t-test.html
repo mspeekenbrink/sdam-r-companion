@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 The one-sample t-test | An R companion to Statistics: data analysis and modelling</title>
+  <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 The one-sample t-test | An R companion to Statistics: data analysis and modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="github-repo" content="mspeekenbrink/sdam-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 The one-sample t-test | An R companion to Statistics: data analysis and modelling" />
+  
+  <meta name="twitter:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  
+
+<meta name="author" content="Maarten Speekenbrink" />
+
+
+<meta name="date" content="2020-10-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statistical-modelling.html"/>
+
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="book_assets/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
+<li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+<li class="chapter" data-level="2.2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#working-out-the-theoretical-distribution-of-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.3</b> Working out the theoretical distribution of the likelihood ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.1</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R companion to Statistics: data analysis and modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-one-sample-t-test" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> The one-sample t-test</h1>
+<p>You can open the anchoring data as follows:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="the-one-sample-t-test.html#cb97-1"></a><span class="kw">library</span>(sdamr)</span>
+<span id="cb97-2"><a href="the-one-sample-t-test.html#cb97-2"></a><span class="kw">data</span>(anchoring)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="the-one-sample-t-test.html#cb98-1"></a><span class="kw">head</span>(anchoring)</span></code></pre></div>
+<pre><code>##   session_id sex age citizenship referrer us_or_international lab_or_online
+## 1    2400853   f  18          US abington                  US        In-lab
+## 2    2400856   f  19          CN abington                  US        In-lab
+## 3    2400860   f  18          US abington                  US        In-lab
+## 4    2400868   m  18          US abington                  US        In-lab
+## 5    2400914   f  18          US abington                  US        In-lab
+## 6    2400916   f  18          US abington                  US        In-lab
+##   anchor everest_feet everest_meters
+## 1   high        30000             NA
+## 2   high        30000             NA
+## 3    low         5000             NA
+## 4    low         2400             NA
+## 5    low        10000             NA
+## 6   high        25000             NA</code></pre>
+<div id="missing-values" class="section level2">
+<h2><span class="header-section-number">3.1</span> Missing values</h2>
+<p>Sometimes a data set has missing values. In R, a missing value is shown as <code>NA</code> (for Not Available). For example, you can see missing in the <code>everest_meters</code> variable. If a variable has missing values, functions such as <code>mean</code> and <code>sd</code> will return a missing value, rather than a numeric value. For instance:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="the-one-sample-t-test.html#cb100-1"></a><span class="kw">mean</span>(anchoring<span class="op">$</span>everest_meters)</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="the-one-sample-t-test.html#cb102-1"></a><span class="kw">sd</span>(anchoring<span class="op">$</span>everest_meters)</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<p>You could get rid of all the missing values from your <code>data.frame</code> by using a subset function, but generally, I think it is better to keep the dataset as is, and use other means to avoid problems with missing values. Luckily, many functions have arguments to deal with missing values. For instance, the two functions above have an <code>na.rm</code> argument (for not-available-remove). Setting this to true will call the function only on the non-missing-values:</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="the-one-sample-t-test.html#cb104-1"></a><span class="kw">mean</span>(anchoring<span class="op">$</span>everest_meters,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 6636.786</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="the-one-sample-t-test.html#cb106-1"></a><span class="kw">sd</span>(anchoring<span class="op">$</span>everest_meters,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 3942.714</code></pre>
+</div>
+<div id="selecting-subsets-of-data" class="section level2">
+<h2><span class="header-section-number">3.2</span> Selecting subsets of data</h2>
+<p>There are two main ways to select a subset of observations in R. You can either use an “indexing variable”, or use the <code>subset</code> function.
+### Indexing variables</p>
+<p>An indexing variable is used to specify the rows in a <code>data.frame</code> that you want to use. Generally, an indexing variable is a logical variable, which takes the value <code>TRUE</code> for cases (rows) that you want to include, and <code>FALSE</code> for cases that you want to exclude. Using an index variable, we will treat the <code>data.frame</code> as a matrix, which allows us to use square brackets, as in <code>data[row,column]</code> to either select rows or columns. For example, <code>anchoring[,"age"]</code> selects the column named “age” and returns it, while <code>anchoring[1:10,]</code> selects rows 1 to 10. The nice thing about R is that instead of providing row row numbers, we can create a logical variable based on the data itself to select rows. To do so, we can use the logical comparators and operators:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><code>==</code></td>
+<td>“equal to”</td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td>“not equal to”</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td>“greater than”</td>
+</tr>
+<tr class="even">
+<td><code>&gt;=</code></td>
+<td>“greater than or equal to”</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;</code></td>
+<td>“smaller than”</td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td>“smaller than or equal to”</td>
+</tr>
+<tr class="odd">
+<td><code>&amp;</code></td>
+<td>“and”</td>
+</tr>
+<tr class="even">
+<td><code>|</code></td>
+<td>“or”</td>
+</tr>
+</tbody>
+</table>
+<p>Some examples of using index variables are as follows. An index variable which is <code>TRUE</code> for males and <code>FALSE</code> for females can be computed as follows:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="the-one-sample-t-test.html#cb108-1"></a>index &lt;-<span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span></span></code></pre></div>
+<p>Let’s see what this variable looks like:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="the-one-sample-t-test.html#cb109-1"></a><span class="kw">head</span>(index)</span></code></pre></div>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<p>It is indeed a logical variable which is <code>TRUE</code> whenever <code>sex</code> is equal to <code>"m"</code>, and <code>FALSE</code> otherwise. You can use it to select all the males in the anchoring data by:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="the-one-sample-t-test.html#cb111-1"></a>dat &lt;-<span class="st"> </span>anchoring[index,]</span></code></pre></div>
+<p>Note that you don’t have to create an index variable separately. You can obtain the same result by computing the index variable within the brackets, like so:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="the-one-sample-t-test.html#cb112-1"></a>dat &lt;-<span class="st"> </span>anchoring[dat<span class="op">$</span>anchoring <span class="op">==</span><span class="st"> &quot;m&quot;</span>,]</span></code></pre></div>
+<p>You can select all males over 30 years of age, and check the number of observations in this subset by the <code>nrow</code> function, as follows:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="the-one-sample-t-test.html#cb113-1"></a>dat &lt;-<span class="st"> </span>anchoring[anchoring<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>,]</span>
+<span id="cb113-2"><a href="the-one-sample-t-test.html#cb113-2"></a><span class="kw">nrow</span>(dat)</span></code></pre></div>
+<pre><code>## [1] 361</code></pre>
+<p>You can select all participants who are male and over 30 years of age, or females who are female and over 30 years of age by:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="the-one-sample-t-test.html#cb115-1"></a>dat &lt;-<span class="st"> </span>anchoring[(anchoring<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>) <span class="op">|</span><span class="st"> </span>(anchoring<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;f&quot;</span>),]</span></code></pre></div>
+<div id="the-subset-function" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> The <code>subset</code> function</h3>
+<p>The subset function is quite similar to using index variables, but it doesn’t require the treatment of the <code>data.frame</code> as a matrix and it looks for variable names in the <code>data.frame</code> so you don’t have to use e.g. <code>anchoring$</code> before the variable name. This makes the subset function a bit easier to use than using indexing variables. The <code>subset</code> function has the following arguments:
+* <code>x</code>: the object (e.g. the <code>data.frame</code>) for which you want to select a subset of cases
+* <code>subset</code>: a logical expression indicating elements or rows to keep
+* <code>select</code>: an optional expression which indicates which columns to select from a data frame</p>
+<p>I generally use just the first two arguments. We can replicate the selections above using the <code>subset</code> function as follows:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="the-one-sample-t-test.html#cb116-1"></a>dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>)</span>
+<span id="cb116-2"><a href="the-one-sample-t-test.html#cb116-2"></a>dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>)</span>
+<span id="cb116-3"><a href="the-one-sample-t-test.html#cb116-3"></a>dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, (age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>) <span class="op">|</span><span class="st"> </span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>sex <span class="op">==</span><span class="st"> &quot;f&quot;</span>))</span></code></pre></div>
+<p>For more information on indexing and subsetting, have a look at e.g. <a href="http://www.cookbook-r.com/Basics/Getting_a_subset_of_a_data_structure/" class="uri">http://www.cookbook-r.com/Basics/Getting_a_subset_of_a_data_structure/</a></p>
+<p>The data analysed in the SDAM book was selected as follows:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="the-one-sample-t-test.html#cb117-1"></a>dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring,(referrer <span class="op">==</span><span class="st"> &quot;swps&quot;</span> <span class="op">|</span><span class="st"> </span>referrer <span class="op">==</span><span class="st"> &quot;swpson&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>anchor <span class="op">==</span><span class="st"> &quot;low&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="one-sample-t-test" class="section level2">
+<h2><span class="header-section-number">3.3</span> One-sample t-test</h2>
+<p>R has a <code>t.test</code> function which allows you to compute a variety of t-tests. For a one-sample t-test, you would use the following arguments
+* <code>x</code>: the variable for which to compute the t-test
+* <code>mu</code>: the assumed value of the mean, i.e. <span class="math inline">\(\underline{\mu}\)</span>
+* <code>alternative</code>: similar as in <code>binom.test</code>, the range of values for <code>mu</code> (i.e. <span class="math inline">\(\mu\)</span>) considered in MODEL G. This must be either <code>two.sided</code> (all values allowed), <code>greater</code> (only values <span class="math inline">\(\mu &gt; \underline{\mu}\)</span> allowed), or <code>less</code> (only values <span class="math inline">\(\mu &lt; \underline{\mu}\)</span> allowed). The default value is <code>alternative = "two.sided"</code>.</p>
+<p>For instance, we can run the two-sided t-test also reported in the SDAM book by</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="the-one-sample-t-test.html#cb118-1"></a><span class="kw">t.test</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
+<pre><code>## 
+## 	One Sample t-test
+## 
+## data:  dat$everest_meters
+## t = -8.4429, df = 108, p-value = 1.558e-13
+## alternative hypothesis: true mean is not equal to 8848
+## 95 percent confidence interval:
+##  5716.848 6907.537
+## sample estimates:
+## mean of x 
+##  6312.193</code></pre>
+<p>A one-sided test where MODEL R assumes <span class="math inline">\(\mu = 8848\)</span> and MODEL G assumes that <span class="math inline">\(\mu &lt; 8848\)</span>, is obtained by</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="the-one-sample-t-test.html#cb120-1"></a><span class="kw">t.test</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## 	One Sample t-test
+## 
+## data:  dat$everest_meters
+## t = -8.4429, df = 108, p-value = 7.791e-14
+## alternative hypothesis: true mean is less than 8848
+## 95 percent confidence interval:
+##      -Inf 6810.498
+## sample estimates:
+## mean of x 
+##  6312.193</code></pre>
+
+</div>
+</div>
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statistical-modelling.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"source": null,
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

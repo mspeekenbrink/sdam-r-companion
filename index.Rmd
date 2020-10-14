@@ -58,7 +58,6 @@ library(sdamr)
 ```
 
 ```{r myFunctions, echo=FALSE}
-options(digits=3)
 pretNum <- function(x) {
   prettyNum(x, big.mark=",")
 }

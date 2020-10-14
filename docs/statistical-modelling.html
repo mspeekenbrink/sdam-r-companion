@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2020-10-06" />
+<meta name="date" content="2020-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="introduction.html"/>
-
+<link rel="next" href="the-one-sample-t-test.html"/>
 <script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -165,7 +165,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
 <li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+<li class="chapter" data-level="2.2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#working-out-the-theoretical-distribution-of-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.3</b> Working out the theoretical distribution of the likelihood ratio</a></li>
 </ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.1</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
 </ul></li>
 </ul>
 
@@ -262,68 +272,91 @@ Instead of the first argument in <code>dbinom</code> being 8, you can try this f
 <p>So, to compute the maximum likelihood estimate of <span class="math inline">\(\theta\)</span> for each of the simulated replications of the experiment, we can simply run:</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="statistical-modelling.html#cb86-1"></a>theta_est &lt;-<span class="st"> </span>Y<span class="op">/</span><span class="dv">8</span></span></code></pre></div>
 <p>which stores the estimates in the object <code>theta_est</code>.</p>
-<!--
-## Hypothesis testing
-
-
-```r
-binom.test(x=8, n = 8, p = 0.5)
-```
-
-```
-## 
+</div>
+<div id="calculating-the-likelihood-ratio" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Calculating the likelihood ratio</h3>
+<p>Having computed the estimate <span class="math inline">\(\hat{\theta}\)</span> for each simulated dataset, we can also straightforwardly compute the likelihood ratio for each data set, comparing e.g. our MODEL R where we assume <span class="math inline">\(\theta = 0.5\)</span> to MODEL G where we use <span class="math inline">\(\theta = \hat{\theta}\)</span> instead. First, let’s caclulate the likelihood of each simulated dataset according to MODEL R. Again, we will make use of the fact that many functions in R are vectorized, such that if we ask R to calculate the probability for a vector of outcomes <code>Y</code>, the result is a vector with the probabilities for each element in <code>Y</code></p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="statistical-modelling.html#cb87-1"></a>likelihood_R &lt;-<span class="st"> </span><span class="kw">dbinom</span>(Y, <span class="dt">size=</span><span class="dv">8</span>, <span class="dt">prob=</span>.<span class="dv">5</span>)</span></code></pre></div>
+<p>Remember, if you want to see what is in an R object, you can just type in the name:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="statistical-modelling.html#cb88-1"></a>likelihood_R</span></code></pre></div>
+<pre><code>##   [1] 0.21875000 0.27343750 0.21875000 0.10937500 0.21875000 0.10937500
+##   [7] 0.27343750 0.21875000 0.21875000 0.27343750 0.21875000 0.21875000
+##  [13] 0.27343750 0.21875000 0.21875000 0.27343750 0.10937500 0.21875000
+##  [19] 0.10937500 0.21875000 0.00390625 0.21875000 0.21875000 0.21875000
+##  [25] 0.03125000 0.10937500 0.21875000 0.27343750 0.10937500 0.21875000
+##  [31] 0.21875000 0.27343750 0.27343750 0.03125000 0.21875000 0.21875000
+##  [37] 0.21875000 0.21875000 0.10937500 0.00390625 0.21875000 0.21875000
+##  [43] 0.21875000 0.10937500 0.21875000 0.21875000 0.21875000 0.21875000
+##  [49] 0.27343750 0.21875000 0.27343750 0.10937500 0.10937500 0.27343750
+##  [55] 0.21875000 0.21875000 0.21875000 0.27343750 0.27343750 0.21875000
+##  [61] 0.21875000 0.21875000 0.21875000 0.21875000 0.10937500 0.21875000
+##  [67] 0.27343750 0.00390625 0.03125000 0.10937500 0.27343750 0.21875000
+##  [73] 0.27343750 0.27343750 0.21875000 0.10937500 0.21875000 0.27343750
+##  [79] 0.21875000 0.27343750 0.03125000 0.21875000 0.03125000 0.21875000
+##  [85] 0.21875000 0.21875000 0.27343750 0.21875000 0.21875000 0.27343750
+##  [91] 0.21875000 0.21875000 0.21875000 0.10937500 0.27343750 0.27343750
+##  [97] 0.21875000 0.21875000 0.03125000 0.10937500</code></pre>
+<p>We can follow the same procedure to calculate the likelihood for each simulated dataset according to the <em>estimated</em> MODEL G. In this case though, we are going to use two vectorized arguments simultaneously. For each simulated dataset, we have an observed number of correct predictions (in our object <code>Y</code>), as well as a corresponding estimate of the probability of a correct response (in our object <code>theta_est</code>). If we supply each as arguments to the <code>dbinom</code> function, R will match each element in <code>Y</code> with the corresponding element of <code>theta_est</code>, i.e. <code>Y[1]</code> is matched with <code>theta_est[1]</code>, <code>y[2]</code> with <code>theta_est[2]</code>, etc. You will have to be quite certain that the indices (i.e., the number between the brackets, such as <code>[1]</code> and <code>[2]</code>) of one argument correspond to the indices of another to get the correct results. In this case, we computed <code>theta_est</code> directly from <code>Y</code>, and therefore we know each value in <code>Y</code> corresponds to the value of <code>theta_est = y/8</code>. Sowe can safely compute the likelihood of MODEL G with twp vectorised arguments as:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="statistical-modelling.html#cb90-1"></a>likelihood_G &lt;-<span class="st"> </span><span class="kw">dbinom</span>(Y, <span class="dt">size=</span><span class="dv">8</span>, <span class="dt">prob =</span> theta_est)</span></code></pre></div>
+<p>To compute the likelihood ratio for all these simulated datasets, we can now simply divide each element in <code>likelihood_R</code> by the corresponding element in <code>likelihood_G</code>:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="statistical-modelling.html#cb91-1"></a>likelihood_ratio &lt;-<span class="st"> </span>likelihood_R<span class="op">/</span>likelihood_G</span></code></pre></div>
+<p>Great! We now have a distribution of likelihood ratio values, simulated from MODEL R. We can get closer and closer to the sampling distribution of the likelihood ratio values by increasing the number of simulated datasets. Here, I’m only simulating 100 datasets, but you can easily simulate many more. Let’s have a look at the distribution of likelihood ratio values with a histogram:</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="statistical-modelling.html#cb92-1"></a><span class="kw">hist</span>(likelihood_ratio)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-48-1.svg" width="672" style="display: block; margin: auto;" />
+Compared to an infinite number of datasets, 100 is quite a small number, but nevertheless the histogram already looks quite a bit like the true distribution of the likelihood ratio under MODEL R.</p>
+</div>
+<div id="working-out-the-theoretical-distribution-of-the-likelihood-ratio" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Working out the theoretical distribution of the likelihood ratio</h3>
+<p>(TODO: will add this later)</p>
+</div>
+</div>
+<div id="hypothesis-testing-directly-with-the-binomial-distribution" class="section level2">
+<h2><span class="header-section-number">2.3</span> Hypothesis testing directly with the binomial distribution</h2>
+<p>To perform hypothesis tests directly with the binomial distribution, you can use the <code>binom.test</code> function. This function has 5 arguments:</p>
+<ul>
+<li><code>x</code>: the number of “successes” (e.g., the number of correct guesses).</li>
+<li><code>n</code>: the number of trials (e.g. the total number of guesses)</li>
+<li><code>p</code>: the probability of success assumed under the null hypothesis (e.g. <span class="math inline">\(\underline{\theta}\)</span>). The default value is <code>p = 0.5</code>.</li>
+<li><code>alternative</code>: the range of values for <code>p</code> (i.e. <span class="math inline">\(\theta\)</span>) considered in MODEL G. This must be either <code>two.sided</code> (all values allowed), <code>greater</code> (only values <span class="math inline">\(\theta &gt; \underline{\theta}\)</span> allowed), or <code>less</code> (only values <span class="math inline">\(\theta &lt; \underline{\theta}\)</span> allowed). The default value is <code>alternative = "two.sided"</code>.</li>
+<li><code>conf.level</code>: the confidence level for the returned confidence interval. Should be specified as a probability (i.e., to get the 95% confidence interval, you should specify <code>conf.level = 0.95</code>). The default value is <code>conf.level = 0.95</code>.</li>
+</ul>
+<p>Comparing MODEL R with <span class="math inline">\(\theta = 0.5\)</span> against MODEL G with <span class="math inline">\(0 \leq \theta \leq 1\)</span> corresponds to a two-sided test of the null hypothesis <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\theta = 0.5\)</span> against the alternative hypothesis that <span class="math inline">\(\theta \neq 0.5\)</span>. This test can be performed as:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="statistical-modelling.html#cb93-1"></a><span class="kw">binom.test</span>(<span class="dt">x=</span><span class="dv">8</span>, <span class="dt">n =</span> <span class="dv">8</span>, <span class="dt">p =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>## 
 ## 	Exact binomial test
 ## 
 ## data:  8 and 8
-## number of successes = 8, number of trials = 8, p-value = 0.008
+## number of successes = 8, number of trials = 8, p-value = 0.007812
 ## alternative hypothesis: true probability of success is not equal to 0.5
 ## 95 percent confidence interval:
-##  0.631 1.000
+##  0.6305834 1.0000000
 ## sample estimates:
 ## probability of success 
-##                      1
-```
-
-
-```r
-binom.test(x=8, n = 8, p = 0.5, alternative = "greater")
-```
-
-```
-## 
+##                      1</code></pre>
+<p>The output provides the estimated <span class="math inline">\(\theta\)</span> for MODEL G under <code>sample estimates: probability of success</code>. Remember that the p-value of the test reflects the probability of the provided number of successes <em>or more extreme ones</em> under the null hypothesis.</p>
+<p>Comparing MODEL R with <span class="math inline">\(\theta = 0.5\)</span> against MODEL G with <span class="math inline">\(\theta &gt; 0.5\)</span> corresponds to a one-sided test of the null hypothesis <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\theta = 0.5\)</span> against the alternative hypothesis that <span class="math inline">\(\theta &gt; 0.5\)</span>. This test can be performed by</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="statistical-modelling.html#cb95-1"></a><span class="kw">binom.test</span>(<span class="dt">x=</span><span class="dv">8</span>, <span class="dt">n =</span> <span class="dv">8</span>, <span class="dt">p =</span> <span class="fl">0.5</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<pre><code>## 
 ## 	Exact binomial test
 ## 
 ## data:  8 and 8
-## number of successes = 8, number of trials = 8, p-value = 0.004
+## number of successes = 8, number of trials = 8, p-value = 0.003906
 ## alternative hypothesis: true probability of success is greater than 0.5
 ## 95 percent confidence interval:
-##  0.688 1.000
+##  0.687656 1.000000
 ## sample estimates:
 ## probability of success 
-##                      1
-```
-
-### Calculating the likelihood ratio
-
--->
+##                      1</code></pre>
 
 </div>
 </div>
-</div>
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="introduction.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-one-sample-t-test.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
