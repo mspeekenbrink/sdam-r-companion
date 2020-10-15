@@ -56,7 +56,7 @@ dat <- anchoring[index,]
 ```
 Note that you don't have to create an index variable separately. You can obtain the same result by computing the index variable within the brackets, like so:
 ```{r}
-dat <- anchoring[dat$anchoring == "m",]
+dat <- anchoring[anchoring$sex == "m",]
 ```
 You can select all males over 30 years of age, and check the number of observations in this subset by the `nrow` function, as follows:
 ```{r}
