@@ -1,0 +1,156 @@
+# Regression
+
+## Estimating an testing a simple regression model
+
+Regression analysis is done through the `lm` function, with the following syntax: `lm(formula, data,...)`. The first argument is called `formula` and expects a symbolic description of your model. I will tell you more about how to specify models with the formula syntax later, when we discuss moderation. For now, a few simple examples will suffice. To specify a simple regression model where you predict a dependent variable `y` by a predictor `x`, you would use the formula
+
+`y ~ x`
+
+On the left-hand side of the formula you need to provide the name of the dependent variable. After the name of the dependent variable, you need to put a tilde (`~`) (which you can read is "is modelled as a function of"). On the right-hand side, you then provide the name of the predictor.  R will automatically include an intercept in the model. In R, the intercept is actually represented as a special predictor which always (for every row in the data set) has the value 1. The formula above is actually interpreted as 
+`y ~ x + 1`
+
+Because the intercept is included in most models, the authors of R have decided to save the you trouble of typing ` + 1` in each formula, by making this part of the formula implicit. You can fit a model without an intercept (which is the same as fixing the value of the intercept to 0), by instead of `+ 1`, putting `- 1` in the formula, as in
+
+`y ~ x - 1`
+
+The second argument of the `lm` function is called `data` and expects the name of the data.frame in which the variables are stored. 
+
+To see how the `lm` function works in practice, let's open the `trump2016` data provided in the `sdamr` package. This is the data analysed in Chapter 4 and 5. We open and inspect the data as usual:
+```{r}
+library(sdamr)
+# load the Trump data
+data("trump2016")
+# remove the data from the District of Columbia (Washintgon D.C.)
+dat <- subset(trump2016,state != "District of Columbia")
+head(dat)
+```
+You can see that there are a number of variables in the dataset (and not all of these were analysed in the book). For more information on the variables in the dataset, you can call the help file with `?trump2016`.
+
+Now let's estimate a simple regression model to predict the percentage of votes for Trump by the number of hate groups per million citizens:
+```{r}
+modg <- lm(percent_Trump_votes ~ hate_groups_per_million, data=dat)
+modg
+```
+I've named the resulting object `modg` for MODEL G. You can pick any name you like for R objects. Note that when you just print a fitted linear model (by e.g., typing the name of the object `modg`), R will show the parameter estimates, but nothing else. You can get the important statistics by calling the `summary` function on the fitted model:
+
+```{r}
+summary(modg)
+```
+
+This provides quite a lot of useful information. The output of the `summary` function consists of four parts:
+
+- `Call` simply shows you the call to the `lm` function used to fit the model (including the model formula)
+- `Residuals` shows you some summary statistics for the prediction errors of the estimated model (which are often referred to as residuals)
+- `Coefficients` shows you a table with:
+    - the name of variable for which the parameter was estimated
+    - `Estimate`: the estimated parameters
+    - `Std. Error`: the standard error of the estimates (this is the standard deviation of the sampling distribution of the estimates)
+    - `t value`: the t statistic of the hypothesis test that the true value of the parameter is equal to 0.
+    - `Pr(>|t|)`: the p-value, which is the probability that, given that the null hypothesis is true (i.e. the true value of the parameter is equal to 0), you would find a t-statistic at least as extreme as the one computed found for this data.
+- Some overall model statistics:
+    - `Residual standard error`: this is and unbiased estimate of the standard deviation of the errors.
+    - `Multiple R-squared:` the $R^2$ or proportion of variance of the dependent variable "explained" by the model. 
+    - `Adjusted R-squared`: an unbiased estimate of the true value of $R^2$
+    - `F-statistic`: the results of a model comparison comparing the estimated model (MODEL G) to a MODEL R which only includes an intercept.
+
+## Model comparisons
+
+Comparing regression models and computing the $F$ statistic can be done through the `anova()` function. Let's first estimate a restricted version of MODEL G above where we fix the slope of `hate_groups_per_million` to 0. This MODEL R is identical to a model with only an intercept. We can estimate this by not providing any predictor names, but now explicitly providing the intercept term `1`. 
+
+```{r}
+# fit a MODEL R with only an intercept
+modr <- lm(percent_Trump_votes ~ 1, data=dat)
+anova(modr,modg)
+```
+
+We can then compute the $F$ test by entering this MODEL R, and the MODEL G we estimated earlier, as arguments in the `anova` function:
+```{r}
+anova(modr,modg)
+```
+the output lists the formula's of the models we compare, and then provides a table with test results. The columns in this table are
+* `Res.Df`: the denominator degrees of freedom, i.e. $n=-\text{npar}(M)$
+* `RSS`: the "residual sum of squares" or Sum of Squared Error of the model, i.e. $\text{SSE}(M)$
+* `Df`: the numerator degrees of freedom,,i.e. $\text{npar}(G) - \text{npar}(R) 
+* `Sum of Sq`: the reduction in the Sum of Squared Error, i.e. $\text{SSE}(R) - \text{SSE}(R)$
+* `F`: the $F$ statistic of the test
+* `Pr(>F)`: the p-value of the test. 
+
+We can obtain a test for the intercept by fitting a different MODEL R, now without an intercept, and comparing it to MODEL G
+```{r}
+# fit a MODEL R without an intercept (through " - 1")
+modr <- lm(percent_Trump_votes ~ hate_groups_per_million - 1, data=dat)
+anova(modr,modg)
+```
+
+The output of the `anova` function isn't particularly pretty. Also, if you want to do multiple model comparisons, first estimating models and then comparing them with the `anova` function becomes a little cumbersome. An easier way to obtain all the model comparisons is to use the `Anova` function from the `car` package to automatically construct different possible versions of MODEL R, each being one particular restriction of MODEL G which fixes the relevant parameter to 0. If you don't have the `car` package installed yet, you need to install it first (e.g. by `install.packages("car")`. You can then call: 
+```{r}
+library(car)
+Anova(modg, type=3)
+```
+Note that it is important to give the `type = 3` argument in the `Anova` function. This will construct MODEL R by fixing a single parameter to 0 in turn (i.e. first fixing $\beta_0=0$ and estimating all other parameters, then another model fixing $\beta_1 = 0$ for estimating all other parameters), etc.
+
+## Estimating and testing a multiple regression model
+
+To specify a multiple regression model for a dependent variable named `y` and with three predictors, named `x1`, `x2`, and `x3`, you would use the formula
+
+`y ~ x1 + x2 + x3`
+
+This is similar to the earlier formula, but you now need to provide the names of all the predictors, separated by a `+` sign. 
+
+For instance, we can fit a model with two predictors (which we will call `modg`, for MODEL G), as follows:
+```{r}
+modg <- lm(percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, data=dat)
+summary(modg)
+```
+the output of the summary function contains the same elements as before, but the table of coefficients now includes an additional row for `percent_bachelors_degree_or_higher`. Also, note that all the estimates are different, because the slopes reflect unique effects, and these differ compared to models with other predictors. Finally, I'd like to point out that the last row of the output contains the "whole model test", which compares the estimated model to a model with only an intercept. Recall that the estimate of the intercept in this latter model equals the sample mean. So we are now comparing a model with two predictors to a model which predicts all values as the sample mean. The difference in the number of estimated parameters for this comparison is $\text{npar}(G) - \text{npar}(R) = 3 - 1 = 2$. Hence, the degrees of freedom are $\text{df}_1 = 2$ and $\text{df}_2 = n - \text{npar}(G) = 50 - 3 = 47$.
+
+We can also get all the model comparisons for this MODEL G through:
+```{r}
+library(car)
+Anova(modg, type=3)
+```
+
+Finally, we can also obtain a "whol 
+
+## Residuals and predicted values
+
+You can obtain the prediction errors by the calling the `residuals` function on the fitted model. 
+```{r}
+# store the residuals as errorg
+errorg <- residuals(modg)
+head(errorg)
+```
+This returns a vector with, for each case in the data (each row in the data frame), the error term $\hat{\epsilon}_i$. Note that we are only displaying the first six elements through the `head` function.
+
+You can obtain the predicted values by calling the `predict` function on the fitted model.
+```{r}
+# store the predictions as predictg
+predictg <- predict(modg)
+head(predictg)
+```
+This returns a vector with for, each case in the data, the predicted value $\hat{Y}_{M,i}$. You can use these variables to create e.g. a histogram of the errors:
+```{r}
+hist(errorg)
+```
+and a predicted by residual plot
+```{r}
+# scatterplot of predicted vs residual
+plot(predictg, errorg, xlab = "predicted", ylab = "residual")
+# add a horizontal line (h=0 is for horizontal at 0, 
+# and lty = 3 makes it a dotted line 
+abline(h=0,lty=3)
+```
+
+You can also call the plot function directly on the fitted model, which produces a range of plots to assess the model assumptions:
+
+```{r}
+plot(modg)
+```
+
+<!-- 
+## Computing the estimated parameters with matrix algebra
+
+As indicated in the lecture, computing the estimates of the intercept and slopes of a multiple regression model is not as straightforward as it is for a simple (bivariate) regression. But using matrix algebra, 
+
+$$\mathbf{b} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$$
+-->

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Regression | An R companion to Statistics: data analysis and modelling</title>
+  <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Regression | An R companion to Statistics: data analysis and modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="github-repo" content="mspeekenbrink/sdam-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Regression | An R companion to Statistics: data analysis and modelling" />
+  
+  <meta name="twitter:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  
+
+<meta name="author" content="Maarten Speekenbrink" />
+
+
+<meta name="date" content="2020-10-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="the-one-sample-t-test.html"/>
+
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="book_assets/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
+<li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+<li class="chapter" data-level="2.2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#working-out-the-theoretical-distribution-of-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.3</b> Working out the theoretical distribution of the likelihood ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.1</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a><ul>
+<li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
+<li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
+<li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
+<li class="chapter" data-level="4.4" data-path="regression.html"><a href="regression.html#residuals-and-predicted-values"><i class="fa fa-check"></i><b>4.4</b> Residuals and predicted values</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R companion to Statistics: data analysis and modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regression" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Regression</h1>
+<div id="estimating-an-testing-a-simple-regression-model" class="section level2">
+<h2><span class="header-section-number">4.1</span> Estimating an testing a simple regression model</h2>
+<p>Regression analysis is done through the <code>lm</code> function, with the following syntax: <code>lm(formula, data,...)</code>. The first argument is called <code>formula</code> and expects a symbolic description of your model. I will tell you more about how to specify models with the formula syntax later, when we discuss moderation. For now, a few simple examples will suffice. To specify a simple regression model where you predict a dependent variable <code>y</code> by a predictor <code>x</code>, you would use the formula</p>
+<p><code>y ~ x</code></p>
+<p>On the left-hand side of the formula you need to provide the name of the dependent variable. After the name of the dependent variable, you need to put a tilde (<code>~</code>) (which you can read is “is modelled as a function of”). On the right-hand side, you then provide the name of the predictor. R will automatically include an intercept in the model. In R, the intercept is actually represented as a special predictor which always (for every row in the data set) has the value 1. The formula above is actually interpreted as
+<code>y ~ x + 1</code></p>
+<p>Because the intercept is included in most models, the authors of R have decided to save the you trouble of typing <code>+ 1</code> in each formula, by making this part of the formula implicit. You can fit a model without an intercept (which is the same as fixing the value of the intercept to 0), by instead of <code>+ 1</code>, putting <code>- 1</code> in the formula, as in</p>
+<p><code>y ~ x - 1</code></p>
+<p>The second argument of the <code>lm</code> function is called <code>data</code> and expects the name of the data.frame in which the variables are stored.</p>
+<p>To see how the <code>lm</code> function works in practice, let’s open the <code>trump2016</code> data provided in the <code>sdamr</code> package. This is the data analysed in Chapter 4 and 5. We open and inspect the data as usual:</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="regression.html#cb122-1"></a><span class="kw">library</span>(sdamr)</span>
+<span id="cb122-2"><a href="regression.html#cb122-2"></a><span class="co"># load the Trump data</span></span>
+<span id="cb122-3"><a href="regression.html#cb122-3"></a><span class="kw">data</span>(<span class="st">&quot;trump2016&quot;</span>)</span>
+<span id="cb122-4"><a href="regression.html#cb122-4"></a><span class="co"># remove the data from the District of Columbia (Washintgon D.C.)</span></span>
+<span id="cb122-5"><a href="regression.html#cb122-5"></a>dat &lt;-<span class="st"> </span><span class="kw">subset</span>(trump2016,state <span class="op">!=</span><span class="st"> &quot;District of Columbia&quot;</span>)</span>
+<span id="cb122-6"><a href="regression.html#cb122-6"></a><span class="kw">head</span>(dat)</span></code></pre></div>
+<pre><code>##        state hate_groups population hate_groups_per_million
+## 1    Alabama          27    4863300                    5.55
+## 2     Alaska           0     741894                    0.00
+## 3    Arizona          18    6931071                    2.60
+## 4   Arkansas          16    2988248                    5.35
+## 5 California          79   39250017                    2.01
+## 6   Colorado          16    5540545                    2.89
+##   percent_bachelors_degree_or_higher percent_in_poverty percent_Trump_votes
+## 1                               15.4               18.5                62.9
+## 2                               29.7               10.4                52.9
+## 3                               27.7               17.4                49.5
+## 4                               21.8               18.7                60.4
+## 5                               32.3               15.4                32.7
+## 6                               39.2               11.5                44.4</code></pre>
+<p>You can see that there are a number of variables in the dataset (and not all of these were analysed in the book). For more information on the variables in the dataset, you can call the help file with <code>?trump2016</code>.</p>
+<p>Now let’s estimate a simple regression model to predict the percentage of votes for Trump by the number of hate groups per million citizens:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="regression.html#cb124-1"></a>modg &lt;-<span class="st"> </span><span class="kw">lm</span>(percent_Trump_votes <span class="op">~</span><span class="st"> </span>hate_groups_per_million, <span class="dt">data=</span>dat)</span>
+<span id="cb124-2"><a href="regression.html#cb124-2"></a>modg</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = percent_Trump_votes ~ hate_groups_per_million, data = dat)
+## 
+## Coefficients:
+##             (Intercept)  hate_groups_per_million  
+##                    42.9                      2.3</code></pre>
+<p>I’ve named the resulting object <code>modg</code> for MODEL G. You can pick any name you like for R objects. Note that when you just print a fitted linear model (by e.g., typing the name of the object <code>modg</code>), R will show the parameter estimates, but nothing else. You can get the important statistics by calling the <code>summary</code> function on the fitted model:</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="regression.html#cb126-1"></a><span class="kw">summary</span>(modg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = percent_Trump_votes ~ hate_groups_per_million, data = dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -14.8206  -5.8570  -0.0529   5.2632  20.7883 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)              42.8968     2.4094  17.804  &lt; 2e-16 ***
+## hate_groups_per_million   2.3004     0.6715   3.426  0.00127 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 9.142 on 48 degrees of freedom
+## Multiple R-squared:  0.1965, Adjusted R-squared:  0.1797 
+## F-statistic: 11.74 on 1 and 48 DF,  p-value: 0.001265</code></pre>
+<p>This provides quite a lot of useful information. The output of the <code>summary</code> function consists of four parts:</p>
+<ul>
+<li><code>Call</code> simply shows you the call to the <code>lm</code> function used to fit the model (including the model formula)</li>
+<li><code>Residuals</code> shows you some summary statistics for the prediction errors of the estimated model (which are often referred to as residuals)</li>
+<li><code>Coefficients</code> shows you a table with:
+<ul>
+<li>the name of variable for which the parameter was estimated</li>
+<li><code>Estimate</code>: the estimated parameters</li>
+<li><code>Std. Error</code>: the standard error of the estimates (this is the standard deviation of the sampling distribution of the estimates)</li>
+<li><code>t value</code>: the t statistic of the hypothesis test that the true value of the parameter is equal to 0.</li>
+<li><code>Pr(&gt;|t|)</code>: the p-value, which is the probability that, given that the null hypothesis is true (i.e. the true value of the parameter is equal to 0), you would find a t-statistic at least as extreme as the one computed found for this data.</li>
+</ul></li>
+<li>Some overall model statistics:
+<ul>
+<li><code>Residual standard error</code>: this is and unbiased estimate of the standard deviation of the errors.</li>
+<li><code>Multiple R-squared:</code> the <span class="math inline">\(R^2\)</span> or proportion of variance of the dependent variable “explained” by the model.</li>
+<li><code>Adjusted R-squared</code>: an unbiased estimate of the true value of <span class="math inline">\(R^2\)</span></li>
+<li><code>F-statistic</code>: the results of a model comparison comparing the estimated model (MODEL G) to a MODEL R which only includes an intercept.</li>
+</ul></li>
+</ul>
+</div>
+<div id="model-comparisons" class="section level2">
+<h2><span class="header-section-number">4.2</span> Model comparisons</h2>
+<p>Comparing regression models and computing the <span class="math inline">\(F\)</span> statistic can be done through the <code>anova()</code> function. Let’s first estimate a restricted version of MODEL G above where we fix the slope of <code>hate_groups_per_million</code> to 0. This MODEL R is identical to a model with only an intercept. We can estimate this by not providing any predictor names, but now explicitly providing the intercept term <code>1</code>.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="regression.html#cb128-1"></a><span class="co"># fit a MODEL R with only an intercept</span></span>
+<span id="cb128-2"><a href="regression.html#cb128-2"></a>modr &lt;-<span class="st"> </span><span class="kw">lm</span>(percent_Trump_votes <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>dat)</span>
+<span id="cb128-3"><a href="regression.html#cb128-3"></a><span class="kw">anova</span>(modr,modg)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: percent_Trump_votes ~ 1
+## Model 2: percent_Trump_votes ~ hate_groups_per_million
+##   Res.Df    RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     49 4992.2                                
+## 2     48 4011.4  1    980.78 11.736 0.001265 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>We can then compute the <span class="math inline">\(F\)</span> test by entering this MODEL R, and the MODEL G we estimated earlier, as arguments in the <code>anova</code> function:</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="regression.html#cb130-1"></a><span class="kw">anova</span>(modr,modg)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: percent_Trump_votes ~ 1
+## Model 2: percent_Trump_votes ~ hate_groups_per_million
+##   Res.Df    RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     49 4992.2                                
+## 2     48 4011.4  1    980.78 11.736 0.001265 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>the output lists the formula’s of the models we compare, and then provides a table with test results. The columns in this table are
+* <code>Res.Df</code>: the denominator degrees of freedom, i.e. <span class="math inline">\(n=-\text{npar}(M)\)</span>
+* <code>RSS</code>: the “residual sum of squares” or Sum of Squared Error of the model, i.e. <span class="math inline">\(\text{SSE}(M)\)</span>
+* <code>Df</code>: the numerator degrees of freedom,,i.e. $(G) - (R)
+* <code>Sum of Sq</code>: the reduction in the Sum of Squared Error, i.e. <span class="math inline">\(\text{SSE}(R) - \text{SSE}(R)\)</span>
+* <code>F</code>: the <span class="math inline">\(F\)</span> statistic of the test
+* <code>Pr(&gt;F)</code>: the p-value of the test.</p>
+<p>We can obtain a test for the intercept by fitting a different MODEL R, now without an intercept, and comparing it to MODEL G</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="regression.html#cb132-1"></a><span class="co"># fit a MODEL R without an intercept (through &quot; - 1&quot;)</span></span>
+<span id="cb132-2"><a href="regression.html#cb132-2"></a>modr &lt;-<span class="st"> </span><span class="kw">lm</span>(percent_Trump_votes <span class="op">~</span><span class="st"> </span>hate_groups_per_million <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>dat)</span>
+<span id="cb132-3"><a href="regression.html#cb132-3"></a><span class="kw">anova</span>(modr,modg)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: percent_Trump_votes ~ hate_groups_per_million - 1
+## Model 2: percent_Trump_votes ~ hate_groups_per_million
+##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     49 30501.7                                  
+## 2     48  4011.4  1     26490 316.98 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The output of the <code>anova</code> function isn’t particularly pretty. Also, if you want to do multiple model comparisons, first estimating models and then comparing them with the <code>anova</code> function becomes a little cumbersome. An easier way to obtain all the model comparisons is to use the <code>Anova</code> function from the <code>car</code> package to automatically construct different possible versions of MODEL R, each being one particular restriction of MODEL G which fixes the relevant parameter to 0. If you don’t have the <code>car</code> package installed yet, you need to install it first (e.g. by <code>install.packages("car")</code>. You can then call:</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="regression.html#cb134-1"></a><span class="kw">library</span>(car)</span>
+<span id="cb134-2"><a href="regression.html#cb134-2"></a><span class="kw">Anova</span>(modg, <span class="dt">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: percent_Trump_votes
+##                          Sum Sq Df F value    Pr(&gt;F)    
+## (Intercept)             26490.3  1 316.981 &lt; 2.2e-16 ***
+## hate_groups_per_million   980.8  1  11.736  0.001265 ** 
+## Residuals                4011.4 48                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note that it is important to give the <code>type = 3</code> argument in the <code>Anova</code> function. This will construct MODEL R by fixing a single parameter to 0 in turn (i.e. first fixing <span class="math inline">\(\beta_0=0\)</span> and estimating all other parameters, then another model fixing <span class="math inline">\(\beta_1 = 0\)</span> for estimating all other parameters), etc.</p>
+</div>
+<div id="estimating-and-testing-a-multiple-regression-model" class="section level2">
+<h2><span class="header-section-number">4.3</span> Estimating and testing a multiple regression model</h2>
+<p>To specify a multiple regression model for a dependent variable named <code>y</code> and with three predictors, named <code>x1</code>, <code>x2</code>, and <code>x3</code>, you would use the formula</p>
+<p><code>y ~ x1 + x2 + x3</code></p>
+<p>This is similar to the earlier formula, but you now need to provide the names of all the predictors, separated by a <code>+</code> sign.</p>
+<p>For instance, we can fit a model with two predictors (which we will call <code>modg</code>, for MODEL G), as follows:</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="regression.html#cb136-1"></a>modg &lt;-<span class="st"> </span><span class="kw">lm</span>(percent_Trump_votes <span class="op">~</span><span class="st"> </span>hate_groups_per_million <span class="op">+</span><span class="st"> </span>percent_bachelors_degree_or_higher, <span class="dt">data=</span>dat)</span>
+<span id="cb136-2"><a href="regression.html#cb136-2"></a><span class="kw">summary</span>(modg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = percent_Trump_votes ~ hate_groups_per_million + 
+##     percent_bachelors_degree_or_higher, data = dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -13.7268  -4.0621   0.0426   2.8937  15.8359 
+## 
+## Coefficients:
+##                                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                         81.9945     6.1555  13.321  &lt; 2e-16 ***
+## hate_groups_per_million              1.3138     0.5102   2.575   0.0132 *  
+## percent_bachelors_degree_or_higher  -1.2187     0.1839  -6.625 3.03e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.643 on 47 degrees of freedom
+## Multiple R-squared:  0.5845, Adjusted R-squared:  0.5668 
+## F-statistic: 33.06 on 2 and 47 DF,  p-value: 1.087e-09</code></pre>
+<p>the output of the summary function contains the same elements as before, but the table of coefficients now includes an additional row for <code>percent_bachelors_degree_or_higher</code>. Also, note that all the estimates are different, because the slopes reflect unique effects, and these differ compared to models with other predictors. Finally, I’d like to point out that the last row of the output contains the “whole model test”, which compares the estimated model to a model with only an intercept. Recall that the estimate of the intercept in this latter model equals the sample mean. So we are now comparing a model with two predictors to a model which predicts all values as the sample mean. The difference in the number of estimated parameters for this comparison is <span class="math inline">\(\text{npar}(G) - \text{npar}(R) = 3 - 1 = 2\)</span>. Hence, the degrees of freedom are <span class="math inline">\(\text{df}_1 = 2\)</span> and <span class="math inline">\(\text{df}_2 = n - \text{npar}(G) = 50 - 3 = 47\)</span>.</p>
+<p>We can also get all the model comparisons for this MODEL G through:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="regression.html#cb138-1"></a><span class="kw">library</span>(car)</span>
+<span id="cb138-2"><a href="regression.html#cb138-2"></a><span class="kw">Anova</span>(modg, <span class="dt">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: percent_Trump_votes
+##                                    Sum Sq Df  F value    Pr(&gt;F)    
+## (Intercept)                        7830.7  1 177.4381 &lt; 2.2e-16 ***
+## hate_groups_per_million             292.7  1   6.6318   0.01322 *  
+## percent_bachelors_degree_or_higher 1937.2  1  43.8956 3.028e-08 ***
+## Residuals                          2074.2 47                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Finally, we can also obtain a "whol</p>
+</div>
+<div id="residuals-and-predicted-values" class="section level2">
+<h2><span class="header-section-number">4.4</span> Residuals and predicted values</h2>
+<p>You can obtain the prediction errors by the calling the <code>residuals</code> function on the fitted model.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="regression.html#cb140-1"></a><span class="co"># store the residuals as errorg</span></span>
+<span id="cb140-2"><a href="regression.html#cb140-2"></a>errorg &lt;-<span class="st"> </span><span class="kw">residuals</span>(modg)</span>
+<span id="cb140-3"><a href="regression.html#cb140-3"></a><span class="kw">head</span>(errorg)</span></code></pre></div>
+<pre><code>##          1          2          3          4          5          6 
+##  -7.618118   7.101376  -2.152059  -2.055564 -12.570794   6.382163</code></pre>
+<p>This returns a vector with, for each case in the data (each row in the data frame), the error term <span class="math inline">\(\hat{\epsilon}_i\)</span>. Note that we are only displaying the first six elements through the <code>head</code> function.</p>
+<p>You can obtain the predicted values by calling the <code>predict</code> function on the fitted model.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="regression.html#cb142-1"></a><span class="co"># store the predictions as predictg</span></span>
+<span id="cb142-2"><a href="regression.html#cb142-2"></a>predictg &lt;-<span class="st"> </span><span class="kw">predict</span>(modg)</span>
+<span id="cb142-3"><a href="regression.html#cb142-3"></a><span class="kw">head</span>(predictg)</span></code></pre></div>
+<pre><code>##        1        2        3        4        5        6 
+## 70.51812 45.79862 51.65206 62.45556 45.27079 38.01784</code></pre>
+<p>This returns a vector with for, each case in the data, the predicted value <span class="math inline">\(\hat{Y}_{M,i}\)</span>. You can use these variables to create e.g. a histogram of the errors:</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="regression.html#cb144-1"></a><span class="kw">hist</span>(errorg)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-78-1.svg" width="672" style="display: block; margin: auto;" />
+and a predicted by residual plot</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="regression.html#cb145-1"></a><span class="co"># scatterplot of predicted vs residual</span></span>
+<span id="cb145-2"><a href="regression.html#cb145-2"></a><span class="kw">plot</span>(predictg, errorg, <span class="dt">xlab =</span> <span class="st">&quot;predicted&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;residual&quot;</span>)</span>
+<span id="cb145-3"><a href="regression.html#cb145-3"></a><span class="co"># add a horizontal line (h=0 is for horizontal at 0, </span></span>
+<span id="cb145-4"><a href="regression.html#cb145-4"></a><span class="co"># and lty = 3 makes it a dotted line </span></span>
+<span id="cb145-5"><a href="regression.html#cb145-5"></a><span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>,<span class="dt">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-79-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>You can also call the plot function directly on the fitted model, which produces a range of plots to assess the model assumptions:</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="regression.html#cb146-1"></a><span class="kw">plot</span>(modg)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-80-1.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-80-2.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-80-3.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-80-4.svg" width="672" style="display: block; margin: auto;" /></p>
+<!-- 
+## Computing the estimated parameters with matrix algebra
+
+As indicated in the lecture, computing the estimates of the intercept and slopes of a multiple regression model is not as straightforward as it is for a simple (bivariate) regression. But using matrix algebra, 
+
+$$\mathbf{b} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$$
+-->
+
+</div>
+</div>
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="the-one-sample-t-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"source": null,
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
