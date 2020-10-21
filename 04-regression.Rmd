@@ -60,7 +60,6 @@ Comparing regression models and computing the $F$ statistic can be done through 
 ```{r}
 # fit a MODEL R with only an intercept
 modr <- lm(percent_Trump_votes ~ 1, data=dat)
-anova(modr,modg)
 ```
 
 We can then compute the $F$ test by entering this MODEL R, and the MODEL G we estimated earlier, as arguments in the `anova` function:
@@ -106,11 +105,16 @@ the output of the summary function contains the same elements as before, but the
 
 We can also get all the model comparisons for this MODEL G through:
 ```{r}
-library(car)
 Anova(modg, type=3)
 ```
 
-Finally, we can also obtain a "whol 
+Finally, we can also obtain a "whole model test", by comparing an intercept-only MODEL R to the full MODEL G. This is best done through the `anova` function as follows:
+```{r}
+modr <- lm(percent_Trump_votes ~ 1, data=dat)
+modg <- lm(percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, data=dat)
+anova(modr,modg)
+```
+
 
 ## Residuals and predicted values
 
@@ -145,6 +149,20 @@ You can also call the plot function directly on the fitted model, which produces
 
 ```{r}
 plot(modg)
+```
+
+## Plotting pairwise scatterplots for many variables
+
+A final tip relates to exploring relations between many variables (e.g. potential predictors and dependent variables). While you can inspect pairwise relations between variables by creating a scatterplot for each pair of variables, this quickly becomes tedious. You can save yourself some work by using a function that produces a matrix of pairwise scatterplots directly. One option for this is to use the `pairs` function, and supply this with a selection of variables in a data.frame. For instance, in the data set we considered now,  we might be interested in the relations between `hate_groups_per_million`, `percent_bachelors_degree_or_higher`, `percent_in_poverty`, and `percent_Trump_votes`. We can obtain a matrix of all pairwise scatterplots between these variables as follows (note that rather than typing the variable names, I'm selecting column 4 to 7, which correspond to these variables):
+```{r}
+pairs(dat[,4:7])
+```
+
+If you don't like the look of these base R graphics and prefer `ggplot2`, you can use the `ggpairs` function from the `GGally` package to get a similar plot:
+
+```{r}
+library(GGally)
+ggpairs(dat[,4:7])
 ```
 
 <!-- 

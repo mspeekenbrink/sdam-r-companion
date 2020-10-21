@@ -38,3 +38,4 @@ estimating-an-testing-a-simple-regression-model
 model-comparisons
 estimating-and-testing-a-multiple-regression-model
 residuals-and-predicted-values
+plotting-pairwise-scatterplots-for-many-variables
