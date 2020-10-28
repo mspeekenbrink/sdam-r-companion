@@ -39,3 +39,13 @@ model-comparisons
 estimating-and-testing-a-multiple-regression-model
 residuals-and-predicted-values
 plotting-pairwise-scatterplots-for-many-variables
+moderation-and-mediation
+moderation-in-linear-models
+centering
+mediation-analysis
+installing-rtools-windows-only
+indexing-variables
+computing-the-estimated-parameters-with-matrix-algebra
+a-bit-about-namespaces
+causal-steps
+investigating-the-moderated-indirect-effect-with-a-bootstrap-test

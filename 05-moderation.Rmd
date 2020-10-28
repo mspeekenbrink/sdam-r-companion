@@ -64,8 +64,8 @@ Then next time I call that function, I will get as a result
 ```{r}
 head(speeddate)
 ```
-and __not__
-```{r}
+and __not__ the result from
+```{r, eval=FALSE}
 utils::head(speeddate)
 ```
 
@@ -106,7 +106,7 @@ data("legacy2015")
 head(legacy2015)
 ```
 
-Oops! We had overwritten ("masked") the `head` function before. We can get rid of our new definition of the `head` function by removining it from the global namespace with the `rm()` function (the name refers to _r_e_m_ove):
+Oops! We had overwritten ("masked") the `head` function before. We can get rid of our new definition of the `head` function by removining it from the global namespace with the `rm()` function (the name refers to _remove_):
 ```{r}
 rm("head")
 ```
@@ -132,4 +132,29 @@ So let's focus on the `mediation` package for now. If you haven't done so alread
 ```{r, eval=FALSE}
 install.packages("mediation")
 ```
-If you check the documentation of `mediate` in this package (i.e type `?mediation::mediate`), you will see there are lots of arguments to specify. We will only focus one the ones important for present putrposes:
+If you check the documentation of `mediate` in this package (i.e type `?mediation::mediate`), you will see there are lots of arguments to specify. We will only focus one the ones important for present purposes:
+
+* `model.m`: the name of the R object which contains the linear model predicting the mediator from the predictor, e.g. `mod2` above 
+* `model.y`: the name of the R object which contains the linear model predicting the dependent variable from both the mediator and predictor, e.g. `mod3` above 
+* `sims`: the number of simulations to use for the bootstrap test
+* `boot`: (logical) whether to use a bootstrap test. You should set this to `TRUE`
+* `boot.ci.type`: the type of bootstrap confidence interval to be computed. This can either be `perc`, which stands for _percentile_, and is a simple way where the empirical 2.5th and 97.5th percentiles are calculated from the ordered outcomes. This is the option chosen by default. The other option is `bca` which stands for _bias-corrected and accelerated_. This includes a correction of the percentile method to try and reduce bias. It is generally recommended to use this option in mediation analysis. Hence, you should set `boot.ci.type = "bca"`
+* `treat`: the name of the predictor in the linear models specified under `model.m` and `model.y`. This is would be e.g. `legacy` in the models above 
+* `mediator`: the name of the mediator in the linear models specified under `model.m` and `model.y`. This is would be e.g. `intention` in the models above 
+
+To run a bootstrap mediation test with 2000 simulations, we can run the following command:
+```{r, cache = TRUE}
+set.seed(20201027)
+med <- mediation::mediate(model.m = mod2, model.y = mod3, sims = 2000, boot = TRUE, boot.ci.type = "bca", treat = "legacy", mediator = "intention")
+summary(med)
+```
+Note that rather than loading the `mediation` package with e.g. `library(mediation)` I'm calling the `mediate` function through `mediation::mediate`. Loading the `mediation` package results in loading quite a few other R packages, which are not all necessary to perform a mediation analysis with linear models. Calling the mediate function directly through the appropriate namespace avoids loading these other add-on packages (which then will mask some functions that I don't want masked).
+
+The output from calling the `summary` function on the results of the bootstrap procedure (the R object I named `med`) has four rows:
+
+* `ACME`: this is the _average causal mediation effect_, i.e. the average of $\hat{a} \times \hat{b}$ in the simulations. The value under `estimate` is the average, and you will also see the lower and upper bound of the 95% confidence interval under `95% CI Lower` and `95% CI Upper` respectively. Finally, the `p-value` is the probability of the found `ACME` or more extreme given that in reality, the `ACME` equals 0. I.e., this is the p-value of the hypothesis test that the true mediated effect equals 0.
+* `ADE`: this is the _average direct effect_, and reflects the effect of the predictor which is not mediated. It is the average of $\hat{c}'$ in the simulations.  
+* `Total Effect` is the total effect of the predictor on the dependent variable, which is the sum of the `ACME` and `ADE`.
+* `Prop. Mediated` is the proportion of the effect of the predictor on the dependent variable which is mediated. This is `ACME` divided by `Total Effect`. 
+
+The results under `ACME` show that the bootstrap confidence interval of the mediated effect does not include 0. The p-value for this effect is also smaller than $\alpha = .05$. As such, the null hypothesis that $a \times b = 0$ is rejected, and we have found evidence that the effect of `legacy` on `donation` is mediated by `intention`. Because the confidence interval of the `ADE` also does not include 0, this analysis indicates that the mediation is partial. There is also a significant direct effect of `legacy` on `donation`.  About 33.4% of the effect of `legacy` on `donation` is mediated by `intention`, so the residual direct effect is quite substantial.

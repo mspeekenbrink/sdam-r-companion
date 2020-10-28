@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Moderation and mediation | An R companion to Statistics: data analysis and modelling</title>
+  <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Moderation and mediation | An R companion to Statistics: data analysis and modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="github-repo" content="mspeekenbrink/sdam-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Moderation and mediation | An R companion to Statistics: data analysis and modelling" />
+  
+  <meta name="twitter:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  
+
+<meta name="author" content="Maarten Speekenbrink" />
+
+
+<meta name="date" content="2020-10-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="regression.html"/>
+
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="book_assets/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="book_assets/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="book_assets/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
+<li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+<li class="chapter" data-level="2.2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#working-out-the-theoretical-distribution-of-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.3</b> Working out the theoretical distribution of the likelihood ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a><ul>
+<li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
+<li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
+<li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
+<li class="chapter" data-level="4.4" data-path="regression.html"><a href="regression.html#residuals-and-predicted-values"><i class="fa fa-check"></i><b>4.4</b> Residuals and predicted values</a></li>
+<li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
+<li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#computing-the-estimated-parameters-with-matrix-algebra"><i class="fa fa-check"></i><b>4.6</b> Computing the estimated parameters with matrix algebra</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a><ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-bit-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A bit about namespaces</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
+<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R companion to Statistics: data analysis and modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="moderation-and-mediation" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Moderation and mediation</h1>
+<div id="moderation-in-linear-models" class="section level2">
+<h2><span class="header-section-number">5.1</span> Moderation in linear models</h2>
+<p>Including an interaction in a linear model in R is straightforward. If you have two predictors, <code>x1</code> and <code>x2</code>, and want to include both the “simple slopes” as well as the slope for the “product predictor” (i.e. <code>x1</code> <span class="math inline">\(\times\)</span> <code>x2</code>), then the model with <code>y</code> as dependent variable can be specified in formula form as</p>
+<p><code>y ~ x1 * x2</code></p>
+<p>which evaluates to</p>
+<p><code>y ~ 1 + x1 + x2 + x1:x2</code></p>
+<p>As discussed previously, <code>1</code> represents the intercept, which is automatically included in a model specification, unless you remove it explicitly by adding <code>-1</code> to the formula. <code>x1</code> represents the “simple effect” of <code>x1</code>, <code>x2</code> the corresponding “simple effect” of <code>x2</code>, whilst <code>x1:x2</code> represents the <em>product-predictor</em> for the interaction between <code>x1</code> and <code>x2</code> (perhaps a little confusing for those of you who know <code>:</code> as a division operator). Because you would generally want to include the simple effects for the predictors as well as the interaction, the authors of R have chosen to save you typing in the full model by expanding <code>x1 * x2</code> in this way. This can be used to specify more complicated models, with three-way interactions. For instance,</p>
+<p><code>y ~ x1 * x2 * x3</code></p>
+<p>evaluates to</p>
+<p><code>y ~ 1 + x1 + x2 + x3 + x1:x2 + x1:x3 + x2:x3 + x1:x2:x3</code></p>
+<p>which is a model with all “simple effects”, all pairwise product-predictors, as well as a three-way product predictor which is <code>x1</code> <span class="math inline">\(\times\)</span> <code>x2</code> <span class="math inline">\(\times\)</span> <code>x3</code>. We won’t discuss such higher-order interactions until later, but it is good to be aware of this in advance.</p>
+<p>As a linear model with a product-predictors is just another linear model, that is really all there is to say about specifying linear models with interactions/moderation in R. Through the formula interface, R will create the necessary additional product predictor(s), and then estimate the parameters of the resulting linear model.</p>
+<p>Let’s have a look at how this works with the <code>speeddate</code> data which was also analysed in the SDAM book. The data is included in the <code>sdamr</code> package, and can be loaded and (partially) inspected as usual:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="moderation-and-mediation.html#cb1-1"></a><span class="kw">library</span>(sdamr)</span>
+<span id="cb1-2"><a href="moderation-and-mediation.html#cb1-2"></a><span class="kw">data</span>(<span class="st">&quot;speeddate&quot;</span>)</span>
+<span id="cb1-3"><a href="moderation-and-mediation.html#cb1-3"></a><span class="kw">head</span>(speeddate)</span></code></pre></div>
+<pre><code>##   iid pid gender age date_like other_like date_want other_want match self_attr
+## 1 132 137 female  27         8          7         0          1     0         8
+## 2 132 138 female  27         8          8         0          1     0         8
+## 3 132 139 female  27         5          8         0          1     0         8
+## 4 132 140 female  27         9          7         1          1     1         8
+## 5 132 141 female  27         7          7         0          1     0         8
+## 6 133 137 female  24         7          7         0          0     0         6
+##   self_sinc self_intel self_fun self_amb other_attr other_sinc other_intel
+## 1        10          9       10       10          8          8           9
+## 2        10          9       10       10          8          7           4
+## 3        10          9       10       10          8         NA           8
+## 4        10          9       10       10          7          7           7
+## 5        10          9       10       10          8          7           7
+## 6         8          8        7        7          6         10          10
+##   other_fun other_amb other_shar date_attr date_sinc date_intel date_fun
+## 1         8         9          7         7         9          7        9
+## 2         6         6          4         8         8          8        8
+## 3         8         7         NA         5         7          9        5
+## 4         7         7          7         8         9          9        9
+## 5         7         7          8         5         8          8        8
+## 6         6         7          5         7         7          7        8
+##   date_amb date_shar self_imp_attr self_imp_sinc self_imp_intel self_imp_fun
+## 1        6         9         16.67         16.67          16.67        16.67
+## 2        8         8         16.67         16.67          16.67        16.67
+## 3        9         5         16.67         16.67          16.67        16.67
+## 4        9         8         16.67         16.67          16.67        16.67
+## 5        7         7         16.67         16.67          16.67        16.67
+## 6        6         8         12.77         19.15          17.02        17.02
+##   self_imp_amb self_imp_shar other_imp_attr other_imp_sinc other_imp_intel
+## 1        16.67         16.67          17.39          17.39           15.22
+## 2        16.67         16.67          20.00          20.00           20.00
+## 3        16.67         16.67          18.75          16.67           18.75
+## 4        16.67         16.67          18.60          16.28           18.60
+## 5        16.67         16.67          20.83          20.83           16.67
+## 6        14.89         19.15          17.39          17.39           15.22
+##   other_imp_fun other_imp_amb other_imp_shar
+## 1         17.39         13.04          19.57
+## 2         20.00          6.67          13.33
+## 3         20.83         12.50          12.50
+## 4         18.60         11.63          16.28
+## 5         16.67          6.25          18.75
+## 6         17.39         13.04          19.57</code></pre>
+<p>There are rather a large number of variables in the dataset. You can obtain more information about each variable in the documentation of the dataset, by calling <code>?speeddate</code>. In my humble opinion, the (generally quite) good documentation of R packages is a real benefit of R over some other systems, and I <strong>strongly recommend</strong> you to check out and read the documentation of functions and datasets before you use them. Functions in R are generally quite flexible and it is infeasible to discuss all the nuances and possibilities in introductory notes like these. In the book, we mainly focused on the variables starting with <code>other_</code>, which are the perceptions of the participant by their dating partner. For example, the model
+<span class="math display">\[\begin{align}
+\texttt{like}_i =&amp; \beta_0 + \beta_{\texttt{attr}} \times \texttt{attr}_i + \beta_{\texttt{intel}} \times \texttt{intel}_i + \beta_{\texttt{fun}} \times \texttt{fun}_i \\
+&amp;+ \beta_{\texttt{attr} \times \texttt{intel}} \times (\texttt{attr} \times \texttt{intel})_i + \beta_{\texttt{fun} \times \texttt{intel}} \times (\texttt{fun} \times \texttt{intel})_i + \epsilon_i
+\end{align}\]</span>
+referred to in the SDAM book can be estimated by calling:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="moderation-and-mediation.html#cb3-1"></a>modg &lt;-<span class="st"> </span><span class="kw">lm</span>(other_like <span class="op">~</span><span class="st"> </span>other_attr<span class="op">*</span>other_intel <span class="op">+</span><span class="st"> </span>other_fun<span class="op">*</span>other_intel, <span class="dt">data=</span>speeddate)</span></code></pre></div>
+<p>Hypothesis tests with the <span class="math inline">\(t\)</span> statistic are obtained as usual though</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="moderation-and-mediation.html#cb4-1"></a><span class="kw">summary</span>(modg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = other_like ~ other_attr * other_intel + other_fun * 
+##     other_intel, data = speeddate)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.2380 -0.6632  0.0239  0.6583  4.6484 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            -0.91118    0.44269  -2.058 0.039740 *  
+## other_attr              0.67123    0.09027   7.436 1.76e-13 ***
+## other_intel             0.32393    0.05994   5.405 7.57e-08 ***
+## other_fun               0.14331    0.08734   1.641 0.101045    
+## other_attr:other_intel -0.04333    0.01171  -3.700 0.000224 ***
+## other_intel:other_fun   0.03186    0.01139   2.798 0.005209 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.133 on 1472 degrees of freedom
+##   (84 observations deleted due to missingness)
+## Multiple R-squared:  0.6227, Adjusted R-squared:  0.6214 
+## F-statistic: 485.8 on 5 and 1472 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The equivalent tests with the <span class="math inline">\(F\)</span> statistic are easily obtained through</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="moderation-and-mediation.html#cb6-1"></a>car<span class="op">::</span><span class="kw">Anova</span>(modg,<span class="dt">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: other_like
+##                         Sum Sq   Df F value    Pr(&gt;F)    
+## (Intercept)               5.43    1  4.2365 0.0397398 *  
+## other_attr               70.93    1 55.2931 1.755e-13 ***
+## other_intel              37.47    1 29.2094 7.568e-08 ***
+## other_fun                 3.45    1  2.6923 0.1010448    
+## other_attr:other_intel   17.56    1 13.6898 0.0002236 ***
+## other_intel:other_fun    10.04    1  7.8287 0.0052093 ** 
+## Residuals              1888.24 1472                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div id="a-bit-about-namespaces" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> A bit about namespaces</h3>
+<p>In the code above, I’m using <code>car::</code> to refer to a function in the <code>car</code> package. Technically, a statement like <code>package_name::</code> denotes the <strong>namespace</strong> of the package with the name <code>package_name</code> (i.e., <code>car</code> in this case). This allows you to use functions from a package without loading the package completely (without loading all the functions of the package in memory). This can be (and often is!) better than first loading the package through e.g. <code>library(car)</code> and then calling <code>Anova</code>. The issue is that different packages can use the same name for a function, and when you call a function, it will be the one of the package that was last loaded. When packages use the same name for functions, the function with the same name from a package that was loaded earlier will be “masked” and R will print this as a warning in the R console. For example, if you load the <code>dplyr</code> package (a rather useful package for data manipulation, that is a little too much to discuss here in detail), you will see the following warnings:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="moderation-and-mediation.html#cb8-1"></a><span class="kw">library</span>(dplyr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<p>The line <code>The following objects are masked from 'package:stats'</code> indicates that the functions <code>filter</code> and <code>lag</code> are "masked from the <code>stats</code> package. Whenever you call these functions, they will be the corresponding functions from the <code>dplyr</code> package, and <em>not</em> those from the <code>stats</code> package. This does not break the functionality of the packages themselves, as a properly written package that needs the <code>filter</code> function from the <code>stats</code> package will still use the function from that namespace (package), and not the one from the <code>dplyr</code> one. But when <em>you</em> call the a function, R will try find the definition of that function in the <em>global</em> namespace, and the global namespace contains the version of the last provided definition of any R object. Just like you can overwrite an R object by giving it the same name as an already existing r object (as I often do deliberately through e.g. <code>mod &lt;- lm()</code>), a function in R is just another object. So if I specify a function like</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="moderation-and-mediation.html#cb12-1"></a>head &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>) {</span>
+<span id="cb12-2"><a href="moderation-and-mediation.html#cb12-2"></a>  <span class="kw">return</span>(<span class="st">&quot;Where&#39;s your head? It&#39;s almost Halloween!&quot;</span>)</span>
+<span id="cb12-3"><a href="moderation-and-mediation.html#cb12-3"></a>}</span></code></pre></div>
+<p>Then next time I call that function, I will get as a result</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="moderation-and-mediation.html#cb13-1"></a><span class="kw">head</span>(speeddate)</span></code></pre></div>
+<pre><code>## [1] &quot;Where&#39;s your head? It&#39;s almost Halloween!&quot;</code></pre>
+<p>and <strong>not</strong> the result from</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="moderation-and-mediation.html#cb15-1"></a>utils<span class="op">::</span><span class="kw">head</span>(speeddate)</span></code></pre></div>
+</div>
+</div>
+<div id="centering" class="section level2">
+<h2><span class="header-section-number">5.2</span> Centering</h2>
+<p>As discussed in the SDAM book, sometimes you might want to center variables by subtracting their (sample) mean from each value. This can be done in a number of ways. You can either create new variables in a dataframe by subtracting the single value obtained through <code>mean()</code> from a vector, as in</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="moderation-and-mediation.html#cb16-1"></a>speeddate<span class="op">$</span>other_like_c &lt;-<span class="st"> </span>speeddate<span class="op">$</span>other_like <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(speeddate<span class="op">$</span>other_like, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>and then using the new variable <code>other_like_c</code> in your <code>lm</code> model. Alternatively, you can do by calling the <code>scale</code> function. By default, the <code>scale</code> function creates <span class="math inline">\(Z\)</span> transformed variables by subtracting the mean and then dividing this mean-deviation by the standard deviation:
+<span class="math display">\[\text{scale}(Y_i) = \frac{Y_i - \overline{Y}}{S_Y}\]</span>
+The <code>scale</code> function has three arguments:</p>
+<ul>
+<li><code>x</code>: the variable (or matrix of variables) which you want to scale</li>
+<li><code>center</code>: a logical value indicating whether you want to subtract the mean</li>
+<li><code>scale</code>: a logical value indicating whether you want to divide by the standard deviation</li>
+</ul>
+<p>Centering (subtracting the mean, but not dividing by the standard deviation) is thus obtained by calling <code>scale(x, scale=FALSE)</code>. Personally, I find calling a function <code>scale</code> with argument <code>scale = FALSE</code> a little confusing. The <code>sdamr</code> package therefore provides the function <code>center</code> which is basically just a version of <code>scale</code> which by default sets the argument <code>scale = FALSE</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="moderation-and-mediation.html#cb17-1"></a>center &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb17-2"><a href="moderation-and-mediation.html#cb17-2"></a>  <span class="kw">scale</span>(x, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb17-3"><a href="moderation-and-mediation.html#cb17-3"></a>}</span></code></pre></div>
+<p>Because R is a functional programming language, you can call the <code>scale</code> or <code>center</code> function directly within the call to the <code>lm</code> function. This saves you having to create centered variables in a dataframe first. For instance, if you have loaded the <code>sdamr</code> package (or if you ran the code above defining the <code>center</code> function), you can obtain the results of the model with centered predictors by calling</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="moderation-and-mediation.html#cb18-1"></a>modg_c &lt;-<span class="st"> </span><span class="kw">lm</span>(other_like <span class="op">~</span><span class="st"> </span><span class="kw">center</span>(other_attr)<span class="op">*</span><span class="kw">center</span>(other_intel) <span class="op">+</span><span class="st"> </span><span class="kw">center</span>(other_fun)<span class="op">*</span><span class="kw">center</span>(other_intel), <span class="dt">data=</span>speeddate)</span>
+<span id="cb18-2"><a href="moderation-and-mediation.html#cb18-2"></a><span class="kw">summary</span>(modg_c)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = other_like ~ center(other_attr) * center(other_intel) + 
+##     center(other_fun) * center(other_intel), data = speeddate)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.2380 -0.6632  0.0239  0.6583  4.6484 
+## 
+## Coefficients:
+##                                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                             6.19613    0.03151 196.609  &lt; 2e-16 ***
+## center(other_attr)                      0.34539    0.01922  17.967  &lt; 2e-16 ***
+## center(other_intel)                     0.25791    0.02351  10.970  &lt; 2e-16 ***
+## center(other_fun)                       0.38292    0.02094  18.287  &lt; 2e-16 ***
+## center(other_attr):center(other_intel) -0.04333    0.01171  -3.700 0.000224 ***
+## center(other_intel):center(other_fun)   0.03186    0.01139   2.798 0.005209 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.133 on 1472 degrees of freedom
+##   (84 observations deleted due to missingness)
+## Multiple R-squared:  0.6227, Adjusted R-squared:  0.6214 
+## F-statistic: 485.8 on 5 and 1472 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="mediation-analysis" class="section level2">
+<h2><span class="header-section-number">5.3</span> Mediation analysis</h2>
+<p>In the SDAM book, we looked at mediation with a different dataset called <code>legacy2015</code>. This is also part of the <code>sdamr</code> package, and we can make it available and look at the initial cases as usual:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="moderation-and-mediation.html#cb20-1"></a><span class="kw">data</span>(<span class="st">&quot;legacy2015&quot;</span>)</span>
+<span id="cb20-2"><a href="moderation-and-mediation.html#cb20-2"></a><span class="kw">head</span>(legacy2015)</span></code></pre></div>
+<pre><code>## [1] &quot;Where&#39;s your head? It&#39;s almost Halloween!&quot;</code></pre>
+<p>Oops! We had overwritten (“masked”) the <code>head</code> function before. We can get rid of our new definition of the <code>head</code> function by removining it from the global namespace with the <code>rm()</code> function (the name refers to <em>remove</em>):</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="moderation-and-mediation.html#cb22-1"></a><span class="kw">rm</span>(<span class="st">&quot;head&quot;</span>)</span></code></pre></div>
+<p>After this, we can try again:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="moderation-and-mediation.html#cb23-1"></a><span class="kw">head</span>(legacy2015)</span></code></pre></div>
+<pre><code>##   id    sex age legacy belief intention education income donation
+## 2  2   male  23   4.38    5.4      3.57         5      5        0
+## 3  3 female  59   4.75    5.2      2.43         5      6        0
+## 4  4   male  30   5.00    5.2      2.43         5      3        1
+## 5  5 female  25   2.88    5.0      2.00         4      3        0
+## 6  6 female  32   4.88    4.4      2.57         2      1        0
+## 7  7   male  38   5.12    4.6      3.71         3      2        7</code></pre>
+<div id="causal-steps" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Causal steps</h3>
+<p>The causal steps approach to assessing mediation is done through testing significance in three regression models. This can be done straightforwardly with the <code>lm()</code> function which we have used quite a bit already. For instance, to assess whether the relation between <code>legacy</code> and <code>donation</code> is mediated by <code>intention</code>, we would estimate and test the parameters of the following models:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="moderation-and-mediation.html#cb25-1"></a>mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(donation <span class="op">~</span><span class="st"> </span>legacy, <span class="dt">data =</span> legacy2015)</span>
+<span id="cb25-2"><a href="moderation-and-mediation.html#cb25-2"></a>mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(intention <span class="op">~</span><span class="st"> </span>legacy, <span class="dt">data =</span> legacy2015)</span>
+<span id="cb25-3"><a href="moderation-and-mediation.html#cb25-3"></a>mod3 &lt;-<span class="st"> </span><span class="kw">lm</span>(donation <span class="op">~</span><span class="st"> </span>intention <span class="op">+</span><span class="st"> </span>legacy, <span class="dt">data =</span> legacy2015)</span></code></pre></div>
+</div>
+<div id="investigating-the-moderated-indirect-effect-with-a-bootstrap-test" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> Investigating the moderated (indirect) effect with a bootstrap test</h3>
+<p>There are quite a few packages in R which will allow you to test the moderated effect of a predictor on the dependent variable “via” the mediator. I have chosen here for the <code>mediate</code> function from the <code>mediation</code> package, as it is a versatile option, and doesn’t require too much additional explanation. Another very good option to conduct mediation analysis is to specify the mediation model through a generalization of linear models generally called <em>Structural Equation Models</em>. These are multivariate models and not something we will cover in this course. For present purposes, this can be seen as a way to link different regression models (i.e. the dependent variable of one regression model becomes a predictor in another regression model) into what are conventionally called <em>path models</em>. The current “go-to” and most comprehensive SEM package in R is called <code>lavaan</code> and if you ever need to use this kind of analysis, that is my recommendation at the moment.</p>
+<p>So let’s focus on the <code>mediation</code> package for now. If you haven’t done so already, you will need to install it with</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="moderation-and-mediation.html#cb26-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;mediation&quot;</span>)</span></code></pre></div>
+<p>If you check the documentation of <code>mediate</code> in this package (i.e type <code>?mediation::mediate</code>), you will see there are lots of arguments to specify. We will only focus one the ones important for present purposes:</p>
+<ul>
+<li><code>model.m</code>: the name of the R object which contains the linear model predicting the mediator from the predictor, e.g. <code>mod2</code> above</li>
+<li><code>model.y</code>: the name of the R object which contains the linear model predicting the dependent variable from both the mediator and predictor, e.g. <code>mod3</code> above</li>
+<li><code>sims</code>: the number of simulations to use for the bootstrap test</li>
+<li><code>boot</code>: (logical) whether to use a bootstrap test. You should set this to <code>TRUE</code></li>
+<li><code>boot.ci.type</code>: the type of bootstrap confidence interval to be computed. This can either be <code>perc</code>, which stands for <em>percentile</em>, and is a simple way where the empirical 2.5th and 97.5th percentiles are calculated from the ordered outcomes. This is the option chosen by default. The other option is <code>bca</code> which stands for <em>bias-corrected and accelerated</em>. This includes a correction of the percentile method to try and reduce bias. It is generally recommended to use this option in mediation analysis. Hence, you should set <code>boot.ci.type = "bca"</code></li>
+<li><code>treat</code>: the name of the predictor in the linear models specified under <code>model.m</code> and <code>model.y</code>. This is would be e.g. <code>legacy</code> in the models above</li>
+<li><code>mediator</code>: the name of the mediator in the linear models specified under <code>model.m</code> and <code>model.y</code>. This is would be e.g. <code>intention</code> in the models above</li>
+</ul>
+<p>To run a bootstrap mediation test with 2000 simulations, we can run the following command:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="moderation-and-mediation.html#cb27-1"></a><span class="kw">set.seed</span>(<span class="dv">20201027</span>)</span>
+<span id="cb27-2"><a href="moderation-and-mediation.html#cb27-2"></a>med &lt;-<span class="st"> </span>mediation<span class="op">::</span><span class="kw">mediate</span>(<span class="dt">model.m =</span> mod2, <span class="dt">model.y =</span> mod3, <span class="dt">sims =</span> <span class="dv">2000</span>, <span class="dt">boot =</span> <span class="ot">TRUE</span>, <span class="dt">boot.ci.type =</span> <span class="st">&quot;bca&quot;</span>, <span class="dt">treat =</span> <span class="st">&quot;legacy&quot;</span>, <span class="dt">mediator =</span> <span class="st">&quot;intention&quot;</span>)</span></code></pre></div>
+<pre><code>## Running nonparametric bootstrap</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="moderation-and-mediation.html#cb29-1"></a><span class="kw">summary</span>(med)</span></code></pre></div>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Nonparametric Bootstrap Confidence Intervals with the BCa Method
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME              0.245        0.104         0.45  &lt;2e-16 ***
+## ADE               0.488        0.186         0.82  &lt;2e-16 ***
+## Total Effect      0.733        0.425         1.07  &lt;2e-16 ***
+## Prop. Mediated    0.334        0.155         0.67  &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 237 
+## 
+## 
+## Simulations: 2000</code></pre>
+<p>Note that rather than loading the <code>mediation</code> package with e.g. <code>library(mediation)</code> I’m calling the <code>mediate</code> function through <code>mediation::mediate</code>. Loading the <code>mediation</code> package results in loading quite a few other R packages, which are not all necessary to perform a mediation analysis with linear models. Calling the mediate function directly through the appropriate namespace avoids loading these other add-on packages (which then will mask some functions that I don’t want masked).</p>
+<p>The output from calling the <code>summary</code> function on the results of the bootstrap procedure (the R object I named <code>med</code>) has four rows:</p>
+<ul>
+<li><code>ACME</code>: this is the <em>average causal mediation effect</em>, i.e. the average of <span class="math inline">\(\hat{a} \times \hat{b}\)</span> in the simulations. The value under <code>estimate</code> is the average, and you will also see the lower and upper bound of the 95% confidence interval under <code>95% CI Lower</code> and <code>95% CI Upper</code> respectively. Finally, the <code>p-value</code> is the probability of the found <code>ACME</code> or more extreme given that in reality, the <code>ACME</code> equals 0. I.e., this is the p-value of the hypothesis test that the true mediated effect equals 0.</li>
+<li><code>ADE</code>: this is the <em>average direct effect</em>, and reflects the effect of the predictor which is not mediated. It is the average of <span class="math inline">\(\hat{c}&#39;\)</span> in the simulations.<br />
+</li>
+<li><code>Total Effect</code> is the total effect of the predictor on the dependent variable, which is the sum of the <code>ACME</code> and <code>ADE</code>.</li>
+<li><code>Prop. Mediated</code> is the proportion of the effect of the predictor on the dependent variable which is mediated. This is <code>ACME</code> divided by <code>Total Effect</code>.</li>
+</ul>
+<p>The results under <code>ACME</code> show that the bootstrap confidence interval of the mediated effect does not include 0. The p-value for this effect is also smaller than <span class="math inline">\(\alpha = .05\)</span>. As such, the null hypothesis that <span class="math inline">\(a \times b = 0\)</span> is rejected, and we have found evidence that the effect of <code>legacy</code> on <code>donation</code> is mediated by <code>intention</code>. Because the confidence interval of the <code>ADE</code> also does not include 0, this analysis indicates that the mediation is partial. There is also a significant direct effect of <code>legacy</code> on <code>donation</code>. About 33.4% of the effect of <code>legacy</code> on <code>donation</code> is mediated by <code>intention</code>, so the residual direct effect is quite substantial.</p>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"source": null,
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
