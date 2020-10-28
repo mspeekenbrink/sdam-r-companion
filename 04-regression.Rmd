@@ -115,7 +115,6 @@ modg <- lm(percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_deg
 anova(modr,modg)
 ```
 
-
 ## Residuals and predicted values
 
 You can obtain the prediction errors by the calling the `residuals` function on the fitted model. 
@@ -160,9 +159,14 @@ pairs(dat[,4:7])
 
 If you don't like the look of these base R graphics and prefer `ggplot2`, you can use the `ggpairs` function from the `GGally` package to get a similar plot:
 
-```{r}
+```{r, eval=FALSE}
 library(GGally)
 ggpairs(dat[,4:7])
+```
+
+```{r, echo=FALSE}
+library(GGally)
+ggpairs(dat[,4:7], upper= list(continuous = wrap(ggally_cor, family="sans")))
 ```
 
 <!-- 
