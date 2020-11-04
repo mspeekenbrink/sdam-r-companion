@@ -1,0 +1,189 @@
+# Contrast coding and oneway ANOVA
+
+There are several ways in which you can include nominal independent variables in the General Linear Model within R. The first option is to compute the contrast-coding predictors "by hand" and then enter these as metric predictors in the `lm` function. The second way is to specify the nominal variable as a `factor` and assign an appropriate contrast to this using the `contrasts` function. R will then compute the contrast-coding predictors to the factor "automatically" when you enter the factor as a predictor in the `lm` formula. 
+
+Finally, you can also use the `aov` (Analysis Of Variance) function, or the `Anova` function. These functions are more focussed on omnibus tests rather than tests of the individual contrasts.
+
+We will discuss these options using the `tetris2015` data, which comes with the `sdamr` package. There are many variables in this dataset (for a description, see `?tetris2015`). The main variables used in the book are `Days_One_to_Seven_Number_of_Intrusions` (the number of memory intrusions after memory reactivation) and `Condition`. Let's open the data and visualize the number of intrusions for the different conditions.
+
+```{r}
+library(sdamr)
+data("tetris2015")
+## as the main DV has a cumbersome name, I'm creating a copy of the dataset 
+## with a new variable 'intrusions' which is a copy of Days_One_to_Seven_Number_of_Intrusions
+dat <- tetris2015
+dat$intrusions <- dat$Days_One_to_Seven_Number_of_Intrusions
+set.seed(20201104) # to replicate figure with random jitter
+plot_raincloud(dat, intrusions, groups = Condition)
+```
+
+## Computing contrast-coding predictors
+
+Let's first focus on data from a subset of the conditions, namely the Tetris+Reactivation and Reactivation-Only condition
+```{r}
+dat <- subset(dat, Condition %in% c("Tetris_Reactivation","Reactivation"))
+```
+Note the use of the `%in%` operator. The statement `Condition %in% c("Tetris_Ractivation","Reactivation")` returns TRUE whenever the value of `Condition` is equal to one of the values in the vector `c("Tetris_Ractivation","Reactivation")`. This is shorthand to the equivalent statement
+
+````{r, eval = FALSE}
+dat <- subset(dat, Condition == "Tetris_Reactivation" | Condition == "Reactivation")
+```
+
+If there are lots of "or" values, using `%in%` can be a lot more efficient (in terms of the code you have to type, at least).
+
+Say that we would like to use a dummy coded predictor, with the value of 0 for `Tetris_Reactivation`, and the value of 1 for `Reactivation` condition. One way to compute such a variable is as follows:
+
+```{r}
+dat$dummy <- 0
+dat$dummy[dat$Condition == "Reactivation"] <- 1
+```
+
+The variable `dummy` is first being created as a new column in `dat`, by appending the name of the new variable to the `data.frame` with the usual "\$" notation, and then assigning a value to it. On the second line, I then select a subset of the values of `dat$dummy` (all cases where `dat$Condition == "Reactivation"`) and assign the different value 1 to this subset. A quick check using the `table` function shows that we now indeed have a new variable with values 1 and 0:
+
+```{r}
+table(dat$dummy)
+```
+
+We can now use this `dummy` variable like any other (metric) predictor in a linear model.
+
+```{r}
+mod <- lm(intrusions ~ dummy, data=dat)
+summary(mod)
+```
+
+To compute other contrast-coding predictors, you can follow the same procedure. If a contrast-coding predictor only needs two values, then you can also use the `ifelse` function, which is a little less typing. The `ifelse` function has three arguments: a logical condition, the value to return when that condition is `TRUE`, and the value to return when that condition is `FALSE`. For instance, you can create a variable `effect`, with the value -.5 for `Tetris_Reactivation` and a value .5 for `Reactivation`, as
+```{r}
+dat$effect <- ifelse(dat$Condition == "Reactivation",.5,-.5)
+```
+Here, when `dat$Condition == "Reactivation"`, the condition is `TRUE`, and hence the value `.5` is returned, otherwise (when the condition is not true, so `Condition != "Reactivation"`), the value -.5 is returned. As before, we can enter this as a predictor in an linear model as usual:
+```{r}
+mod <- lm(intrusions ~ effect, data=dat)
+summary(mod)
+```
+
+The procedure is easily extended to multiple contrast-coding predictors. For an example, let's consider the full dataset with all four conditions.
+
+```{r}
+dat <- tetris2015
+dat$intrusions <- dat$Days_One_to_Seven_Number_of_Intrusions
+```
+
+Say that we want a set of orthogonal contrast codes
+```{r tetris-orthogonal-cotrast-codes, echo=FALSE}
+tab <- data.frame(c1 = c("$\\tfrac{3}{4}$","$-\\tfrac{1}{4}$","$-\\tfrac{1}{4}$","$-\\tfrac{1}{4}$"),
+                  c2 = c("0","$-\\tfrac{1}{3}$","$\\tfrac{2}{3}$","$-\\tfrac{1}{3}$"),
+                  c3 = c("0","$-\\tfrac{1}{2}$","0","$\\tfrac{1}{2}$"))
+colnames(tab) <- c("$c_1$","$c_2$","$c_3$")
+rownames(tab) <- c("`Control`","`Tetris_Reactivation`", "`Tetris`", "`Reactivation`")
+knitr::kable(tab, escape=FALSE,align=rep('r', 3), caption="A set of orthogonal contrast codes.")
+```
+The first contrast code has only two values, so we can use `ifelse`. The second and third have three possible values, and then we can't use that function. 
+```{r}
+# use ifelse
+dat$c1 <- ifelse(dat$Condition == "Control", 3/4, -1/4)
+# create c2 and c3 with default values and then use subsets for other values
+dat$c2 <- 0
+dat$c2[dat$Condition == "Tetris"] <- 2/3
+dat$c2[dat$Condition %in% c("Tetris_Reactivation","Reactivation")] <- -1/3
+# use sapply and switch
+dat$c3 <- sapply(as.character(dat$Condition), switch, 
+                 "Control" = 0,
+                 "Tetris_Reactivation" = -1/2,
+                 "Tetris" = 0,
+                 "Reactivation" = 1/2)
+```
+When creating `c3`, I used a little R wizardry. The function `sapply(X, FUN, ...)` can be used to apply a function `FUN` to each element of a vector or list `X`. The argument `X` is that vector or list. As `dat$Condition` is a `factor`, but I want to use it as a character vector here, I'm using `as.character` to convert the `factor` in a `character` vector. The second argument `FUN` is the function you want to apply to the elements of `X`. I'm using the `switch(EXPR, ...)` function here. The `sapply` function will take each element in `X` and assign that to `switch` as the `EXPR` argument. Then any arguments specified as `...` in the `sapply` function will be passed as additional arguments to the `FUN` function. In this case, what is specified under `...` in the `sapply` function will be passed on to the `...` argument of `switch`. For `switch`, the `...` argument should be a list of alternative values of `EXPR`, with a corresponding return value. For instance, if `EXPR == Control`, the `switch` function will return 0. Using a combination of `sapply` and e.g. `switch` makes R a very powerful data manipulation tool. But the ins-and-outs of such applications will require practice. Alternatively, the `dplyr` package (which is part of the so-called `tidyverse`) has powerful functionality for data manipulation and data wrangling, which, with practice, are more straightforward to use than functions such as `sapply` in base R. 
+
+A main reason for showing you `sapply` here is to show you the flexibility of R. There are many ways to obtain the same result. Which way you find most intuitive is a personal judgement. 
+
+Getting back to the reason why we created the new variables in the first place, we can now use them as new predictors in a linear model
+```{r}
+modg <- lm(intrusions ~ c1 + c2 + c3, data=dat)
+summary(modg)
+```
+We can also obtain the equivalent $F$ tests through the `Anova` function in the `car` package
+```{r}
+car::Anova(modg, type=3)
+```
+
+To obtain an omnibus test for Condition (i.e. a test that all these slopes in `modg` are equal to 0), we can create a suitable intercept-only MODEL R and perform a model comparison as follows:
+
+```{r}
+modr <- lm(intrusions ~ 1, data=dat)
+anova(modr, modg)
+```
+Note that the results of this model comparison were already provided in the output of `summary(modg)`. 
+
+## Assigning contrasts to factors
+
+Creating new variables in a dataset yourself gives you full control, but it can also be a bit cumbersome. Luckily, R has functionality build-in to assign contrasts to nominal variables. These nominal variables with associated contrast codes are `factor`s. In the `tetris2015` dataset, the `Condition` column is already a factor. In other datasets, a nominal variable might be a `character` vector. You would then first need to turn this into a factor by calling e.g.
+
+```{r}
+# This would be useful if dat$Condition is a character vector
+# it is not needed here!
+dat$Condition <- as.factor(dat$Condition)
+```
+
+Factors have contrast codes associated to them. In R, the default contrast code is dummy coding. You can view (and set) the contrasts via the `contrasts()` function. First, let's  have a look at what the contrast for `dat$Condition` looks like:
+```{r}
+contrasts(dat$Condition)
+```
+The contrast is a matrix with each column representing a contrast code, and each row a level of the nominal variable. Remember, when there are four levels, we need three contrast codes. The default dummy coding uses the first level as the reference group, and then each contrast code represents a comparison of a later level to the reference level. 
+
+You can choose your own contrast codes by assigning a matrix with contrast-code values to e.g. `contrasts(dat$Condition)`. For instance, we can use the orthogonal contrast code defined earlier. In the code below, I first create the contrast _matrix_ by combining columns with the `cbind()` function. You can give the columns names you find intuitive with the `colnames` function.
+```{r}
+codes <- cbind(c(3/4,-1/4,-1/4,-1/4),
+               c(0,  -1/3, 2/3,-1/3),
+               c(0,  -1/2, 0,   1/2))
+colnames(codes) <- c("ctrl-vs-other","tetr-vs-memory", "react-vs-t+r")
+contrasts(dat$Condition) <- codes
+```
+When we now call `contrasts` again, we can see are new contrast codes:
+```{r}
+contrasts(dat$Condition)
+```
+
+A nice thing about the `lm` function is that you can also supply factors as predictors directly. Internally, the `lm` function will then create the necessary contrast-coding predictors from the contrasts supplied to the factor. Let's try this:
+```{r}
+modg <- lm(intrusions ~ Condition, data=dat)
+summary(modg)
+```
+You can see that the output (apart from the names of the effects) is exactly the same as when we created `c1`, `c2`, and `c3`. So that's pretty neat!
+
+As I said, the `lm` function will create the contrast-coding predictors for factors. You can view the resulting "design matrix" (the matrix with values for all predictors actually used when estimating the parameters) with the `model.matrix` function (as the output is rather long, I'm calling this within the `head` function to only show the first few rows)
+```{r}
+head(model.matrix(modg))
+```
+As you can see, the design matrix also includes a column for the intercept. The value of this column is 1 for every case in the data. If you think about it, you can view the intercept as the slope of a predictor variable which always has the value 1:
+$$\beta_0 = \beta_0 \times 1$$
+
+### Default coding schemes
+
+In addition to assigning your own contrast codes, there are functions to create several "default" coding matrices. These are
+
+* `contr.treatment`: dummy coding.
+* `contr.sum`: effect-coding (sum-to-zero)
+* `contr.helmert`: orthogonal contrast codes comparing each level of a factor to all levels before it. 
+* `contr.poly`: orthogonal contrast codes, usually used for ordinal levels. 
+
+You can call each of these functions by specifying how many levels the factor has. E.g. for our `Condition` factor with four levels, the output of these functions is
+```{r}
+contr.treatment(4)
+contr.sum(4)
+contr.helmert(4)
+contr.poly(4)
+```
+
+When you look at the output of these functions, you might notice that the scale of each can be different. For instance, in the `contr.helmert` function, the difference between the highest and lowest value ranges from 2 to 4. In the book, I used values such that a one-unit increase on a contrast-coding predictor reflects a difference between conditions. This convention is not followed in the various `contr.` functions. If you want default contrast coding schemes which follow this convention, making the parameters of the model a little easier to interpret, you can use the various contrast coding schemes implemented in the `codingMatrices` package. this package also implements several other default coding schemes not implemented in the `stats` package. Instead of `contr.`, this package provides contrast codes through function names starting with `code_`. For example, you can obtain a Helmert contrast with a different scaling as follows:
+```{r}
+library(codingMatrices)
+code_helmert(4)
+```
+Another nice feature of the `codingMatrices` package is the `mean_contrasts()` function, which will show you how the intercept of the resulting model is related to the group means, and how the slope of each contrast-coding predictor is a function of the group means. For instance
+```{r}
+mean_contrasts(code_helmert(4))
+```
+shows you in the trow labelled `Ave` that the intercept is the sum of each group mean (in the columns) multiplied by $\tfrac{1}{4}$; i.e. it is the average of averages. The next row (labelled `H2`) shows you how the slope of the first contrast-coding predictor can be computed from the group means (as the difference between the second mean and the first mean). By contrast, the `contr.helmert()` function will provide the same intercept, but slopes that are fractions of these differences
+```{r}
+mean_contrasts(contr.helmert(4))
+```
