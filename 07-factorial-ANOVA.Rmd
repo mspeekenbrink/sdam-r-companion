@@ -1,0 +1,282 @@
+# Factorial ANOVA
+
+IN this chapter, we will look at factorial ANOVA, different ways of model comparisons (different SS types), and some ways to perform multiple comparisons and post-hoc tests. We will introduce these with the same data -- from a study investigating the role of experimenter belief in social priming -- used in Chapter 7 of SDAM. The dataset is available in the `sdamr` package as `expBelief`.  We can load it from there, and inspect the first six cases, as usual:
+```{r}
+library(sdamr)
+data("expBelief")
+head(expBelief)
+```
+
+## Rainclouds for factorial designs
+
+The experiment had a 2 (social prime: low-power bs high power prime) by 2 (experimenter belief: low-power vs high-power manipulation). The two experimental factors are called `primeCond` and `experimenterBelief` in the data frame. The dependent variable we looked at is called `ApproachAdvantage`. We can use the `plot_raincloud` function from `sdamr` for plotting the data. The function has an argument `groups` which allows you to plot separate rainclouds for different levels of a grouping variable. In this case, we need four rainclouds. Because there is no variable to reflect the combinations of the  levels of `primeCond` and `experimenterBelief`, we should create one first. The `interaction()` function is a useful function to create a new factor from the combinations of a set of given factors. As I'm going to make changes to the original dataset, I like to first create a new copy of the data fro this, so that I can later still use the original data set.
+```{r}
+# create a copy of expBelief and call it "dat"
+dat <- expBelief
+dat$condition <- interaction(dat$primeCond, dat$experimenterBelief)
+# show the levels of the newly created factor:
+levels(dat$condition)
+```
+You can see that the `condition` factor has four levels, which concatenate the levels of `primeCond` (which are `LPP` for low-power prime, and `HPP` for high-power prime) and `experimenterBelief` (which as `L` for when the experimenter is made to believe the participant received the low-power prime, and `H` for when the experimenter believed this was the high-power prime). We can now create a raincloud plot for the four conditions as follows:
+```{r, warning=FALSE}
+plot_raincloud(dat, ApproachAdvantage, groups=condition)
+```
+
+In the book, I first changed the labels of the two variables before calling the interaction function. If you want the same plot as in the book, you could run the following code (which is not evaluated here):
+```{r, eval=FALSE}
+# turn primeCond and experimenterBelief in factors and change the labels
+dat$primeCond <- factor(dat$primeCond, labels=c("PH","PL"))
+dat$experimenterBelief <- factor(dat$experimenterBelief, labels=c("EH","EL"))
+# now create an interaction factor, and change the separation sign to "-" instead of "."
+dat$condition <- interaction(dat$primeCond, dat$experimenterBelief, sep="-")
+plot_raincloud(dat, ApproachAdvantage, groups=condition)
+```
+
+The raincloud plot above effectively treats the design as a oneway design. If we want the plot to more directly reflect the factorial design, we can add some functionality from the `ggplot2` package. In particular, we can use so-called _facets_, which basically allow you to repeatedly draw a similar plot for different levels of an independent variable. Because the `plot_raincloud` produces a raincloud plot by calling underlying `ggplot2` functions, and the result is a `ggplot`, you can use any function from `ggplot2` to make changes to the resulting plot. For instance, we can, within a plot, separate the levels of the `experimenterBelief` manipulation, and then create two panels (facets) for the levels of the `primeCond` condition. This is done as follows:
+```{r, warning=FALSE, fig.height=4}
+plot_raincloud(dat, ApproachAdvantage, groups = experimenterBelief) + facet_grid(~primeCond)
+```
+
+As usual, it pays to read the documentation for the `facet_grid` function (try calling `?facet_grid`). There is an alternative for `facet_grid`, called `facet_wrap`, which provides slightly different labelling to the panels. `facet_grid` is particularly useful when you have _two_ independent variables in a factorial design for which you would like to create different panels (we will show an example of this later). As we are considering factorial designs here, I chose to use `facet_grid`, but you can try `facet_wrap` as well. 
+
+## Formulating, estimating, and testing a factorial ANOVA
+
+Formulating a factorial ANOVA model, where we distinguish between main effects and interactions, is not any different from formulating a moderated regression model. We can use the formula interface to indicate that we want to include predictors, as well as the product predictors required to assess interactions. In this case, however, we will enter nominal independent variables into the formula. When these are defined as `factors` with associated contrast codes, R will automatically expand the model to include the contrast-coded predictors, as well as all relevant product-predictors. 
+
+The first thing to do is to make sure that the variables are defined as factors
+```{r}
+# check what type the two IVs are
+class(dat$primeCond)
+class(dat$experimenterBelief)
+# turn each into a factor
+dat$primeCond <- as.factor(dat$primeCond)
+dat$experimenterBelief <- as.factor(dat$experimenterBelief)
+# let's check the class for one of them to make sure
+class(dat$primeCond)
+# that worked :-)
+```
+
+Now let's define appropriate contrast codes. As usual, it is a good idea to first check the existing contrast, as this shows the order of the factor levels:
+```{r}
+contrasts(dat$primeCond)
+```
+We can see that we need to define a single contrast, with the value for `HPP` (high-power prime) first and then the value for `LPP` (low-power prime) second. As the social priming hypothesis would predict the ApproachAdvantage score to be higher for `LPP` than for `HPP`, the following contrast makes sense:
+```{r}
+contrasts(dat$primeCond) <- c(1/2, -1/2)
+contrasts(dat$primeCond)
+```
+We define the contrast for `experimenterBelief` in the same way:
+```{r}
+contrasts(dat$experimenterBelief)
+# H comes before l
+contrasts(dat$experimenterBelief) <- c(1/2, -1/2)
+contrasts(dat$experimenterBelief)
+```
+
+Now we are ready to estimate the linear model. To estimate a model with the main effects and interaction, we would use:
+
+```{r}
+modg <- lm(ApproachAdvantage ~ primeCond*experimenterBelief, data=dat)
+```
+
+Remember that this notation will expand the formula to
+
+`ApproachAdvantage ~ 1 + primeCond + experimenterBelief + primeCond:experimenterBelief`
+
+i.e. to a model with an intercept, a main effect of `primeCond`, a main effect of `experimenterBelief`, and an interaction `primeCond:experimenterBelief`. The easiest way to obtain the parameter estimates (and t-tests for those) is to use the `summary` function on this fitted linear model:
+
+```{r}
+summary(modg)
+```
+
+Alternatively, we can use the `Anova` function from the `car` package to obtain Type 3 (omnibus) tests:
+
+```{r}
+car::Anova(modg, type=3)
+```
+
+You can see that while the `Anova` function reports $F$ statistics, the tests and the corresponding $p$-values are identical. In this case, each factor only has two levels, and hence one contrast code. As there is only one parameter associated to each main effect and interaction (the slope of the single contrast-coding predictor for that effect), the omnibus test is a single parameter test. We will see an example where this is not the case shortly.
+
+
+### A threeway ANOVA
+
+We can also try to assess the experimenter effects by including this as an additional factor. Experimenter has four levels, so we'll need three contrast codes for this variable. In the data.frame, Experimenter is included as `exptrNum`, which is a numerical variable. So we will first convert it into a factor
+
+```{r}
+class(dat$exptrNum)
+dat$exptrNum <- factor(dat$exptrNum, labels=paste0("E",1:4))
+```
+I'm using `factor` here rather than `as.factor`, because the former allows me to add labels to the levels, through the `labels` argument. Note that I'm using the `paste0` function to create a vector with labels. This function can create combinations of (character) vectors, and is quite handy. The `paste0` function is very similar to the `paste` function, but doesn't include a space between the combinations:
+```{r}
+paste0("E",1:4)
+paste("E",1:4)
+```
+
+Right, so let's define a contrast for `exptrNum`. 
+```{r}
+contrasts(dat$exptrNum)
+contrasts(dat$exptrNum) <- cbind(c(-1/2,1/2,0,0), 
+                                 c(-1/3,-1/3,2/3,0),
+                                 c(-1/4,-1/4,-1/4,3/4))
+contrasts(dat$exptrNum)
+```
+
+Before conducting the analysis, it is always a good idea to look at the data. Let's create a slightly different raincloud plot than the one in Chapter 8 of SDAMR, now more explicitly reflecting the factorial nature of the design:
+```{r, warning=FALSE}
+plot_raincloud(dat, ApproachAdvantage, groups = experimenterBelief) + facet_grid(primeCond ~ exptrNum)
+```
+This plot is not necessarily better than the one in SDAM. It does quite clearly highlight that experimenter belief does not seem to have an effect for Experimenter 4. However, personally, I find it more difficult to assess the effect of prime condition. For that, we could create a second plot to show the effect of `primeCond` within each panel:
+```{r, warning=FALSE}
+plot_raincloud(dat, ApproachAdvantage, groups = primeCond) + facet_grid(experimenterBelief ~ exptrNum)
+```
+This indicates quite clearly that priming condition does not seem to have much of an effect for any experimenter of experimenter belief condition.
+
+Back to the analysis, then. We can estimate a threeway factorial ANOVA by simply adding another independent variable to the formula:
+
+```{r}
+modg_exp <- lm(ApproachAdvantage ~ primeCond*experimenterBelief*exptrNum, data=dat)
+```
+
+This formula is expanded to
+
+```
+ApproachAdvantage ~ 1 + primeCond + experimenterBelief + exptrNum + primeCond:experimenterBelief + primeCond:exptrNum + experimenterBelief:exptrNum + primeCond:experimenterBelief:exptrNum
+```
+In other words, the model includes all the main effects, all pairwise interactions between the factors, as well as the threeway interaction. We can see the parameter estimates and associated $t$-tests as usual through the summary function:
+```{r}
+summary(modg_exp)
+```
+Wow, there are a _lot_ of estimates and tests here (16 in total)! While these tests are informative, it is common to (at least also) consider omnibus tests. Experimenter has four levels, so three associated contrasts, and we can't find a test of the "overall" main effect of Experimenter in the output above. For these omnibus tests, we can (as before) use the `Anova` function from the `car` package:
+```{r}
+car::Anova(modg_exp,type=3)
+```
+If you'd just consider the output from this function, which does not provide a significant Experimenter by Belief interaction, you probably would have missed the potentially interesting `experimenterBelief1:exptrNum3` interaction, which was discussed in SDAM.
+
+## Type 1, 2, and 3 Sums of Squares
+
+Whilst intended (I think!) as a factorial experiment with an equal sample size for each priming condition, experimenter belief, and experimenter combination, the sample sizes are actually slightly unbalanced. One way to count the number of cases for each combination of factor levels is through the `ftable` function (which stands for frequency table). The function has various interfaces, and I find the `formula` interface easiest to work with. On the left-hand side of the formula, you can provide the name of a factor which you want to place in the columns of the table, and on the right-hand side you can include multiple factors which make up the rows, separated by a "+" sign:
+```{r}
+ftable(exptrNum ~ primeCond + experimenterBelief, data=dat)
+```
+As you can see, Experimenter 1 tested 26 participants in the high-power prime and high experimenter belief condition, whilst experimenter 2 tested 24 participants in the low-power prime and low experimenter belief condition. 
+
+The result of unbalanced data is that the contrast-coding predictors are no longer orthogonal. As a result, different ways of performing model comparisons will give different results. The differences are likely to be rather subtle here, because the sample sizes are mostly equal. Nevertheless, let's consider how we can obtain results for the Type 1 and Type 2 SS procedures.
+
+A Type 2 procedure is easily obtained by using the `car::Anova` function, now with argument `type=2`:
+```{r}
+car::Anova(modg_exp,type=2)
+```
+If you compare the results to those of the Type 3 procedure used earlier, you can see some subtle differences. You can see that (apart from the threeway interaction), the SSR terms are slightly different, leading to small differences in the $F$ statistic and associated $p$-value.
+
+Unfortunately, the `car::Anova` function will not work with `type=1`. To get the results of a Type 1 procedure, you can use the `anova` function from the default `stats` package:
+```{r}
+anova(modg_exp)
+```
+again, comparing this to the results of those obtained previously, you can see differences in the SSR terms. It is important to realise that the Type 1 procedure depends on the order of the factors in the formula. For instance, if we change this order as follows:
+```{r}
+anova(lm(ApproachAdvantage ~ experimenterBelief*exptrNum*primeCond, data=dat))
+```
+you get slightly different results. I should also mention the `aov` function from the `stats` package, which will also provide Type 1 ANOVA tests. I have wrestled with this function often when I started using R a long time ago. I've happily not used it for some time now, so will only mention its existence here.
+
+While the differences are very subtle here, this should not lead you to believe that the methods generally provide the same results. When the design is more unbalanced, the results can change quite dramatically.
+
+Finally, I want to point out again that all three procedures test the SSR terms against the same SSE term (the SS given under `Residuals`). This is the SSE of the full model (the model with all effects) and this is exactly the same for all three procedures. The procedures differ in how they compute the SSR terms for the different effects, as you can see.
+
+## Planned comparisons and post-hoc tests with `emmeans`
+
+The `emmeans` package is very useful when you want to do more comparisons than can be implemented in the contrast codes within a single model, whether these are planned comparisons or post-hoc tests. The name of the package stands for _estimated marginal means_. One part of the functionality of the package is to compute the (unweighted) marginal means according to different types of models, including linear models. In the SDAM book, we discussed how these marginal means can be computed using contrast codes. For example, when using orthogonal contrasts, the intercept represents the grand mean, which is a simple average of averages, where the sample means of all groups are added and then divided by the number of groups. If the groups have unequal sample sizes, this is not taken into account in computing the grand mean. That is what is meant by _unweighted_ marginal means.
+
+You can think of the marginal means as the estimated population means assuming all groups have an equal sample size. The `emmeans` function (from the `emmeans` package with the same name) provides a simple way to compute the estimated marginal means for each condition, but also for the levels of one factor (averaging over the levels of other factors). The `emmeans` requires at least two arguments: an `object`, which is an estimated model, and `specs`, which is either a character vector with the names for the predictors for which the estimated marginal predictors should be computed, or a formula. Here, we will use the formula interface, as it is flexible and intuitive. Going back to our simpler 2 by 2 design (ignoring Experimenter), the estimated marginal means of the four conditions can be computed with `emmeans` as follows:
+
+```{r}
+# load the package. If you don't have it installed, you will need to run
+# install.packages("emmeans") first!
+library(emmeans)
+# call emmeans with modg as the object
+emmeans(modg, specs = ~ primeCond:experimenterBelief)
+```
+You can see that the `emmeans` function computes an estimated marginal mean for each combination of `primeCond` and `experimenterBelief`. For each mean, we get an estimate, a standard error of that estimate, the degrees of freedom ($n - \text{npar}(G)$), and a confidence interval. The marginal means for each group in the design are just the sample means in the groups in this case, but things become more complicated when we add additional metric predictors to the design, as we will see when we discuss ANCOVA in another chapter. You can also obtain estimated marginal means for the levels of one factor, averaging over the levels of the others. These are the marginal means that are compared in the main effects of that factor. For instance, for the `primeCond` factor, the marginal means are
+```{r}
+emmeans(modg, specs = ~ primeCond)
+```
+and for `experimenterBelief` they are:
+```{r}
+emmeans(modg, specs = ~ experimenterBelief)
+```
+
+In addition to computing marginal means and providing confidence intervals for each, the package has a reasonably straightforward interface for testing _differences_ between estimated marginal means. Such differences are effectively the contrasts that we have specified with contrast codes, and tested with Type 3 tests. A benefit of using `emmeans` is that you can test more of these contrasts than the required number of contrast codes (i.e. 3 in this example). 
+
+If you want all pairwise comparisons between the means, you can get these by entering `pairwise` as the left-hand side of the formula:
+```{r}
+emmeans(modg, specs = pairwise ~ primeCond:experimenterBelief)
+```
+which automatically uses the Tukey HSD procedure to adjust the significance level of each test to obtain a family-wise significance level of $\alpha_\text{FW} = .05$. You can obtain other corrections through the `adjust` argument. Some options to enter there, which were discussed in SDAM, are:
+
+* `tukey`
+* `scheffe`
+* `bonferroni`
+* `holm`
+
+There are other possibilities (see `?summary.emmGrid` for details). For instance, we can apply the Scheffé adjustment with:
+```{r}
+emmeans(modg, specs = pairwise ~ primeCond:experimenterBelief, adjust="scheffe")
+```
+
+### Adjusted p-values
+
+One thing I should mention is that rather than showing you the corrected significance level $\alpha$ for each test, `emmeans` provides you with an __adjusted p-value__. A benefit of this is that you can just compare each $p-value$ to the usual criterion level and call each test significant when $p<.05$. However, I personally don't find the resulting $p$ value easy to interpret as a probability. Remember that the conventional $p$-value is the probability of obtaining a test result as large or more extreme, assuming that the null hypothesis is true. This is itself already a tricky concept, but with some experience with statistical distributions and the conceptual foundations of null-hypothesis significance testing, it is a valid probability that is interpretable as such. @wright1992adjusted defines the adjusted p-value as _the smallest family-wise significance level at which the tested null-hypothesis would be rejected_. This isn't really a probability any more, as far as I can see it. It is true that the conventional $p$-value is, by definition, also equal to the smallest significance level at which the null-hypothesis would be rejected. For instance, if a particular test provides a $p$-value of $p = .07$, then you would reject the null-hypothesis by setting $\alpha \geq .07$. Hence, $\alpha = .07$ is the smallest value of $\alpha$ which would provide a significant test result. Similarly, if the test provided a $p$-value of $p=.004$, then $\alpha = .004$ is the smallest significance level for which the test would provide a significant result. 
+
+Although the $p$-value is equivalent to this "minimum $\alpha$" value, it is also a valid probability, and when you move to the domain of corrections for multiple comparisons, defining the $p$-value as the minimum family-wise significance level $\alpha_\text{FW}$ for which the individual test would provide a significant test result, the correspondence with a proper probability is lost.
+
+For the Bonferroni correction, the adjusted $p$-value is easy to compute. Remember that the Bonferroni correction for a total of $q$ tests is to set the significance level of each individual test to $\alpha = \frac{\alpha}{q}$. We can adjust the $p$-values correspondingly as $p_\text{adj} = q \times p$. But if you'd perform $q=100$ tests, and $p=.2$, then $p_\text{adj} = 100 \times .2 = 20$, which is obviously not a valid probability! Adjusted $p$-values are in this sense just convenience values which can be compared to e.g. $\alpha_\text{FW} = .05$, but nothing more.
+
+## Testing general contrasts with `emmeans`
+
+When you have computed the required estimated marginal means, you can then use these to define a set of general contrasts that you want to test. This set can include more contrasts than $g-1$, but each contrast is defined in a way that we are used to. Let's consider an example.
+
+```{r}
+ems <- emmeans(modg, specs = ~ primeCond:experimenterBelief)
+ems
+```
+
+We have four estimated marginal means, and the order that these are presented in is seen above: `HPP,H`, `LPP,H`, `HPP,L`, and `LPP,L`. We can now use the `contrast` function from `emmeans` (note that there is no "s" at the end, so this is a different function than `contrasts`!) to supply the `ems` object and a list of (named) contrasts. Suppose we want to test the following set of (somewhat arbitrary) contrasts:
+```{r, echo=FALSE}
+tab <- data.frame("prime" = c("$\\tfrac{1}{2}$","$-\\tfrac{1}{2}$","$\\tfrac{1}{2}$","$-\\tfrac{1}{2}$"),
+                  "belief" = c("$\\tfrac{1}{2}$","$\\tfrac{1}{2}$","$-\\tfrac{1}{2}$","$-\\tfrac{1}{2}$"),
+                  "HPP: H vs L" = c("$\\tfrac{1}{2}$","$0$","$-\\tfrac{1}{2}$","$0$"),
+                  "LPP: H vs L" = c("$0$","$\\tfrac{1}{2}$","$0$","$-\\tfrac{1}{2}$"),
+                  "H: HPP vs LPP" = c("$\\tfrac{1}{2}$","$-\\tfrac{1}{2}$","$0$", "$0$"),
+                  "L: HPP vs LPP" = c("$0$","$0$", "$\\tfrac{1}{2}$","$-\\tfrac{1}{2}$"),
+                  "HPP,H vs LPP" = c("$\\tfrac{2}{3}$","$-\\tfrac{1}{3}$","$0$","$-\\tfrac{1}{3}$"),
+                  "HPP,L vs LPP" = c("$0$","$-\\tfrac{1}{3}$","$\\tfrac{2}{3}$","$-\\tfrac{1}{3}$"))
+colnames(tab) <- paste0("$c_",1:8,"$") #c("$c_1$","$c_2$","$c_3$")
+rownames(tab) <- c("HPP,H","LPP,H", "HPP,L", "LPP,L")
+knitr::kable(tab, escape=FALSE,align=rep('r', 8))
+```
+
+These can be interpreted as
+
+* $c_1$: main effect of Prime
+* $c_2$: main effect of Belief
+* $c_3$: comparing high and low belief for low-power prime
+* $c_4$: comparing high and low belief for high-power prime
+* $c_5$: comparing high-power and low-power prime for high belief
+* $c_6$: comparing high-power and low-power prime for low belief
+* $c_7$: comparing high-power prime with high belief to low-power prime conditions
+* $c_8$: comparing high-power prime with low belief to low-power prime conditions
+
+Using the `contrast` function, all these comparisons can be tested simultaneously, using the Scheffé adjustment, as follows:
+
+```{r}
+contrast(ems, 
+         method = list(c1 = c(1/2, -1/2, 1/2, -1/2), 
+                       c2 = c(1/2, 1/2, -1/2, -1/2),
+                       c3 = c(1/2, 0, -1/2, 0),
+                       c4 = c(0, 1/2, 0, -1/2),
+                       c5 = c(1/2, -1/2, 0, 0),
+                       c6 = c(0, 0, 1/2, -1/2),
+                       c7 = c(2/3, -1/3, 0, -1/3),
+                       c8 = c(0, -1/3, 2/3, -1/3)),
+         adjust="scheffe")
+```
+If this were a set of planned comparison, and you were confident enough to not apply a correction for multiple comparison, you could leave out the `adjust` argument, or provide the value `adjust="none"`.

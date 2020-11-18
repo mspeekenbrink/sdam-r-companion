@@ -1,4 +1,5 @@
 fig:rstudio-interface-image
+tab:tetris-orthogonal-cotrast-codes
 acknowledgements
 introduction
 what-is-r
@@ -49,10 +50,12 @@ investigating-the-moderated-indirect-effect-with-a-bootstrap-test
 contrast-coding-and-oneway-anova
 computing-contrast-coding-predictors
 assigning-contrasts-to-factors
-the-aov-and-anova-functions
-installing-rtools-windows-only
-indexing-variables
-computing-the-estimated-parameters-with-matrix-algebra
-tab:tetris-orthogonal-cotrast-codes
 default-coding-schemes
-the-aov-function
+factorial-anova
+rainclouds-for-factorial-designs
+formulating-estimating-and-testing-a-factorial-anova
+a-threeway-anova
+type-1-2-and-3-sums-of-squares
+planned-comparisons-and-post-hoc-tests-with-emmeans
+adjusted-p-values
+testing-general-contrasts-with-emmeans
