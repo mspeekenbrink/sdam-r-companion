@@ -1,0 +1,3 @@
+# Bayesian hypothesis testing through Bayes Factors
+
+This will be fun!

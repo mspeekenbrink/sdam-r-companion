@@ -59,3 +59,13 @@ type-1-2-and-3-sums-of-squares
 planned-comparisons-and-post-hoc-tests-with-emmeans
 adjusted-p-values
 testing-general-contrasts-with-emmeans
+linear-mixed-effects-models
+formulating-and-estimating-linear-mixed-effects-models-with-lme4
+random-intercepts-model
+visually-assessing-model-assumptions
+random-intercepts-and-slopes
+likelihood-ratio-test-with-the-anova-function
+confidence-intervals
+plotting-model-predictions
+obtaining-p-values-with-afexmixed
+bayesian-hypothesis-testing-through-bayes-factors

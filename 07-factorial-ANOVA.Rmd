@@ -1,6 +1,6 @@
 # Factorial ANOVA
 
-IN this chapter, we will look at factorial ANOVA, different ways of model comparisons (different SS types), and some ways to perform multiple comparisons and post-hoc tests. We will introduce these with the same data -- from a study investigating the role of experimenter belief in social priming -- used in Chapter 7 of SDAM. The dataset is available in the `sdamr` package as `expBelief`.  We can load it from there, and inspect the first six cases, as usual:
+In this chapter, we will look at factorial ANOVA, different ways of model comparisons (different SS types), and some ways to perform multiple comparisons and post-hoc tests. We will introduce these with the same data -- from a study investigating the role of experimenter belief in social priming -- used in Chapter 7 of SDAM. The dataset is available in the `sdamr` package as `expBelief`.  We can load it from there, and inspect the first six cases, as usual:
 ```{r}
 library(sdamr)
 data("expBelief")

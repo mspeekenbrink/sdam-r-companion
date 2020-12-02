@@ -1,0 +1,228 @@
+# Linear mixed-effects models
+
+In this Chapter, we will look at how to estimate and perform hypothesis tests for linear mixed-effects models. The main workhorse for estimating linear mixed-effects models is the `lme4` package. This package allows you to formulate a wide variety of mixed-effects and multilevel models through an extension of the R formula syntax. It is a really good package. But the main author of the package, Douglas Bates, has chosen not to provide $p$-values for the model parameters. We will therefore also consider the `afex` package, which provides an interface to the two main approximations (Kenward-Roger and Satterthwaite) to provide the degrees of freedom to compute $p$-values for $F$ tests. While the `mixed` function it provides is in principle all you need to estimate the models _and_ get the estimates, I think it is useful to also understand the underlying `lme4` package [@R-lme4], so we will start with a discussion of this, and then move to the `afex` package [@R-afex]. If you install the `afex` package, it will install quite a few other packages on which it relies. So to get all the required packages for this chapter, you can just type
+```{r, eval=FALSE}
+install.packages("afex")
+```
+In the R package, and you should have everything you need.
+
+## Formulating and estimating linear mixed-effects models with `lme4`
+
+The gold standard for fitting linear mixed-effects models in R is the `lmer()` (for `l`inear `m`ixed-`e`ffects `r`egression) in the `lme4` package. This function takes the following arguments (amongst others, for the full list of arguments, see `?lmer`):
+
+* `formula`: a two-sided linear formula describing both the fixed-effects and random-effects part of the model, with the response on the left of the `~` operator and predictors and random effects on the right-hand side of the `~` operator.
+* `data`: A `data.frame`, which needs to be in the so-called "long" format, with a single row per observation. This may be different from what you might be used to when dealing with repeated-measures. A repeated-measures ANOVA in SPSS requires data in the "wide" format, where you use columns for the different repeated measures. Data in the "wide" format has a single row for each participants. In the "long" format, you will have multiple rows for the data from a single grouping level (e.g., participant, lab, etc.).  
+* `REML`: A logical variable whether to estimate the model with restricted maximum likelihood (`REML = TRUE`, the default) or with maximum likelihood (`REML = FALSE`).
+
+As correct use of the formula interface is vital, let's first consider again how the formula interface works in general. Formulas allow you to specify a linear model succinctly (and by default, any model created with a formula will include an intercept, unless explicitly removed). Here are some examples (adapted from @Singmann2019-mixed): 
+
+Formula     | Description
+------------|----------------------------------------------------------------------------------------
+`a + b`     | main effects of `a` and `b` (and no interaction)
+`a:b`       | only interaction of `a` and `b` (and no main effects)
+`a * b`     | main effects and interaction of `a` and `b` (expands to: `a + b + a:b`)
+`(a+b+c)^2` | main effects and two-way interactions, but no three-way interaction (expands to: `a + b + c + a:b + b:c + a:c`)
+`(a+b)*c`   | all main effects and pairwise interactions between `c` and `a` or `b` (expands to: `a + b + c + a:c + b:c`)
+`0 + a`     | `0` suppresses the intercept resulting in a model that has one parameter per level of `a` (identical to: `a - 1`)
+
+The `lme4` package extends the formula interface to specify random effects structures. Random effects are added to the formula by writing elements between parentheses `()`. Within these parentheses, you provide the specification of the random effects to be included on the left-hand side of a conditional sign `|`. On the right-hand side of the sign, you specify the grouping factor, or grouping factors, on which these random effects depend. The grouping factors _need to be of class `factor`__ (i.e., they can __not_ be numeric variables). Here are some examples of such specifications (again adapted from @Singmann2019-mixed):
+
+Formula     | Description
+------------|----------------------------------------------------------------------------------------
+`(1|s)`     | random intercepts for unique level of the factor `s` 
+`(1|s) + (1|i)`       | random intercepts for each unique level of `s` and for each unique level of `i`
+`(a|s)`     | random intercepts and random slopes for `a`, for each level of `s`. Correlations between the intercept and slope effects are also estimated. (identical to `(a*b|s)`)
+`(a*b|s)`   | random intercepts and slopes for `a`, `b`, and the `a:b` interaction, for each level of `s`. Correlations between all the random effects are estimated.
+
+`(0+a|s)` | random slopes for `a` for each level of `s`, but no random intercepts
+`(a||s)`   | random intercepts and random slopes for `a`, for each level of `s`, but no correlations between the random effects (i.e. they are set to 0). This expands to: `(0+a|s) + (1|s)`)
+`0 + a`     | `0` suppresses the intercept resulting in a model that has one parameter per level of `a` 
+
+
+### Random intercepts model
+
+Now let's try to define a relatively simple linear mixed-effects model for the `anchoring` data set in the `sdamr` package. We will use the data from all the `referrers` try a few variations to get acquinted with the `lmer()` function. First, let's load the packages and the data:
+
+```{r}
+library(sdamr)
+library(lme4)
+data("anchoring")
+```
+
+Now let's estimate a first linear mixed-effects model, with a fixed effect for anchor, and random intercepts, using `everest_feet` as the dependent variable. We will first ensure that `anchor` is a factor and associate a sum-to-zero contrast to it. We will also make `referrer` a factor; the contrast for this shouldn't really matter, so we'll leave it as a dummy code. We then set up the model, using `(1|referrer)` to specify that random intercept-effects should be included for each level of the `referrer` factor. Finally, we use the `summary()` function on the estimated model to obtain the estimates of the parameters. 
+
+```{r}
+anchoring$anchor <- as.factor(anchoring$anchor)
+contrasts(anchoring$anchor) <- c(1/2, -1/2) # alphabetical order, so high before low
+# define a lmer
+mod <- lmer(everest_feet ~ anchor + (1|referrer), data=anchoring)
+summary(mod)
+```
+
+The output first shows some information about the structure of the model, and the value of the optimized "-2 log REML" (the logarithm of the minus two restricted maximum likelihood). Then some summary statistics for the _standardized residuals_ are shown (these are the "raw" residuals divided by the estimated standard deviation of the residuals). 
+
+Under the `Random effects:` header, you will find a table with estimates of the variance and standard deviation of the random effects terms for each grouping factor (just `referrer` in this case). So the estimated standard deviation of the random intercept: $\hat{\sigma}_{\gamma_0} = `r round( attr(summary(mod)$varcor$referrer,"stddev"))`$. You will also find an estimate of the variance and standard deviation of the residuals in this table: $\hat{\sigma}_\epsilon = `r round(attr(summary(mod)$varcor,"sc"))`$}.
+
+Under the `Fixed effects:` header, you will find a table with an estimate for each fixed effect, as well as the standard error of this estimate, and an associated $t$ statistic. This output is much like the output of calling the `summary()` function on a standard model estimated with the `lm` function. But you won't find the $p$-value for these estimates. This is because the author of the `lme4` package, perhaps rightly, finds none of the approximations to the error degrees of freedom good enough for general usage. Opinions on this will vary. It is agreed that the true Type 1 error rate when using one of the approximations will not be exactly equal to the $\alpha$ level. In some cases, the difference may be substantial, but often the approximation will be reasonable enough to be useful in practice. For further information on this, there is a section in a very useful [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#why-doesnt-lme4-display-denominator-degrees-of-freedomp-values-what-other-options-do-i-have). You can also see `?lme4::pvalues` for some information about various approaches to obtaining $p$-values.
+
+The final table, under the `Correlation of Fixed Effects`, shows the approximate correlation between the estimators of the fixed effects. You can think of it as the expected correlation between the estimates of the fixed effects over all different datasets that you might obtain (assuming that the predictors have the same values in each). It is not something you generally need to be concerned about.
+
+### Visually assessing model assumptions
+
+You can use the `predict` and `residuals` function to obtain the predicted values and residuals for a linear mixed effects model. You can then plot these, using e.g. `ggplot2`, as follows:
+
+```{r}
+library(ggplot2)
+tdat <- data.frame(predicted=predict(mod), residual = residuals(mod))
+ggplot(tdat,aes(x=predicted,y=residual)) + geom_point() + geom_hline(yintercept=0, lty=3)
+```
+
+It might be cool to colour the residuals by referrer as follows:
+
+```{r}
+tdat <- data.frame(predicted=predict(mod), residual = residuals(mod), referrer=anchoring$referrer)
+ggplot(tdat,aes(x=predicted,y=residual, colour=referrer)) + geom_point() + geom_hline(yintercept=0, lty=3)
+```
+If the legend gets in the way, you can turn it off as follows:
+```{r}
+ggplot(tdat,aes(x=predicted,y=residual, colour=referrer)) + geom_point() + geom_hline(yintercept=0, lty=3) + theme(legend.position = "none")
+```
+The `theme` function allows for lots of functionality (check `?theme`). You can also get a quick predicted vs residual plot by simply calling `plot(mod)`.
+
+We can get a histogram of the residuals, and a QQ plot, as follows:
+
+```{r}
+ggplot(tdat,aes(x=residual)) + geom_histogram(bins=20, color="black")
+ggplot(tdat,aes(sample=residual)) + stat_qq() + stat_qq_line()
+```
+
+### Random intercepts and slopes
+
+Now let's estimate a model with random intercepts and random slopes for `anchor`. To do so, we can simply add `anchor` in the mixed effects structure specification, as follows:
+
+```{r}
+modg <- lmer(everest_feet ~ anchor + (1 + anchor|referrer), data=anchoring)
+summary(modg)
+```
+
+As you can see, the model now estimates a variance of the random slopes effects, as well as a correlation between the random intercept and slope effects. We could try to get a model without the correlations as follows:
+```{r}
+modr <- lmer(everest_feet ~ anchor + (1 + anchor||referrer), data=anchoring)
+```
+As you can see in the warning messages, this leads to various estimation issues. Moreover, the correlation is actually still there!
+```{r}
+summary(modr)
+```
+As it turns out, the `||` notation __does not work with factors__!. It only works with metric predictors. We can get the desired model by defining a contrast-coding predictor for `anchor` explicitly, as follows:
+```{r}
+anchoring$anchor_contrast <- 1/2
+anchoring$anchor_contrast[anchoring$anchor == "low"] <- -1/2
+modr <- lmer(everest_feet ~ anchor_contrast + (1 + anchor_contrast||referrer), data=anchoring)
+summary(modr)
+```
+That is a little annoying, especially if you have a factor with lots of levels, in which case you would have to specify a lot of contrast-coding predictors. The `lmer_alt()` function in the `afex` package will automatically generate the contrast-coding predictors needed, which will be convenient. You can try this by running:
+```{r}
+modr <- afex::lmer_alt(everest_feet ~ anchor + (1 + anchor||referrer), set_data_arg = TRUE, data=anchoring)
+summary(modr)
+```
+Note the use of the additional `set_data_arg = TRUE` argument, which is necessary to later use the object for model comparisons with the likelihood ratio test in the next section. Also note that the parameters now do come with $p$-values (using the Satterthwaite approximation).
+
+### Likelihood ratio test with the `anova` function
+
+We now have two versions of our random intercepts + slopes model, one which estimates the correlation between the random intercept and slope, and one which sets this to 0. A likelihood-ratio test comparing these two models is easily obtained as:
+
+```{r}
+anova(modr,modg)
+```
+
+Note the message `refitting model(s) with ML (instead of REML)`. The likelihood-ratio test requires that the models are estimated by maximum likelihood, rather than restricted maximum likelihood (REML). The `lme4` package is clever enough to realize this, and first re-estimates the model before computing the likelihood ratio test. Also note that the test statistic is now called "Chisq", for Chi-squared. This is the one we want. The test result is significant, and hence we can reject the null hypothesis that the correlation between the random intercept and slope is $\rho_{\gamma_0,\gamma_1} = 0$.
+
+### Confidence intervals
+
+While the `lme4` package does not provide $p$-values, it does have functionality to compute confidence intervals via the `confint()` function. The default option is to compute so-called profile likelihood confidence intervals for all (fixed and random) parameters:
+
+```{r}
+confint(modg)
+```
+
+Note that `.sig01` refers to the standard deviation of the random intercept (i.e. $\sigma{\gamma_0}$), `.sig02` refers to the correlation between the random intercept and random slope (i.e. $\rho_{\gamma_0,\gamma_1}$), and `.sig03` to the standard deviation of the random slope (i.e. $\sigma_{\gamma_1}$). The value of `.sig` refers to the standard deviation of the error term (i.e. $\sigma_\epsilon$). Unfortunately, these are not the most informative labels, so it pays to check the values reported in `summary(modg)` to match them to the output here. 
+
+Parametric bootstrap confidence (via simulation) can be obtained by setting the argument `method = "boot"`. This is a very computationally intensive procedure, so you will have to wait some time for the results! Moreover, due to the random simulation involved, the results will vary (hopefully a little) every time you run the procedure:
+```{r bootstrap-CI, cache=TRUE}
+set.seed(20201201)
+confint(modg, method="boot")
+confint(modg, method="boot")
+```
+Note the warning messages. By default, the bootstrap simulates `nsim=500` datasets and re-estimates the model for each. In some of the simulated datasets, the estimation may fail, which provides the resulting warning messages. While confidence intervals and hypothesis tests, in the case of "standard" linear models give the same results, this is not necessarily the case for mixed models, as the $F$ tests for the fixed effects involve approximation of the error degrees of freedom ($\text{df}_2$), whilst the computation of the confidence intervals rely on other forms of approximation (e.g. simulation for the parametric bootstrap). As confidence intervals are included by default in `lme4`, it seems like the author of the package believes these are perhaps more principled than the $F$ tests for the fixed effects.
+
+### Plotting model predictions
+
+It can be useful to plot the model predictions for each level of the random grouping factor. We can obtain such a plot by storing the model predictions with the data. By adding the `group =` and `colour = ` arguments in the `aes()` function, you can then get separate results for all levels of the random effect factor (`referrer` here). For instance, we can plot the predictions for the different levels of the `anchor` factor with connecting lines as follows:
+
+```{r, fig.width=6,fig.height=7.5}
+anchoring$pred <- predict(modg)
+ggplot(anchoring,aes(x=anchor,y=pred,colour=referrer, group=referrer)) + geom_point() + geom_line() + theme(legend.position="bottom", legend.direction = "horizontal")
+```
+
+This would also work if the variable of the x-axis is continuous, rather than categorical.
+
+## Obtaining p-values with `afex::mixed`
+
+Despite some of the concerns about the validity of the $p$-values for $F$-tests of the fixed effects, they are often useful (if only to satisfy reviewers of your paper). Packages such as `pbkrtest` [@R-pbkrtest] and `lmerTest` [@R-lmerTest] have been developed to provide these for mixed-effects models estimated with the `lmer()` function, using the Kenward-Roger or parametric bootstrap, and Satterthwaite approximations, respectively. The `afex` package [@R-afex] provides a common interface to the functionality of these packages, via its `mixed` function. The `mixed` function offers some other convenient features, such as automatically using sum-to-zero contrasts (via `contr.sum()`), although I prefer setting my own contrasts and turn this off.
+
+Some of the main arguments to the `mixed` function (see `?mixed` for the full overview) are:
+
+* `formula`: a two-sided linear formula describing both the fixed-effects and random-effects part of the model, with the response on the left of the `~` operator and predictors and random effects on the right-hand side of the `~` operator.
+* `data`: A `data.frame`, which needs to be in the so-called "long" format, with a single row per observation. This may be different from what you might be used to when dealing with repeated-measures. A repeated-measures ANOVA in SPSS requires data in the "wide" format, where you use columns for the different repeated measures. Data in the "wide" format has a single row for each participants. In the "long" format, you will have multiple rows for the data from a single grouping level (e.g., participant, lab, etc.).  
+* `type`: Sums of Squares type to use (1, 2, or 3). Default is 3.
+* `method`: Character vector indicating which approximation method to use for obtaining the p-values. `"KR"` for the Kenward-Roger approximation (default), `"S"` for the Satterthwaite approximation, `"PB"` for a parametric bootstrap, and `"LRT"` for the likelihood ratio test.
+* `test_intercept`: Logical variable indicating whether to obtain a test of the fixed intercept (only for Type 3 SS). Default is `FALSE`
+* `check_contrasts`: Logical variable indicating whether contrasts for factors should be checked and changed to `contr.sum` if they are not identical to `contr.sum`. Default is `TRUE`. You should set this to `FALSE` if you supply your own orthogonal contrasts.
+* `expand_re`: Logical variable indicating whether random effect terms should be expanded (i.e. factors transformed into contrast-coding numerical predictors) before fitting with lmer. This allows proper use of the `||` notation with factors.
+
+Let's try it out! First, let's load the package:
+```{r}
+library(afex)
+```
+Note that after loading the `afex` package, the `lmer` function from `lme4` will be "masked" and the corresponding function from the `afex` namespace will be used (it is actually the same as the one from the `lmertest` namespace), which is mostly the same, but expands the class of the returned object somewhat. Afterwards, you either have to use `lme4::lmer` whenever you explicitly want the function from the `lme4` package, or avoid loading the `afex` package, and always type e.g. `afex::mixed`. Either is fine, and mostly you wouldn't need to worry, but sometimes the overriding of function names in the global workspace can give confusion and unexpected results, so it is good to be aware if this behaviour.
+
+In the code below, I use the `mixed` function to estimate the model and compute $p$-values for the fixed effect of `anchor` and the intercept with the default `"KR"` option (note that this takes some time!):
+```{r estimate-afmodg, cache=TRUE}
+afmodg <- mixed(everest_feet ~ anchor + (1 + anchor|referrer), data=anchoring, check_contrasts = FALSE, test_intercept = TRUE)
+```
+The class of the returned object saved as `afmodg` is different from the usual one returned by the `lmer` function. To get the $F$ tests, you can just type in the name of the object:
+```{r}
+afmodg
+```
+You can also use the `summary()` function to obtain the parameter estimates (now with associated $p$-values with the Satterthwaite approximation):
+```{r}
+summary(afmodg)
+```
+
+We can also estimate the model without correlation between the random effects as follows:
+```{r estimate-afmodr, cache=TRUE}
+afmodr <- mixed(everest_feet ~ anchor + (1 + anchor||referrer), data=anchoring, check_contrasts = FALSE, test_intercept = TRUE, expand_re = TRUE)
+```
+and get the $F$ tests for this model:
+```{r}
+afmodr
+```
+and parameter estimates
+```{r}
+summary(afmodr)
+```
+
+__Note__ that entering the two models as is into the `anova` function __will not__ provide the desired re-estimation of the models by maximum likelihood:
+
+```{r}
+anova(afmodr,afmodg)
+```
+
+and this is not clear from the output (apart from the missing `refitting model(s) with ML (instead of REML)` message). For the correct results, you will need to provide the `lmer` model, stored in the `afmodr` and `afmodg` objects under `$full_model`:
+
+```{r}
+anova(afmodr$full_model, afmodg$full_model)
+```
+
+Although the differences are small, the first test compares the "-2 log REML", instead of the desired "-2 log ML" values. The assumptions underlying the likelihood-ratio test require the latter.
+
