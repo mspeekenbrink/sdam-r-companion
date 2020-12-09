@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -224,7 +224,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>8.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>9</b> Bayesian hypothesis testing through Bayes Factors</a></li>
+<li class="chapter" data-level="9" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>9</b> Bayesian hypothesis testing through Bayes Factors</a><ul>
+<li class="chapter" data-level="9.1" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>9.1</b> The <code>BayesFactor</code> package</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>9.1.1</b> A Bayesian one-sample t-test</a></li>
+<li class="chapter" data-level="9.1.2" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> A Bayesian two-sample t-test</a></li>
+<li class="chapter" data-level="9.1.3" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>9.1.3</b> A Bayesian ANOVA</a></li>
+<li class="chapter" data-level="9.1.4" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>9.1.4</b> Bayesian regression and ANCOVA</a></li>
+</ul></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -435,7 +442,7 @@ The <code>scale</code> function has three arguments:</p>
 </div>
 <div id="investigating-the-moderated-indirect-effect-with-a-bootstrap-test" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Investigating the moderated (indirect) effect with a bootstrap test</h3>
-<p>There are quite a few packages in R which will allow you to test the moderated effect of a predictor on the dependent variable “via” the mediator. I have chosen here for the <code>mediate</code> function from the <code>mediation</code> package, as it is a versatile option, and doesn’t require too much additional explanation. Another very good option to conduct mediation analysis is to specify the mediation model through a generalization of linear models generally called <em>Structural Equation Models</em>. These are multivariate models and not something we will cover in this course. For present purposes, this can be seen as a way to link different regression models (i.e. the dependent variable of one regression model becomes a predictor in another regression model) into what are conventionally called <em>path models</em>. The current “go-to” and most comprehensive SEM package in R is called <code>lavaan</code> and if you ever need to use this kind of analysis, that is my recommendation at the moment.</p>
+<p>There are quite a few packages in R which will allow you to test the moderated effect of a predictor on the dependent variable “via” the mediator. I have chosen here for the <code>mediate</code> function from the <code>mediation</code> package <span class="citation">(Tingley et al. <a href="#ref-R-mediation" role="doc-biblioref">2019</a>)</span>, as it is a versatile option, and doesn’t require too much additional explanation. Another very good option to conduct mediation analysis is to specify the mediation model through a generalization of linear models generally called <em>Structural Equation Models</em>. These are multivariate models and not something we will cover in this course. For present purposes, this can be seen as a way to link different regression models (i.e. the dependent variable of one regression model becomes a predictor in another regression model) into what are conventionally called <em>path models</em>. The current “go-to” and most comprehensive SEM package in R is called <code>lavaan</code> and if you ever need to use this kind of analysis, that is my recommendation at the moment.</p>
 <p>So let’s focus on the <code>mediation</code> package for now. If you haven’t done so already, you will need to install it with</p>
 <div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="moderation-and-mediation.html#cb172-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;mediation&quot;</span>)</span></code></pre></div>
 <p>If you check the documentation of <code>mediate</code> in this package (i.e type <code>?mediation::mediate</code>), you will see there are lots of arguments to specify. We will only focus one the ones important for present purposes:</p>
@@ -481,6 +488,12 @@ The <code>scale</code> function has three arguments:</p>
 <p>The results under <code>ACME</code> show that the bootstrap confidence interval of the mediated effect does not include 0. The p-value for this effect is also smaller than <span class="math inline">\(\alpha = .05\)</span>. As such, the null hypothesis that <span class="math inline">\(a \times b = 0\)</span> is rejected, and we have found evidence that the effect of <code>legacy</code> on <code>donation</code> is mediated by <code>intention</code>. Because the confidence interval of the <code>ADE</code> also does not include 0, this analysis indicates that the mediation is partial. There is also a significant direct effect of <code>legacy</code> on <code>donation</code>. About 33.4% of the effect of <code>legacy</code> on <code>donation</code> is mediated by <code>intention</code>, so the residual direct effect is quite substantial.</p>
 
 </div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-R-mediation">
+<p>Tingley, Dustin, Teppei Yamamoto, Kentaro Hirose, Luke Keele, Kosuke Imai, Minh Trinh, and Weihuang Wong. 2019. <em>Mediation: Causal Mediation Analysis</em>. <a href="https://imai.princeton.edu/projects/mechanisms.html">https://imai.princeton.edu/projects/mechanisms.html</a>.</p>
 </div>
 </div>
             </section>

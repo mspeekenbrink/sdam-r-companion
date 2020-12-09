@@ -69,3 +69,8 @@ confidence-intervals
 plotting-model-predictions
 obtaining-p-values-with-afexmixed
 bayesian-hypothesis-testing-through-bayes-factors
+the-bayesfactor-package
+a-bayesian-one-sample-t-test
+a-bayesian-two-sample-t-test
+a-bayesian-anova
+bayesian-regression-and-ancova

@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -224,7 +224,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>8.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>9</b> Bayesian hypothesis testing through Bayes Factors</a></li>
+<li class="chapter" data-level="9" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>9</b> Bayesian hypothesis testing through Bayes Factors</a><ul>
+<li class="chapter" data-level="9.1" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>9.1</b> The <code>BayesFactor</code> package</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>9.1.1</b> A Bayesian one-sample t-test</a></li>
+<li class="chapter" data-level="9.1.2" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> A Bayesian two-sample t-test</a></li>
+<li class="chapter" data-level="9.1.3" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>9.1.3</b> A Bayesian ANOVA</a></li>
+<li class="chapter" data-level="9.1.4" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>9.1.4</b> Bayesian regression and ANCOVA</a></li>
+</ul></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -567,7 +574,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 </div>
 <div id="planned-comparisons-and-post-hoc-tests-with-emmeans" class="section level2">
 <h2><span class="header-section-number">7.4</span> Planned comparisons and post-hoc tests with <code>emmeans</code></h2>
-<p>The <code>emmeans</code> package is very useful when you want to do more comparisons than can be implemented in the contrast codes within a single model, whether these are planned comparisons or post-hoc tests. The name of the package stands for <em>estimated marginal means</em>. One part of the functionality of the package is to compute the (unweighted) marginal means according to different types of models, including linear models. In the SDAM book, we discussed how these marginal means can be computed using contrast codes. For example, when using orthogonal contrasts, the intercept represents the grand mean, which is a simple average of averages, where the sample means of all groups are added and then divided by the number of groups. If the groups have unequal sample sizes, this is not taken into account in computing the grand mean. That is what is meant by <em>unweighted</em> marginal means.</p>
+<p>The <code>emmeans</code> package <span class="citation">(Lenth <a href="#ref-R-emmeans" role="doc-biblioref">2020</a>)</span> is very useful when you want to do more comparisons than can be implemented in the contrast codes within a single model, whether these are planned comparisons or post-hoc tests. The name of the package stands for <em>estimated marginal means</em>. One part of the functionality of the package is to compute the (unweighted) marginal means according to different types of models, including linear models. In the SDAM book, we discussed how these marginal means can be computed using contrast codes. For example, when using orthogonal contrasts, the intercept represents the grand mean, which is a simple average of averages, where the sample means of all groups are added and then divided by the number of groups. If the groups have unequal sample sizes, this is not taken into account in computing the grand mean. That is what is meant by <em>unweighted</em> marginal means.</p>
 <p>You can think of the marginal means as the estimated population means assuming all groups have an equal sample size. The <code>emmeans</code> function (from the <code>emmeans</code> package with the same name) provides a simple way to compute the estimated marginal means for each condition, but also for the levels of one factor (averaging over the levels of other factors). The <code>emmeans</code> requires at least two arguments: an <code>object</code>, which is an estimated model, and <code>specs</code>, which is either a character vector with the names for the predictors for which the estimated marginal predictors should be computed, or a formula. Here, we will use the formula interface, as it is flexible and intuitive. Going back to our simpler 2 by 2 design (ignoring Experimenter), the estimated marginal means of the four conditions can be computed with <code>emmeans</code> as follows:</p>
 <div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="factorial-anova.html#cb272-1"></a><span class="co"># load the package. If you don&#39;t have it installed, you will need to run</span></span>
 <span id="cb272-2"><a href="factorial-anova.html#cb272-2"></a><span class="co"># install.packages(&quot;emmeans&quot;) first!</span></span>
@@ -778,6 +785,9 @@ This indicates quite clearly that priming condition does not seem to have much o
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
+<div id="ref-R-emmeans">
+<p>Lenth, Russell. 2020. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.</p>
+</div>
 <div id="ref-wright1992adjusted">
 <p>Wright, S Paul. 1992. “Adjusted P-Values for Simultaneous Inference.” <em>Biometrics</em>, 1005–13.</p>
 </div>

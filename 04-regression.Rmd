@@ -81,7 +81,7 @@ modr <- lm(percent_Trump_votes ~ hate_groups_per_million - 1, data=dat)
 anova(modr,modg)
 ```
 
-The output of the `anova` function isn't particularly pretty. Also, if you want to do multiple model comparisons, first estimating models and then comparing them with the `anova` function becomes a little cumbersome. An easier way to obtain all the model comparisons is to use the `Anova` function from the `car` package to automatically construct different possible versions of MODEL R, each being one particular restriction of MODEL G which fixes the relevant parameter to 0. If you don't have the `car` package installed yet, you need to install it first (e.g. by `install.packages("car")`. You can then call: 
+The output of the `anova` function isn't particularly pretty. Also, if you want to do multiple model comparisons, first estimating models and then comparing them with the `anova` function becomes a little cumbersome. An easier way to obtain all the model comparisons is to use the `Anova` function from the `car` [@R-car] package to automatically construct different possible versions of MODEL R, each being one particular restriction of MODEL G which fixes the relevant parameter to 0. If you don't have the `car` package installed yet, you need to install it first (e.g. by `install.packages("car")`. You can then call: 
 ```{r}
 library(car)
 Anova(modg, type=3)
@@ -157,7 +157,7 @@ A final tip relates to exploring relations between many variables (e.g. potentia
 pairs(dat[,4:7])
 ```
 
-If you don't like the look of these base R graphics and prefer `ggplot2`, you can use the `ggpairs` function from the `GGally` package to get a similar plot:
+If you don't like the look of these base R graphics and prefer `ggplot2`, you can use the `ggpairs` function from the `GGally` [@R-GGally] package to get a similar plot:
 
 ```{r, eval=FALSE}
 library(GGally)

@@ -263,7 +263,7 @@ There are two common ways to plot data with R. Base R has various plotting funct
 
 ### Histogram
 
-R has many built-in plotting functions. These tend to be a little basic, and much prettier plots can be made with packages such as `ggplot2` (my current favourite!). But for quick data exploration, the built-in plotting functions are faster. A histogram is plotted through the `hist` function. In the following example, I first generate some random data, store it in an object called `dat` and then plot a histogram:
+R has many built-in plotting functions. These tend to be a little basic, and much prettier plots can be made with packages such as `ggplot2` [@R-ggplot2, my current favourite!]. But for quick data exploration, the built-in plotting functions are faster. A histogram is plotted through the `hist` function. In the following example, I first generate some random data, store it in an object called `dat` and then plot a histogram:
 ```{r}
 hist(fifa2010teams$goals_for)
 ```
