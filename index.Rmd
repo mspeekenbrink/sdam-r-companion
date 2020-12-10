@@ -83,6 +83,6 @@ Parts of these notes were adapted from other sources (if there is a licence allo
 ```{r}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'car', 'lme4', 'mediation', 'ggplot2', 'afex', 'lmerTest', 'Bayesfactor', 'GGally', 'codingMatrices', 'emmeans'  
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'car', 'lme4', 'mediation', 'ggplot2', 'afex', 'lmerTest', 'BayesFactor', 'GGally', 'codingMatrices', 'emmeans'  
 ), 'packages.bib')
 ```

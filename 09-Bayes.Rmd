@@ -1,6 +1,6 @@
 # Bayesian hypothesis testing through Bayes Factors
 
-In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the `BayesFactor` package [@R-Bayesfactor]. The package implements the "default" priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. -->
+In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the `BayesFactor` package [@R-BayesFactor]. The package implements the "default" priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. -->
 
 ## The `BayesFactor` package
 

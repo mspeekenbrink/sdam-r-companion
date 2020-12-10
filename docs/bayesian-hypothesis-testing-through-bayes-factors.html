@@ -251,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="bayesian-hypothesis-testing-through-bayes-factors" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Bayesian hypothesis testing through Bayes Factors</h1>
-<p>In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the <code>BayesFactor</code> package <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-Bayesfactor"><strong>???</strong></span>)</span>. The package implements the “default” priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. --></p>
+<p>In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the <code>BayesFactor</code> package <span class="citation">(Morey and Rouder <a href="#ref-R-BayesFactor" role="doc-biblioref">2018</a>)</span>. The package implements the “default” priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. --></p>
 <div id="the-bayesfactor-package" class="section level2">
 <h2><span class="header-section-number">9.1</span> The <code>BayesFactor</code> package</h2>
 <p>The <code>BayesFactor</code> package implements Bayesian model comparisons for General Linear Models (as well as some other models for e.g. contingency tables and proportions) using JZS-priors for the parameters, or fixing those parameters to 0. Because Bayes Factors are <strong>transitive</strong>, in the sense that a ratio of Bayes Factor is itself another Bayes factor:
@@ -478,6 +478,9 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 <p>Lenth, Russell. 2020. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.</p>
 </div>
 <div>
+<p>Morey, Richard D., and Jeffrey N. Rouder. 2018. <em>BayesFactor: Computation of Bayes Factors for Common Designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>.</p>
+</div>
+<div>
 <p>Rouder, Jeffrey N, Paul L Speckman, Dongchu Sun, Richard D Morey, and Geoffrey Iverson. 2009. “Bayesian T Tests for Accepting and Rejecting the Null Hypothesis.” <em>Psychonomic Bulletin &amp; Review</em> 16 (2): 225–37.</p>
 </div>
 <div>
@@ -515,6 +518,9 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 
 <h3>References</h3>
 <div id="refs" class="references">
+<div id="ref-R-BayesFactor">
+<p>Morey, Richard D., and Jeffrey N. Rouder. 2018. <em>BayesFactor: Computation of Bayes Factors for Common Designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>.</p>
+</div>
 <div id="ref-rouder2009bayesian">
 <p>Rouder, Jeffrey N, Paul L Speckman, Dongchu Sun, Richard D Morey, and Geoffrey Iverson. 2009. “Bayesian T Tests for Accepting and Rejecting the Null Hypothesis.” <em>Psychonomic Bulletin &amp; Review</em> 16 (2): 225–37.</p>
 </div>
