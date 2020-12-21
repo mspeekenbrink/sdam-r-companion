@@ -1,5 +1,7 @@
 fig:rstudio-interface-image
 tab:tetris-orthogonal-cotrast-codes
+fig:hold-position
+tab:unnamed-chunk-206
 acknowledgements
 introduction
 what-is-r
@@ -74,3 +76,19 @@ a-bayesian-one-sample-t-test
 a-bayesian-two-sample-t-test
 a-bayesian-anova
 bayesian-regression-and-ancova
+reproducible-reports-with-rmarkdown
+yaml-headers
+markdown-syntax
+inline-formatting
+block-level-elements
+math-expressions
+r-code
+figures
+tables
+apa-documents-with-papaja
+installation
+how-to-use-papaja
+helper-functions-to-report-analyses
+plot-functions
+getting-help-1
+other-related-r-packages

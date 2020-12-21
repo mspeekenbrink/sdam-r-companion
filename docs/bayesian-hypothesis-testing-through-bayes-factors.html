@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2020-12-09" />
+<meta name="date" content="2020-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="linear-mixed-effects-models.html"/>
-
+<link rel="next" href="reproducible-reports-with-rmarkdown.html"/>
 <script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -230,6 +230,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1.2" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> A Bayesian two-sample t-test</a></li>
 <li class="chapter" data-level="9.1.3" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>9.1.3</b> A Bayesian ANOVA</a></li>
 <li class="chapter" data-level="9.1.4" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>9.1.4</b> Bayesian regression and ANCOVA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>10</b> Reproducible reports with RMarkdown</a><ul>
+<li class="chapter" data-level="10.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>10.1</b> YAML headers</a></li>
+<li class="chapter" data-level="10.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>10.2</b> Markdown syntax</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>10.2.1</b> Inline formatting</a></li>
+<li class="chapter" data-level="10.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>10.2.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="10.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>10.2.3</b> Math expressions</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>10.3</b> R code chunks and inline R code</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>10.3.1</b> Figures</a></li>
+<li class="chapter" data-level="10.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>10.3.2</b> Tables</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>10.4</b> APA documents with <code>papaja</code></a><ul>
+<li class="chapter" data-level="10.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>10.4.1</b> Installation</a></li>
+<li class="chapter" data-level="10.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>10.4.2</b> How to use papaja</a></li>
+<li class="chapter" data-level="10.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>10.4.3</b> Getting help</a></li>
+<li class="chapter" data-level="10.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>10.4.4</b> Other related R packages</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -461,61 +479,9 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## Estimating Bayesian models with the `brms` package
 -->
 
-<div id="refs" class="references">
-<div>
-<p>Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2020. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.</p>
-</div>
-<div>
-<p>Fox, John, Sanford Weisberg, and Brad Price. 2020. <em>Car: Companion to Applied Regression</em>. <a href="https://CRAN.R-project.org/package=car">https://CRAN.R-project.org/package=car</a>.</p>
-</div>
-<div>
-<p>Højsgaard, Ulrich Halekoh Søren. 2020. <em>Pbkrtest: Parametric Bootstrap and Kenward Roger Based Methods for Mixed Model Comparison</em>. <a href="http://people.math.aau.dk/~sorenh/software/pbkrtest/">http://people.math.aau.dk/~sorenh/software/pbkrtest/</a>.</p>
-</div>
-<div>
-<p>Kuznetsova, Alexandra, Per Bruun Brockhoff, and Rune Haubo Bojesen Christensen. 2020. <em>LmerTest: Tests in Linear Mixed Effects Models</em>. <a href="https://github.com/runehaubo/lmerTestR">https://github.com/runehaubo/lmerTestR</a>.</p>
-</div>
-<div>
-<p>Lenth, Russell. 2020. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.</p>
-</div>
-<div>
-<p>Morey, Richard D., and Jeffrey N. Rouder. 2018. <em>BayesFactor: Computation of Bayes Factors for Common Designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>.</p>
-</div>
-<div>
-<p>Rouder, Jeffrey N, Paul L Speckman, Dongchu Sun, Richard D Morey, and Geoffrey Iverson. 2009. “Bayesian T Tests for Accepting and Rejecting the Null Hypothesis.” <em>Psychonomic Bulletin &amp; Review</em> 16 (2): 225–37.</p>
-</div>
-<div>
-<p>Schloerke, Barret, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg, and Jason Crowley. 2020. <em>GGally: Extension to Ggplot2</em>. <a href="https://CRAN.R-project.org/package=GGally">https://CRAN.R-project.org/package=GGally</a>.</p>
-</div>
-<div>
-<p>Singmann, Henrik, Ben Bolker, Jake Westfall, Frederik Aust, and Mattan S. Ben-Shachar. 2020. <em>Afex: Analysis of Factorial Experiments</em>. <a href="https://CRAN.R-project.org/package=afex">https://CRAN.R-project.org/package=afex</a>.</p>
-</div>
-<div>
-<p>Singmann, Henrik, and David Kellen. 2019. “An Introduction to Linear Mixed Modeling in Experimental Psychology.” In <em>New Methods in Cognitive Psychology</em>, 4–31. Psychology Press. <a href="http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf,%20preprint">http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf, preprint</a>.</p>
-</div>
-<div>
-<p>Tingley, Dustin, Teppei Yamamoto, Kentaro Hirose, Luke Keele, Kosuke Imai, Minh Trinh, and Weihuang Wong. 2019. <em>Mediation: Causal Mediation Analysis</em>. <a href="https://imai.princeton.edu/projects/mechanisms.html">https://imai.princeton.edu/projects/mechanisms.html</a>.</p>
-</div>
-<div>
-<p>Venables, Bill. 2018. <em>CodingMatrices: Alternative Factor Coding Matrices for Linear Model Formulae</em>. <a href="https://CRAN.R-project.org/package=codingMatrices">https://CRAN.R-project.org/package=codingMatrices</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, and Dewey Dunnington. 2020. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.</p>
-</div>
-<div>
-<p>Wright, S Paul. 1992. “Adjusted P-Values for Simultaneous Inference.” <em>Biometrics</em>, 1005–13.</p>
 </div>
 </div>
 </div>
-</div>
-</div>
-
-
-
-
-
-
-
-
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-R-BayesFactor">
@@ -536,8 +502,8 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
           </div>
         </div>
       </div>
-<a href="linear-mixed-effects-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="linear-mixed-effects-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="reproducible-reports-with-rmarkdown.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
