@@ -4,7 +4,7 @@ As R was written by statisticians for statisticians, it naturally has very good 
 
 ## Distributions
 
-R includes functions to calculate probabilities and generate random data from a wide variety of distributions (type `?distributions` for an overview). 
+R includes functions to calculate probabilities and generate random data from a wide variety of distributions (type `?distributions` for an overview). The main distributions that we will use are:
 
 Distribution | R name  | Parameters                    
 -------------|---------|--------------------------------
@@ -16,8 +16,8 @@ Student's t  | `t`     | `df`
 
 The statistical distribution functions all have a similar interface: 
 
-* you can generate random data by calling the R name with an `r` (for random) before it (e.g. `rbinom`)
-* you can compute the probability (or density function value) of a particular value by calling the function with a `d` (for density) before it (e.g. `dbinom`)
+* you can generate random data by calling the R name with an `r` (for random) before it (e.g. `rbinom` for random draws from the Binomial distribution, and `rnorm` for random draws from the Normal distribution)
+* you can compute the probability (or density function value) of a particular value by calling the function with a `d` (for density) before it (e.g. `dbinom` and `dnorm`)
 * you can compute a cumulative probability (the probability of a particular value and anything lower than it) by calling the function with a `p` (for probability) before it (e.g. `pbinom`)
 * you can compute a quantile (the value such that there is a particular probability of sampling a value equal to or lower that it) by calling the function with a `q` (for probability) before it (e.g. `qbinom`)
 
@@ -81,9 +81,11 @@ hist(likelihood_ratio)
 ```
 Compared to an infinite number of datasets, 100 is quite a small number, but nevertheless the histogram already looks quite a bit like the true distribution of the likelihood ratio under MODEL R.
 
+<!--
 ### Working out the theoretical distribution of the likelihood ratio
 
 (TODO: will add this later)
+-->
 
 ## Hypothesis testing directly with the binomial distribution
 

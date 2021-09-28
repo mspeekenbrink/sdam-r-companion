@@ -63,7 +63,7 @@ pretNum <- function(x) {
 }
 ```
 
-This is a companion to the book "Statistics: Data analysis and modelling". It covers 
+This is a companion to the book [Statistics: Data analysis and modelling](https://mspeekenbrink.github.io/sdam-book/). It covers how to perform the analyses discussed in that book, mostly using "base" R and a relatively small selection of add-on packages.
 
 R is a programming language and environment specifically designed for data analysis. It is flexible, relatively fast, and has a large number of users and contributors. However, R is known to have a somewhat steep learning curve, so if you want to learn R, you will have to put in some extra effort (compared to e.g. JASP or SPSS). This effort will certainly pay off in the end, but it is up to you to decide whether you want to make this investment. 
 
@@ -78,7 +78,7 @@ A freely downloadable book on R and statistics specifically focused on psycholog
 
 ## Acknowledgements
 
-Parts of these notes were adapted from other sources (if there is a licence allowing that). I acknowledge these sources in footnotes.
+Parts of these notes were adapted from other sources (if there is a licence allowing that). I acknowledge these sources in the text or footnotes.
 
 ```{r}
 # automatically create a bib database for R packages

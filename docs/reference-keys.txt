@@ -1,7 +1,7 @@
 fig:rstudio-interface-image
 tab:tetris-orthogonal-cotrast-codes
 fig:hold-position
-tab:unnamed-chunk-206
+tab:unnamed-chunk-208
 acknowledgements
 introduction
 what-is-r
@@ -29,7 +29,6 @@ generating-random-data
 estimation
 the-likelihood-function
 calculating-the-likelihood-ratio
-working-out-the-theoretical-distribution-of-the-likelihood-ratio
 hypothesis-testing-directly-with-the-binomial-distribution
 the-one-sample-t-test
 missing-values
@@ -61,6 +60,7 @@ type-1-2-and-3-sums-of-squares
 planned-comparisons-and-post-hoc-tests-with-emmeans
 adjusted-p-values
 testing-general-contrasts-with-emmeans
+repeated-measures-anova
 linear-mixed-effects-models
 formulating-and-estimating-linear-mixed-effects-models-with-lme4
 random-intercepts-model
