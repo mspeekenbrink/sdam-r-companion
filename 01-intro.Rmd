@@ -33,7 +33,7 @@ R does not come with a graphical interface by default. Most people nowadays inte
 Like R, RStudio is open source software and free to download for anyone that wants to. You can download RStudio from [the RStudio website](https://rstudio.com/products/rstudio/) (select the free open source desktop version).
 
 ```{r, echo=FALSE}
-knitr::include_url("https://www.rstudio.com/products/rstudio/download/")
+knitr::include_url("https://www.rstudio.com/products/rstudio/")
 ```
 
 <!-- If you are using a Mac, in addition to R and RStudio, you need to download XQuartz ([available here](https://www.xquartz.org/)). -->
