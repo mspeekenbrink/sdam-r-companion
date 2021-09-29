@@ -610,7 +610,7 @@ groups (if desired).</li>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="introduction.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb76-2"><a href="introduction.html#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fifa2010teams,<span class="fu">aes</span>(<span class="at">x=</span>goals_for)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">10</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&#39;#8C8279&#39;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Goals scored&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-33-1.svg" width="672" style="display: block; margin: auto;" />
-Note that within the <code>geom_histogram</code> function, I’ve specified to use 10 bins, and draw a black line around the bars, and fill the bars with colour specified by the hexadecimal colour code ‘#8C8279.’ Finally,, I’m using the <code>xlab</code> function to generate a better label for the x-axis. <code>ggplot2</code> is very powerful and flexible, so there are many such adjustments you can make.</p>
+Note that within the <code>geom_histogram</code> function, I’ve specified to use 10 bins, and draw a black line around the bars, and fill the bars with colour specified by the hexadecimal colour code ‘#8C8279.’ Finally, I’m using the <code>xlab</code> function to generate a better label for the x-axis. <code>ggplot2</code> is very powerful and flexible, so there are many such adjustments you can make. A useful resource with practical guidance on creating a variety of plots with <code>ggplot2</code> is the <a href="https://r-graphics.org/">R graphics cookbook</a>. A more thorough treatment of <code>ggplot2</code> and the underlying ideas of a Grammar of Graphics, is <a href="https://ggplot2-book.org/">ggplot2: elegant graphics for data analysis</a>.</p>
 </div>
 <div id="boxplot" class="section level3" number="1.9.2">
 <h3><span class="header-section-number">1.9.2</span> Boxplot</h3>
@@ -627,10 +627,13 @@ Not very pretty! A somewhat better version can be obtained by:</p>
 </div>
 <div id="scatterplot" class="section level2" number="1.10">
 <h2><span class="header-section-number">1.10</span> Scatterplot</h2>
+<p>A quick scatterplot can be created with the <code>plot</code> function, in which you specify the variable to show on the x-axis and the variable on the y-axis:</p>
 <div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="introduction.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>fifa2010teams<span class="sc">$</span>matches_played, <span class="at">y=</span>fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-37-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>To get a similar plot with <code>ggplot2</code>, you can use the <code>geom_point</code> function:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="introduction.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fifa2010teams, <span class="fu">aes</span>(<span class="at">x=</span>matches_played, <span class="at">y=</span>goals_for)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-38-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-1.svg" width="672" style="display: block; margin: auto;" />
+In <code>ggplot2</code>, specification of the variables on the x-axis and y-axis is done within the aesthetics specification (<code>aes</code>) within the initial call to <code>ggplot</code>. The later functions, such as <code>geom_point</code>, inherit the specifications provided there.</p>
 </div>
 <div id="raincloud-plot" class="section level2" number="1.11">
 <h2><span class="header-section-number">1.11</span> Raincloud plot</h2>

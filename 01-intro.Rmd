@@ -285,7 +285,7 @@ Well, that's not actually so pretty. We can make it better by changing some of t
 library(ggplot2)
 ggplot(fifa2010teams,aes(x=goals_for)) + geom_histogram(bins=10, colour="black", fill='#8C8279') + xlab("Goals scored")
 ```
-Note that within the `geom_histogram` function, I've specified to use 10 bins, and draw a black line around the bars, and fill the bars with colour specified by the hexadecimal colour code '#8C8279'. Finally,, I'm using the `xlab` function to generate a better label for the x-axis. `ggplot2` is very powerful and flexible, so there are many such adjustments you can make.
+Note that within the `geom_histogram` function, I've specified to use 10 bins, and draw a black line around the bars, and fill the bars with colour specified by the hexadecimal colour code '#8C8279'. Finally, I'm using the `xlab` function to generate a better label for the x-axis. `ggplot2` is very powerful and flexible, so there are many such adjustments you can make. A useful resource with practical guidance on creating a variety of plots with `ggplot2` is the [R graphics cookbook](https://r-graphics.org/). A more thorough treatment of `ggplot2` and the underlying ideas of a Grammar of Graphics, is [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/).
 
 ### Boxplot
 
@@ -305,13 +305,17 @@ ggplot(fifa2010teams,aes(x="",y=goals_for)) + geom_boxplot(width=.2) + xlab("")
 
 ## Scatterplot
 
+A quick scatterplot can be created with the `plot` function, in which you specify the variable to show on the x-axis and the variable on the y-axis:
+
 ```{r}
 plot(x=fifa2010teams$matches_played, y=fifa2010teams$goals_for)
 ```
 
+To get a similar plot with `ggplot2`, you can use the `geom_point` function:
 ```{r}
 ggplot(fifa2010teams, aes(x=matches_played, y=goals_for)) + geom_point()
 ```
+In `ggplot2`, specification of the variables on the x-axis and y-axis is done within the aesthetics specification (`aes`) within the initial call to `ggplot`. The later functions, such as `geom_point`, inherit the specifications provided there.
 
 ## Raincloud plot
 
