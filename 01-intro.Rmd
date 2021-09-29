@@ -117,7 +117,7 @@ You can multiply numbers using the `*` operator, e.g $2 \times 11$:
 ```{r}
 2 * 11 # multiplication
 ```
-You can divide numbers using the `\` operator, e.g. $\frac{2}{11}$:
+You can divide numbers using the `/` operator, e.g. $\frac{2}{11}$:
 ```{r}
 2 / 11 # division
 ```
