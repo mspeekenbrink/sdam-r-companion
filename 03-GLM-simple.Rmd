@@ -6,6 +6,7 @@ library(sdamr)
 data(anchoring)
 ```
 
+And view the first few rows of the data with:
 
 ```{r}
 head(anchoring)
@@ -18,15 +19,17 @@ Sometimes a data set has missing values. In R, a missing value is shown as `NA` 
 mean(anchoring$everest_meters)
 sd(anchoring$everest_meters)
 ```
-You could get rid of all the missing values from your `data.frame` by using a subset function, but generally, I think it is better to keep the dataset as is, and use other means to avoid problems with missing values. Luckily, many functions have arguments to deal with missing values. For instance, the two functions above have an `na.rm` argument (for not-available-remove). Setting this to true will call the function only on the non-missing-values:
+This is because if there are missing values, it is not possible to compute or estimate the mean or standard deviation from _all_ the data. To get the values for the non-missing data, you could first get rid of all the missing values from your `data.frame` by using a subset function. But I think it is better to keep the dataset as is, and use other ways to avoid problems with missing values. Luckily, many functions have arguments to deal with missing values. For instance, the two functions above have an `na.rm` argument (for not-available-remove). Setting this to true will call the function only on the non-missing-values:
 ```{r}
 mean(anchoring$everest_meters,na.rm=TRUE)
 sd(anchoring$everest_meters,na.rm=TRUE)
 ```
+Because the default in these functions is to set `na.rm=FALSE`, you will be aware of missing values in your data, which is useful, although having to then to explicitly set `na.rm=TRUE` can be a little annoying.
 
 ## Selecting subsets of data
 
-There are two main ways to select a subset of observations in R. You can either use an "indexing variable", or use the `subset` function. 
+There are two main ways to select a subset of observations in `R`. You can either use an "indexing variable", or use the `subset` function. I will discuss both below.
+
 ### Indexing variables
 
 An indexing variable is used to specify the rows in a `data.frame` that you want to use. Generally, an indexing variable is a logical variable, which takes the value `TRUE` for cases (rows) that you want to include, and `FALSE` for cases that you want to exclude. Using an index variable, we will treat the `data.frame` as a matrix, which allows us to use square brackets, as in `data[row,column]` to either select rows or columns. For example, `anchoring[,"age"]` selects the column named "age" and returns it, while `anchoring[1:10,]` selects rows 1 to 10. The nice thing about R is that instead of providing row row numbers, we can create a logical variable based on the data itself to select rows. To do so, we can use the logical comparators and operators:
@@ -91,7 +94,8 @@ dat <- subset(anchoring,(referrer == "swps" | referrer == "swpson") & anchor == 
 
 ## One-sample t-test
 
-R has a `t.test` function which allows you to compute a variety of t-tests. For a one-sample t-test, you would use the following arguments
+R has a `t.test` function which allows you to compute a variety of t-tests. For a one-sample t-test, you would use the following arguments:
+
 * `x`: the variable for which to compute the t-test
 * `mu`: the assumed value of the mean, i.e. $\underline{\mu}$
 * `alternative`: similar as in `binom.test`, the range of values for `mu` (i.e. $\mu$) considered in MODEL G. This must be either `two.sided` (all values allowed), `greater` (only values $\mu > \underline{\mu}$ allowed), or `less` (only values $\mu < \underline{\mu}$ allowed). The default value is `alternative = "two.sided"`.
@@ -104,4 +108,97 @@ t.test(dat$everest_meters, mu=8848)
 A one-sided test where MODEL R assumes $\mu = 8848$ and MODEL G assumes that $\mu < 8848$, is obtained by
 ```{r}
 t.test(dat$everest_meters, mu=8848, alternative = "less")
+```
+
+## Effect size
+
+For a one-sample t-test, the computation of Cohen's $d$ is straightforward. You simply divide the difference between the mean and the assumed mean by the standard deviation:
+
+```{r}
+(mean(dat$everest_meters) - 8848)/sd(dat$everest_meters)
+```
+
+Note the use of brackets around the difference between the sample mean and assumed mean. What we want to compute is 
+$$\text{Cohen's } d = \frac{\overline{Y} - \underline{\mu}}{\sigma_Y}$$
+If I would have left the brackets out, R would compute the difference between the sample mean on the one hand, and the assumed mean divided by the standard deviation on the other hand:
+
+```{r}
+mean(dat$everest_meters) - 8848/sd(dat$everest_meters)
+```
+
+which is 
+$$\overline{Y} - \frac{\underline{\mu}}{\sigma_Y}$$
+and not what we intend to compute! Many errors are due to missing brackets.
+
+If you don't want to calculate Cohen's $d$ in this way, you can also use the `cohens_d` function from the `effectsize` packages, which provides functions for a wide variety of effect-size measures. You can supply a `t.test` directly as an argument to the `cohens_d` function: 
+
+```{r}
+effectsize::cohens_d(t.test(dat$everest_meters, mu=8848))
+```
+
+The output does not only provide the value of Cohen's $d$ that we computed earlier, but also a confidence interval around this measure. In terms of the code, note that instead of first loading the `effectsize` package with `library(effectsize)`, I called the function directly by prepending the `cohens_d` function with the package name, as in `effectsize::cohens_d`. Calling functions in this way without loading the package first is handy, because some packages may use the same name for different functions. If that is the case, when you call a function with that name, you will get the function as implemented in the package you loaded the last. This often leads to errors. If you can, avoid loading packages, and always use functions without loading a package by prepending the name of the function with the package name.
+
+## Nonparametric bootstrap
+
+(This section is rather advanced and you can skip it for now if you want. You may want to return to this if you need or want to apply a bootstraping technique.)
+
+When discussing the Central Limit Theorem, I described how you can use _bootstrapping_ to evaluate whether an assumed distribution for a statistic is likely to hold. Such a bootstrap analysis is quite easy to perform in R, although the idea itself is somewhat advanced. The key idea is to repeatedly sample, with replacement, from a given dataset, to obtain lots of new datasets, and then compute the statistic for those new dataset. To sample with replacement, the `sample` function in R comes in handy. In particular, you can use this function to sample the indices (from 1 to $n$) of observations in a dataset. For example, if I have a dataset with 10 observations, I might sample with replacement numbers between 1 and 10 as follows:
+
+```{r}
+set.seed(1234)
+sample(1:10, size = 10, replace = TRUE)
+```
+
+The first argument to the `sample` function is the set of elements you want to sample from (numbers in the sequence from 1 to 10 in this case), the second specifies the number of samples (10 in this case), and the third specifies that we sample with replacement, which means that we can sample the same element multiple times. Here, you can see that the number 3 occurs 3 times in our new sample, and the number 10 twice. If we then use these numbers to select observations in our dataset, the new dataset would replicate observation 3 three times, and observation 10 two times. Such replications of observations is exactly what we want in a nonparametric bootstrap. One way to get a bootstrap distribution of the sample mean, by sampling `nsim` new datasets of the same size as the original dataset (given as $n$=`nrow(dat)`) would be as follows:
+
+```{r, eval=FALSE}
+set.seed(23456)
+nsim <- 100000 # number of new datasets
+boot_mean <- rep(0.0,nsim) # initialize a vector to store the means in the new datasets
+for(i in 1:nsim) { # iterate for each bootstrap sample
+  y <- dat[sample(1:nrow(dat),size=nrow(dat),replace=TRUE),]$everest_meters # sample data
+  boot_mean[i] <- mean(y) # compute mean and store it in an element of boot_mean
+}
+```
+
+R is rather slow in performing `for` loops. It is more efficient to generate all the `y` samples for all simulations in one go. Instead of repeatedly sampling `size=nrow(dat)` samples, we can sample the indices for all bootstrap samples in one go as `size=nsim*nrow(dat)`. If we then place the sampled `y` values in a matrix, we can compute the mean for each column in that matrix to get our `boot_mean` variable. This is how I performed the bootstrapped distribution of the sample mean:
+
+```{r bootstrap-mean, cache=TRUE}
+set.seed(23456)
+nsim <- 100000 # number of new datasets
+boot_mean <- rep(0.0,nsim) # initialize a vector to store the means in the new datasets
+y <- matrix(dat[sample(1:nrow(dat),size=nsim*nrow(dat),replace=TRUE),]$everest_meters,ncol=nsim)
+boot_mean <- colMeans(y)
+```
+
+I then plotted the histogram with the overlaid theoretical distribution as follows:
+```{r}
+ggplot(data.frame(mean=boot_mean), aes(x=mean)) + geom_histogram(binwidth=30) + 
+  stat_function(fun = function(x) dnorm(x, mean = mean(boot_mean), sd = sd(boot_mean)) * 30 * nsim, linetype=2) + ylab("count")
+```
+Note the use of the `stat_function` in which I supplied a function to compute the Normal density function with a mean and standard deviation equal to those of the `boot_mean` variable. This then plots the density of that variable, assuming it follows a Normal distribution. We can also plot the Q-Q plot as follows:
+```{r}
+ggplot(data.frame(mean=boot_mean), aes(sample = mean)) + stat_qq() + stat_qq_line() + ylab("sample") + xlab("theoretical")
+```
+
+To get a bootstrapped distribution of the $t$-statistic, we can follow a mostly similar procedure. In this case, we  want to determine the distribution of the $t$-statistic assuming that the null-hypothesis is true. To get this, rather than testing against $\underline{\mu} - 8848$, we set $\underline{\mu} = \overline{Y}$ here. The reasoning behind this is that $\overline{Y}$ is our best estimate of $\mu$, whilst the assumed value $\underline{\mu}$ might be completely wrong. If the distribution of the $t$-statistic with our best guess $\underline{\mu} = \overline{Y}$ follows a t-distribution, we could assume it would also follow a t-distribution if the null-hypothesis were true. The code to get the bootstrapped distribution of the $t$-statistic is:
+```{r bootstrap-t}
+set.seed(23456)
+nsim <- 100000 # number of new datasets
+boot_t <- rep(0.0,nsim)
+s_mean <- mean(dat$everest_meters)
+y <- matrix(dat[sample(1:nrow(dat),size=nsim*nrow(dat),replace=TRUE),]$everest_meters,ncol=nsim)
+boot_t <- apply(y, MARGIN=2, FUN=function(x) t.test(x, mu=s_mean)$statistic)
+```
+Note the use of the `apply` function on the last line. The `apply` function can be used to apply any function provided in the `FUN` argument over a particular (set) of dimensions in an array. In this case, `y` is a matrix, and specifying `MARGIN=2` means that we apply the function over each column in that matrix (setting the argument to `MARGIN=1` would apply the function to each row in the matrix). The function that we apply to each column of `y` (which is each bootstrapped sample) is the `t.test` function, and we only store the value of the `statistic` variable of the output of that function (which is the value of the $t$-statistic).
+
+We can plot the bootstrap distribution with the theoretical distribution overlaid as follows:
+```{r}
+ggplot(data.frame(t=boot_t), aes(x=t)) + geom_histogram(binwidth=.1) + 
+  stat_function(fun = function(x) dt(x, df = nrow(dat) - 1) * .1 * nsim, linetype=2) + ylab("count")
+```
+and the Q-Q plot as:
+```{r}
+ggplot(data.frame(t=boot_t), aes(sample = t)) + stat_qq(distribution = stats::qt, dparams = list(df = nrow(dat) - 1)) + 
+  stat_qq_line(distribution = stats::qt, dparams = list(df = nrow(dat) - 1)) + ylab("sample") + xlab("theoretical")
 ```

@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-09-29" />
+<meta name="date" content="2021-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -183,9 +183,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
 <li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
 <ul>
-<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.1</b> The <code>subset</code> function</a></li>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
+<li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
 <ul>
@@ -308,9 +311,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>which is a model with all “simple effects,” all pairwise product-predictors, as well as a three-way product predictor which is <code>x1</code> <span class="math inline">\(\times\)</span> <code>x2</code> <span class="math inline">\(\times\)</span> <code>x3</code>. We won’t discuss such higher-order interactions until later, but it is good to be aware of this in advance.</p>
 <p>As a linear model with a product-predictors is just another linear model, that is really all there is to say about specifying linear models with interactions/moderation in R. Through the formula interface, R will create the necessary additional product predictor(s), and then estimate the parameters of the resulting linear model.</p>
 <p>Let’s have a look at how this works with the <code>speeddate</code> data which was also analysed in the SDAM book. The data is included in the <code>sdamr</code> package, and can be loaded and (partially) inspected as usual:</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="moderation-and-mediation.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
-<span id="cb151-2"><a href="moderation-and-mediation.html#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>)</span>
-<span id="cb151-3"><a href="moderation-and-mediation.html#cb151-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(speeddate)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="moderation-and-mediation.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb166-2"><a href="moderation-and-mediation.html#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>)</span>
+<span id="cb166-3"><a href="moderation-and-mediation.html#cb166-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(speeddate)</span></code></pre></div>
 <pre><code>##   iid pid gender age date_like other_like date_want other_want match self_attr
 ## 1 132 137 female  27         8          7         0          1     0         8
 ## 2 132 138 female  27         8          8         0          1     0         8
@@ -359,9 +362,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 &amp;+ \beta_{\texttt{attr} \times \texttt{intel}} \times (\texttt{attr} \times \texttt{intel})_i + \beta_{\texttt{fun} \times \texttt{intel}} \times (\texttt{fun} \times \texttt{intel})_i + \epsilon_i
 \end{align}\]</span>
 referred to in the SDAM book can be estimated by calling:</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="moderation-and-mediation.html#cb153-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(other_like <span class="sc">~</span> other_attr<span class="sc">*</span>other_intel <span class="sc">+</span> other_fun<span class="sc">*</span>other_intel, <span class="at">data=</span>speeddate)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="moderation-and-mediation.html#cb168-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(other_like <span class="sc">~</span> other_attr<span class="sc">*</span>other_intel <span class="sc">+</span> other_fun<span class="sc">*</span>other_intel, <span class="at">data=</span>speeddate)</span></code></pre></div>
 <p>Hypothesis tests with the <span class="math inline">\(t\)</span> statistic are obtained as usual though</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="moderation-and-mediation.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="moderation-and-mediation.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = other_like ~ other_attr * other_intel + other_fun * 
@@ -387,7 +390,7 @@ referred to in the SDAM book can be estimated by calling:</p>
 ## Multiple R-squared:  0.6227, Adjusted R-squared:  0.6214 
 ## F-statistic: 485.8 on 5 and 1472 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>The equivalent tests with the <span class="math inline">\(F\)</span> statistic are easily obtained through</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="moderation-and-mediation.html#cb156-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modg,<span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="moderation-and-mediation.html#cb171-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modg,<span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: other_like
@@ -404,22 +407,22 @@ referred to in the SDAM book can be estimated by calling:</p>
 <div id="a-bit-about-namespaces" class="section level3" number="5.1.1">
 <h3><span class="header-section-number">5.1.1</span> A bit about namespaces</h3>
 <p>In the code above, I’m using <code>car::</code> to refer to a function in the <code>car</code> package. Technically, a statement like <code>package_name::</code> denotes the <strong>namespace</strong> of the package with the name <code>package_name</code> (i.e., <code>car</code> in this case). This allows you to use functions from a package without loading the package completely (without loading all the functions of the package in memory). This can be (and often is!) better than first loading the package through e.g. <code>library(car)</code> and then calling <code>Anova</code>. The issue is that different packages can use the same name for a function, and when you call a function, it will be the one of the package that was last loaded. When packages use the same name for functions, the function with the same name from a package that was loaded earlier will be “masked” and R will print this as a warning in the R console. For example, if you load the <code>dplyr</code> package (a rather useful package for data manipulation, that is a little too much to discuss here in detail), you will see the following warnings:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="moderation-and-mediation.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="moderation-and-mediation.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <p>The line <code>The following objects are masked from 'package:stats'</code> indicates that the functions <code>filter</code> and <code>lag</code> are "masked from the <code>stats</code> package. Whenever you call these functions, they will be the corresponding functions from the <code>dplyr</code> package, and <em>not</em> those from the <code>stats</code> package. This does not break the functionality of the packages themselves, as a properly written package that needs the <code>filter</code> function from the <code>stats</code> package will still use the function from that namespace (package), and not the one from the <code>dplyr</code> one. But when <em>you</em> call the a function, R will try find the definition of that function in the <em>global</em> namespace, and the global namespace contains the version of the last provided definition of any R object. Just like you can overwrite an R object by giving it the same name as an already existing r object (as I often do deliberately through e.g. <code>mod &lt;- lm()</code>), a function in R is just another object. So if I specify a function like</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="moderation-and-mediation.html#cb159-1" aria-hidden="true" tabindex="-1"></a>head <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">na.rm =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb159-2"><a href="moderation-and-mediation.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="st">&quot;Where&#39;s your head? It&#39;s almost Halloween!&quot;</span>)</span>
-<span id="cb159-3"><a href="moderation-and-mediation.html#cb159-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="moderation-and-mediation.html#cb174-1" aria-hidden="true" tabindex="-1"></a>head <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">na.rm =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb174-2"><a href="moderation-and-mediation.html#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="st">&quot;Where&#39;s your head? It&#39;s almost Halloween!&quot;</span>)</span>
+<span id="cb174-3"><a href="moderation-and-mediation.html#cb174-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Then next time I call that function, I will get as a result</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="moderation-and-mediation.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(speeddate)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="moderation-and-mediation.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(speeddate)</span></code></pre></div>
 <pre><code>## [1] &quot;Where&#39;s your head? It&#39;s almost Halloween!&quot;</code></pre>
 <p>and <strong>not</strong> the result from</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="moderation-and-mediation.html#cb162-1" aria-hidden="true" tabindex="-1"></a>utils<span class="sc">::</span><span class="fu">head</span>(speeddate)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="moderation-and-mediation.html#cb177-1" aria-hidden="true" tabindex="-1"></a>utils<span class="sc">::</span><span class="fu">head</span>(speeddate)</span></code></pre></div>
 </div>
 </div>
 <div id="centering" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> Centering</h2>
 <p>As discussed in the SDAM book, sometimes you might want to center variables by subtracting their (sample) mean from each value. This can be done in a number of ways. You can either create new variables in a dataframe by subtracting the single value obtained through <code>mean()</code> from a vector, as in</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="moderation-and-mediation.html#cb163-1" aria-hidden="true" tabindex="-1"></a>speeddate<span class="sc">$</span>other_like_c <span class="ot">&lt;-</span> speeddate<span class="sc">$</span>other_like <span class="sc">-</span> <span class="fu">mean</span>(speeddate<span class="sc">$</span>other_like, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="moderation-and-mediation.html#cb178-1" aria-hidden="true" tabindex="-1"></a>speeddate<span class="sc">$</span>other_like_c <span class="ot">&lt;-</span> speeddate<span class="sc">$</span>other_like <span class="sc">-</span> <span class="fu">mean</span>(speeddate<span class="sc">$</span>other_like, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>and then using the new variable <code>other_like_c</code> in your <code>lm</code> model. Alternatively, you can do by calling the <code>scale</code> function. By default, the <code>scale</code> function creates <span class="math inline">\(Z\)</span> transformed variables by subtracting the mean and then dividing this mean-deviation by the standard deviation:
 <span class="math display">\[\text{scale}(Y_i) = \frac{Y_i - \overline{Y}}{S_Y}\]</span>
 The <code>scale</code> function has three arguments:</p>
@@ -429,12 +432,12 @@ The <code>scale</code> function has three arguments:</p>
 <li><code>scale</code>: a logical value indicating whether you want to divide by the standard deviation</li>
 </ul>
 <p>Centering (subtracting the mean, but not dividing by the standard deviation) is thus obtained by calling <code>scale(x, scale=FALSE)</code>. Personally, I find calling a function <code>scale</code> with argument <code>scale = FALSE</code> a little confusing. The <code>sdamr</code> package therefore provides the function <code>center</code> which is basically just a version of <code>scale</code> which by default sets the argument <code>scale = FALSE</code>:</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="moderation-and-mediation.html#cb164-1" aria-hidden="true" tabindex="-1"></a>center <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb164-2"><a href="moderation-and-mediation.html#cb164-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>(x, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb164-3"><a href="moderation-and-mediation.html#cb164-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="moderation-and-mediation.html#cb179-1" aria-hidden="true" tabindex="-1"></a>center <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb179-2"><a href="moderation-and-mediation.html#cb179-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>(x, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb179-3"><a href="moderation-and-mediation.html#cb179-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Because R is a functional programming language, you can call the <code>scale</code> or <code>center</code> function directly within the call to the <code>lm</code> function. This saves you having to create centered variables in a dataframe first. For instance, if you have loaded the <code>sdamr</code> package (or if you ran the code above defining the <code>center</code> function), you can obtain the results of the model with centered predictors by calling</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="moderation-and-mediation.html#cb165-1" aria-hidden="true" tabindex="-1"></a>modg_c <span class="ot">&lt;-</span> <span class="fu">lm</span>(other_like <span class="sc">~</span> <span class="fu">center</span>(other_attr)<span class="sc">*</span><span class="fu">center</span>(other_intel) <span class="sc">+</span> <span class="fu">center</span>(other_fun)<span class="sc">*</span><span class="fu">center</span>(other_intel), <span class="at">data=</span>speeddate)</span>
-<span id="cb165-2"><a href="moderation-and-mediation.html#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg_c)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="moderation-and-mediation.html#cb180-1" aria-hidden="true" tabindex="-1"></a>modg_c <span class="ot">&lt;-</span> <span class="fu">lm</span>(other_like <span class="sc">~</span> <span class="fu">center</span>(other_attr)<span class="sc">*</span><span class="fu">center</span>(other_intel) <span class="sc">+</span> <span class="fu">center</span>(other_fun)<span class="sc">*</span><span class="fu">center</span>(other_intel), <span class="at">data=</span>speeddate)</span>
+<span id="cb180-2"><a href="moderation-and-mediation.html#cb180-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg_c)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = other_like ~ center(other_attr) * center(other_intel) + 
@@ -463,13 +466,13 @@ The <code>scale</code> function has three arguments:</p>
 <div id="mediation-analysis" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> Mediation analysis</h2>
 <p>In the SDAM book, we looked at mediation with a different dataset called <code>legacy2015</code>. This is also part of the <code>sdamr</code> package, and we can make it available and look at the initial cases as usual:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="moderation-and-mediation.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;legacy2015&quot;</span>)</span>
-<span id="cb167-2"><a href="moderation-and-mediation.html#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(legacy2015)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="moderation-and-mediation.html#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;legacy2015&quot;</span>)</span>
+<span id="cb182-2"><a href="moderation-and-mediation.html#cb182-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(legacy2015)</span></code></pre></div>
 <pre><code>## [1] &quot;Where&#39;s your head? It&#39;s almost Halloween!&quot;</code></pre>
 <p>Oops! We had overwritten (“masked”) the <code>head</code> function before. We can get rid of our new definition of the <code>head</code> function by removining it from the global namespace with the <code>rm()</code> function (the name refers to <em>remove</em>):</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="moderation-and-mediation.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="st">&quot;head&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="moderation-and-mediation.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="st">&quot;head&quot;</span>)</span></code></pre></div>
 <p>After this, we can try again:</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="moderation-and-mediation.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(legacy2015)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="moderation-and-mediation.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(legacy2015)</span></code></pre></div>
 <pre><code>##   id    sex age legacy belief intention education income donation
 ## 2  2   male  23   4.38    5.4      3.57         5      5        0
 ## 3  3 female  59   4.75    5.2      2.43         5      6        0
@@ -480,15 +483,15 @@ The <code>scale</code> function has three arguments:</p>
 <div id="causal-steps" class="section level3" number="5.3.1">
 <h3><span class="header-section-number">5.3.1</span> Causal steps</h3>
 <p>The causal steps approach to assessing mediation is done through testing significance in three regression models. This can be done straightforwardly with the <code>lm()</code> function which we have used quite a bit already. For instance, to assess whether the relation between <code>legacy</code> and <code>donation</code> is mediated by <code>intention</code>, we would estimate and test the parameters of the following models:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="moderation-and-mediation.html#cb172-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(donation <span class="sc">~</span> legacy, <span class="at">data =</span> legacy2015)</span>
-<span id="cb172-2"><a href="moderation-and-mediation.html#cb172-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(intention <span class="sc">~</span> legacy, <span class="at">data =</span> legacy2015)</span>
-<span id="cb172-3"><a href="moderation-and-mediation.html#cb172-3" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(donation <span class="sc">~</span> intention <span class="sc">+</span> legacy, <span class="at">data =</span> legacy2015)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="moderation-and-mediation.html#cb187-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(donation <span class="sc">~</span> legacy, <span class="at">data =</span> legacy2015)</span>
+<span id="cb187-2"><a href="moderation-and-mediation.html#cb187-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(intention <span class="sc">~</span> legacy, <span class="at">data =</span> legacy2015)</span>
+<span id="cb187-3"><a href="moderation-and-mediation.html#cb187-3" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(donation <span class="sc">~</span> intention <span class="sc">+</span> legacy, <span class="at">data =</span> legacy2015)</span></code></pre></div>
 </div>
 <div id="investigating-the-moderated-indirect-effect-with-a-bootstrap-test" class="section level3" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> Investigating the moderated (indirect) effect with a bootstrap test</h3>
 <p>There are quite a few packages in R which will allow you to test the moderated effect of a predictor on the dependent variable “via” the mediator. I have chosen here for the <code>mediate</code> function from the <code>mediation</code> package <span class="citation">(<a href="reproducible-reports-with-rmarkdown.html#ref-R-mediation" role="doc-biblioref">Tingley et al. 2019</a>)</span>, as it is a versatile option, and doesn’t require too much additional explanation. Another very good option to conduct mediation analysis is to specify the mediation model through a generalization of linear models generally called <em>Structural Equation Models</em>. These are multivariate models and not something we will cover in this course. For present purposes, this can be seen as a way to link different regression models (i.e. the dependent variable of one regression model becomes a predictor in another regression model) into what are conventionally called <em>path models</em>. The current “go-to” and most comprehensive SEM package in R is called <code>lavaan</code> and if you ever need to use this kind of analysis, that is my recommendation at the moment.</p>
 <p>So let’s focus on the <code>mediation</code> package for now. If you haven’t done so already, you will need to install it with</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="moderation-and-mediation.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mediation&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="moderation-and-mediation.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mediation&quot;</span>)</span></code></pre></div>
 <p>If you check the documentation of <code>mediate</code> in this package (i.e type <code>?mediation::mediate</code>), you will see there are lots of arguments to specify. We will only focus one the ones important for present purposes:</p>
 <ul>
 <li><code>model.m</code>: the name of the R object which contains the linear model predicting the mediator from the predictor, e.g. <code>mod2</code> above</li>
@@ -500,9 +503,9 @@ The <code>scale</code> function has three arguments:</p>
 <li><code>mediator</code>: the name of the mediator in the linear models specified under <code>model.m</code> and <code>model.y</code>. This is would be e.g. <code>intention</code> in the models above</li>
 </ul>
 <p>To run a bootstrap mediation test with 2000 simulations, we can run the following command:</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="moderation-and-mediation.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20201027</span>)</span>
-<span id="cb174-2"><a href="moderation-and-mediation.html#cb174-2" aria-hidden="true" tabindex="-1"></a>med <span class="ot">&lt;-</span> mediation<span class="sc">::</span><span class="fu">mediate</span>(<span class="at">model.m =</span> mod2, <span class="at">model.y =</span> mod3, <span class="at">sims =</span> <span class="dv">2000</span>, <span class="at">boot =</span> <span class="cn">TRUE</span>, <span class="at">boot.ci.type =</span> <span class="st">&quot;bca&quot;</span>, <span class="at">treat =</span> <span class="st">&quot;legacy&quot;</span>, <span class="at">mediator =</span> <span class="st">&quot;intention&quot;</span>)</span>
-<span id="cb174-3"><a href="moderation-and-mediation.html#cb174-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(med)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="moderation-and-mediation.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20201027</span>)</span>
+<span id="cb189-2"><a href="moderation-and-mediation.html#cb189-2" aria-hidden="true" tabindex="-1"></a>med <span class="ot">&lt;-</span> mediation<span class="sc">::</span><span class="fu">mediate</span>(<span class="at">model.m =</span> mod2, <span class="at">model.y =</span> mod3, <span class="at">sims =</span> <span class="dv">2000</span>, <span class="at">boot =</span> <span class="cn">TRUE</span>, <span class="at">boot.ci.type =</span> <span class="st">&quot;bca&quot;</span>, <span class="at">treat =</span> <span class="st">&quot;legacy&quot;</span>, <span class="at">mediator =</span> <span class="st">&quot;intention&quot;</span>)</span>
+<span id="cb189-3"><a href="moderation-and-mediation.html#cb189-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(med)</span></code></pre></div>
 <pre><code>## 
 ## Causal Mediation Analysis 
 ## 

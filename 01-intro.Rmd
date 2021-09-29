@@ -109,23 +109,53 @@ groups (if desired).
 
 R can be used as a console-based calculator. Here are some examples.
 
+You can add numbers using the `+` operator, e.g $2 + 11$:
 ```{r}
 2 + 11 # addition
-2 * 11 # multiplication
-2 / 11 # division
-2^(11) # exponentiation
-sqrt(2) # square root
-2^(1/2) # another way to compute the square root
-# the order matters!
-2 + 11*3
-(2 + 11)*3 # R follows the usual rules of arithmetic
 ```
+You can multiply numbers using the `*` operator, e.g $2 \times 11$:
+```{r}
+2 * 11 # multiplication
+```
+You can divide numbers using the `\` operator, e.g. $\frac{2}{11}$:
+```{r}
+2 / 11 # division
+```
+You can raise numbers to a power by using the `^` operator, e.g. $2^{11}$:
+```{r}
+2^(11) # exponentiation
+```
+You can take a square-root by using the `sqrt` function, e.g. $\sqrt{2}$:
+```{r}
+sqrt(2) # square root
+```
+which is mathematically equivalent to raising a number to the power of $\tfrac{1}{2}$, e.g. $2^{\tfrac{1}{2}}$:
+```{r}
+2^(1/2) # another way to compute the square root
+```
+In performing arithmetical operations, it is important to realise that `R` obeys the commonly accepted rules of precedence in performing arithmetic operations, which is:
 
-Note that the hash symbol ("#") is used for comments, such that anything following a "#" is not evaluated. 
+1. Brackets
+2. Powers
+3. Multiplication and division
+4. Addition and subtraction
+
+This means that anything within brackets is evaluated first (following the order of the remaining operations), than any elements involving powers are calculated, and after this those involving multiplication or division, and finally addition and multiplication. So
+
+```{r}
+2 + 11*3
+```
+is evaluated as $(11 \times 3) + 2$, whilst
+```{r}
+(2 + 11)*3
+```
+is evaluated as $(2+11) \times 3$. Another way to put this is that `R` doesn't evaluate expression left-to-right. It takes the whole expression, first computes the results within brackets, then computes any powers, then multiplies or divides the results of this, and finally adds or subtracts the results of that. Many common errors result from not using brackets properly, or forgetting about the precedence of arithmetic operations.
+
+Unrelated to this, but also important: the hash symbol ("#") is used for comments, such that anything following a "#" is not evaluated. 
 
 ## Data
 
-You can load in data files that come with R packages by using the `data` function, with as argument the name of the dataset you want to load (as a string, so make sure you use quote signs). For instance, you can load the dataset `fifa2010teams` from the `sdamr` package as follows:
+You can load in data files that come with R packages by using the `data` function, with as argument the name of the dataset you want to load (as a string, so make sure you use quotation signs). For instance, you can load the dataset `fifa2010teams` from the `sdamr` package as follows:
 ```{r}
 library(sdamr)
 data("fifa2010teams")

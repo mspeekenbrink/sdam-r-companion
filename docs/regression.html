@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-09-29" />
+<meta name="date" content="2021-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -183,9 +183,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
 <li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
 <ul>
-<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.1</b> The <code>subset</code> function</a></li>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
+<li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
 <ul>
@@ -305,12 +308,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>y ~ x - 1</code></p>
 <p>The second argument of the <code>lm</code> function is called <code>data</code> and expects the name of the data.frame in which the variables are stored.</p>
 <p>To see how the <code>lm</code> function works in practice, let’s open the <code>trump2016</code> data provided in the <code>sdamr</code> package. This is the data analysed in Chapter 4 and 5. We open and inspect the data as usual:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="regression.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
-<span id="cb123-2"><a href="regression.html#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load the Trump data</span></span>
-<span id="cb123-3"><a href="regression.html#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>)</span>
-<span id="cb123-4"><a href="regression.html#cb123-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the data from the District of Columbia (Washintgon D.C.)</span></span>
-<span id="cb123-5"><a href="regression.html#cb123-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
-<span id="cb123-6"><a href="regression.html#cb123-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="regression.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb138-2"><a href="regression.html#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load the Trump data</span></span>
+<span id="cb138-3"><a href="regression.html#cb138-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>)</span>
+<span id="cb138-4"><a href="regression.html#cb138-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the data from the District of Columbia (Washintgon D.C.)</span></span>
+<span id="cb138-5"><a href="regression.html#cb138-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
+<span id="cb138-6"><a href="regression.html#cb138-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
 <pre><code>##        state hate_groups population hate_groups_per_million
 ## 1    Alabama          27    4863300                    5.55
 ## 2     Alaska           0     741894                    0.00
@@ -327,8 +330,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6                               39.2               11.5                44.4</code></pre>
 <p>You can see that there are a number of variables in the dataset (and not all of these were analysed in the book). For more information on the variables in the dataset, you can call the help file with <code>?trump2016</code>.</p>
 <p>Now let’s estimate a simple regression model to predict the percentage of votes for Trump by the number of hate groups per million citizens:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="regression.html#cb125-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million, <span class="at">data=</span>dat)</span>
-<span id="cb125-2"><a href="regression.html#cb125-2" aria-hidden="true" tabindex="-1"></a>modg</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="regression.html#cb140-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million, <span class="at">data=</span>dat)</span>
+<span id="cb140-2"><a href="regression.html#cb140-2" aria-hidden="true" tabindex="-1"></a>modg</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = percent_Trump_votes ~ hate_groups_per_million, data = dat)
@@ -337,7 +340,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##             (Intercept)  hate_groups_per_million  
 ##                    42.9                      2.3</code></pre>
 <p>I’ve named the resulting object <code>modg</code> for MODEL G. You can pick any name you like for R objects. Note that when you just print a fitted linear model (by e.g., typing the name of the object <code>modg</code>), R will show the parameter estimates, but nothing else. You can get the important statistics by calling the <code>summary</code> function on the fitted model:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="regression.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="regression.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = percent_Trump_votes ~ hate_groups_per_million, data = dat)
@@ -380,10 +383,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="model-comparisons" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Model comparisons</h2>
 <p>Comparing regression models and computing the <span class="math inline">\(F\)</span> statistic can be done through the <code>anova()</code> function. Let’s first estimate a restricted version of MODEL G above where we fix the slope of <code>hate_groups_per_million</code> to 0. This MODEL R is identical to a model with only an intercept. We can estimate this by not providing any predictor names, but now explicitly providing the intercept term <code>1</code>.</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="regression.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a MODEL R with only an intercept</span></span>
-<span id="cb129-2"><a href="regression.html#cb129-2" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>dat)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="regression.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a MODEL R with only an intercept</span></span>
+<span id="cb144-2"><a href="regression.html#cb144-2" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>dat)</span></code></pre></div>
 <p>We can then compute the <span class="math inline">\(F\)</span> test by entering this MODEL R, and the MODEL G we estimated earlier, as arguments in the <code>anova</code> function:</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="regression.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="regression.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: percent_Trump_votes ~ 1
@@ -401,9 +404,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 * <code>F</code>: the <span class="math inline">\(F\)</span> statistic of the test
 * <code>Pr(&gt;F)</code>: the p-value of the test.</p>
 <p>We can obtain a test for the intercept by fitting a different MODEL R, now without an intercept, and comparing it to MODEL G</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="regression.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a MODEL R without an intercept (through &quot; - 1&quot;)</span></span>
-<span id="cb132-2"><a href="regression.html#cb132-2" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data=</span>dat)</span>
-<span id="cb132-3"><a href="regression.html#cb132-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="regression.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a MODEL R without an intercept (through &quot; - 1&quot;)</span></span>
+<span id="cb147-2"><a href="regression.html#cb147-2" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data=</span>dat)</span>
+<span id="cb147-3"><a href="regression.html#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: percent_Trump_votes ~ hate_groups_per_million - 1
@@ -414,8 +417,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>The output of the <code>anova</code> function isn’t particularly pretty. Also, if you want to do multiple model comparisons, first estimating models and then comparing them with the <code>anova</code> function becomes a little cumbersome. An easier way to obtain all the model comparisons is to use the <code>Anova</code> function from the <code>car</code> <span class="citation">(<a href="reproducible-reports-with-rmarkdown.html#ref-R-car" role="doc-biblioref">Fox, Weisberg, and Price 2020</a>)</span> package to automatically construct different possible versions of MODEL R, each being one particular restriction of MODEL G which fixes the relevant parameter to 0. If you don’t have the <code>car</code> package installed yet, you need to install it first (e.g. by <code>install.packages("car")</code>. You can then call:</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="regression.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb134-2"><a href="regression.html#cb134-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(modg, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="regression.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb149-2"><a href="regression.html#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(modg, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: percent_Trump_votes
@@ -433,8 +436,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>y ~ x1 + x2 + x3</code></p>
 <p>This is similar to the earlier formula, but you now need to provide the names of all the predictors, separated by a <code>+</code> sign.</p>
 <p>For instance, we can fit a model with two predictors (which we will call <code>modg</code>, for MODEL G), as follows:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="regression.html#cb136-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, <span class="at">data=</span>dat)</span>
-<span id="cb136-2"><a href="regression.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="regression.html#cb151-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, <span class="at">data=</span>dat)</span>
+<span id="cb151-2"><a href="regression.html#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = percent_Trump_votes ~ hate_groups_per_million + 
@@ -457,7 +460,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## F-statistic: 33.06 on 2 and 47 DF,  p-value: 1.087e-09</code></pre>
 <p>the output of the summary function contains the same elements as before, but the table of coefficients now includes an additional row for <code>percent_bachelors_degree_or_higher</code>. Also, note that all the estimates are different, because the slopes reflect unique effects, and these differ compared to models with other predictors. Finally, I’d like to point out that the last row of the output contains the “whole model test,” which compares the estimated model to a model with only an intercept. Recall that the estimate of the intercept in this latter model equals the sample mean. So we are now comparing a model with two predictors to a model which predicts all values as the sample mean. The difference in the number of estimated parameters for this comparison is <span class="math inline">\(\text{npar}(G) - \text{npar}(R) = 3 - 1 = 2\)</span>. Hence, the degrees of freedom are <span class="math inline">\(\text{df}_1 = 2\)</span> and <span class="math inline">\(\text{df}_2 = n - \text{npar}(G) = 50 - 3 = 47\)</span>.</p>
 <p>We can also get all the model comparisons for this MODEL G through:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="regression.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(modg, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="regression.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(modg, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: percent_Trump_votes
@@ -469,9 +472,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Finally, we can also obtain a “whole model test,” by comparing an intercept-only MODEL R to the full MODEL G. This is best done through the <code>anova</code> function as follows:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="regression.html#cb140-1" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>dat)</span>
-<span id="cb140-2"><a href="regression.html#cb140-2" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, <span class="at">data=</span>dat)</span>
-<span id="cb140-3"><a href="regression.html#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="regression.html#cb155-1" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>dat)</span>
+<span id="cb155-2"><a href="regression.html#cb155-2" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, <span class="at">data=</span>dat)</span>
+<span id="cb155-3"><a href="regression.html#cb155-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: percent_Trump_votes ~ 1
@@ -485,41 +488,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="residuals-and-predicted-values" class="section level2" number="4.4">
 <h2><span class="header-section-number">4.4</span> Residuals and predicted values</h2>
 <p>You can obtain the prediction errors by the calling the <code>residuals</code> function on the fitted model.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="regression.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store the residuals as errorg</span></span>
-<span id="cb142-2"><a href="regression.html#cb142-2" aria-hidden="true" tabindex="-1"></a>errorg <span class="ot">&lt;-</span> <span class="fu">residuals</span>(modg)</span>
-<span id="cb142-3"><a href="regression.html#cb142-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(errorg)</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="regression.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store the residuals as errorg</span></span>
+<span id="cb157-2"><a href="regression.html#cb157-2" aria-hidden="true" tabindex="-1"></a>errorg <span class="ot">&lt;-</span> <span class="fu">residuals</span>(modg)</span>
+<span id="cb157-3"><a href="regression.html#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(errorg)</span></code></pre></div>
 <pre><code>##          1          2          3          4          5          6 
 ##  -7.618118   7.101376  -2.152059  -2.055564 -12.570794   6.382163</code></pre>
 <p>This returns a vector with, for each case in the data (each row in the data frame), the error term <span class="math inline">\(\hat{\epsilon}_i\)</span>. Note that we are only displaying the first six elements through the <code>head</code> function.</p>
 <p>You can obtain the predicted values by calling the <code>predict</code> function on the fitted model.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="regression.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store the predictions as predictg</span></span>
-<span id="cb144-2"><a href="regression.html#cb144-2" aria-hidden="true" tabindex="-1"></a>predictg <span class="ot">&lt;-</span> <span class="fu">predict</span>(modg)</span>
-<span id="cb144-3"><a href="regression.html#cb144-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predictg)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="regression.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store the predictions as predictg</span></span>
+<span id="cb159-2"><a href="regression.html#cb159-2" aria-hidden="true" tabindex="-1"></a>predictg <span class="ot">&lt;-</span> <span class="fu">predict</span>(modg)</span>
+<span id="cb159-3"><a href="regression.html#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predictg)</span></code></pre></div>
 <pre><code>##        1        2        3        4        5        6 
 ## 70.51812 45.79862 51.65206 62.45556 45.27079 38.01784</code></pre>
 <p>This returns a vector with for, each case in the data, the predicted value <span class="math inline">\(\hat{Y}_{M,i}\)</span>. You can use these variables to create e.g. a histogram of the errors:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="regression.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(errorg)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-80-1.svg" width="672" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="regression.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(errorg)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-96-1.svg" width="672" style="display: block; margin: auto;" />
 and a predicted by residual plot</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="regression.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scatterplot of predicted vs residual</span></span>
-<span id="cb147-2"><a href="regression.html#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predictg, errorg, <span class="at">xlab =</span> <span class="st">&quot;predicted&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;residual&quot;</span>)</span>
-<span id="cb147-3"><a href="regression.html#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="co"># add a horizontal line (h=0 is for horizontal at 0, </span></span>
-<span id="cb147-4"><a href="regression.html#cb147-4" aria-hidden="true" tabindex="-1"></a><span class="co"># and lty = 3 makes it a dotted line </span></span>
-<span id="cb147-5"><a href="regression.html#cb147-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-81-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="regression.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scatterplot of predicted vs residual</span></span>
+<span id="cb162-2"><a href="regression.html#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predictg, errorg, <span class="at">xlab =</span> <span class="st">&quot;predicted&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;residual&quot;</span>)</span>
+<span id="cb162-3"><a href="regression.html#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="co"># add a horizontal line (h=0 is for horizontal at 0, </span></span>
+<span id="cb162-4"><a href="regression.html#cb162-4" aria-hidden="true" tabindex="-1"></a><span class="co"># and lty = 3 makes it a dotted line </span></span>
+<span id="cb162-5"><a href="regression.html#cb162-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-97-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>You can also call the plot function directly on the fitted model, which produces a range of plots to assess the model assumptions:</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="regression.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modg)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-82-1.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-82-2.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-82-3.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-82-4.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="regression.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modg)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-98-1.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-98-2.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-98-3.svg" width="672" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-98-4.svg" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="plotting-pairwise-scatterplots-for-many-variables" class="section level2" number="4.5">
 <h2><span class="header-section-number">4.5</span> Plotting pairwise scatterplots for many variables</h2>
 <p>A final tip relates to exploring relations between many variables (e.g. potential predictors and dependent variables). While you can inspect pairwise relations between variables by creating a scatterplot for each pair of variables, this quickly becomes tedious. You can save yourself some work by using a function that produces a matrix of pairwise scatterplots directly. One option for this is to use the <code>pairs</code> function, and supply this with a selection of variables in a data.frame. For instance, in the data set we considered now, we might be interested in the relations between <code>hate_groups_per_million</code>, <code>percent_bachelors_degree_or_higher</code>, <code>percent_in_poverty</code>, and <code>percent_Trump_votes</code>. We can obtain a matrix of all pairwise scatterplots between these variables as follows (note that rather than typing the variable names, I’m selecting column 4 to 7, which correspond to these variables):</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="regression.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(dat[,<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>])</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-83-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="regression.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(dat[,<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>])</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-99-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>If you don’t like the look of these base R graphics and prefer <code>ggplot2</code>, you can use the <code>ggpairs</code> function from the <code>GGally</code> <span class="citation">(<a href="reproducible-reports-with-rmarkdown.html#ref-R-GGally" role="doc-biblioref">Schloerke et al. 2021</a>)</span> package to get a similar plot:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="regression.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb150-2"><a href="regression.html#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dat[,<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>])</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-85-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="regression.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb165-2"><a href="regression.html#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dat[,<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>])</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <!-- 
 ## Computing the estimated parameters with matrix algebra
 
