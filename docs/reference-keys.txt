@@ -1,7 +1,7 @@
 fig:rstudio-interface-image
 tab:tetris-orthogonal-cotrast-codes
 fig:hold-position
-tab:unnamed-chunk-224
+tab:unnamed-chunk-228
 acknowledgements
 introduction
 what-is-r
@@ -44,6 +44,7 @@ model-comparisons
 estimating-and-testing-a-multiple-regression-model
 residuals-and-predicted-values
 plotting-pairwise-scatterplots-for-many-variables
+multicollinearity-and-outlier-detection
 moderation-and-mediation
 moderation-in-linear-models
 a-bit-about-namespaces

@@ -25,7 +25,7 @@ dat <- subset(dat, Condition %in% c("Tetris_Reactivation","Reactivation"))
 ```
 Note the use of the `%in%` operator. The statement `Condition %in% c("Tetris_Ractivation","Reactivation")` returns TRUE whenever the value of `Condition` is equal to one of the values in the vector `c("Tetris_Ractivation","Reactivation")`. This is shorthand to the equivalent statement
 
-````{r, eval = FALSE}
+```{r, eval = FALSE}
 dat <- subset(dat, Condition == "Tetris_Reactivation" | Condition == "Reactivation")
 ```
 
@@ -33,14 +33,14 @@ If there are lots of "or" values, using `%in%` can be a lot more efficient (in t
 
 Say that we would like to use a dummy coded predictor, with the value of 0 for `Tetris_Reactivation`, and the value of 1 for `Reactivation` condition. One way to compute such a variable is as follows:
 
-```{r}
+```{r create-dummy}
 dat$dummy <- 0
 dat$dummy[dat$Condition == "Reactivation"] <- 1
 ```
 
 The variable `dummy` is first being created as a new column in `dat`, by appending the name of the new variable to the `data.frame` with the usual "\$" notation, and then assigning a value to it. On the second line, I then select a subset of the values of `dat$dummy` (all cases where `dat$Condition == "Reactivation"`) and assign the different value 1 to this subset. A quick check using the `table` function shows that we now indeed have a new variable with values 1 and 0:
 
-```{r}
+```{r dummy-table}
 table(dat$dummy)
 ```
 
@@ -187,18 +187,3 @@ shows you in the row labelled `Ave` that the intercept is the sum of each group 
 ```{r}
 mean_contrasts(contr.helmert(4))
 ```
-
-<!--
-## Tests of individual contrasts with `Anova`
-
-If you use the `Anova` function for a linear model with a factor, you will just obtain the omnibus test for that factor. For instance
-```{r}
-#car::Anova(modg, type = 3)
-```
-will provide the results of testing the full MODEL G with the nominal independent variable included (e.g., here the model with the three contrast-coding predictors for the 4 levels of `Condition`) against a MODEL R which excludes that nominal independent variable (e.g an intercept-only model here). You will not see the results of the model comparisons between MODEL G and alternative MODEL R's with each contract-coding predictor removed, 
-
-In the book, I have included some tables which show you both the omnibus test for a nominal variable such as `Condition`, as well as the $F$-tests of the contrasts that constitute this omnibus test. The easiest way to obtain omnibus tests as the individual contrast tests is through separate calls to `lm` and `car::Anova` on the model you estimated with the `lm` function. The `lm` function will give you $t$-tests, but not the corresponding $F$-tests. Because these tests are equivalent (for $\text{df}_1 = 1$ tests, the $F$ statistic is equal to $t^2$), there is no information lost in these separate procedures. But if you would like to see the corresponding $F$ tests, the `sdamr` package has the (experimental and not fully tested) function `expand_Anova()`, which will provide the corresponding tests of the individual contrasts (but not the omnibus tests). For instance:
-```{r}
-#expand_Anova(modg)
-```
--->

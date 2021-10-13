@@ -169,6 +169,42 @@ library(GGally)
 ggpairs(dat[,4:7], upper= list(continuous = wrap(ggally_cor, family="sans")))
 ```
 
+## Multicollinearity and outlier detection
+
+The `car` package provides useful functions to assess multicollinearity. In particular, it provides the `vif` function to compute the Variance Inflation Factor (VIF) for each predictor in the data.
+
+```{r}
+modg_vif <- car::vif(modg)
+modg_vif
+```
+
+To compute the tolerance, you can simply transform the results from this function, as follows:
+
+```{r}
+modg_tolerance <- 1/modg_vif
+modg_tolerance
+```
+
+There are a large number of measures to detect potential outliers. You can get many of these with the `influence.measures` function, which is provided in the (base R) `stats` package. Let's try this with the full data set (including the District of Columbia):
+```{r}
+modg <- lm(percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, data=trump2016)
+influence.measures(modg)
+```
+
+You can see that this provides a quite a few measures for each case (i.e. state) in the data! The first three are so-called [DFBETAS](https://en.wikipedia.org/wiki/Influential_observation) measures, which reflect the standardized difference in the estimated parameters (intercept and slopes of `hate_groups_per_million` and `percent_bachelors_degree_or_higher`, respectively) that result from deleting that particular case from the data. The `dffit` column refers to the [DFFITS](https://en.wikipedia.org/wiki/DFFITS) measure shows the difference in the standardized predicted value for that case, after removing the case for the estimation of the model. The value in the `cov.r` column is the covariance ratio measure, which assesses the influence of a case on multicollinearity. Then the Cook's distance is provided in the `cook.d` column, and the `hat` column provides the leverage values. Finally, the `inf` column flags potential outliers according to any of these measures.
+
+I would not advice you to blindly delete the flagged cases. These are cases which _may_ be outliers. Personally, I use the Cook's distance more than the other measures. You can obtain just the Cook's distances with the `cooks.distance` function:
+```{r}
+modg_cooks_distance <- cooks.distance(modg)
+# get a quick summary of the values
+summary(modg_cooks_distance)
+```
+The summary shows that there is at least one case with a Cook's distance larger than 1. We can see which states have a large Cook's distance as follows:
+```{r}
+trump2016$state[which(modg_cooks_distance > 1)]
+```
+which indicates that the District of Columbia is likely an outlier.
+
 <!-- 
 ## Computing the estimated parameters with matrix algebra
 

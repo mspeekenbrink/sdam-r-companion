@@ -144,7 +144,7 @@ bf_expB3 <- anovaBF(ApproachAdvantage ~ primeCond*experimenterBelief, data = dat
 bf_expB3
 ```
 For instance, we can now obtain a Type 3 test for `experimenterBelief` by comparing the full model (the 7th element in the output) to a model which just excludes this effect (i.e. the 6th element):
-````{r}
+```{r}
 bf_expB3[7]/bf_expB3[6]
 ```
 which reproduces mostly the result we obtained by setting `whichModel = "top"` before.

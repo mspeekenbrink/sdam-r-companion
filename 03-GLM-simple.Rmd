@@ -6,7 +6,7 @@ library(sdamr)
 data(anchoring)
 ```
 
-And view the first few rows of the data with:
+And view the first few rows of the data with the `head` function:
 
 ```{r}
 head(anchoring)
@@ -14,15 +14,17 @@ head(anchoring)
 
 ## Missing values
 
-Sometimes a data set has missing values. In R, a missing value is shown as `NA` (for Not Available). For example, you can see missing in the `everest_meters` variable. If a variable has missing values, functions such as `mean` and `sd` will return a missing value, rather than a numeric value. For instance:
+Sometimes a data set has missing values. In `R`, a missing value is shown as `NA` (for Not Available). For example, you can see missing values in the `everest_meters` variable. In this case, these are generally due to most participants being asked to judge the height of Mount Everest in feet, rather than meters. 
+
+If a variable has missing values, functions such as `mean` and `sd` will return a missing value, rather than a numeric value. For instance:
 ```{r}
 mean(anchoring$everest_meters)
 sd(anchoring$everest_meters)
 ```
-This is because if there are missing values, it is not possible to compute or estimate the mean or standard deviation from _all_ the data. To get the values for the non-missing data, you could first get rid of all the missing values from your `data.frame` by using a subset function. But I think it is better to keep the dataset as is, and use other ways to avoid problems with missing values. Luckily, many functions have arguments to deal with missing values. For instance, the two functions above have an `na.rm` argument (for not-available-remove). Setting this to true will call the function only on the non-missing-values:
+The reason for this is that when there are missing values, it is not possible to compute or estimate the mean or standard deviation from _all_ the data. To compute the values for just the non-missing cases, you could first delete all cases with missing values from your `data.frame`, for instance with the `subset` function discussed later. But I think it is better to keep the dataset as is, and use other ways to avoid issues with missing values. Luckily, many functions have arguments to deal with missing values. For instance, the two functions above have an `na.rm` argument (for not-available-remove). Setting this to `TRUE` will call the function only on the non-missing-values:
 ```{r}
-mean(anchoring$everest_meters,na.rm=TRUE)
-sd(anchoring$everest_meters,na.rm=TRUE)
+mean(anchoring$everest_meters, na.rm=TRUE)
+sd(anchoring$everest_meters, na.rm=TRUE)
 ```
 Because the default in these functions is to set `na.rm=FALSE`, you will be aware of missing values in your data, which is useful, although having to then to explicitly set `na.rm=TRUE` can be a little annoying.
 
@@ -89,8 +91,22 @@ For more information on indexing and subsetting, have a look at e.g. http://www.
 
 The data analysed in the SDAM book was selected as follows:
 ```{r}
-dat <- subset(anchoring,(referrer == "swps" | referrer == "swpson") & anchor == "low")
+dat <- subset(anchoring, anchor == "low" & (referrer == "swps" | referrer == "swpson"))
 ```
+Note the use of the brackets around the "or" argument. Here, we want to select those cases where the value of the `anchor` variable equals `"low"` and the value of the `referrer` variable equals `"swps"` or `"swpson"`. Combinations of logical statements with the `&` operator evaluate to `TRUE` when the elements on the left and right of it are evaluated as `TRUE`. By placing brackets around `(referrer == "swps" | referrer == "swpson")`, this part is `TRUE` whenever the value of the `referrer` variable equals `"swps"` or `"swpson"`. Combining this with the left element, we then select those cases out of this subset for whom the `anchor` variable equals `"low"`. Another way to get the same result is as:
+```{r}
+dat <- subset(anchoring, (anchor == "low" & referrer == "swps") | (anchor == "low" & referrer == "swpson"))
+```
+Knowing how logical statements are evaluated in computer languages is very important. I won't pretend this is easy at first. But with practice (and probably many mistakes, like I have made and sometimes still make), you will get an intuitive understanding of it. And when in doubt, check that the results are as you expected, by for instance first assigning the outcome of your expression to a new variable in your `data.frame` and then inspecting the values for errors. For example, you could use something like
+```{r}
+tmp <- anchoring ## assign a copy of the anchoring data to a "throwaway object"
+tmp$selected <- tmp$anchor == "low" & (tmp$referrer == "swps" | tmp$referrer == "swpson")
+```
+and then call
+```{r}
+ftable(tmp$anchor, tmp$referrer, tmp$selected)
+```
+The `ftable` function is useful to obtain frequency tables in a slightly more readable format than through the `table` function. But as you can see, the output is still rather extensive. But we can clearly see that, as intended, the only cases for which the new `selected` variable is `TRUE` are all cases where `referrer` equals `"swps"` or `"swpson"`.
 
 ## One-sample t-test
 
@@ -136,11 +152,11 @@ If you don't want to calculate Cohen's $d$ in this way, you can also use the `co
 effectsize::cohens_d(t.test(dat$everest_meters, mu=8848))
 ```
 
-The output does not only provide the value of Cohen's $d$ that we computed earlier, but also a confidence interval around this measure. In terms of the code, note that instead of first loading the `effectsize` package with `library(effectsize)`, I called the function directly by prepending the `cohens_d` function with the package name, as in `effectsize::cohens_d`. Calling functions in this way without loading the package first is handy, because some packages may use the same name for different functions. If that is the case, when you call a function with that name, you will get the function as implemented in the package you loaded the last. This often leads to errors. If you can, avoid loading packages, and always use functions without loading a package by prepending the name of the function with the package name.
+The output does not only provide the value of Cohen's $d$ that we computed earlier, but also a confidence interval around this measure. In terms of the code, note that instead of first loading the `effectsize` package with `library(effectsize)`, I called the function directly by prepending the `cohens_d` function with the package name, as in `effectsize::cohens_d`. Calling functions in this way without loading the package first is handy, because some packages may use the same name for different functions. If that is the case, when you call a function with that name, you will get the function as implemented in the package you loaded the last. This often leads to errors. Where possible, it is best to avoid loading packages, and always use functions without first loading a package by prepending the name of the function with the package name.
 
 ## Nonparametric bootstrap
 
-(This section is rather advanced and you can skip it for now if you want. You may want to return to this if you need or want to apply a bootstraping technique.)
+(This section is rather advanced and you can skip it for now if you want. You may want to return to this if you need or want to apply a bootstrapping technique.)
 
 When discussing the Central Limit Theorem, I described how you can use _bootstrapping_ to evaluate whether an assumed distribution for a statistic is likely to hold. Such a bootstrap analysis is quite easy to perform in R, although the idea itself is somewhat advanced. The key idea is to repeatedly sample, with replacement, from a given dataset, to obtain lots of new datasets, and then compute the statistic for those new dataset. To sample with replacement, the `sample` function in R comes in handy. In particular, you can use this function to sample the indices (from 1 to $n$) of observations in a dataset. For example, if I have a dataset with 10 observations, I might sample with replacement numbers between 1 and 10 as follows:
 
@@ -182,7 +198,7 @@ ggplot(data.frame(mean=boot_mean), aes(sample = mean)) + stat_qq() + stat_qq_lin
 ```
 
 To get a bootstrapped distribution of the $t$-statistic, we can follow a mostly similar procedure. In this case, we  want to determine the distribution of the $t$-statistic assuming that the null-hypothesis is true. To get this, rather than testing against $\underline{\mu} - 8848$, we set $\underline{\mu} = \overline{Y}$ here. The reasoning behind this is that $\overline{Y}$ is our best estimate of $\mu$, whilst the assumed value $\underline{\mu}$ might be completely wrong. If the distribution of the $t$-statistic with our best guess $\underline{\mu} = \overline{Y}$ follows a t-distribution, we could assume it would also follow a t-distribution if the null-hypothesis were true. The code to get the bootstrapped distribution of the $t$-statistic is:
-```{r bootstrap-t}
+```{r bootstrap-t, cache=TRUE}
 set.seed(23456)
 nsim <- 100000 # number of new datasets
 boot_t <- rep(0.0,nsim)
