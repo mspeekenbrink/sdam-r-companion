@@ -146,7 +146,7 @@ which is
 $$\overline{Y} - \frac{\underline{\mu}}{\sigma_Y}$$
 and not what we intend to compute! Many errors are due to missing brackets.
 
-If you don't want to calculate Cohen's $d$ in this way, you can also use the `cohens_d` function from the `effectsize` packages, which provides functions for a wide variety of effect-size measures. You can supply a `t.test` directly as an argument to the `cohens_d` function: 
+If you don't want to calculate Cohen's $d$ in this way, you can also use the `cohens_d` function from the `effectsize` package [@R-effectsize], which provides functions for a wide variety of effect-size measures. You can supply a `t.test` directly as an argument to the `cohens_d` function: 
 
 ```{r}
 effectsize::cohens_d(t.test(dat$everest_meters, mu=8848))

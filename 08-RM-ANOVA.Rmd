@@ -13,7 +13,7 @@ head(cheerleader)
 ```
 
 This dataset is a little messy, and includes participants who were excluded 
-by the authors. Se let's first clean it up a little:
+by the authors. So let's first clean it up a little:
 ```{r}
 dat <- cheerleader
 # remove participants which should be excluded
@@ -23,7 +23,7 @@ dat$Item <- factor(dat$Item)
 ```
 
 Another thing is that the labels of the factors don't correspond to the ones I used in the chapter. 
-Relabelling factors is somewhat tedious with base R. It's easier to use the `fct_recode` function from the `forcats` package. 
+Relabelling factors is somewhat tedious with base R. It's easier to use the `fct_recode` function from the `forcats` [@R-forcats] package. 
 This function takes a factor as its first argument, and then in the remaining arguments, you
 can specify a new label (unquoted) for existing labels (quoted). As usual,
 if you don't have this package installed, you would first need to run `install.packages("forcats")` before running the code below:
@@ -51,7 +51,7 @@ For some analyses, the long format is most suitable, whilst for others the wide
 format. It is therefore useful to be able to transform the data from one format
 to the other. This used to be a real pain back in the days when I started
 using R. Luckily, there are now tools available that make this a lot easier.
-Here, we will use the `pivot_longer` and `pivot_wider` functions from the `tidyr` 
+Here, we will use the `pivot_longer` and `pivot_wider` functions from the `tidyr` [@R-tidyr]
 package. 
 
 ```{r}
@@ -72,7 +72,7 @@ principles of the tidyverse.
 
 You can transform data from the wide format to the long format with the 
 `pivot_longer` function. In the `cols` argument, you need to specify
-which columns in the wide formate to transform into a single variable
+which columns in the wide format to transform into a single variable
 in the long format. In the `names_to` argument, you can specify the 
 name of the resulting identifier for each value, and in the `values_to`
 argument, you can specify the name of the variable in the long format
@@ -217,7 +217,7 @@ by using the `Anova` function from the `car` package. As you will see later,
 the analysis is more straightforward with the `afex` package, but this requires
 data to be in the long format. 
 
-The first step to performing a repeated-measures ANOVA with the `car` package
+The first step to performing a repeated-measures ANOVA with the `car` package [@R-car]
 is to perform a linear model for a multivariate dependent variable, which basically
 means providing a matrix of each repeated measurement as the DV. This is done
 by collating the variables within a `cbind` (for column-bind) argument within
@@ -227,6 +227,11 @@ mvmod <- lm(cbind(Alone, Different, Similar) ~ Version, data=wdat)
 ```
 So here, we are modelling the Alone, Different, and Similar attractiveness 
 ratings simultaneously as a function of the Version categorical predictor. 
+This model is basically a set of three linear regressions, as you can see from
+the output:
+```{r}
+mvmod
+```
 The next step is to construct an object which reflects the structure of these
 three measurements. This has to be done with e separate data.frame, with one
 row for each variable included in the `cbind` function specifying the multivariate DV. 
@@ -237,13 +242,16 @@ idata <- data.frame(Presentation = factor(c("Alone", "Different", "Similar")))
 ```
 The next step is to supply a useful contrast for this within-subjects factor:
 ```{r}
+contrasts(idata$Presentation) # check the levels
 contrasts(idata$Presentation) <- cbind(c(-2/3, 1/3, 1/3), c(0,1/2, -1/2))
+contrasts(idata$Presentation)
 ```
 With these elements in place, we are finally ready to perform the 
 repeated-measures ANOVA. This involves calling the `car::Anova` function
 with the multivariate linear model as the first argument, and supplying the
-within-subjects structure through the `idata` argument, as well as a formula in the 
-`idesign` argument specifying which effects to include as within-subjects factors.
+within-subjects structure through the `idata` argument. Additionally, you need to 
+supply a right-hand-sided formula in the 
+`idesign` argument in order to specify which effects to include as within-subjects factors.
 The `type=3` argument, as usual, specifies we would like to perform Type-3 SS tests.
 ```{r}
 rmaov <- car::Anova(mvmod, idata=idata, idesign = ~Presentation,  type=3)
@@ -271,6 +279,43 @@ in the previous section.
 
 ## Repeated-measures ANOVA with the `afex` package
 
+The `afex` package [@R-afex] provides a convenient interface to the `car::Anova()` function, via its `afex::aov_car()` function. To use this function, the data needs to be in the long format. You can specify the model with the usual formula interface, and you don't need to worry about a multivariate response and such things. There is one new thing, however: To specify a repeated-measures ANOVA, the formula needs to contain a special `Error()` argument. Within the Error argument, you first state the variable which identifies the "units of observations" (i.e. `Participant` in this case). Then, after a forward-slash ("/"), you list the repeated-measures factor(s). So, the way to perform the repeated-measures ANOVA with the `afex` package, and the long data (`ldat`) we created earlier, is:
 ```{r}
-afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat)
+afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat)
+afmod
+```
+`afex` provides an abridged ANOVA table, where the Greenhouse-Geisser correction is automatically applied
+
+Note that `afex` automatically sets contrasts to `contr.sum`. That is useful here, as we haven't set the contrast for `Version` in the `ldat` data.
+```{r}
+contrasts(ldat$Version) <- c(0.5,-0.5)
+ldat$Presentation <- factor(ldat$Presentation)
+contrasts(ldat$Presentation) <- cbind(c(-2/3, 1/3, 1/3), c(0,1/2, -1/2))
+```
+
+```{r}
+afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat, check_contrasts = FALSE)
+afmod
+```
+Note that we now get a warning...which we will ignore, as our contrasts are fine and we get exactly the same results.
+
+```{r}
+summary(afmod$Anova, multivariate=FALSE)
+```
+
+## Contrasts
+
+```{r}
+em_version <- emmeans::emmeans(afmod, ~ Version)
+emmeans::contrast(em_version, method=list("I - V" = c(1,-1)))
+```
+
+```{r}
+em_presentation <- emmeans::emmeans(afmod, ~ Presentation)
+emmeans::contrast(em_presentation, method=list("(D + S)/2 - A" = c(-1,.5,.5), "D - S" = c(0,1,-1)))
+```
+
+```{r}
+em_pv <- emmeans::emmeans(afmod, ~ Presentation*Version)
+emmeans::contrast(em_pv, method=list("c1 by d1" = c(-1, .5, .5, 1, -.5, -.5), "c1 by d2" = c(0, 1, -1, 0, -1, 1)))
 ```

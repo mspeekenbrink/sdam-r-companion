@@ -80,9 +80,9 @@ A freely downloadable book on R and statistics specifically focused on psycholog
 
 Parts of these notes were adapted from other sources (if there is a licence allowing that). I acknowledge these sources in the text or footnotes.
 
-```{r}
+```{r echo=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'car', 'lme4', 'mediation', 'ggplot2', 'afex', 'lmerTest', 'BayesFactor', 'GGally', 'codingMatrices', 'emmeans'  
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'car', 'lme4', 'mediation', 'ggplot2', 'afex', 'lmerTest', 'BayesFactor', 'GGally', 'codingMatrices', 'emmeans', 'effectsize', 'tidyr', 'forcats'  
 ), 'packages.bib')
 ```
