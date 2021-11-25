@@ -1,1 +1,276 @@
 # Repeated-measures ANOVA
+
+In this Chapter, we will look at how to perform repeated-measures ANOVA with R. 
+We will use the same data analysed in Chapter 10 of SDAM, which is from an 
+experiment investigating the "cheerleader effect". The dataset is 
+available in the `sdamr` package as `cheerleader`.  We can load it from there, 
+and inspect the first six cases, as usual:
+
+```{r}
+library(sdamr)
+data("cheerleader")
+head(cheerleader)
+```
+
+This dataset is a little messy, and includes participants who were excluded 
+by the authors. Se let's first clean it up a little:
+```{r}
+dat <- cheerleader
+# remove participants which should be excluded
+dat <- subset(dat, Excluded == 0)
+# get rid of unused factor levels in Item
+dat$Item <- factor(dat$Item)
+```
+
+Another thing is that the labels of the factors don't correspond to the ones I used in the chapter. 
+Relabelling factors is somewhat tedious with base R. It's easier to use the `fct_recode` function from the `forcats` package. 
+This function takes a factor as its first argument, and then in the remaining arguments, you
+can specify a new label (unquoted) for existing labels (quoted). As usual,
+if you don't have this package installed, you would first need to run `install.packages("forcats")` before running the code below:
+```{r}
+dat$Presentation <- forcats::fct_recode(dat$Item, Different = "Control_Group", Similar = "Distractor_Manipulation")
+dat$Version <- forcats::fct_recode(dat$Task, Identical = "Identical-Distractors", Variant = "Self-Distractors")
+```
+Let's have a look at the resulting data.frame:
+```{r}
+head(dat)
+```
+Looks good! You can create a raincloud plot for this data as usual:
+```{r, warning=FALSE}
+sdamr::plot_raincloud(data=dat, y=Response, groups = Presentation) + ggplot2::facet_wrap(~Version)
+```
+
+## Long and wide data
+
+The `cheerleader` data, and our `dat` `data.frame` is in the so-called __long format__. 
+That means we have
+one row in the dataset for each observation. Note that this here means we have
+multiple rows for one participant (e.g. there are three rows for Participant 1). 
+Data in the __wide format__ has one row for each unit of observation (e.g. Participant).
+For some analyses, the long format is most suitable, whilst for others the wide 
+format. It is therefore useful to be able to transform the data from one format
+to the other. This used to be a real pain back in the days when I started
+using R. Luckily, there are now tools available that make this a lot easier.
+Here, we will use the `pivot_longer` and `pivot_wider` functions from the `tidyr` 
+package. 
+
+```{r}
+wdat <- tidyr::pivot_wider(dat, id_cols = c("Participant", "Version"), names_from = Presentation, values_from = Response)
+head(wdat)
+```
+
+Note that there are quite a few variables no longer from this new wide-format data. 
+This is not a problem, as we don't need them for the present analyses (we could also
+have kept these in by including them in the `id_cols` argument).
+Also note that the class of this object is not a `data.frame`, but a `tibble`. 
+A tibble is a "modern reimagining of the data.frame" (https://tibble.tidyverse.org/). 
+It is a central part of the [tidyverse](https://https://www.tidyverse.org/) 
+collection of R packages, which includes the `tidyr` and `forcats` packages
+we have just used, as well as the `ggplot2` package, and many more. When you become more
+familiar with R programming, you will likely adopt more of the functions and
+principles of the tidyverse. 
+
+You can transform data from the wide format to the long format with the 
+`pivot_longer` function. In the `cols` argument, you need to specify
+which columns in the wide formate to transform into a single variable
+in the long format. In the `names_to` argument, you can specify the 
+name of the resulting identifier for each value, and in the `values_to`
+argument, you can specify the name of the variable in the long format
+which contains the values:
+```{r}
+ldat <- tidyr::pivot_longer(wdat, cols = c("Alone", "Different", "Similar"), names_to = "Presentation", values_to = "Response")
+head(ldat)
+```
+
+## Repeated-measures ANOVA with separate GLMs
+
+In Chapter 10 of SDAM, we focused on performing repeated-measures ANOVA
+by constructing within-subjects composite scores, and then performing
+separate GLM analyses on these. We will start with this approach,
+and analyse the full 2 (Version: Identical, Variant) by 3 (Presentation: Alone,
+Different, Similar) design.
+
+### Computing within-subjects composite scores
+
+The within-subjects composite scores are effectively
+contrasts, computed for each participant. Let's define the following contrasts:
+```{r}
+tab <- data.frame(d0 = c("1","1","1"),
+                  d1 = c("$-\\tfrac{2}{3}$","$\\tfrac{1}{3}$","$\\tfrac{1}{3}$"),
+                  d2 = c("$0$","$\\tfrac{1}{2}$","$-\\tfrac{1}{2}$"))
+colnames(tab) <- c("$d_0$","$d_1$","$d_2$")
+rownames(tab) <- c("Alone","Different", "Similar")
+knitr::kable(tab, booktabs=TRUE, linesep="", align="r")
+```
+We can compute each composite score from these contrasts as:
+$$W_{j,i} = \frac{\sum_{k=1}^g d_{j,k} Y_{i,k}}{\sqrt{\sum_{k=1}^g d_{j,k}^2}}$$
+For $j=0$ (i.e. $W_0$), the computation in R is:
+```{r}
+# compute the top part (numerator)
+wdat$W0 <- wdat$Alone + wdat$Different + wdat$Similar
+# apply scaling factor to get the correct SS
+wdat$W0 <- wdat$W0/sqrt(3)
+```
+Similarly, we can compute $W_1$ and $W_2$ as:
+```{r}
+wdat$W1 <- (1/3)*wdat$Different + (1/3)*wdat$Similar - (2/3)*wdat$Alone
+wdat$W1 <- wdat$W1/sqrt((1/3)^2 + (1/3)^2 + (-2/3)^2)
+
+wdat$W2 <- (1/2)*wdat$Different - (1/2)*wdat$Similar
+wdat$w2 <- wdat$W2/sqrt(2/4)
+```
+
+### Performing the analyses of the repeated-measures ANOVA
+
+We first need to set a suitable contrast for Version:
+```{r}
+contrasts(wdat$Version) <- c(0.5, -0.5)
+```
+We can then estimate a linear model for each composite variable. For $W_0$,
+we estimate:
+```{r}
+mod0 <- lm(W0 ~ Version, data=wdat)
+summary(mod0)
+```
+Note that the estimated parameters are in the scale of $W_0$, not in the scale
+of the dependent variable ($Y$). We can ger the rescaled estimates by dividing 
+the estimates by the scaling factor ($\sqrt{3}$ in this case). The `coefficients`
+functions extracts the parameter estimates from the model. Hence, the rescaled
+estimates can be computed as:
+```{r}
+coefficients(mod0)/sqrt(3)
+```
+To obtain equivalent $F$-tests, we can use the `Anova` function from the `car` package:
+```{r}
+car::Anova(mod0, type=3)
+```
+
+The procedure for the within-subjects composite scores $W_1$ and $W_2$ is
+similar:
+```{r}
+# Analysis for W1
+mod1 <- lm(W1 ~ Version, data=wdat)
+summary(mod1)
+coefficients(mod1)/sqrt(6/9)
+car::Anova(mod1, type=3)
+# Analysis for W2
+mod2 <- lm(W2 ~ Version, data=wdat)
+summary(mod2)
+coefficients(mod2)/sqrt(2/4)
+car::Anova(mod2, type=3)
+```
+
+Unfortunately, there is no simple way to obtain omnibus tests by combining 
+these models. They can be computed "manually", by extracting the relevant
+SSR, SSE, and df terms from the models. These can then be used to compute an 
+$F$-statistic, and the $p$-value can then be computed by using the `pf` function.
+
+This is not the most straightforward manner to obtain omnibus tests 
+(the following sections show how to do this in a much more convenient manner).
+But to show it is doable, let's compute the omnibus test for the main effect of 
+Presentation in this way. The relevant SSR, SSE, and df terms are stored
+in the objects returned by the `car::Anova` function. We can see the structure
+of this object with the `str` function:
+```{r}
+str(car::Anova(mod1, type=3))
+```
+This shows that the `car::Anova` function returns a data.frame with the test
+results. The first row corresponds to the test of the intercept (which reflects
+the main effects of Presentation in this repeated-measures ANOVA). The last
+row contains the values for the error term. The structure for the `mod2` analysis
+is the same. To get the relevant omnibus values, we can just take the appropriate
+elements from these data.frames. To get the omnibus SSR and $\text{df}_1$ 
+terms, we can use:
+```{r}
+SSR <- car::Anova(mod1, type=3)$"Sum Sq"[1] + car::Anova(mod2, type=3)$"Sum Sq"[1]
+df1 <- car::Anova(mod1, type=3)$"Df"[1] + car::Anova(mod2, type=3)$"Df"[1]
+```
+And for the SSE and $\text{df}_2$ terms, we can use:
+```{r}
+SSE <- car::Anova(mod1, type=3)$"Sum Sq"[3] + car::Anova(mod2, type=3)$"Sum Sq"[3]
+df2 <- car::Anova(mod1, type=3)$"Df"[3] + car::Anova(mod2, type=3)$"Df"[3]
+```
+
+With these values, the $F$-statistic can then be computed as follows:
+```{r}
+Fstat <- (SSR/df1)/(SSE/df2)
+```
+Finally, the $p$-value can be obtained as
+```{r}
+1-pf(Fstat, df1=df1, df2=df2)
+```
+Note that we need to use `1-pf` as the `pf` function computes the probability
+$P(F \leq \text{value})$, whilst we need $P(F > \text{value})$, and this equals
+$P(F > \text{value}) = 1 - P(F \leq \text{value})$.
+
+The steps we have just taken is a perfectly valid manner to conduct a 
+repeated-measures ANOVA, but it is a laborious process. An easier way
+to conduct repeated-measures ANOVA is provided in the `car` or
+`afex` package. Neither of these packages provide the tests for the individual
+contrasts we have just obtained. But these can be computed with the `emmeans` 
+package, after conducting the omnibus tests.
+
+## Repeated-measures ANOVA with the `car` package
+
+When you have data in the wide format, you can obtain a repeated-measures analysis
+by using the `Anova` function from the `car` package. As you will see later,
+the analysis is more straightforward with the `afex` package, but this requires
+data to be in the long format. 
+
+The first step to performing a repeated-measures ANOVA with the `car` package
+is to perform a linear model for a multivariate dependent variable, which basically
+means providing a matrix of each repeated measurement as the DV. This is done
+by collating the variables within a `cbind` (for column-bind) argument within
+the model formula:
+```{r}
+mvmod <- lm(cbind(Alone, Different, Similar) ~ Version, data=wdat)
+```
+So here, we are modelling the Alone, Different, and Similar attractiveness 
+ratings simultaneously as a function of the Version categorical predictor. 
+The next step is to construct an object which reflects the structure of these
+three measurements. This has to be done with e separate data.frame, with one
+row for each variable included in the `cbind` function specifying the multivariate DV. 
+In this case, there is a single categorical predictor underlying all three
+measurements. So our data.frame can contain a single factor:
+```{r}
+idata <- data.frame(Presentation = factor(c("Alone", "Different", "Similar")))
+```
+The next step is to supply a useful contrast for this within-subjects factor:
+```{r}
+contrasts(idata$Presentation) <- cbind(c(-2/3, 1/3, 1/3), c(0,1/2, -1/2))
+```
+With these elements in place, we are finally ready to perform the 
+repeated-measures ANOVA. This involves calling the `car::Anova` function
+with the multivariate linear model as the first argument, and supplying the
+within-subjects structure through the `idata` argument, as well as a formula in the 
+`idesign` argument specifying which effects to include as within-subjects factors.
+The `type=3` argument, as usual, specifies we would like to perform Type-3 SS tests.
+```{r}
+rmaov <- car::Anova(mvmod, idata=idata, idesign = ~Presentation,  type=3)
+```
+By default, because we have used a multivariate DV, this will show a so-called 
+MANOVA (Multivariate ANalysis of VAriance). To obtain an ANOVA, we need to set 
+the `multivariate` argument in the `summary` function to `FALSE`:
+```{r}
+summary(rmaov, multivariate=FALSE)
+```
+In addition to an ANOVA table which contains the omnibus tests for the within- 
+and between-subjects effects, the output provides the Mauchly sphericity test, 
+and subsequently the Greenhouse-Geisser and Huynh-Feldt corrected tests. The 
+tables correspdonding to these latter two corrected tests report the 
+Greenhouse-Geisser and Huynh-Feldt estimates (as `GG eps` and `HF eps` respectively) 
+of what I have denoted as 
+$\hat{\zeta}$, but is more commonly denoted as $\hat{\epsilon}$, and the $p$-value
+which results from applying the correction to the degrees of freedom reported
+in the `Univariate Type III Repeated-Measures ANOVA Assuming Sphericity` table.
+
+A notable absence is the tests of the specific contrasts. We can obtain these
+by performing analyses on the within-subjects composite scores, as we did 
+in the previous section. 
+
+
+## Repeated-measures ANOVA with the `afex` package
+
+```{r}
+afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat)
+```
