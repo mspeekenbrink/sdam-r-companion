@@ -1,6 +1,6 @@
 # Repeated-measures ANOVA
 
-In this Chapter, we will look at how to perform repeated-measures ANOVA with R. 
+In this Chapter, we will focus on performing repeated-measures ANOVA with R. 
 We will use the same data analysed in Chapter 10 of SDAM, which is from an 
 experiment investigating the "cheerleader effect". The dataset is 
 available in the `sdamr` package as `cheerleader`.  We can load it from there, 
@@ -18,12 +18,12 @@ by the authors. So let's first clean it up a little:
 dat <- cheerleader
 # remove participants which should be excluded
 dat <- subset(dat, Excluded == 0)
-# get rid of unused factor levels in Item
+# get rid of unused factor levels in Item by 
 dat$Item <- factor(dat$Item)
 ```
 
-Another thing is that the labels of the factors don't correspond to the ones I used in the chapter. 
-Relabelling factors is somewhat tedious with base R. It's easier to use the `fct_recode` function from the `forcats` [@R-forcats] package. 
+Another thing is that the labels of the factors don't correspond to the ones I used in writing the SDAM chapter. 
+Relabelling factors is somewhat tedious with base R. It's easier to use the `fct_recode` function from the `forcats` package [@R-forcats]. 
 This function takes a factor as its first argument, and then in the remaining arguments, you
 can specify a new label (unquoted) for existing labels (quoted). As usual,
 if you don't have this package installed, you would first need to run `install.packages("forcats")` before running the code below:
@@ -36,15 +36,15 @@ Let's have a look at the resulting data.frame:
 head(dat)
 ```
 Looks good! You can create a raincloud plot for this data as usual:
-```{r, warning=FALSE}
+```{r, warning=FALSE, out.width="100%", fig.width=6, fig.height=3}
 sdamr::plot_raincloud(data=dat, y=Response, groups = Presentation) + ggplot2::facet_wrap(~Version)
 ```
 
 ## Long and wide data
 
 The `cheerleader` data, and our `dat` `data.frame` is in the so-called __long format__. 
-That means we have
-one row in the dataset for each observation. Note that this here means we have
+Data in the long format is structured so that each row contains is a single meaningful observation. 
+Here, that translates to us having 
 multiple rows for one participant (e.g. there are three rows for Participant 1). 
 Data in the __wide format__ has one row for each unit of observation (e.g. Participant).
 For some analyses, the long format is most suitable, whilst for others the wide 
@@ -52,8 +52,13 @@ format. It is therefore useful to be able to transform the data from one format
 to the other. This used to be a real pain back in the days when I started
 using R. Luckily, there are now tools available that make this a lot easier.
 Here, we will use the `pivot_longer` and `pivot_wider` functions from the `tidyr` [@R-tidyr]
-package. 
-
+package. The `pivot_wider` function is used to transform long-format data to the wide format.
+In the `id_cols` argument, you can list variable which identify a "unit of observation" (e.g. Participant), as well
+as other variables which don't vary within subjects (such as condition). In the `names_from` 
+argument, you can specify a variable which identifies the within-subjects levels, which 
+is used to name the resulting new set of dependent variables. In the `values_from`
+argument, you specify the variable which contains the values of the new set
+of dependent variables:
 ```{r}
 wdat <- tidyr::pivot_wider(dat, id_cols = c("Participant", "Version"), names_from = Presentation, values_from = Response)
 head(wdat)
@@ -63,7 +68,7 @@ Note that there are quite a few variables no longer from this new wide-format da
 This is not a problem, as we don't need them for the present analyses (we could also
 have kept these in by including them in the `id_cols` argument).
 Also note that the class of this object is not a `data.frame`, but a `tibble`. 
-A tibble is a "modern reimagining of the data.frame" (https://tibble.tidyverse.org/). 
+A tibble is a "modern re-imagining of the data.frame" (https://tibble.tidyverse.org/). 
 It is a central part of the [tidyverse](https://https://www.tidyverse.org/) 
 collection of R packages, which includes the `tidyr` and `forcats` packages
 we have just used, as well as the `ggplot2` package, and many more. When you become more
@@ -94,7 +99,7 @@ Different, Similar) design.
 
 The within-subjects composite scores are effectively
 contrasts, computed for each participant. Let's define the following contrasts:
-```{r}
+```{r, echo=FALSE}
 tab <- data.frame(d0 = c("1","1","1"),
                   d1 = c("$-\\tfrac{2}{3}$","$\\tfrac{1}{3}$","$\\tfrac{1}{3}$"),
                   d2 = c("$0$","$\\tfrac{1}{2}$","$-\\tfrac{1}{2}$"))
@@ -104,7 +109,7 @@ knitr::kable(tab, booktabs=TRUE, linesep="", align="r")
 ```
 We can compute each composite score from these contrasts as:
 $$W_{j,i} = \frac{\sum_{k=1}^g d_{j,k} Y_{i,k}}{\sqrt{\sum_{k=1}^g d_{j,k}^2}}$$
-For $j=0$ (i.e. $W_0$), the computation in R is:
+For $W_0$ (i.e. $j=0$), the computation in R is:
 ```{r}
 # compute the top part (numerator)
 wdat$W0 <- wdat$Alone + wdat$Different + wdat$Similar
@@ -120,9 +125,12 @@ wdat$W2 <- (1/2)*wdat$Different - (1/2)*wdat$Similar
 wdat$w2 <- wdat$W2/sqrt(2/4)
 ```
 
-### Performing the analyses of the repeated-measures ANOVA
+### Performing a repeated-measures ANOVA with separate models
 
-We first need to set a suitable contrast for Version:
+We now have three new dependent variables ($W_0$, $W_1$, and $W_2$), and for each
+we can perform a GLM analysis. To do this, we need to set a suitable contrast for Version.
+As in SDAM, I will use $(\tfrac{1}{2}, -\tfrac{1}{2})$ for the Identical and Variant
+conditions respectively:
 ```{r}
 contrasts(wdat$Version) <- c(0.5, -0.5)
 ```
@@ -133,7 +141,7 @@ mod0 <- lm(W0 ~ Version, data=wdat)
 summary(mod0)
 ```
 Note that the estimated parameters are in the scale of $W_0$, not in the scale
-of the dependent variable ($Y$). We can ger the rescaled estimates by dividing 
+of the dependent variable ($Y$). We can get the rescaled estimates by dividing 
 the estimates by the scaling factor ($\sqrt{3}$ in this case). The `coefficients`
 functions extracts the parameter estimates from the model. Hence, the rescaled
 estimates can be computed as:
@@ -146,13 +154,16 @@ car::Anova(mod0, type=3)
 ```
 
 The procedure for the within-subjects composite scores $W_1$ and $W_2$ is
-similar:
+similar. For $W_1$, the analysis is:
 ```{r}
 # Analysis for W1
 mod1 <- lm(W1 ~ Version, data=wdat)
 summary(mod1)
 coefficients(mod1)/sqrt(6/9)
 car::Anova(mod1, type=3)
+```
+And for $W_2$, it is:
+```{r}
 # Analysis for W2
 mod2 <- lm(W2 ~ Version, data=wdat)
 summary(mod2)
@@ -212,12 +223,12 @@ package, after conducting the omnibus tests.
 
 ## Repeated-measures ANOVA with the `car` package
 
-When you have data in the wide format, you can obtain a repeated-measures analysis
-by using the `Anova` function from the `car` package. As you will see later,
+When you have data in the wide format, you can obtain a repeated-measures ANOVA
+by using the `Anova` function from the `car` package [@R-car]. As you will see later,
 the analysis is more straightforward with the `afex` package, but this requires
 data to be in the long format. 
 
-The first step to performing a repeated-measures ANOVA with the `car` package [@R-car]
+The first step to performing a repeated-measures ANOVA with the `car` package 
 is to perform a linear model for a multivariate dependent variable, which basically
 means providing a matrix of each repeated measurement as the DV. This is done
 by collating the variables within a `cbind` (for column-bind) argument within
@@ -233,12 +244,13 @@ the output:
 mvmod
 ```
 The next step is to construct an object which reflects the structure of these
-three measurements. This has to be done with e separate data.frame, with one
+three measurements. This has to be done with a separate `data.frame`, with one
 row for each variable included in the `cbind` function specifying the multivariate DV. 
 In this case, there is a single categorical predictor underlying all three
-measurements. So our data.frame can contain a single factor:
+measurements. So our `data.frame` can contain a single factor:
 ```{r}
 idata <- data.frame(Presentation = factor(c("Alone", "Different", "Similar")))
+idata
 ```
 The next step is to supply a useful contrast for this within-subjects factor:
 ```{r}
@@ -255,6 +267,7 @@ supply a right-hand-sided formula in the
 The `type=3` argument, as usual, specifies we would like to perform Type-3 SS tests.
 ```{r}
 rmaov <- car::Anova(mvmod, idata=idata, idesign = ~Presentation,  type=3)
+rmaov
 ```
 By default, because we have used a multivariate DV, this will show a so-called 
 MANOVA (Multivariate ANalysis of VAriance). To obtain an ANOVA, we need to set 
@@ -265,7 +278,7 @@ summary(rmaov, multivariate=FALSE)
 In addition to an ANOVA table which contains the omnibus tests for the within- 
 and between-subjects effects, the output provides the Mauchly sphericity test, 
 and subsequently the Greenhouse-Geisser and Huynh-Feldt corrected tests. The 
-tables correspdonding to these latter two corrected tests report the 
+tables corresponding to these latter two corrected tests report the 
 Greenhouse-Geisser and Huynh-Feldt estimates (as `GG eps` and `HF eps` respectively) 
 of what I have denoted as 
 $\hat{\zeta}$, but is more commonly denoted as $\hat{\epsilon}$, and the $p$-value
@@ -280,7 +293,7 @@ in the previous section.
 ## Repeated-measures ANOVA with the `afex` package
 
 The `afex` package [@R-afex] provides a convenient interface to the `car::Anova()` function, via its `afex::aov_car()` function. To use this function, the data needs to be in the long format. You can specify the model with the usual formula interface, and you don't need to worry about a multivariate response and such things. There is one new thing, however: To specify a repeated-measures ANOVA, the formula needs to contain a special `Error()` argument. Within the Error argument, you first state the variable which identifies the "units of observations" (i.e. `Participant` in this case). Then, after a forward-slash ("/"), you list the repeated-measures factor(s). So, the way to perform the repeated-measures ANOVA with the `afex` package, and the long data (`ldat`) we created earlier, is:
-```{r}
+```{r, warning=TRUE, message=TRUE}
 afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat)
 afmod
 ```
@@ -293,29 +306,129 @@ ldat$Presentation <- factor(ldat$Presentation)
 contrasts(ldat$Presentation) <- cbind(c(-2/3, 1/3, 1/3), c(0,1/2, -1/2))
 ```
 
-```{r}
+```{r, warning=TRUE}
 afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat, check_contrasts = FALSE)
 afmod
 ```
 Note that we now get a warning...which we will ignore, as our contrasts are fine and we get exactly the same results.
 
+Because neither `afex`, nor the `car::Anova` package on which it relies, provides 
+parameter estimates for the GLM, it doesn't really matter whether you supply
+your own (sum-to-zero) contrasts, or whether you let `afex` pick a `contr.sum()` contrast
+for you. 
+
+The `afex` package provides a convenient wrapper around the `car::Anova()` function, and saves you a lot
+of work if you have data in the long format. I would generally recommend storing data in the long format, 
+as this also makes it easier to apply linear mixed-effects models. You can obtain the 
+results as reported by the `car::Anova()` function by calling the `summary` function:
 ```{r}
-summary(afmod$Anova, multivariate=FALSE)
+summary(afmod)
 ```
 
-## Contrasts
-
+The `afex` package also has a function, called `nice`, to display the abbreviated ANOVA table
+we saw earlier. The arguments of this function allow you to change various aspects of the
+displayed results. For instance, by default, the "generalized eta-square" is used
+as a measure of effect size. You can change this to the partial eta-square by setting
+`es="pes"`. You can also change the correction to the degrees of freedom, from the default `correction = "GG"` (Greenhouse-Geisser), by setting
+`correction = "HF"` (Huynh-Feldt) or `correction = "none"` (no correction).
+So, for example, we might use
 ```{r}
-em_version <- emmeans::emmeans(afmod, ~ Version)
+nice(afmod, es="pes", correction = "none")
+```
+
+## Contrasts with the `emmeans` package
+
+To obtain the individual contrast estimates and tests for a repeated-measures 
+ANOVA, perhaps the most straightforward procedure is via the `emmeans` package 
+[@R-emmeans]. We have already discussed the use of this package in
+Section 7.4. The `emmeans::emmeans()` function calculates estimated marginal 
+means, and it can do so for objects that are returned by the `afex::aov_car()` 
+function. For example, we can obtain the marginal means for the different
+levels of `Version` as:
+```{r}
+em_version <- emmeans::emmeans(afmod, specs = ~ Version)
+```
+The `specs` argument should contain a right-sided formula with the factor(s) for
+which you want to compute the marginal means. You can see that the `emmeans`
+function computes the estimated marginal means, their standard error, associated
+degrees of freedom, and confidence intervals:
+```{r}
+em_version
+```
+Contrasts are really just differences between (sets of) marginal means, 
+or even more generally, linear functions of marginal means. By applying a contrast
+code to the marginal means, we obtain a new value (e.g. a difference between 
+marginal means), which also comes with a standard error and associated degrees of
+freedom. These can be used in a one-sample $t$-test, to test whether this 
+new values is equal to an assumed value (e.g. 0). For example, we may want to
+test whether the difference between the marginal mean of the Identical condition
+and the Variant condition is equal to 0, i.e. $H_0: \mu_I - \mu_V = 0$. The
+contrast to transform the means into this difference is $(1,-1)$, because the 
+sum of the means multiplied by these values is 
+$1 \times \mu_I + (-1) \times \mu_V = \mu_I - \mu_V$. Note that these contrasts
+work slightly differently than when using contrast-coded predictors in the GLM.
+There, we would have used the values $(\tfrac{1}{2}, -\tfrac{1}{2})$ to obtain
+the same contrast. That is because the slopes of orthogonal contrast-coded
+predictors are
+$$\beta_j = \frac{\sum_{k=1}^g c_{j,k} \times \mu_k}{\sum_{k=1}^g c^2_{j,k}}$$
+and we would aim for this slope to represent $\mu_I - \mu_V$. Using $(\tfrac{1}{2}, -\tfrac{1}{2})$,
+the slope would be exactly this:
+$$\frac{ \tfrac{1}{2} \mu_I - \tfrac{1}{2} \mu_V}{(\tfrac{1}{2})^2 + (-\tfrac{1}{2})^2} = \frac{ \tfrac{1}{2} \mu_I - \tfrac{1}{2} \mu_V}{\tfrac{1}{2}} = \mu_I - \mu_V$$
+As the contrasts in the `emmeans` package apply directly to the means, we don't have to worry
+about the $\sum_{k=1}^g c^2_{j,k}$ term which scales the slopes of contrast-coded predictors
+in the GLM. That is why, when using the `emmeans` package, we can use $(1,-1)$ as our contrast,
+instead of $(\tfrac{1}{2}, -\tfrac{1}{2})$.
+
+The `emmeans::contrast()` function allows us to compute such contrasts of marginal
+means, and the corresponding one-sample $t$-test (against the null-hypothesis that
+the resulting value is equal to 0). In the `methmod` argument, we here supply a named list. The name is not necessary,
+but is helpful in identifying the contrasts when you test multiple. The key thing is that we supplied a contrast
+with `c(1,-1)`. The output provides the estimate of the difference between $\mu_I$ and $\mu_V$, 
+as well as a $t$-test and $p$-value:
+```{r}
 emmeans::contrast(em_version, method=list("I - V" = c(1,-1)))
 ```
+We can see that this test is not significant, and hence we can't reject the null-hypothesis that
+the true difference between the means is equal to 0. The results are identical to the 
+test of the slope of `Version1` for the model of `W0` in Section 8.2. 
 
+We can follow the same procedure to tests contrasts for the Presentation factor. In this case,
+the list of contrasts specified in the `method` argument has two elements. In the first contrast, 
+we want to determine the difference
+$$\frac{\mu_D + \mu_S}{2} - \mu_A$$
+which we can do through the contrast `c(-1,.5,.5)` (applied to the A, D, and S conditions respectively). In the second
+contrast, we want to determine the difference
+$$\mu_D - \mu_S$$
+which we can do through the contrast `c(0,1,-1)`. The following code computes the 
+marginal means and then performs the contrast-tests on these:
 ```{r}
-em_presentation <- emmeans::emmeans(afmod, ~ Presentation)
+em_presentation <- emmeans::emmeans(afmod, specs = ~ Presentation)
 emmeans::contrast(em_presentation, method=list("(D + S)/2 - A" = c(-1,.5,.5), "D - S" = c(0,1,-1)))
 ```
+This replicates the earlier results we obtained in Section 8.2 from the tests of the intercepts of `W1` and `W2`. 
 
+Finally, we can also consider the marginal means of the combinations of the Presentation and Version factors. We
+do this by specifying the full (main effects and interaction) model in the `specs` argument:
 ```{r}
-em_pv <- emmeans::emmeans(afmod, ~ Presentation*Version)
+em_pv <- emmeans::emmeans(afmod, specs = ~ Presentation*Version)
+```
+The marginal means are
+```{r}
+em_pv
+```
+
+An interaction implies that a contrast for one experimental factor is moderated by the levels of another experimental factor. For example, the difference between 
+$$\frac{\mu_D + \mu_S}{2} - \mu_A$$
+might be different in the Identical compared to the Variant condition. If that is the case, then the difference between these differences would not equal 0. Such a "difference of differences" is most clearly stated in an equation:
+$$\left(\frac{\mu_{I,D} + \mu_{I,S}}{2} - \mu_{I,A}\right) - \left(\frac{\mu_{V,D} + \mu_{V,S}}{2} - \mu_{V,A}\right)$$
+If we were to write this as a sum of all six means, we would do so as follows:
+$$\tfrac{1}{2} \times \mu_{I,D} + \tfrac{1}{2} \mu_{I,S} + (-1) \times \mu_{I,A} + (-\tfrac{1}{2}) \times \mu_{V,D}  + (-\tfrac{1}{2}) \times \mu_{V,S} + 1 \times \mu_{V,A}$$
+Hence, the implied contrast code is `c(.5, .5, -1, -.5, -.5, 1)`. Following a similar logic, the implied contrast 
+code for the second interaction is `c(0, 1, -1, 0, -1, 1)`. Supplying these contrast codes to the `emmeans::contrast` function, we obtain the following results:
+```{r}
 emmeans::contrast(em_pv, method=list("c1 by d1" = c(-1, .5, .5, 1, -.5, -.5), "c1 by d2" = c(0, 1, -1, 0, -1, 1)))
 ```
+This replicates the results of the estimates and tests of the slopes of `Version1` in the models of `W1` and `W2` of Section 8.2 exactly.
+
+So it doesn't really matter all that much what form of contrast coding you use in the original analysis (as long as you use a form of sum-to-zero contrast coding). You can always perform the contrast tests afterwards by using the `emmeans` package (and other packages which provide similar functionality). 
+

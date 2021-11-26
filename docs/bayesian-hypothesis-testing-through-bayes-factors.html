@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-10-13" />
+<meta name="date" content="2021-11-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="linear-mixed-effects-models.html"/>
 <link rel="next" href="reproducible-reports-with-rmarkdown.html"/>
+<script src="book_assets/header-attrs-2.11/header-attrs.js"></script>
 <script src="book_assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -55,25 +56,27 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +85,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -117,6 +120,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -131,47 +156,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
-<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
 <li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
-<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
+<ul>
 <li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
 <li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
-<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
+<ul>
 <li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
 <li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
 <li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
-<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
+<ul>
 <li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
 <li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
 </ul></li>
 <li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
 <li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
-<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
 <li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
-<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
 <li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
 </ul></li>
@@ -179,7 +215,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
 <li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a><ul>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
 <li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
 <li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
@@ -187,36 +224,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
 <li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a><ul>
-<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a><ul>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-bit-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A bit about namespaces</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
-<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a><ul>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
+<ul>
 <li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
 <li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a><ul>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
-<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a><ul>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a><ul>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
-<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a><ul>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
+<ul>
 <li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
-<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a><ul>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
+<ul>
 <li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a></li>
-<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a><ul>
-<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a><ul>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
+<li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-car-package"><i class="fa fa-check"></i><b>8.3</b> Repeated-measures ANOVA with the <code>car</code> package</a></li>
+<li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
+<li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
 <li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
 <li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
@@ -226,26 +284,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a><ul>
-<li class="chapter" data-level="10.1" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>10.1</b> The <code>BayesFactor</code> package</a><ul>
+<li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>10.1</b> The <code>BayesFactor</code> package</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>10.1.1</b> A Bayesian one-sample t-test</a></li>
 <li class="chapter" data-level="10.1.2" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>10.1.2</b> A Bayesian two-sample t-test</a></li>
 <li class="chapter" data-level="10.1.3" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>10.1.3</b> A Bayesian ANOVA</a></li>
 <li class="chapter" data-level="10.1.4" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>10.1.4</b> Bayesian regression and ANCOVA</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>11</b> Reproducible reports with RMarkdown</a><ul>
+<li class="chapter" data-level="11" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>11</b> Reproducible reports with RMarkdown</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>11.1</b> YAML headers</a></li>
-<li class="chapter" data-level="11.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>11.2</b> Markdown syntax</a><ul>
+<li class="chapter" data-level="11.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>11.2</b> Markdown syntax</a>
+<ul>
 <li class="chapter" data-level="11.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>11.2.1</b> Inline formatting</a></li>
 <li class="chapter" data-level="11.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>11.2.2</b> Block-level elements</a></li>
 <li class="chapter" data-level="11.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>11.2.3</b> Math expressions</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>11.3</b> R code chunks and inline R code</a><ul>
+<li class="chapter" data-level="11.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>11.3</b> R code chunks and inline R code</a>
+<ul>
 <li class="chapter" data-level="11.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>11.3.1</b> Figures</a></li>
 <li class="chapter" data-level="11.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>11.3.2</b> Tables</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>11.4</b> APA documents with <code>papaja</code></a><ul>
+<li class="chapter" data-level="11.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>11.4</b> APA documents with <code>papaja</code></a>
+<ul>
 <li class="chapter" data-level="11.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>11.4.1</b> Installation</a></li>
 <li class="chapter" data-level="11.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>11.4.2</b> How to use papaja</a></li>
 <li class="chapter" data-level="11.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>11.4.3</b> Getting help</a></li>
@@ -269,10 +333,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bayesian-hypothesis-testing-through-bayes-factors" class="section level1">
+<div id="bayesian-hypothesis-testing-through-bayes-factors" class="section level1" number="10">
 <h1><span class="header-section-number">Chapter 10</span> Bayesian hypothesis testing through Bayes Factors</h1>
-<p>In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the <code>BayesFactor</code> package <span class="citation">(Morey and Rouder <a href="#ref-R-BayesFactor">2018</a>)</span>. The package implements the “default” priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. --></p>
-<div id="the-bayesfactor-package" class="section level2">
+<p>In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the <code>BayesFactor</code> package <span class="citation">(<a href="#ref-R-BayesFactor" role="doc-biblioref">Morey and Rouder 2018</a>)</span>. The package implements the “default” priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. --></p>
+<div id="the-bayesfactor-package" class="section level2" number="10.1">
 <h2><span class="header-section-number">10.1</span> The <code>BayesFactor</code> package</h2>
 <p>The <code>BayesFactor</code> package implements Bayesian model comparisons for General Linear Models (as well as some other models for e.g. contingency tables and proportions) using JZS-priors for the parameters, or fixing those parameters to 0. Because Bayes Factors are <strong>transitive</strong>, in the sense that a ratio of Bayes Factor is itself another Bayes factor:
 <span class="math display">\[\begin{align}
@@ -282,17 +346,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \end{align}\]</span>
 You can compute many other Bayes Factors which might not be provided by the package by simply dividing the Bayes factors that the package does provide. This makes the procedure of model comparison very flexible.</p>
 <p>If you haven’t installed the <code>BayesFactor</code> package yet, you need to do so first. Then you can load it as usual by:</p>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" title="1"><span class="kw">library</span>(BayesFactor)</a></code></pre></div>
-<div id="a-bayesian-one-sample-t-test" class="section level3">
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span></code></pre></div>
+<div id="a-bayesian-one-sample-t-test" class="section level3" number="10.1.1">
 <h3><span class="header-section-number">10.1.1</span> A Bayesian one-sample t-test</h3>
 <p>A Bayesian alternative to a <span class="math inline">\(t\)</span>-test is provided via the <code>ttestBF</code> function. Similar to the <code>t.test</code> function in the base <code>stats</code> package, this function allows computation of a Bayes factor for a one-sample t-test and independent-samples t-tests (as well as a paired t-test, which we haven’t covered in the course). Let’s re-analyse the data we considered before, concerning participants’ judegments of the height of Mount Everest. The one-sample t-test we computed before, comparing the judgements to an assumed mean of <span class="math inline">\(\mu = 8848\)</span>, was:</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" title="1"><span class="co"># load the data</span></a>
-<a class="sourceLine" id="cb361-2" title="2"><span class="kw">library</span>(sdamr)</a>
-<a class="sourceLine" id="cb361-3" title="3"><span class="kw">data</span>(<span class="st">&quot;anchoring&quot;</span>)</a>
-<a class="sourceLine" id="cb361-4" title="4"><span class="co"># select the subset we analysed in Chapter 3</span></a>
-<a class="sourceLine" id="cb361-5" title="5">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring,(referrer <span class="op">==</span><span class="st"> &quot;swps&quot;</span> <span class="op">|</span><span class="st"> </span>referrer <span class="op">==</span><span class="st"> &quot;swpson&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>anchor <span class="op">==</span><span class="st"> &quot;low&quot;</span>)</a>
-<a class="sourceLine" id="cb361-6" title="6"><span class="co"># compute the Frequentist one-sample t-test</span></a>
-<a class="sourceLine" id="cb361-7" title="7"><span class="kw">t.test</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb437-2"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb437-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb437-3"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb437-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;anchoring&quot;</span>)</span>
+<span id="cb437-4"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb437-4" aria-hidden="true" tabindex="-1"></a><span class="co"># select the subset we analysed in Chapter 3</span></span>
+<span id="cb437-5"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb437-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring,(referrer <span class="sc">==</span> <span class="st">&quot;swps&quot;</span> <span class="sc">|</span> referrer <span class="sc">==</span> <span class="st">&quot;swpson&quot;</span>) <span class="sc">&amp;</span> anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span>)</span>
+<span id="cb437-6"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb437-6" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the Frequentist one-sample t-test</span></span>
+<span id="cb437-7"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb437-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -305,14 +369,14 @@ You can compute many other Bayes Factors which might not be provided by the pack
 ## mean of x 
 ##  6312.193</code></pre>
 <p>The syntax for the Bayesian alternative is <em>very</em> similar, namely:</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" title="1">bf_anchor &lt;-<span class="st"> </span><span class="kw">ttestBF</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb439-1" aria-hidden="true" tabindex="-1"></a>bf_anchor <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
 <p>This code provides a test of the following models:</p>
 <p><span class="math display">\[\begin{align}
 H_0\!&amp;: \mu = 8848 \\
 H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 \end{align}\]</span></p>
 <p>After computing the Bayes factor and storing it in an object <code>bf_anchor</code>, we just see the print-out of the result by typing in the name of the object:</p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" title="1">bf_anchor</a></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb440-1" aria-hidden="true" tabindex="-1"></a>bf_anchor</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Alt., r=0.707 : 46902934208 ±0%
@@ -321,36 +385,36 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ##   Null, mu = 8848 
 ## ---
 ## Bayes factor type: BFoneSample, JZS</code></pre>
-<p>This output is quite sparse, which is by no means a bad thing. It shows a few important things. Under <code>Alt.</code> (which stands for the alternative hypothesis), we first see the scaling factor <span class="math inline">\(r\)</span> used for the JZS prior distribution on the effect size. We then see the value of the Bayes Factor, which is “extreme”, showing that the alternative hypothesis at 46,902,934,208. Quite clearly, the average judgements differed from the true height of Mount Everest! After the computed value of the Bayes factor, you will find a proportional error estimate on the Bayes factor. In general, the marginal likelihoods that constitute the numerator (“top model”) and denominator (“bottom model”) of the Bayes factor can not be computed exactly, and have to be approximated by numerical integration routines, or simulation. This results in some (hopefully small) error in computation, and the error estimate indicates the extend to which the true Bayes factor might differ from the computed one. In this case, the error is (proportionally) very small, and hence we can be assured that our conclusion is unlikely to be affected by error in the approximation.</p>
-<p>As we didn’t set the scaling factor explicitly, the default value is used, which is <span class="math inline">\(r = \frac{\sqrt{2}}{2} = 0.707\)</span>. Note that this is actually different from the default value of <span class="math inline">\(r=1\)</span> used in <span class="citation">Rouder et al. (<a href="#ref-rouder2009bayesian">2009</a>)</span>, which first introduced this version of the Bayesian t-test to a psychological audience, and the one used to illustrate the method in the SDAM book. While reducing the default value to <span class="math inline">\(r=0.707\)</span> is probably reasonable given the effect sizes generally encountered in psychological studies, a change in the default prior highlights the subjective nature of the prior distribution in the Bayesian model comparison procedure. You should also realise that different analyses, such as t-tests, ANOVA, and regression models, use different default values for the scaling factor. As shown in the SDAM book, the value of the Bayes factor depends on the choice for the scaling factor. Although the default value may be deemed reasonable, the choice should really be based on a consideration of the magnitude of the effect sizes you (yes, you!) expect in a particular study. This is not always easy, but you should pick one (the default value, for instance, if you can’t think of a better one) <em>before</em> conducting the analysis. If you feel that makes the test too subjective, you may may want to check the robustness of the result for different choices of the scaling factor. You can do this by computing the Bayes factor for a range of choices of the scaling factor, and then inspecting whether the strength of the evidence is in line with your choice for a reasonable range of values around your choice. The code below provides an example of this:</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" title="1"><span class="co"># create a vector with different values for the scaling factor r</span></a>
-<a class="sourceLine" id="cb366-2" title="2">rscale &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">001</span>,<span class="dv">3</span>,<span class="dt">length=</span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb366-3" title="3"></a>
-<a class="sourceLine" id="cb366-4" title="4"><span class="co"># create an ampty vector to store the resulting Bayes factors</span></a>
-<a class="sourceLine" id="cb366-5" title="5">BFs &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="dt">length=</span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb366-6" title="6"></a>
-<a class="sourceLine" id="cb366-7" title="7"><span class="co"># compute the Bayes factor for each value of r</span></a>
-<a class="sourceLine" id="cb366-8" title="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>) {</a>
-<a class="sourceLine" id="cb366-9" title="9">  temp_bf &lt;-<span class="st"> </span><span class="kw">ttestBF</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>, <span class="dt">r =</span> rscale[i])</a>
-<a class="sourceLine" id="cb366-10" title="10">  <span class="co"># the object returned by the ttestBF function is a so-called S4 object</span></a>
-<a class="sourceLine" id="cb366-11" title="11">  <span class="co"># this has &quot;slots&quot; which can be accessed through the &quot;@&quot; operatpr</span></a>
-<a class="sourceLine" id="cb366-12" title="12">  <span class="co"># the actual value for the BF is extracted by @bayesFactor$bf</span></a>
-<a class="sourceLine" id="cb366-13" title="13">  <span class="co"># which is stored in a logarithmic scale, so we need to use &quot;exp&quot;</span></a>
-<a class="sourceLine" id="cb366-14" title="14">  <span class="co"># to obtain the value of the actual Bayes factor </span></a>
-<a class="sourceLine" id="cb366-15" title="15">  BFs[i] &lt;-<span class="st"> </span><span class="kw">exp</span>(temp_bf<span class="op">@</span>bayesFactor<span class="op">$</span>bf)</a>
-<a class="sourceLine" id="cb366-16" title="16">}</a>
-<a class="sourceLine" id="cb366-17" title="17"><span class="co"># use ggplot to plot the values of the Bayes factor against the choice of r</span></a>
-<a class="sourceLine" id="cb366-18" title="18"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb366-19" title="19"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">r=</span>rscale,<span class="dt">BF=</span>BFs),<span class="kw">aes</span>(<span class="dt">x=</span>r,<span class="dt">y=</span>BF)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-212-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>This output is quite sparse, which is by no means a bad thing. It shows a few important things. Under <code>Alt.</code> (which stands for the alternative hypothesis), we first see the scaling factor <span class="math inline">\(r\)</span> used for the JZS prior distribution on the effect size. We then see the value of the Bayes Factor, which is “extreme,” showing that the alternative hypothesis at 46,902,934,208. Quite clearly, the average judgements differed from the true height of Mount Everest! After the computed value of the Bayes factor, you will find a proportional error estimate on the Bayes factor. In general, the marginal likelihoods that constitute the numerator (“top model”) and denominator (“bottom model”) of the Bayes factor can not be computed exactly, and have to be approximated by numerical integration routines, or simulation. This results in some (hopefully small) error in computation, and the error estimate indicates the extend to which the true Bayes factor might differ from the computed one. In this case, the error is (proportionally) very small, and hence we can be assured that our conclusion is unlikely to be affected by error in the approximation.</p>
+<p>As we didn’t set the scaling factor explicitly, the default value is used, which is <span class="math inline">\(r = \frac{\sqrt{2}}{2} = 0.707\)</span>. Note that this is actually different from the default value of <span class="math inline">\(r=1\)</span> used in <span class="citation"><a href="#ref-rouder2009bayesian" role="doc-biblioref">Rouder et al.</a> (<a href="#ref-rouder2009bayesian" role="doc-biblioref">2009</a>)</span>, which first introduced this version of the Bayesian t-test to a psychological audience, and the one used to illustrate the method in the SDAM book. While reducing the default value to <span class="math inline">\(r=0.707\)</span> is probably reasonable given the effect sizes generally encountered in psychological studies, a change in the default prior highlights the subjective nature of the prior distribution in the Bayesian model comparison procedure. You should also realise that different analyses, such as t-tests, ANOVA, and regression models, use different default values for the scaling factor. As shown in the SDAM book, the value of the Bayes factor depends on the choice for the scaling factor. Although the default value may be deemed reasonable, the choice should really be based on a consideration of the magnitude of the effect sizes you (yes, you!) expect in a particular study. This is not always easy, but you should pick one (the default value, for instance, if you can’t think of a better one) <em>before</em> conducting the analysis. If you feel that makes the test too subjective, you may may want to check the robustness of the result for different choices of the scaling factor. You can do this by computing the Bayes factor for a range of choices of the scaling factor, and then inspecting whether the strength of the evidence is in line with your choice for a reasonable range of values around your choice. The code below provides an example of this:</p>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector with different values for the scaling factor r</span></span>
+<span id="cb442-2"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-2" aria-hidden="true" tabindex="-1"></a>rscale <span class="ot">&lt;-</span> <span class="fu">seq</span>(.<span class="dv">001</span>,<span class="dv">3</span>,<span class="at">length=</span><span class="dv">100</span>)</span>
+<span id="cb442-3"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb442-4"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create an ampty vector to store the resulting Bayes factors</span></span>
+<span id="cb442-5"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-5" aria-hidden="true" tabindex="-1"></a>BFs <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
+<span id="cb442-6"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb442-7"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the Bayes factor for each value of r</span></span>
+<span id="cb442-8"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb442-9"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-9" aria-hidden="true" tabindex="-1"></a>  temp_bf <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>, <span class="at">r =</span> rscale[i])</span>
+<span id="cb442-10"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the object returned by the ttestBF function is a so-called S4 object</span></span>
+<span id="cb442-11"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this has &quot;slots&quot; which can be accessed through the &quot;@&quot; operatpr</span></span>
+<span id="cb442-12"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the actual value for the BF is extracted by @bayesFactor$bf</span></span>
+<span id="cb442-13"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># which is stored in a logarithmic scale, so we need to use &quot;exp&quot;</span></span>
+<span id="cb442-14"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to obtain the value of the actual Bayes factor </span></span>
+<span id="cb442-15"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-15" aria-hidden="true" tabindex="-1"></a>  BFs[i] <span class="ot">&lt;-</span> <span class="fu">exp</span>(temp_bf<span class="sc">@</span>bayesFactor<span class="sc">$</span>bf)</span>
+<span id="cb442-16"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb442-17"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-17" aria-hidden="true" tabindex="-1"></a><span class="co"># use ggplot to plot the values of the Bayes factor against the choice of r</span></span>
+<span id="cb442-18"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb442-19"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb442-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">r=</span>rscale,<span class="at">BF=</span>BFs),<span class="fu">aes</span>(<span class="at">x=</span>r,<span class="at">y=</span>BF)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-251-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>Given the scale of the <span class="math inline">\(y\)</span>-axis, there is overwhelming evidence against the null-hypothesis for most choices of the scaling factor. Hence, the results seem rather robust to the exact choice of prior.</p>
 </div>
-<div id="a-bayesian-two-sample-t-test" class="section level3">
+<div id="a-bayesian-two-sample-t-test" class="section level3" number="10.1.2">
 <h3><span class="header-section-number">10.1.2</span> A Bayesian two-sample t-test</h3>
 <p>To compare the means of two groups, we can revisit the Tetris study, where we considered whether the number of memory intrusions is reduced after playing Tetris in combination with memory reactivation, compared to just memory reactivation by itself. The <code>ttestBF</code> function allows us to provide the data for one group as the <code>x</code> argument, and the data for the other group as the <code>y</code> argument, so we can perform our model comparison, by subsetting the dependent variable appropriately, as follows:</p>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" title="1"><span class="kw">data</span>(<span class="st">&quot;tetris2015&quot;</span>)</a>
-<a class="sourceLine" id="cb367-2" title="2">bf_tetr &lt;-<span class="st"> </span><span class="kw">ttestBF</span>(<span class="dt">x=</span>tetris2015<span class="op">$</span>Days_One_to_Seven_Number_of_Intrusions[tetris2015<span class="op">$</span>Condition <span class="op">==</span><span class="st"> &quot;Reactivation&quot;</span>], <span class="dt">y =</span> tetris2015<span class="op">$</span>Days_One_to_Seven_Number_of_Intrusions[tetris2015<span class="op">$</span>Condition <span class="op">==</span><span class="st"> &quot;Tetris_Reactivation&quot;</span>])</a>
-<a class="sourceLine" id="cb367-3" title="3">bf_tetr</a></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tetris2015&quot;</span>)</span>
+<span id="cb443-2"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb443-2" aria-hidden="true" tabindex="-1"></a>bf_tetr <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(<span class="at">x=</span>tetris2015<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions[tetris2015<span class="sc">$</span>Condition <span class="sc">==</span> <span class="st">&quot;Reactivation&quot;</span>], <span class="at">y =</span> tetris2015<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions[tetris2015<span class="sc">$</span>Condition <span class="sc">==</span> <span class="st">&quot;Tetris_Reactivation&quot;</span>])</span>
+<span id="cb443-3"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb443-3" aria-hidden="true" tabindex="-1"></a>bf_tetr</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Alt., r=0.707 : 16.78482 ±0%
@@ -361,12 +425,17 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## Bayes factor type: BFindepSample, JZS</code></pre>
 <p>Which shows strong evidence for the alternative hypothesis over the null hypothesis that the means are identical (i.e. that the difference between the means is zero, <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>), as the alternative model is 2.82 times more likely than the null model, which sets the difference between the means to exactly <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>, rather than allowing different values of this difference through the prior distribution.</p>
 <p>A two-sample t-test should really be identical to a two-group ANOVA model, as both concern the same General Linear Model (a model with a single contrast-coding predictor, with e.q. values of <span class="math inline">\(-\tfrac{1}{2}\)</span> and <span class="math inline">\(\tfrac{1}{2}\)</span>). Before fully discussing the way to perform an ANOVA-type analysis with the <code>BayesFactor</code> package, let’s just double-check this is indeed the case:</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(tetris2015, Condition <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Tetris_Reactivation&quot;</span>,<span class="st">&quot;Reactivation&quot;</span>))</a>
-<a class="sourceLine" id="cb369-2" title="2"><span class="co"># remove levels of Condition that are no longer needed due to subsetting</span></a>
-<a class="sourceLine" id="cb369-3" title="3">dat<span class="op">$</span>Condition &lt;-<span class="st"> </span><span class="kw">droplevels</span>(dat<span class="op">$</span>Condition)</a>
-<a class="sourceLine" id="cb369-4" title="4"><span class="co">#contrasts(dat$Condition) &lt;- c(-1/2,1/2)</span></a>
-<a class="sourceLine" id="cb369-5" title="5">bf2_tetr &lt;-<span class="st"> </span><span class="kw">anovaBF</span>(Days_One_to_Seven_Number_of_Intrusions <span class="op">~</span><span class="st"> </span>Condition, <span class="dt">data =</span> dat)</a>
-<a class="sourceLine" id="cb369-6" title="6">bf2_tetr</a></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb445-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(tetris2015, Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Tetris_Reactivation&quot;</span>,<span class="st">&quot;Reactivation&quot;</span>))</span>
+<span id="cb445-2"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb445-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remove levels of Condition that are no longer needed due to subsetting</span></span>
+<span id="cb445-3"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb445-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Condition <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(dat<span class="sc">$</span>Condition)</span>
+<span id="cb445-4"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb445-4" aria-hidden="true" tabindex="-1"></a><span class="co">#contrasts(dat$Condition) &lt;- c(-1/2,1/2)</span></span>
+<span id="cb445-5"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb445-5" aria-hidden="true" tabindex="-1"></a>bf2_tetr <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(Days_One_to_Seven_Number_of_Intrusions <span class="sc">~</span> Condition, <span class="at">data =</span> dat)</span></code></pre></div>
+<pre><code>## 
+  |                                                                                                 
+  |                                                                                           |   0%
+  |                                                                                                 
+  |===========================================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb447-1" aria-hidden="true" tabindex="-1"></a>bf2_tetr</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Condition : 16.78482 ±0%
@@ -377,27 +446,38 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>The results are indeed identical. Note that this is because both the <code>ttestBF</code> and <code>anovaBF</code> function use the same prior distribution for the effect.</p>
 </div>
-<div id="a-bayesian-anova" class="section level3">
+<div id="a-bayesian-anova" class="section level3" number="10.1.3">
 <h3><span class="header-section-number">10.1.3</span> A Bayesian ANOVA</h3>
 <p>More general ANOVA-type models can be tested though the <code>anovaBF</code> function. This function takes the following important arguments:</p>
 <ul>
 <li><code>formula</code>: a formula like in the <code>lm</code> function, specifying which factors to include as well as their interactions (by e.g. using an <code>*</code> operator to specify you want to include the main effects as well as their interactions. Note that unlike in the <code>lm</code> function, <strong>all terms must be factors</strong>.</li>
 <li><code>data</code>: a <code>data.frame</code> containing data for all factors in the formula.</li>
 <li><code>whichRandom</code>: a character vector specifying which factors are random. Random factors can be used to obtain a model similar to a repeated-measures ANOVA, or a (restricted) set of linear-mixed effects models (with only factors for the fixed effects).</li>
-<li><code>whichModels</code>: a character vector specifying which models to compare. The allowed values are <code>"all"</code>, <code>"withmain"</code> (the default), <code>"top"</code>, and <code>"bottom"</code>. Setting <code>whichModels</code> to <code>"all"</code> will test all models that can be created by including or not including a main effect or interaction. <code>"top"</code> will test all models that can be created by removing or leaving in a main effect or interaction term from the full model. <code>"bottom"</code> creates models by adding single factors or interactions to the null model. <code>"withmain"</code> will test all models, with the constraint that if an interaction is included, the corresponding main effects are also included. Setting the argument to <code>top</code> produces model comparisons similar to the Type 3 procedure, comparing the full model to a restricted model with each effect removed. Setting the argument to <code>withMain</code> produces model comparisons similar to the Type 2 procedure, with model comparisons that respect the “principle of marginality”, such that tests of the main effects do not consider higher-order interactions, whilst a test of any interaction includes the main effects that constitute the elements in the interactions.</li>
-<li><code>rscaleFixed</code>: prior scale for fixed effects. The value can be given numerically, or as one of three strings: <code>"medium"</code> (<span class="math inline">\(r = \tfrac{1}{2}\)</span>), <code>"wide"</code>: <span class="math inline">\(r = \tfrac{\sqrt{2}}{2}\)</span>, or <code>"ultrawide"</code> (<span class="math inline">\(r=1\)</span>). The default is "<code>medium"</code>.</li>
+<li><code>whichModels</code>: a character vector specifying which models to compare. The allowed values are <code>"all"</code>, <code>"withmain"</code> (the default), <code>"top"</code>, and <code>"bottom"</code>. Setting <code>whichModels</code> to <code>"all"</code> will test all models that can be created by including or not including a main effect or interaction. <code>"top"</code> will test all models that can be created by removing or leaving in a main effect or interaction term from the full model. <code>"bottom"</code> creates models by adding single factors or interactions to the null model. <code>"withmain"</code> will test all models, with the constraint that if an interaction is included, the corresponding main effects are also included. Setting the argument to <code>top</code> produces model comparisons similar to the Type 3 procedure, comparing the full model to a restricted model with each effect removed. Setting the argument to <code>withMain</code> produces model comparisons similar to the Type 2 procedure, with model comparisons that respect the “principle of marginality,” such that tests of the main effects do not consider higher-order interactions, whilst a test of any interaction includes the main effects that constitute the elements in the interactions.</li>
+<li><code>rscaleFixed</code>: prior scale for fixed effects. The value can be given numerically, or as one of three strings: <code>"medium"</code> (<span class="math inline">\(r = \tfrac{1}{2}\)</span>), <code>"wide"</code>: <span class="math inline">\(r = \tfrac{\sqrt{2}}{2}\)</span>, or <code>"ultrawide"</code> (<span class="math inline">\(r=1\)</span>). The default is “<code>medium"</code>.</li>
 <li><code>rscaleRandom</code>: prior scale for random effects. Accepts the same strings as <code>rscaleFixed</code>, and in addition <code>"nuisance"</code> (<span class="math inline">\(r = 1\)</span>). The default is <code>"nuisance"</code>.</li>
 <li><code>rscaleEffects</code>: a named vector with prior scales for individual factors.</li>
 </ul>
 <p>The <code>anovaBF</code> function will (as far as I can gather) <strong>always use <code>contr.sum()</code> contrasts for the factors</strong>. So setting your own contrasts will have no effect on the results. The exact contrast should not really matter for omnibus tests, and sum-to-zero are a reasonable choice in general (<code>contr.sum</code> implements what we called effect-coding before).<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> While the <code>anovaBF</code> function always uses the JZS prior for any effects, it allows you to specify exactly which scaling factor to use for every effect, if so desired.</p>
 <p>Let’s see what happens when we use a Bayesian ANOVA-type analysis for the data on experimenter beliefs in social priming. First, let’s load the data, and turn the variables reflecting the experimental manipulations into factors:</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" title="1"><span class="kw">data</span>(<span class="st">&quot;expBelief&quot;</span>)</a>
-<a class="sourceLine" id="cb371-2" title="2">dat &lt;-<span class="st"> </span>expBelief</a>
-<a class="sourceLine" id="cb371-3" title="3">dat<span class="op">$</span>primeCond &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>primeCond)</a>
-<a class="sourceLine" id="cb371-4" title="4">dat<span class="op">$</span>experimenterBelief &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>experimenterBelief)</a></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb449-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;expBelief&quot;</span>)</span>
+<span id="cb449-2"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb449-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> expBelief</span>
+<span id="cb449-3"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb449-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>primeCond <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>primeCond)</span>
+<span id="cb449-4"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb449-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>experimenterBelief <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>experimenterBelief)</span></code></pre></div>
 <p>We can now use the <code>anofaBF</code> function to compute the Bayes factors:</p>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" title="1">bf_expB &lt;-<span class="st"> </span><span class="kw">anovaBF</span>(ApproachAdvantage <span class="op">~</span><span class="st"> </span>primeCond<span class="op">*</span>experimenterBelief, <span class="dt">data =</span> dat)</a>
-<a class="sourceLine" id="cb372-2" title="2">bf_expB</a></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb450-1" aria-hidden="true" tabindex="-1"></a>bf_expB <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat)</span></code></pre></div>
+<pre><code>## 
+  |                                                                                                 
+  |                                                                                           |   0%
+  |                                                                                                 
+  |=======================                                                                    |  25%
+  |                                                                                                 
+  |==============================================                                             |  50%
+  |                                                                                                 
+  |====================================================================                       |  75%
+  |                                                                                                 
+  |===========================================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb452-1" aria-hidden="true" tabindex="-1"></a>bf_expB</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief                                            : 537.3879  ±0%
@@ -410,8 +490,19 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## ---
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>A main thing to note here is that the comparisons of different versions of MODEL G are against the same MODEL R, which is an intercept-only model. We can see that all models which include <code>experimenterBelief</code> receive strong evidence against the intercept-only model, apart from the model which only includes <code>primeCond</code>, which has less evidence than the intercept-only model. Although this indicates that the <code>primeCond</code> effect might be ignorable, the comparisons are different from comparing reduced models to the general MODEL G with all effects included. We can obtain these Type 3 comparisons by setting the <code>whichModels</code> argument to `“top”``:</p>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" title="1">bf_expB2 &lt;-<span class="st"> </span><span class="kw">anovaBF</span>(ApproachAdvantage <span class="op">~</span><span class="st"> </span>primeCond<span class="op">*</span>experimenterBelief, <span class="dt">data =</span> dat, <span class="dt">whichModels =</span> <span class="st">&quot;top&quot;</span>)</a>
-<a class="sourceLine" id="cb374-2" title="2">bf_expB2</a></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb454-1" aria-hidden="true" tabindex="-1"></a>bf_expB2 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+  |                                                                                                 
+  |                                                                                           |   0%
+  |                                                                                                 
+  |=======================                                                                    |  25%
+  |                                                                                                 
+  |==============================================                                             |  50%
+  |                                                                                                 
+  |====================================================================                       |  75%
+  |                                                                                                 
+  |===========================================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb456-1" aria-hidden="true" tabindex="-1"></a>bf_expB2</span></code></pre></div>
 <pre><code>## Bayes factor top-down analysis
 ## --------------
 ## When effect is omitted from experimenterBelief + primeCond + experimenterBelief:primeCond , BF is...
@@ -424,7 +515,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## ---
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>It is very important to realise that the output now concerns the comparison of the reduced model (in the numerator, ie. the “top model”) against the full model (in the denominator, i.e. the “bottom model”), as is stated in the <code>Against denimonator</code> part of the output. That means that low values of the Bayes factor now indicate evidence for the alternative hypothesis that an effect is different from 0. We can change the output in a measure of the alternative model against the null model by inverting the Bayes factor as follows:</p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" title="1"><span class="dv">1</span><span class="op">/</span>bf_expB2</a></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>bf_expB2</span></code></pre></div>
 <pre><code>##                                                                denominator
 ## numerator                                                       experimenterBelief + primeCond
 ##   experimenterBelief + primeCond + experimenterBelief:primeCond                      0.2115834
@@ -436,7 +527,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ##   experimenterBelief + primeCond + experimenterBelief:primeCond                                 515.2159</code></pre>
 <p>which now shows strong evidence for the effect of <code>experimenterBelief</code> when we remove it from the full model.</p>
 <p>The transitivity of the Bayes factor means that we can also obtain some of these results through a ratio of the Bayes factors obtained earlier. For instance, a Type 3 test of the effect of <code>experimenterBelief:primeCond</code> interaction can be obtained by comparing a model with all effects included to a model without this interaction. In the analysis stored in <code>bf_expB</code>, we compared a number of the possible models to an intercept-only model. By comparing the Bayes factors of the model which excludes the interaction to a model which includes it, we can obtain the same Bayes factor of that interaction as follows. In the output of <code>bf_expB</code>, the fourth element compared the full model to the intercept-only model, whilst in the third element, a model with only the main effects of <code>experimenterBelief</code> and <code>primeCond</code> are compared to an intercept-only model. The Type 3 test of the interaction can then be obtained through the ratio of these two Bayes factors:</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" title="1">bf_expB[<span class="dv">4</span>]<span class="op">/</span>bf_expB[<span class="dv">3</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb460-1" aria-hidden="true" tabindex="-1"></a>bf_expB[<span class="dv">4</span>]<span class="sc">/</span>bf_expB[<span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief + primeCond + experimenterBelief:primeCond : 0.217644 ±1.72%
@@ -446,8 +537,25 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## ---
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>which indicates evidence for the null hypothesis that there is no moderation of the effect of <code>experimenterbelief</code> by <code>primeCond</code>, as the Bayes factor is well below 1. We cannot replicate all Type 3 analyses with the results obtained earlier, unless we ask the function to compare every possible model against the intercept-only model, by specifying <code>whichModels = "all"</code>:</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" title="1">bf_expB3 &lt;-<span class="st"> </span><span class="kw">anovaBF</span>(ApproachAdvantage <span class="op">~</span><span class="st"> </span>primeCond<span class="op">*</span>experimenterBelief, <span class="dt">data =</span> dat, <span class="dt">whichModels =</span> <span class="st">&quot;all&quot;</span>)</a>
-<a class="sourceLine" id="cb380-2" title="2">bf_expB3</a></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb462-1" aria-hidden="true" tabindex="-1"></a>bf_expB3 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+  |                                                                                                 
+  |                                                                                           |   0%
+  |                                                                                                 
+  |=============                                                                              |  14%
+  |                                                                                                 
+  |==========================                                                                 |  29%
+  |                                                                                                 
+  |=======================================                                                    |  43%
+  |                                                                                                 
+  |====================================================                                       |  57%
+  |                                                                                                 
+  |=================================================================                          |  71%
+  |                                                                                                 
+  |==============================================================================             |  86%
+  |                                                                                                 
+  |===========================================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb464-1" aria-hidden="true" tabindex="-1"></a>bf_expB3</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief                                            : 537.3879   ±0%
@@ -463,7 +571,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## ---
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>For instance, we can now obtain a Type 3 test for <code>experimenterBelief</code> by comparing the full model (the 7th element in the output) to a model which just excludes this effect (i.e. the 6th element):</p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" title="1">bf_expB3[<span class="dv">7</span>]<span class="op">/</span>bf_expB3[<span class="dv">6</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb466-1" aria-hidden="true" tabindex="-1"></a>bf_expB3[<span class="dv">7</span>]<span class="sc">/</span>bf_expB3[<span class="dv">6</span>]</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief + primeCond + experimenterBelief:primeCond : 552.4256 ±2.25%
@@ -474,7 +582,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>which reproduces mostly the result we obtained by setting <code>whichModel = "top"</code> before.</p>
 </div>
-<div id="bayesian-regression-and-ancova" class="section level3">
+<div id="bayesian-regression-and-ancova" class="section level3" number="10.1.4">
 <h3><span class="header-section-number">10.1.4</span> Bayesian regression and ANCOVA</h3>
 <p>Apart from different default values of the scaling factor <span class="math inline">\(r\)</span> in the scaled-Cauchy distribution, the <code>BayesFactor</code> package works in the same way for models which include metric predictors. In a multiple regression model with only metric predictors, we can use the convenience function <code>regressionBF</code>. If you want to mix metric and categorical predictors, as in an ANCOVA model, you will have to use the <code>generalTestBF</code> function. All functions discussed so far are really just convenience interfaces to the <code>generalTestBF</code>, which implements Bayes factors for the General Linear Model. These convenience functions are used to determine an appropriate scaling factor for the different terms in the model, but not much else of concern, so you can replicate all the previous analyses through the <code>generalTestBF</code>function, if you’d like.</p>
 <!--
@@ -485,18 +593,18 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-R-BayesFactor">
-<p>Morey, Richard D., and Jeffrey N. Rouder. 2018. <em>BayesFactor: Computation of Bayes Factors for Common Designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-BayesFactor" class="csl-entry">
+Morey, Richard D., and Jeffrey N. Rouder. 2018. <em>BayesFactor: Computation of Bayes Factors for Common Designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>.
 </div>
-<div id="ref-rouder2009bayesian">
-<p>Rouder, Jeffrey N, Paul L Speckman, Dongchu Sun, Richard D Morey, and Geoffrey Iverson. 2009. “Bayesian T Tests for Accepting and Rejecting the Null Hypothesis.” <em>Psychonomic Bulletin &amp; Review</em> 16 (2): 225–37.</p>
+<div id="ref-rouder2009bayesian" class="csl-entry">
+Rouder, Jeffrey N, Paul L Speckman, Dongchu Sun, Richard D Morey, and Geoffrey Iverson. 2009. <span>“Bayesian t Tests for Accepting and Rejecting the Null Hypothesis.”</span> <em>Psychonomic Bulletin &amp; Review</em> 16 (2): 225–37.
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="3">
-<li id="fn3"><p>Curiously, a scaling factor of <span class="math inline">\(r = \tfrac{1}{2}\)</span> in this case corresponds to a scaling factor of <span class="math inline">\(r = \tfrac{\sqrt{2}}{2}\)</span>, which is something I don’t immediately understand, and will require further investigation.<a href="bayesian-hypothesis-testing-through-bayes-factors.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Curiously, a scaling factor of <span class="math inline">\(r = \tfrac{1}{2}\)</span> in this case corresponds to a scaling factor of <span class="math inline">\(r = \tfrac{\sqrt{2}}{2}\)</span>, which is something I don’t immediately understand, and will require further investigation.<a href="bayesian-hypothesis-testing-through-bayes-factors.html#fnref3" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

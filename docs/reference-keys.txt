@@ -1,7 +1,7 @@
 fig:rstudio-interface-image
 tab:tetris-orthogonal-cotrast-codes
 fig:hold-position
-tab:unnamed-chunk-228
+tab:unnamed-chunk-267
 acknowledgements
 introduction
 what-is-r
@@ -65,6 +65,13 @@ planned-comparisons-and-post-hoc-tests-with-emmeans
 adjusted-p-values
 testing-general-contrasts-with-emmeans
 repeated-measures-anova
+long-and-wide-data
+repeated-measures-anova-with-separate-glms
+computing-within-subjects-composite-scores
+performing-a-repeated-measures-anova-with-separate-models
+repeated-measures-anova-with-the-car-package
+repeated-measures-anova-with-the-afex-package
+contrasts-with-the-emmeans-package
 linear-mixed-effects-models
 formulating-and-estimating-linear-mixed-effects-models-with-lme4
 random-intercepts-model
