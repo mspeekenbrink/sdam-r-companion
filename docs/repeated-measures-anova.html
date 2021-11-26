@@ -799,29 +799,48 @@ in the previous section.</p>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1
 ## 
 ## Sphericity correction method: GG</code></pre>
-<p><code>afex</code> provides an abridged ANOVA table, where the Greenhouse-Geisser correction is automatically applied</p>
+<p><code>afex</code> provides an abridged ANOVA table, where the Greenhouse-Geisser correction is automatically applied.</p>
 <p>Note that <code>afex</code> automatically sets contrasts to <code>contr.sum</code>. That is useful here, as we haven’t set the contrast for <code>Version</code> in the <code>ldat</code> data.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="repeated-measures-anova.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(ldat<span class="sc">$</span>Version) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="sc">-</span><span class="fl">0.5</span>)</span>
-<span id="cb371-2"><a href="repeated-measures-anova.html#cb371-2" aria-hidden="true" tabindex="-1"></a>ldat<span class="sc">$</span>Presentation <span class="ot">&lt;-</span> <span class="fu">factor</span>(ldat<span class="sc">$</span>Presentation)</span>
-<span id="cb371-3"><a href="repeated-measures-anova.html#cb371-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(ldat<span class="sc">$</span>Presentation) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="repeated-measures-anova.html#cb372-1" aria-hidden="true" tabindex="-1"></a>afmod <span class="ot">&lt;-</span> afex<span class="sc">::</span><span class="fu">aov_car</span>(Response <span class="sc">~</span> Version<span class="sc">*</span>Presentation <span class="sc">+</span> <span class="fu">Error</span>(Participant<span class="sc">/</span>Presentation), <span class="at">data=</span>ldat, <span class="at">check_contrasts =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<pre><code>## Warning: Calculating Type 3 sums with contrasts != &#39;contr.sum&#39; for: Version
+<!--
+
+```r
+contrasts(ldat$Version) <- c(0.5,-0.5)
+ldat$Presentation <- factor(ldat$Presentation)
+contrasts(ldat$Presentation) <- cbind(c(-2/3, 1/3, 1/3), c(0,1/2, -1/2))
+```
+
+
+```r
+afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat, check_contrasts = FALSE)
+```
+
+```
+## Warning: Calculating Type 3 sums with contrasts != 'contr.sum' for: Version
 ##   Results likely bogus or not interpretable!
-## You probably want check_contrasts = TRUE or options(contrasts=c(&#39;contr.sum&#39;,&#39;contr.poly&#39;))</code></pre>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="repeated-measures-anova.html#cb374-1" aria-hidden="true" tabindex="-1"></a>afmod</span></code></pre></div>
-<pre><code>## Anova Table (Type 3 tests)
+## You probably want check_contrasts = TRUE or options(contrasts=c('contr.sum','contr.poly'))
+```
+
+```r
+afmod
+```
+
+```
+## Anova Table (Type 3 tests)
 ## 
 ## Response: Response
 ##                 Effect           df    MSE         F   ges p.value
-## 1              Version        1, 57 263.30      0.04 &lt;.001    .839
-## 2         Presentation 1.96, 111.97   1.93 11.76 ***  .003   &lt;.001
-## 3 Version:Presentation 1.96, 111.97   1.93    2.67 + &lt;.001    .075
+## 1              Version        1, 57 263.30      0.04 <.001    .839
+## 2         Presentation 1.96, 111.97   1.93 11.76 ***  .003   <.001
+## 3 Version:Presentation 1.96, 111.97   1.93    2.67 + <.001    .075
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ## 
-## Sphericity correction method: GG</code></pre>
-<p>Note that we now get a warning…which we will ignore, as our contrasts are fine and we get exactly the same results.</p>
-<p>Note that, as neither <code>afex</code>, nor the <code>car::Anova</code> package on which it relies, provides
+## Sphericity correction method: GG
+```
+Note that we now get a warning...which we will ignore, as our contrasts are fine and we get exactly the same results.
+
+-->
+<p>Because neither <code>afex</code>, nor the <code>car::Anova</code> package on which it relies, provides
 parameter estimates for the GLM, it doesn’t really matter whether you supply
 your own (sum-to-zero) contrasts, or whether you let <code>afex</code> pick a <code>contr.sum()</code> contrast
 for you.</p>
@@ -829,7 +848,7 @@ for you.</p>
 of work if you have data in the long format. I would generally recommend storing data in the long format,
 as this also makes it easier to apply linear mixed-effects models. You can obtain the
 results as reported by the <code>car::Anova()</code> function by calling the <code>summary</code> function:</p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="repeated-measures-anova.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(afmod)</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="repeated-measures-anova.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(afmod)</span></code></pre></div>
 <pre><code>## 
 ## Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
 ## 
@@ -868,7 +887,7 @@ as a measure of effect size. You can change this to the partial eta-square by se
 <code>es="pes"</code>. You can also change the correction to the degrees of freedom, from the default <code>correction = "GG"</code> (Greenhouse-Geisser), by setting
 <code>correction = "HF"</code> (Huynh-Feldt) or <code>correction = "none"</code> (no correction).
 So, for example, we might use</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="repeated-measures-anova.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nice</span>(afmod, <span class="at">es=</span><span class="st">&quot;pes&quot;</span>, <span class="at">correction =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="repeated-measures-anova.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nice</span>(afmod, <span class="at">es=</span><span class="st">&quot;pes&quot;</span>, <span class="at">correction =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type 3 tests)
 ## 
 ## Response: Response
@@ -888,12 +907,12 @@ Section 7.4. The <code>emmeans::emmeans()</code> function calculates estimated m
 means, and it can do so for objects that are returned by the <code>afex::aov_car()</code>
 function. For example, we can obtain the marginal means for the different
 levels of <code>Version</code> as:</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="repeated-measures-anova.html#cb380-1" aria-hidden="true" tabindex="-1"></a>em_version <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Version)</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="repeated-measures-anova.html#cb375-1" aria-hidden="true" tabindex="-1"></a>em_version <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Version)</span></code></pre></div>
 <p>The <code>specs</code> argument should contain a right-sided formula with the factor(s) for
 which you want to compute the marginal means. You can see that the <code>emmeans</code>
 function computes the estimated marginal means, their standard error, associated
 degrees of freedom, and confidence intervals:</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="repeated-measures-anova.html#cb381-1" aria-hidden="true" tabindex="-1"></a>em_version</span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="repeated-measures-anova.html#cb376-1" aria-hidden="true" tabindex="-1"></a>em_version</span></code></pre></div>
 <pre><code>##  Version   emmean   SE df lower.CL upper.CL
 ##  Identical   47.9 1.77 57     44.4     51.5
 ##  Variant     47.4 1.68 57     44.1     50.8
@@ -929,7 +948,7 @@ the resulting value is equal to 0). In the <code>methmod</code> argument, we her
 but is helpful in identifying the contrasts when you test multiple. The key thing is that we supplied a contrast
 with <code>c(1,-1)</code>. The output provides the estimate of the difference between <span class="math inline">\(\mu_I\)</span> and <span class="math inline">\(\mu_V\)</span>,
 as well as a <span class="math inline">\(t\)</span>-test and <span class="math inline">\(p\)</span>-value:</p>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="repeated-measures-anova.html#cb383-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_version, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;I - V&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="repeated-measures-anova.html#cb378-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_version, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;I - V&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)))</span></code></pre></div>
 <pre><code>##  contrast estimate   SE df t.ratio p.value
 ##  I - V       0.499 2.44 57   0.204  0.8388
 ## 
@@ -946,8 +965,8 @@ contrast, we want to determine the difference
 <span class="math display">\[\mu_D - \mu_S\]</span>
 which we can do through the contrast <code>c(0,1,-1)</code>. The following code computes the
 marginal means and then performs the contrast-tests on these:</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="repeated-measures-anova.html#cb385-1" aria-hidden="true" tabindex="-1"></a>em_presentation <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Presentation)</span>
-<span id="cb385-2"><a href="repeated-measures-anova.html#cb385-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_presentation, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;(D + S)/2 - A&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="st">&quot;D - S&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="repeated-measures-anova.html#cb380-1" aria-hidden="true" tabindex="-1"></a>em_presentation <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Presentation)</span>
+<span id="cb380-2"><a href="repeated-measures-anova.html#cb380-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_presentation, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;(D + S)/2 - A&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="st">&quot;D - S&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)))</span></code></pre></div>
 <pre><code>##  contrast      estimate    SE df t.ratio p.value
 ##  (D + S)/2 - A    1.295 0.234 57   5.541  &lt;.0001
 ##  D - S            0.396 0.237 57   1.673  0.0998
@@ -956,9 +975,9 @@ marginal means and then performs the contrast-tests on these:</p>
 <p>This replicates the earlier results we obtained in Section 8.2 from the tests of the intercepts of <code>W1</code> and <code>W2</code>.</p>
 <p>Finally, we can also consider the marginal means of the combinations of the Presentation and Version factors. We
 do this by specifying the full (main effects and interaction) model in the <code>specs</code> argument:</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="repeated-measures-anova.html#cb387-1" aria-hidden="true" tabindex="-1"></a>em_pv <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Presentation<span class="sc">*</span>Version)</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="repeated-measures-anova.html#cb382-1" aria-hidden="true" tabindex="-1"></a>em_pv <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Presentation<span class="sc">*</span>Version)</span></code></pre></div>
 <p>The marginal means are</p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="repeated-measures-anova.html#cb388-1" aria-hidden="true" tabindex="-1"></a>em_pv</span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="repeated-measures-anova.html#cb383-1" aria-hidden="true" tabindex="-1"></a>em_pv</span></code></pre></div>
 <pre><code>##  Presentation Version   emmean   SE df lower.CL upper.CL
 ##  Alone        Identical   47.1 1.78 57     43.5     50.6
 ##  Different    Identical   48.8 1.78 57     45.3     52.4
@@ -976,7 +995,7 @@ If we were to write this as a sum of all six means, we would do so as follows:
 <span class="math display">\[\tfrac{1}{2} \times \mu_{I,D} + \tfrac{1}{2} \mu_{I,S} + (-1) \times \mu_{I,A} + (-\tfrac{1}{2}) \times \mu_{V,D}  + (-\tfrac{1}{2}) \times \mu_{V,S} + 1 \times \mu_{V,A}\]</span>
 Hence, the implied contrast code is <code>c(.5, .5, -1, -.5, -.5, 1)</code>. Following a similar logic, the implied contrast
 code for the second interaction is <code>c(0, 1, -1, 0, -1, 1)</code>. Supplying these contrast codes to the <code>emmeans::contrast</code> function, we obtain the following results:</p>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="repeated-measures-anova.html#cb390-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_pv, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;c1 by d1&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, <span class="dv">1</span>, <span class="sc">-</span>.<span class="dv">5</span>, <span class="sc">-</span>.<span class="dv">5</span>), <span class="st">&quot;c1 by d2&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="repeated-measures-anova.html#cb385-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_pv, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;c1 by d1&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, <span class="dv">1</span>, <span class="sc">-</span>.<span class="dv">5</span>, <span class="sc">-</span>.<span class="dv">5</span>), <span class="st">&quot;c1 by d2&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
 <pre><code>##  contrast estimate    SE df t.ratio p.value
 ##  c1 by d1 -0.00984 0.468 57  -0.021  0.9833
 ##  c1 by d2  1.17290 0.474 57   2.476  0.0163</code></pre>

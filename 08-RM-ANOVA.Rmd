@@ -297,9 +297,11 @@ The `afex` package [@R-afex] provides a convenient interface to the `car::Anova(
 afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat)
 afmod
 ```
-`afex` provides an abridged ANOVA table, where the Greenhouse-Geisser correction is automatically applied
+`afex` provides an abridged ANOVA table, where the Greenhouse-Geisser correction is automatically applied.
 
 Note that `afex` automatically sets contrasts to `contr.sum`. That is useful here, as we haven't set the contrast for `Version` in the `ldat` data.
+
+<!--
 ```{r}
 contrasts(ldat$Version) <- c(0.5,-0.5)
 ldat$Presentation <- factor(ldat$Presentation)
@@ -311,6 +313,8 @@ afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Prese
 afmod
 ```
 Note that we now get a warning...which we will ignore, as our contrasts are fine and we get exactly the same results.
+
+-->
 
 Because neither `afex`, nor the `car::Anova` package on which it relies, provides 
 parameter estimates for the GLM, it doesn't really matter whether you supply
