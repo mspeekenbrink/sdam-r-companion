@@ -1,6 +1,6 @@
 # Contrast coding and oneway ANOVA
 
-There are several ways in which you can include nominal independent variables in the General Linear Model within R. The first option is to compute the contrast-coding predictors "by hand" and then enter these as metric predictors in the `lm` function. The second way is to specify the nominal variable as a `factor` and assign an appropriate contrast to this using the `contrasts` function. R will then compute the contrast-coding predictors to the factor "automatically" when you enter the factor as a predictor in the `lm` formula. 
+There are several ways in which you can include nominal independent variables in the General Linear Model within R. The first option is to compute the contrast-coded predictors "by hand" and then enter these as metric predictors in the `lm` function. The second way is to specify the nominal variable as a `factor` and assign an appropriate contrast to this using the `contrasts` function. R will then compute the contrast-coded predictors to the factor "automatically" when you enter the factor as a predictor in the `lm` formula. 
 
 Finally, you can also use the `aov` (Analysis Of Variance) function, or the `Anova` function. These functions are more focussed on omnibus tests rather than tests of the individual contrasts.
 
@@ -17,7 +17,7 @@ set.seed(20201104) # to replicate figure with random jitter
 plot_raincloud(dat, intrusions, groups = Condition)
 ```
 
-## Computing contrast-coding predictors
+## Computing contrast-coded predictors
 
 Let's first focus on data from a subset of the conditions, namely the Tetris+Reactivation and Reactivation-Only condition
 ```{r}
@@ -51,7 +51,7 @@ mod <- lm(intrusions ~ dummy, data=dat)
 summary(mod)
 ```
 
-To compute other contrast-coding predictors, you can follow the same procedure. If a contrast-coding predictor only needs two values, then you can also use the `ifelse` function, which is a little less typing. The `ifelse` function has three arguments: a logical condition, the value to return when that condition is `TRUE`, and the value to return when that condition is `FALSE`. For instance, you can create a variable `effect`, with the value -.5 for `Tetris_Reactivation` and a value .5 for `Reactivation`, as
+To compute other contrast-coded predictors, you can follow the same procedure. If a contrast-coded predictor only needs two values, then you can also use the `ifelse` function, which is a little less typing. The `ifelse` function has three arguments: a logical condition, the value to return when that condition is `TRUE`, and the value to return when that condition is `FALSE`. For instance, you can create a variable `effect`, with the value -.5 for `Tetris_Reactivation` and a value .5 for `Reactivation`, as
 ```{r}
 dat$effect <- ifelse(dat$Condition == "Reactivation",.5,-.5)
 ```
@@ -61,7 +61,7 @@ mod <- lm(intrusions ~ effect, data=dat)
 summary(mod)
 ```
 
-The procedure is easily extended to multiple contrast-coding predictors. For an example, let's consider the full dataset with all four conditions.
+The procedure is easily extended to multiple contrast-coded predictors. For an example, let's consider the full dataset with all four conditions.
 
 ```{r}
 dat <- tetris2015
@@ -143,14 +143,14 @@ When we now call `contrasts` again, we can see are new contrast codes:
 contrasts(dat$Condition)
 ```
 
-A nice thing about the `lm` function is that you can also supply factors as predictors directly. Internally, the `lm` function will then create the necessary contrast-coding predictors from the contrasts supplied to the factor. Let's try this:
+A nice thing about the `lm` function is that you can also supply factors as predictors directly. Internally, the `lm` function will then create the necessary contrast-coded predictors from the contrasts supplied to the factor. Let's try this:
 ```{r}
 modg <- lm(intrusions ~ Condition, data=dat)
 summary(modg)
 ```
 You can see that the output (apart from the names of the effects) is exactly the same as when we created `c1`, `c2`, and `c3`. So that's pretty neat!
 
-As I said, the `lm` function will create the contrast-coding predictors for factors. You can view the resulting "design matrix" (the matrix with values for all predictors actually used when estimating the parameters) with the `model.matrix` function (as the output is rather long, I'm calling this within the `head` function to only show the first few rows)
+As I said, the `lm` function will create the contrast-coded predictors for factors. You can view the resulting "design matrix" (the matrix with values for all predictors actually used when estimating the parameters) with the `model.matrix` function (as the output is rather long, I'm calling this within the `head` function to only show the first few rows)
 ```{r}
 head(model.matrix(modg))
 ```
@@ -174,16 +174,16 @@ contr.helmert(4)
 contr.poly(4)
 ```
 
-When you look at the output of these functions, you might notice that the scale of each can be different. For instance, in the `contr.helmert` function, the difference between the highest and lowest value ranges from 2 to 4. In the book, I used values such that a one-unit increase on a contrast-coding predictor reflects a difference between conditions. This convention is not followed in the various `contr.` functions. If you want default contrast coding schemes which follow this convention, making the parameters of the model a little easier to interpret, you can use the various contrast coding schemes implemented in the `codingMatrices` package [@R-codingMatrices]. this package also implements several other default coding schemes not implemented in the `stats` package. Instead of `contr.`, this package provides contrast codes through function names starting with `code_`. For example, you can obtain a Helmert contrast with a different scaling as follows:
+When you look at the output of these functions, you might notice that the scale of each can be different. For instance, in the `contr.helmert` function, the difference between the highest and lowest value ranges from 2 to 4. In the book, I used values such that a one-unit increase on a contrast-coded predictor reflects a difference between conditions. This convention is not followed in the various `contr.` functions. If you want default contrast coding schemes which follow this convention, making the parameters of the model a little easier to interpret, you can use the various contrast coding schemes implemented in the `codingMatrices` package [@R-codingMatrices]. this package also implements several other default coding schemes not implemented in the `stats` package. Instead of `contr.`, this package provides contrast codes through function names starting with `code_`. For example, you can obtain a Helmert contrast with a different scaling as follows:
 ```{r}
 library(codingMatrices)
 code_helmert(4)
 ```
-Another nice feature of the `codingMatrices` package is the `mean_contrasts()` function, which will show you how the intercept of the resulting model is related to the group means, and how the slope of each contrast-coding predictor is a function of the group means. For instance
+Another nice feature of the `codingMatrices` package is the `mean_contrasts()` function, which will show you how the intercept of the resulting model is related to the group means, and how the slope of each contrast-coded predictor is a function of the group means. For instance
 ```{r}
 mean_contrasts(code_helmert(4))
 ```
-shows you in the row labelled `Ave` that the intercept is the sum of each group mean (in the columns) multiplied by $\tfrac{1}{4}$; i.e. it is the average of averages. The next row (labelled `H2`) shows you how the slope of the first contrast-coding predictor can be computed from the group means (as the difference between the second mean and the first mean). By contrast, the `contr.helmert()` function will provide the same intercept, but slopes that are fractions of these differences
+shows you in the row labelled `Ave` that the intercept is the sum of each group mean (in the columns) multiplied by $\tfrac{1}{4}$; i.e. it is the average of averages. The next row (labelled `H2`) shows you how the slope of the first contrast-coded predictor can be computed from the group means (as the difference between the second mean and the first mean). By contrast, the `contr.helmert()` function will provide the same intercept, but slopes that are fractions of these differences
 ```{r}
 mean_contrasts(contr.helmert(4))
 ```

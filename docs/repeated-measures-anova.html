@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,7 +239,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
 <li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
@@ -283,6 +283,7 @@ div.csl-indent {
 <li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
 <ul>
@@ -343,20 +344,20 @@ and inspect the first six cases, as usual:</p>
 <div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="repeated-measures-anova.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
 <span id="cb315-2"><a href="repeated-measures-anova.html#cb315-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;cheerleader&quot;</span>)</span>
 <span id="cb315-3"><a href="repeated-measures-anova.html#cb315-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cheerleader)</span></code></pre></div>
-<pre><code>##   Participant Age    Sex                  Task LineClickAccuracy Excluded WhyExcluded
-## 1           1  47   Male Identical-Distractors         0.1361274        0        &lt;NA&gt;
-## 3           1  47   Male Identical-Distractors         0.1361274        0        &lt;NA&gt;
-## 4           1  47   Male Identical-Distractors         0.1361274        0        &lt;NA&gt;
-## 6           2  19 Female Identical-Distractors        -0.9752861        0        &lt;NA&gt;
-## 8           2  19 Female Identical-Distractors        -0.9752861        0        &lt;NA&gt;
-## 9           2  19 Female Identical-Distractors        -0.9752861        0        &lt;NA&gt;
-##                      Item Response
-## 1                   Alone 52.71289
-## 3           Control_Group 56.15966
-## 4 Distractor_Manipulation 53.27871
-## 6                   Alone 52.47199
-## 8           Control_Group 55.29972
-## 9 Distractor_Manipulation 55.17647</code></pre>
+<pre><code>##   Participant Age    Sex                  Task LineClickAccuracy Excluded
+## 1           1  47   Male Identical-Distractors         0.1361274        0
+## 3           1  47   Male Identical-Distractors         0.1361274        0
+## 4           1  47   Male Identical-Distractors         0.1361274        0
+## 6           2  19 Female Identical-Distractors        -0.9752861        0
+## 8           2  19 Female Identical-Distractors        -0.9752861        0
+## 9           2  19 Female Identical-Distractors        -0.9752861        0
+##   WhyExcluded                    Item Response
+## 1        &lt;NA&gt;                   Alone 52.71289
+## 3        &lt;NA&gt;           Control_Group 56.15966
+## 4        &lt;NA&gt; Distractor_Manipulation 53.27871
+## 6        &lt;NA&gt;                   Alone 52.47199
+## 8        &lt;NA&gt;           Control_Group 55.29972
+## 9        &lt;NA&gt; Distractor_Manipulation 55.17647</code></pre>
 <p>This dataset is a little messy, and includes participants who were excluded
 by the authors. So let’s first clean it up a little:</p>
 <div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="repeated-measures-anova.html#cb317-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> cheerleader</span>
@@ -373,20 +374,20 @@ if you don’t have this package installed, you would first need to run <code>in
 <span id="cb318-2"><a href="repeated-measures-anova.html#cb318-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Version <span class="ot">&lt;-</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(dat<span class="sc">$</span>Task, <span class="at">Identical =</span> <span class="st">&quot;Identical-Distractors&quot;</span>, <span class="at">Variant =</span> <span class="st">&quot;Self-Distractors&quot;</span>)</span></code></pre></div>
 <p>Let’s have a look at the resulting data.frame:</p>
 <div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="repeated-measures-anova.html#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
-<pre><code>##   Participant Age    Sex                  Task LineClickAccuracy Excluded WhyExcluded
-## 1           1  47   Male Identical-Distractors         0.1361274        0        &lt;NA&gt;
-## 3           1  47   Male Identical-Distractors         0.1361274        0        &lt;NA&gt;
-## 4           1  47   Male Identical-Distractors         0.1361274        0        &lt;NA&gt;
-## 6           2  19 Female Identical-Distractors        -0.9752861        0        &lt;NA&gt;
-## 8           2  19 Female Identical-Distractors        -0.9752861        0        &lt;NA&gt;
-## 9           2  19 Female Identical-Distractors        -0.9752861        0        &lt;NA&gt;
-##                      Item Response Presentation   Version
-## 1                   Alone 52.71289        Alone Identical
-## 3           Control_Group 56.15966    Different Identical
-## 4 Distractor_Manipulation 53.27871      Similar Identical
-## 6                   Alone 52.47199        Alone Identical
-## 8           Control_Group 55.29972    Different Identical
-## 9 Distractor_Manipulation 55.17647      Similar Identical</code></pre>
+<pre><code>##   Participant Age    Sex                  Task LineClickAccuracy Excluded
+## 1           1  47   Male Identical-Distractors         0.1361274        0
+## 3           1  47   Male Identical-Distractors         0.1361274        0
+## 4           1  47   Male Identical-Distractors         0.1361274        0
+## 6           2  19 Female Identical-Distractors        -0.9752861        0
+## 8           2  19 Female Identical-Distractors        -0.9752861        0
+## 9           2  19 Female Identical-Distractors        -0.9752861        0
+##   WhyExcluded                    Item Response Presentation   Version
+## 1        &lt;NA&gt;                   Alone 52.71289        Alone Identical
+## 3        &lt;NA&gt;           Control_Group 56.15966    Different Identical
+## 4        &lt;NA&gt; Distractor_Manipulation 53.27871      Similar Identical
+## 6        &lt;NA&gt;                   Alone 52.47199        Alone Identical
+## 8        &lt;NA&gt;           Control_Group 55.29972    Different Identical
+## 9        &lt;NA&gt; Distractor_Manipulation 55.17647      Similar Identical</code></pre>
 <p>Looks good! You can create a raincloud plot for this data as usual:</p>
 <div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="repeated-measures-anova.html#cb321-1" aria-hidden="true" tabindex="-1"></a>sdamr<span class="sc">::</span><span class="fu">plot_raincloud</span>(<span class="at">data=</span>dat, <span class="at">y=</span>Response, <span class="at">groups =</span> Presentation) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>Version)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-188-1.svg" width="100%" style="display: block; margin: auto;" /></p>

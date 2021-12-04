@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,7 +239,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
 <li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
@@ -283,6 +283,7 @@ div.csl-indent {
 <li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
 <ul>
@@ -340,20 +341,20 @@ div.csl-indent {
 <span id="cb97-2"><a href="the-one-sample-t-test.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(anchoring)</span></code></pre></div>
 <p>And view the first few rows of the data with the <code>head</code> function:</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="the-one-sample-t-test.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(anchoring)</span></code></pre></div>
-<pre><code>##   session_id sex age citizenship referrer us_or_international lab_or_online anchor everest_feet
-## 1    2400853   f  18          US abington                  US        In-lab   high        30000
-## 2    2400856   f  19          CN abington                  US        In-lab   high        30000
-## 3    2400860   f  18          US abington                  US        In-lab    low         5000
-## 4    2400868   m  18          US abington                  US        In-lab    low         2400
-## 5    2400914   f  18          US abington                  US        In-lab    low        10000
-## 6    2400916   f  18          US abington                  US        In-lab   high        25000
-##   everest_meters
-## 1             NA
-## 2             NA
-## 3             NA
-## 4             NA
-## 5             NA
-## 6             NA</code></pre>
+<pre><code>##   session_id sex age citizenship referrer us_or_international lab_or_online
+## 1    2400853   f  18          US abington                  US        In-lab
+## 2    2400856   f  19          CN abington                  US        In-lab
+## 3    2400860   f  18          US abington                  US        In-lab
+## 4    2400868   m  18          US abington                  US        In-lab
+## 5    2400914   f  18          US abington                  US        In-lab
+## 6    2400916   f  18          US abington                  US        In-lab
+##   anchor everest_feet everest_meters
+## 1   high        30000             NA
+## 2   high        30000             NA
+## 3    low         5000             NA
+## 4    low         2400             NA
+## 5    low        10000             NA
+## 6   high        25000             NA</code></pre>
 <div id="missing-values" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Missing values</h2>
 <p>Sometimes a data set has missing values. In <code>R</code>, a missing value is shown as <code>NA</code> (for Not Available). For example, you can see missing values in the <code>everest_meters</code> variable. In this case, these are generally due to most participants being asked to judge the height of Mount Everest in feet, rather than meters.</p>

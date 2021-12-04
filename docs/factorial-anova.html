@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,7 +239,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
 <li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
@@ -283,6 +283,7 @@ div.csl-indent {
 <li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
 <ul>
@@ -339,20 +340,27 @@ div.csl-indent {
 <div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="factorial-anova.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
 <span id="cb247-2"><a href="factorial-anova.html#cb247-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;expBelief&quot;</span>)</span>
 <span id="cb247-3"><a href="factorial-anova.html#cb247-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(expBelief)</span></code></pre></div>
-<pre><code>##    pid exptrNum age gender yearInUni                  ethnicity englishFluency experimenterBelief
-## 1 1001        1  18      F         1 caucasian                               7                  H
-## 2 1003        1  18      F         1 CAUCASIAN                               7                  H
-## 3 1004        1  18      F         1 MiddleEastern                           7                  H
-## 4 1005        1  19      M         1 asian                                   5                  H
-## 5 1006        1  21      M         1 china                                   5                  L
-## 6 1007        1  19      F         1 caucasion                               7                  H
-##   primeCond powerPRE powerPOST ApproachAdvantage attractive competent friendly trustworthy
-## 1       LPP     56.1      68.8        -149.14290          6         7        7           7
-## 2       LPP     98.2      89.0        -171.48810          1         3        5           6
-## 3       HPP     46.5      70.2         -27.33083          5         7        7           7
-## 4       LPP     58.8      44.8         374.15660          5         5        6           5
-## 5       HPP     64.7      53.6          68.55114          5         6        6           6
-## 6       HPP     61.4      50.3         -92.96860          5         7        7           7</code></pre>
+<pre><code>##    pid exptrNum age gender yearInUni                  ethnicity
+## 1 1001        1  18      F         1 caucasian                 
+## 2 1003        1  18      F         1 CAUCASIAN                 
+## 3 1004        1  18      F         1 MiddleEastern             
+## 4 1005        1  19      M         1 asian                     
+## 5 1006        1  21      M         1 china                     
+## 6 1007        1  19      F         1 caucasion                 
+##   englishFluency experimenterBelief primeCond powerPRE powerPOST
+## 1              7                  H       LPP     56.1      68.8
+## 2              7                  H       LPP     98.2      89.0
+## 3              7                  H       HPP     46.5      70.2
+## 4              5                  H       LPP     58.8      44.8
+## 5              5                  L       HPP     64.7      53.6
+## 6              7                  H       HPP     61.4      50.3
+##   ApproachAdvantage attractive competent friendly trustworthy
+## 1        -149.14290          6         7        7           7
+## 2        -171.48810          1         3        5           6
+## 3         -27.33083          5         7        7           7
+## 4         374.15660          5         5        6           5
+## 5          68.55114          5         6        6           6
+## 6         -92.96860          5         7        7           7</code></pre>
 <div id="rainclouds-for-factorial-designs" class="section level2" number="7.1">
 <h2><span class="header-section-number">7.1</span> Rainclouds for factorial designs</h2>
 <p>The experiment had a 2 (social prime: low-power bs high power prime) by 2 (experimenter belief: low-power vs high-power manipulation). The two experimental factors are called <code>primeCond</code> and <code>experimenterBelief</code> in the data frame. The dependent variable we looked at is called <code>ApproachAdvantage</code>. We can use the <code>plot_raincloud</code> function from <code>sdamr</code> for plotting the data. The function has an argument <code>groups</code> which allows you to plot separate rainclouds for different levels of a grouping variable. In this case, we need four rainclouds. Because there is no variable to reflect the combinations of the levels of <code>primeCond</code> and <code>experimenterBelief</code>, we should create one first. The <code>interaction()</code> function is a useful function to create a new factor from the combinations of a set of given factors. As I’m going to make changes to the original dataset, I like to first create a new copy of the data fro this, so that I can later still use the original data set.</p>
@@ -455,7 +463,7 @@ div.csl-indent {
 ## Residuals                    18206049 396                      
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>You can see that while the <code>Anova</code> function reports <span class="math inline">\(F\)</span> statistics, the tests and the corresponding <span class="math inline">\(p\)</span>-values are identical. In this case, each factor only has two levels, and hence one contrast code. As there is only one parameter associated to each main effect and interaction (the slope of the single contrast-coding predictor for that effect), the omnibus test is a single parameter test. We will see an example where this is not the case shortly.</p>
+<p>You can see that while the <code>Anova</code> function reports <span class="math inline">\(F\)</span> statistics, the tests and the corresponding <span class="math inline">\(p\)</span>-values are identical. In this case, each factor only has two levels, and hence one contrast code. As there is only one parameter associated to each main effect and interaction (the slope of the single contrast-coded predictor for that effect), the omnibus test is a single parameter test. We will see an example where this is not the case shortly.</p>
 <div id="a-threeway-anova" class="section level3" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> A threeway ANOVA</h3>
 <p>We can also try to assess the experimenter effects by including this as an additional factor. Experimenter has four levels, so we’ll need three contrast codes for this variable. In the data.frame, Experimenter is included as <code>exptrNum</code>, which is a numerical variable. So we will first convert it into a factor</p>
@@ -506,23 +514,40 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## -507.20 -179.77   11.34  167.78  589.70 
 ## 
 ## Coefficients:
-##                                          Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)                                21.401     10.742   1.992   0.0471 *  
-## primeCond1                                 11.908     21.485   0.554   0.5797    
-## experimenterBelief1                        90.441     21.485   4.210 3.19e-05 ***
-## exptrNum1                                  -7.411     30.387  -0.244   0.8075    
-## exptrNum2                                  -5.076     26.312  -0.193   0.8471    
-## exptrNum3                                  42.309     24.807   1.706   0.0889 .  
-## primeCond1:experimenterBelief1             37.381     42.969   0.870   0.3849    
-## primeCond1:exptrNum1                      -60.323     60.774  -0.993   0.3215    
-## primeCond1:exptrNum2                        1.765     52.625   0.034   0.9733    
-## primeCond1:exptrNum3                      -21.445     49.613  -0.432   0.6658    
-## experimenterBelief1:exptrNum1             -17.453     60.774  -0.287   0.7741    
-## experimenterBelief1:exptrNum2              11.056     52.625   0.210   0.8337    
-## experimenterBelief1:exptrNum3            -116.864     49.613  -2.356   0.0190 *  
-## primeCond1:experimenterBelief1:exptrNum1   48.352    121.548   0.398   0.6910    
-## primeCond1:experimenterBelief1:exptrNum2   -8.115    105.249  -0.077   0.9386    
-## primeCond1:experimenterBelief1:exptrNum3   68.237     99.227   0.688   0.4921    
+##                                          Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                                21.401     10.742   1.992   0.0471
+## primeCond1                                 11.908     21.485   0.554   0.5797
+## experimenterBelief1                        90.441     21.485   4.210 3.19e-05
+## exptrNum1                                  -7.411     30.387  -0.244   0.8075
+## exptrNum2                                  -5.076     26.312  -0.193   0.8471
+## exptrNum3                                  42.309     24.807   1.706   0.0889
+## primeCond1:experimenterBelief1             37.381     42.969   0.870   0.3849
+## primeCond1:exptrNum1                      -60.323     60.774  -0.993   0.3215
+## primeCond1:exptrNum2                        1.765     52.625   0.034   0.9733
+## primeCond1:exptrNum3                      -21.445     49.613  -0.432   0.6658
+## experimenterBelief1:exptrNum1             -17.453     60.774  -0.287   0.7741
+## experimenterBelief1:exptrNum2              11.056     52.625   0.210   0.8337
+## experimenterBelief1:exptrNum3            -116.864     49.613  -2.356   0.0190
+## primeCond1:experimenterBelief1:exptrNum1   48.352    121.548   0.398   0.6910
+## primeCond1:experimenterBelief1:exptrNum2   -8.115    105.249  -0.077   0.9386
+## primeCond1:experimenterBelief1:exptrNum3   68.237     99.227   0.688   0.4921
+##                                             
+## (Intercept)                              *  
+## primeCond1                                  
+## experimenterBelief1                      ***
+## exptrNum1                                   
+## exptrNum2                                   
+## exptrNum3                                .  
+## primeCond1:experimenterBelief1              
+## primeCond1:exptrNum1                        
+## primeCond1:exptrNum2                        
+## primeCond1:exptrNum3                        
+## experimenterBelief1:exptrNum1               
+## experimenterBelief1:exptrNum2               
+## experimenterBelief1:exptrNum3            *  
+## primeCond1:experimenterBelief1:exptrNum1    
+## primeCond1:experimenterBelief1:exptrNum2    
+## primeCond1:experimenterBelief1:exptrNum3    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -560,7 +585,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## LPP       H                           25 25 25 25
 ##           L                           25 24 25 25</code></pre>
 <p>As you can see, Experimenter 1 tested 26 participants in the high-power prime and high experimenter belief condition, whilst experimenter 2 tested 24 participants in the low-power prime and low experimenter belief condition.</p>
-<p>The result of unbalanced data is that the contrast-coding predictors are no longer orthogonal. As a result, different ways of performing model comparisons will give different results. The differences are likely to be rather subtle here, because the sample sizes are mostly equal. Nevertheless, let’s consider how we can obtain results for the Type 1 and Type 2 SS procedures.</p>
+<p>The result of unbalanced data is that the contrast-coded predictors are no longer orthogonal. As a result, different ways of performing model comparisons will give different results. The differences are likely to be rather subtle here, because the sample sizes are mostly equal. Nevertheless, let’s consider how we can obtain results for the Type 1 and Type 2 SS procedures.</p>
 <p>A Type 2 procedure is easily obtained by using the <code>car::Anova</code> function, now with argument <code>type=2</code>:</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="factorial-anova.html#cb295-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modg_exp,<span class="at">type=</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type II tests)
@@ -583,15 +608,24 @@ This indicates quite clearly that priming condition does not seem to have much o
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: ApproachAdvantage
-##                                        Df   Sum Sq Mean Sq F value    Pr(&gt;F)    
-## primeCond                               1    14565   14565  0.3156    0.5746    
-## experimenterBelief                      1   820883  820883 17.7874 3.084e-05 ***
-## exptrNum                                3   138657   46219  1.0015    0.3921    
-## primeCond:experimenterBelief            1    35260   35260  0.7640    0.3826    
-## primeCond:exptrNum                      3    54707   18236  0.3951    0.7566    
-## experimenterBelief:exptrNum             3   261854   87285  1.8913    0.1305    
-## primeCond:experimenterBelief:exptrNum   3    29490    9830  0.2130    0.8874    
-## Residuals                             384 17721491   46150                      
+##                                        Df   Sum Sq Mean Sq F value    Pr(&gt;F)
+## primeCond                               1    14565   14565  0.3156    0.5746
+## experimenterBelief                      1   820883  820883 17.7874 3.084e-05
+## exptrNum                                3   138657   46219  1.0015    0.3921
+## primeCond:experimenterBelief            1    35260   35260  0.7640    0.3826
+## primeCond:exptrNum                      3    54707   18236  0.3951    0.7566
+## experimenterBelief:exptrNum             3   261854   87285  1.8913    0.1305
+## primeCond:experimenterBelief:exptrNum   3    29490    9830  0.2130    0.8874
+## Residuals                             384 17721491   46150                  
+##                                          
+## primeCond                                
+## experimenterBelief                    ***
+## exptrNum                                 
+## primeCond:experimenterBelief             
+## primeCond:exptrNum                       
+## experimenterBelief:exptrNum              
+## primeCond:experimenterBelief:exptrNum    
+## Residuals                                
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>again, comparing this to the results of those obtained previously, you can see differences in the SSR terms. It is important to realise that the Type 1 procedure depends on the order of the factors in the formula. For instance, if we change this order as follows:</p>
@@ -599,15 +633,24 @@ This indicates quite clearly that priming condition does not seem to have much o
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: ApproachAdvantage
-##                                        Df   Sum Sq Mean Sq F value    Pr(&gt;F)    
-## experimenterBelief                      1   820878  820878 17.7873 3.084e-05 ***
-## exptrNum                                3   138443   46148  1.0000    0.3928    
-## primeCond                               1    14784   14784  0.3204    0.5717    
-## experimenterBelief:exptrNum             3   263137   87712  1.9006    0.1290    
-## experimenterBelief:primeCond            1    34782   34782  0.7537    0.3859    
-## exptrNum:primeCond                      3    53901   17967  0.3893    0.7608    
-## experimenterBelief:exptrNum:primeCond   3    29490    9830  0.2130    0.8874    
-## Residuals                             384 17721491   46150                      
+##                                        Df   Sum Sq Mean Sq F value    Pr(&gt;F)
+## experimenterBelief                      1   820878  820878 17.7873 3.084e-05
+## exptrNum                                3   138443   46148  1.0000    0.3928
+## primeCond                               1    14784   14784  0.3204    0.5717
+## experimenterBelief:exptrNum             3   263137   87712  1.9006    0.1290
+## experimenterBelief:primeCond            1    34782   34782  0.7537    0.3859
+## exptrNum:primeCond                      3    53901   17967  0.3893    0.7608
+## experimenterBelief:exptrNum:primeCond   3    29490    9830  0.2130    0.8874
+## Residuals                             384 17721491   46150                  
+##                                          
+## experimenterBelief                    ***
+## exptrNum                                 
+## primeCond                                
+## experimenterBelief:exptrNum              
+## experimenterBelief:primeCond             
+## exptrNum:primeCond                       
+## experimenterBelief:exptrNum:primeCond    
+## Residuals                                
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>you get slightly different results. I should also mention the <code>aov</code> function from the <code>stats</code> package, which will also provide Type 1 ANOVA tests. I have wrestled with this function often when I started using R a long time ago. I’ve happily not used it for some time now, so will only mention its existence here.</p>

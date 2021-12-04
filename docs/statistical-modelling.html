@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,7 +239,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
 <li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
@@ -283,6 +283,7 @@ div.csl-indent {
 <li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
 <ul>
@@ -388,9 +389,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="statistical-modelling.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4638</span>)</span>
 <span id="cb82-2"><a href="statistical-modelling.html#cb82-2" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span><span class="dv">100</span>, <span class="at">size=</span><span class="dv">8</span>, <span class="at">prob=</span><span class="fl">0.5</span>)</span>
 <span id="cb82-3"><a href="statistical-modelling.html#cb82-3" aria-hidden="true" tabindex="-1"></a>Y</span></code></pre></div>
-<pre><code>##   [1] 5 4 5 2 5 2 4 5 3 4 3 5 4 5 3 4 6 3 2 3 0 3 5 5 1 2 5 4 6 3 5 4 4 1 3 5 3 5 6 8 5 5 3 2 3 3 3 5
-##  [49] 4 5 4 2 2 4 5 3 5 4 4 5 3 5 5 5 2 3 4 8 1 6 4 3 4 4 3 6 3 4 5 4 1 3 1 5 3 5 4 5 5 4 5 3 3 6 4 4
-##  [97] 3 5 1 6</code></pre>
+<pre><code>##   [1] 5 4 5 2 5 2 4 5 3 4 3 5 4 5 3 4 6 3 2 3 0 3 5 5 1 2 5 4 6 3 5 4 4 1 3 5
+##  [37] 3 5 6 8 5 5 3 2 3 3 3 5 4 5 4 2 2 4 5 3 5 4 4 5 3 5 5 5 2 3 4 8 1 6 4 3
+##  [73] 4 4 3 6 3 4 5 4 1 3 1 5 3 5 4 5 5 4 5 3 3 6 4 4 3 5 1 6</code></pre>
 <p>You can see quite some variability in the outcomes, perhaps easier in a histogram</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="statistical-modelling.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Y, <span class="at">breaks=</span><span class="dv">8</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-49-1.svg" width="672" style="display: block; margin: auto;" /></p>
@@ -418,18 +419,22 @@ Instead of the first argument in <code>dbinom</code> being 8, you can try this f
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="statistical-modelling.html#cb87-1" aria-hidden="true" tabindex="-1"></a>likelihood_R <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(Y, <span class="at">size=</span><span class="dv">8</span>, <span class="at">prob=</span>.<span class="dv">5</span>)</span></code></pre></div>
 <p>Remember, if you want to see what is in an R object, you can just type in the name:</p>
 <div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="statistical-modelling.html#cb88-1" aria-hidden="true" tabindex="-1"></a>likelihood_R</span></code></pre></div>
-<pre><code>##   [1] 0.21875000 0.27343750 0.21875000 0.10937500 0.21875000 0.10937500 0.27343750 0.21875000
-##   [9] 0.21875000 0.27343750 0.21875000 0.21875000 0.27343750 0.21875000 0.21875000 0.27343750
-##  [17] 0.10937500 0.21875000 0.10937500 0.21875000 0.00390625 0.21875000 0.21875000 0.21875000
-##  [25] 0.03125000 0.10937500 0.21875000 0.27343750 0.10937500 0.21875000 0.21875000 0.27343750
-##  [33] 0.27343750 0.03125000 0.21875000 0.21875000 0.21875000 0.21875000 0.10937500 0.00390625
-##  [41] 0.21875000 0.21875000 0.21875000 0.10937500 0.21875000 0.21875000 0.21875000 0.21875000
-##  [49] 0.27343750 0.21875000 0.27343750 0.10937500 0.10937500 0.27343750 0.21875000 0.21875000
-##  [57] 0.21875000 0.27343750 0.27343750 0.21875000 0.21875000 0.21875000 0.21875000 0.21875000
-##  [65] 0.10937500 0.21875000 0.27343750 0.00390625 0.03125000 0.10937500 0.27343750 0.21875000
-##  [73] 0.27343750 0.27343750 0.21875000 0.10937500 0.21875000 0.27343750 0.21875000 0.27343750
-##  [81] 0.03125000 0.21875000 0.03125000 0.21875000 0.21875000 0.21875000 0.27343750 0.21875000
-##  [89] 0.21875000 0.27343750 0.21875000 0.21875000 0.21875000 0.10937500 0.27343750 0.27343750
+<pre><code>##   [1] 0.21875000 0.27343750 0.21875000 0.10937500 0.21875000 0.10937500
+##   [7] 0.27343750 0.21875000 0.21875000 0.27343750 0.21875000 0.21875000
+##  [13] 0.27343750 0.21875000 0.21875000 0.27343750 0.10937500 0.21875000
+##  [19] 0.10937500 0.21875000 0.00390625 0.21875000 0.21875000 0.21875000
+##  [25] 0.03125000 0.10937500 0.21875000 0.27343750 0.10937500 0.21875000
+##  [31] 0.21875000 0.27343750 0.27343750 0.03125000 0.21875000 0.21875000
+##  [37] 0.21875000 0.21875000 0.10937500 0.00390625 0.21875000 0.21875000
+##  [43] 0.21875000 0.10937500 0.21875000 0.21875000 0.21875000 0.21875000
+##  [49] 0.27343750 0.21875000 0.27343750 0.10937500 0.10937500 0.27343750
+##  [55] 0.21875000 0.21875000 0.21875000 0.27343750 0.27343750 0.21875000
+##  [61] 0.21875000 0.21875000 0.21875000 0.21875000 0.10937500 0.21875000
+##  [67] 0.27343750 0.00390625 0.03125000 0.10937500 0.27343750 0.21875000
+##  [73] 0.27343750 0.27343750 0.21875000 0.10937500 0.21875000 0.27343750
+##  [79] 0.21875000 0.27343750 0.03125000 0.21875000 0.03125000 0.21875000
+##  [85] 0.21875000 0.21875000 0.27343750 0.21875000 0.21875000 0.27343750
+##  [91] 0.21875000 0.21875000 0.21875000 0.10937500 0.27343750 0.27343750
 ##  [97] 0.21875000 0.21875000 0.03125000 0.10937500</code></pre>
 <p>We can follow the same procedure to calculate the likelihood for each simulated dataset according to the <em>estimated</em> MODEL G. In this case though, we are going to use two vectorized arguments simultaneously. For each simulated dataset, we have an observed number of correct predictions (in our object <code>Y</code>), as well as a corresponding estimate of the probability of a correct response (in our object <code>theta_est</code>). If we supply each as arguments to the <code>dbinom</code> function, R will match each element in <code>Y</code> with the corresponding element of <code>theta_est</code>, i.e. <code>Y[1]</code> is matched with <code>theta_est[1]</code>, <code>y[2]</code> with <code>theta_est[2]</code>, etc. You will have to be quite certain that the indices (i.e., the number between the brackets, such as <code>[1]</code> and <code>[2]</code>) of one argument correspond to the indices of another to get the correct results. In this case, we computed <code>theta_est</code> directly from <code>Y</code>, and therefore we know each value in <code>Y</code> corresponds to the value of <code>theta_est = y/8</code>. Sowe can safely compute the likelihood of MODEL G with twp vectorised arguments as:</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="statistical-modelling.html#cb90-1" aria-hidden="true" tabindex="-1"></a>likelihood_G <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(Y, <span class="at">size=</span><span class="dv">8</span>, <span class="at">prob =</span> theta_est)</span></code></pre></div>

@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,7 +239,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
 <li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
@@ -283,6 +283,7 @@ div.csl-indent {
 <li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
 <ul>
@@ -470,43 +471,43 @@ groups (if desired).</li>
 <span id="cb20-2"><a href="introduction.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;fifa2010teams&quot;</span>)</span></code></pre></div>
 <p>A loaded dataset will show up in the Environment panel in RStudio. If you click on the name of the dataset, you can then see the data as a table in the Source panel. You can also view the data in the R console by simply typing the name of the dataset. This will often produce a lot of output. If you just want to view a part of the dataset, you can use the <code>head</code> function, which will show the first 6 rows:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fifa2010teams)</span></code></pre></div>
-<pre><code>##   nr         team matches_played goals_for goals_scored goals_against penalty_goal own_goals_for
-## 1  1     Germany               7        16           16             5            0             0
-## 2  2 Netherlands               7        12           11             6            0             0
-## 3  3     Uruguay               7        11           11             8            1             0
-## 4  4   Argentina               5        10            9             6            0             0
-## 5  5      Brazil               5         9            9             4            0             0
-## 6  6       Spain               7         8            8             2            0             0
-##   yellow_cards indirect_red_cards direct_red_cards
-## 1           13                  0                0
-## 2           24                  0                0
-## 3           11                  0                1
-## 4            7                  0                0
-## 5            9                  0                1
-## 6            8                  0                0</code></pre>
+<pre><code>##   nr         team matches_played goals_for goals_scored goals_against
+## 1  1     Germany               7        16           16             5
+## 2  2 Netherlands               7        12           11             6
+## 3  3     Uruguay               7        11           11             8
+## 4  4   Argentina               5        10            9             6
+## 5  5      Brazil               5         9            9             4
+## 6  6       Spain               7         8            8             2
+##   penalty_goal own_goals_for yellow_cards indirect_red_cards direct_red_cards
+## 1            0             0           13                  0                0
+## 2            0             0           24                  0                0
+## 3            1             0           11                  0                1
+## 4            0             0            7                  0                0
+## 5            0             0            9                  0                1
+## 6            0             0            8                  0                0</code></pre>
 <p>You can also get a quick summary of the characteristics of the variables in the data through the <code>summary</code> function:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fifa2010teams)</span></code></pre></div>
-<pre><code>##        nr            team           matches_played   goals_for       goals_scored   
-##  Min.   : 1.00   Length:32          Min.   :3.00   Min.   : 0.000   Min.   : 0.000  
-##  1st Qu.: 8.75   Class :character   1st Qu.:3.00   1st Qu.: 2.000   1st Qu.: 2.000  
-##  Median :16.50   Mode  :character   Median :3.50   Median : 3.000   Median : 3.000  
-##  Mean   :16.50                      Mean   :4.00   Mean   : 4.531   Mean   : 4.469  
-##  3rd Qu.:24.25                      3rd Qu.:4.25   3rd Qu.: 5.250   3rd Qu.: 5.250  
-##  Max.   :32.00                      Max.   :7.00   Max.   :16.000   Max.   :16.000  
-##  goals_against     penalty_goal    own_goals_for  yellow_cards    indirect_red_cards
-##  Min.   : 1.000   Min.   :0.0000   Min.   :0     Min.   : 2.000   Min.   :0         
-##  1st Qu.: 3.000   1st Qu.:0.0000   1st Qu.:0     1st Qu.: 6.000   1st Qu.:0         
-##  Median : 5.000   Median :0.0000   Median :0     Median : 7.500   Median :0         
-##  Mean   : 4.531   Mean   :0.2812   Mean   :0     Mean   : 8.156   Mean   :0         
-##  3rd Qu.: 5.250   3rd Qu.:0.2500   3rd Qu.:0     3rd Qu.: 9.000   3rd Qu.:0         
-##  Max.   :12.000   Max.   :2.0000   Max.   :0     Max.   :24.000   Max.   :0         
-##  direct_red_cards
-##  Min.   :0.0000  
-##  1st Qu.:0.0000  
-##  Median :0.0000  
-##  Mean   :0.2812  
-##  3rd Qu.:0.2500  
-##  Max.   :2.0000</code></pre>
+<pre><code>##        nr            team           matches_played   goals_for     
+##  Min.   : 1.00   Length:32          Min.   :3.00   Min.   : 0.000  
+##  1st Qu.: 8.75   Class :character   1st Qu.:3.00   1st Qu.: 2.000  
+##  Median :16.50   Mode  :character   Median :3.50   Median : 3.000  
+##  Mean   :16.50                      Mean   :4.00   Mean   : 4.531  
+##  3rd Qu.:24.25                      3rd Qu.:4.25   3rd Qu.: 5.250  
+##  Max.   :32.00                      Max.   :7.00   Max.   :16.000  
+##   goals_scored    goals_against     penalty_goal    own_goals_for
+##  Min.   : 0.000   Min.   : 1.000   Min.   :0.0000   Min.   :0    
+##  1st Qu.: 2.000   1st Qu.: 3.000   1st Qu.:0.0000   1st Qu.:0    
+##  Median : 3.000   Median : 5.000   Median :0.0000   Median :0    
+##  Mean   : 4.469   Mean   : 4.531   Mean   :0.2812   Mean   :0    
+##  3rd Qu.: 5.250   3rd Qu.: 5.250   3rd Qu.:0.2500   3rd Qu.:0    
+##  Max.   :16.000   Max.   :12.000   Max.   :2.0000   Max.   :0    
+##   yellow_cards    indirect_red_cards direct_red_cards
+##  Min.   : 2.000   Min.   :0          Min.   :0.0000  
+##  1st Qu.: 6.000   1st Qu.:0          1st Qu.:0.0000  
+##  Median : 7.500   Median :0          Median :0.0000  
+##  Mean   : 8.156   Mean   :0          Mean   :0.2812  
+##  3rd Qu.: 9.000   3rd Qu.:0          3rd Qu.:0.2500  
+##  Max.   :24.000   Max.   :0          Max.   :2.0000</code></pre>
 <div id="data-types" class="section level3" number="1.7.1">
 <h3><span class="header-section-number">1.7.1</span> Data types</h3>
 <p>Data in R is generally stored in <strong>vectors</strong>, which are fixed-length collections of values of a particular data type. Common data types are</p>

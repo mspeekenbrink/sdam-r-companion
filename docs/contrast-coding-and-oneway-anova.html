@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,7 +239,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
 <li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
@@ -283,6 +283,7 @@ div.csl-indent {
 <li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
 <ul>
@@ -335,7 +336,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="contrast-coding-and-oneway-anova" class="section level1" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Contrast coding and oneway ANOVA</h1>
-<p>There are several ways in which you can include nominal independent variables in the General Linear Model within R. The first option is to compute the contrast-coding predictors “by hand” and then enter these as metric predictors in the <code>lm</code> function. The second way is to specify the nominal variable as a <code>factor</code> and assign an appropriate contrast to this using the <code>contrasts</code> function. R will then compute the contrast-coding predictors to the factor “automatically” when you enter the factor as a predictor in the <code>lm</code> formula.</p>
+<p>There are several ways in which you can include nominal independent variables in the General Linear Model within R. The first option is to compute the contrast-coded predictors “by hand” and then enter these as metric predictors in the <code>lm</code> function. The second way is to specify the nominal variable as a <code>factor</code> and assign an appropriate contrast to this using the <code>contrasts</code> function. R will then compute the contrast-coded predictors to the factor “automatically” when you enter the factor as a predictor in the <code>lm</code> formula.</p>
 <p>Finally, you can also use the <code>aov</code> (Analysis Of Variance) function, or the <code>Anova</code> function. These functions are more focussed on omnibus tests rather than tests of the individual contrasts.</p>
 <p>We will discuss these options using the <code>tetris2015</code> data, which comes with the <code>sdamr</code> package. There are many variables in this dataset (for a description, see <code>?tetris2015</code>). The main variables used in the book are <code>Days_One_to_Seven_Number_of_Intrusions</code> (the number of memory intrusions after memory reactivation) and <code>Condition</code>. Let’s open the data and visualize the number of intrusions for the different conditions.</p>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="contrast-coding-and-oneway-anova.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
@@ -347,8 +348,8 @@ div.csl-indent {
 <span id="cb204-7"><a href="contrast-coding-and-oneway-anova.html#cb204-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20201104</span>) <span class="co"># to replicate figure with random jitter</span></span>
 <span id="cb204-8"><a href="contrast-coding-and-oneway-anova.html#cb204-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(dat, intrusions, <span class="at">groups =</span> Condition)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-129-1.svg" width="672" style="display: block; margin: auto;" /></p>
-<div id="computing-contrast-coding-predictors" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Computing contrast-coding predictors</h2>
+<div id="computing-contrast-coded-predictors" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Computing contrast-coded predictors</h2>
 <p>Let’s first focus on data from a subset of the conditions, namely the Tetris+Reactivation and Reactivation-Only condition</p>
 <div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="contrast-coding-and-oneway-anova.html#cb205-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Tetris_Reactivation&quot;</span>,<span class="st">&quot;Reactivation&quot;</span>))</span></code></pre></div>
 <p>Note the use of the <code>%in%</code> operator. The statement <code>Condition %in% c("Tetris_Ractivation","Reactivation")</code> returns TRUE whenever the value of <code>Condition</code> is equal to one of the values in the vector <code>c("Tetris_Ractivation","Reactivation")</code>. This is shorthand to the equivalent statement</p>
@@ -383,7 +384,7 @@ div.csl-indent {
 ## Residual standard error: 2.658 on 34 degrees of freedom
 ## Multiple R-squared:  0.2451, Adjusted R-squared:  0.2229 
 ## F-statistic: 11.04 on 1 and 34 DF,  p-value: 0.00214</code></pre>
-<p>To compute other contrast-coding predictors, you can follow the same procedure. If a contrast-coding predictor only needs two values, then you can also use the <code>ifelse</code> function, which is a little less typing. The <code>ifelse</code> function has three arguments: a logical condition, the value to return when that condition is <code>TRUE</code>, and the value to return when that condition is <code>FALSE</code>. For instance, you can create a variable <code>effect</code>, with the value -.5 for <code>Tetris_Reactivation</code> and a value .5 for <code>Reactivation</code>, as</p>
+<p>To compute other contrast-coded predictors, you can follow the same procedure. If a contrast-coded predictor only needs two values, then you can also use the <code>ifelse</code> function, which is a little less typing. The <code>ifelse</code> function has three arguments: a logical condition, the value to return when that condition is <code>TRUE</code>, and the value to return when that condition is <code>FALSE</code>. For instance, you can create a variable <code>effect</code>, with the value -.5 for <code>Tetris_Reactivation</code> and a value .5 for <code>Reactivation</code>, as</p>
 <div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="contrast-coding-and-oneway-anova.html#cb212-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>effect <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(dat<span class="sc">$</span>Condition <span class="sc">==</span> <span class="st">&quot;Reactivation&quot;</span>,.<span class="dv">5</span>,<span class="sc">-</span>.<span class="dv">5</span>)</span></code></pre></div>
 <p>Here, when <code>dat$Condition == "Reactivation"</code>, the condition is <code>TRUE</code>, and hence the value <code>.5</code> is returned, otherwise (when the condition is not true, so <code>Condition != "Reactivation"</code>), the value -.5 is returned. As before, we can enter this as a predictor in an linear model as usual:</p>
 <div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="contrast-coding-and-oneway-anova.html#cb213-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(intrusions <span class="sc">~</span> effect, <span class="at">data=</span>dat)</span>
@@ -406,7 +407,7 @@ div.csl-indent {
 ## Residual standard error: 2.658 on 34 degrees of freedom
 ## Multiple R-squared:  0.2451, Adjusted R-squared:  0.2229 
 ## F-statistic: 11.04 on 1 and 34 DF,  p-value: 0.00214</code></pre>
-<p>The procedure is easily extended to multiple contrast-coding predictors. For an example, let’s consider the full dataset with all four conditions.</p>
+<p>The procedure is easily extended to multiple contrast-coded predictors. For an example, let’s consider the full dataset with all four conditions.</p>
 <div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="contrast-coding-and-oneway-anova.html#cb215-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> tetris2015</span>
 <span id="cb215-2"><a href="contrast-coding-and-oneway-anova.html#cb215-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intrusions <span class="ot">&lt;-</span> dat<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions</span></code></pre></div>
 <p>Say that we want a set of orthogonal contrast codes</p>
@@ -539,7 +540,7 @@ div.csl-indent {
 ## Tetris_Reactivation         -0.25     -0.3333333         -0.5
 ## Tetris                      -0.25      0.6666667          0.0
 ## Reactivation                -0.25     -0.3333333          0.5</code></pre>
-<p>A nice thing about the <code>lm</code> function is that you can also supply factors as predictors directly. Internally, the <code>lm</code> function will then create the necessary contrast-coding predictors from the contrasts supplied to the factor. Let’s try this:</p>
+<p>A nice thing about the <code>lm</code> function is that you can also supply factors as predictors directly. Internally, the <code>lm</code> function will then create the necessary contrast-coded predictors from the contrasts supplied to the factor. Let’s try this:</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="contrast-coding-and-oneway-anova.html#cb229-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(intrusions <span class="sc">~</span> Condition, <span class="at">data=</span>dat)</span>
 <span id="cb229-2"><a href="contrast-coding-and-oneway-anova.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
 <pre><code>## 
@@ -563,15 +564,22 @@ div.csl-indent {
 ## Multiple R-squared:  0.1434, Adjusted R-squared:  0.1056 
 ## F-statistic: 3.795 on 3 and 68 DF,  p-value: 0.01409</code></pre>
 <p>You can see that the output (apart from the names of the effects) is exactly the same as when we created <code>c1</code>, <code>c2</code>, and <code>c3</code>. So that’s pretty neat!</p>
-<p>As I said, the <code>lm</code> function will create the contrast-coding predictors for factors. You can view the resulting “design matrix” (the matrix with values for all predictors actually used when estimating the parameters) with the <code>model.matrix</code> function (as the output is rather long, I’m calling this within the <code>head</code> function to only show the first few rows)</p>
+<p>As I said, the <code>lm</code> function will create the contrast-coded predictors for factors. You can view the resulting “design matrix” (the matrix with values for all predictors actually used when estimating the parameters) with the <code>model.matrix</code> function (as the output is rather long, I’m calling this within the <code>head</code> function to only show the first few rows)</p>
 <div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="contrast-coding-and-oneway-anova.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">model.matrix</span>(modg))</span></code></pre></div>
-<pre><code>##   (Intercept) Conditionctrl-vs-other Conditiontetr-vs-memory Conditionreact-vs-t+r
-## 1           1                   0.75                       0                     0
-## 2           1                   0.75                       0                     0
-## 3           1                   0.75                       0                     0
-## 4           1                   0.75                       0                     0
-## 5           1                   0.75                       0                     0
-## 6           1                   0.75                       0                     0</code></pre>
+<pre><code>##   (Intercept) Conditionctrl-vs-other Conditiontetr-vs-memory
+## 1           1                   0.75                       0
+## 2           1                   0.75                       0
+## 3           1                   0.75                       0
+## 4           1                   0.75                       0
+## 5           1                   0.75                       0
+## 6           1                   0.75                       0
+##   Conditionreact-vs-t+r
+## 1                     0
+## 2                     0
+## 3                     0
+## 4                     0
+## 5                     0
+## 6                     0</code></pre>
 <p>As you can see, the design matrix also includes a column for the intercept. The value of this column is 1 for every case in the data. If you think about it, you can view the intercept as the slope of a predictor variable which always has the value 1:
 <span class="math display">\[\beta_0 = \beta_0 \times 1\]</span></p>
 <div id="default-coding-schemes" class="section level3" number="6.2.1">
@@ -608,7 +616,7 @@ div.csl-indent {
 ## [2,] -0.2236068 -0.5  0.6708204
 ## [3,]  0.2236068 -0.5 -0.6708204
 ## [4,]  0.6708204  0.5  0.2236068</code></pre>
-<p>When you look at the output of these functions, you might notice that the scale of each can be different. For instance, in the <code>contr.helmert</code> function, the difference between the highest and lowest value ranges from 2 to 4. In the book, I used values such that a one-unit increase on a contrast-coding predictor reflects a difference between conditions. This convention is not followed in the various <code>contr.</code> functions. If you want default contrast coding schemes which follow this convention, making the parameters of the model a little easier to interpret, you can use the various contrast coding schemes implemented in the <code>codingMatrices</code> package <span class="citation">(<a href="#ref-R-codingMatrices" role="doc-biblioref">Venables 2021</a>)</span>. this package also implements several other default coding schemes not implemented in the <code>stats</code> package. Instead of <code>contr.</code>, this package provides contrast codes through function names starting with <code>code_</code>. For example, you can obtain a Helmert contrast with a different scaling as follows:</p>
+<p>When you look at the output of these functions, you might notice that the scale of each can be different. For instance, in the <code>contr.helmert</code> function, the difference between the highest and lowest value ranges from 2 to 4. In the book, I used values such that a one-unit increase on a contrast-coded predictor reflects a difference between conditions. This convention is not followed in the various <code>contr.</code> functions. If you want default contrast coding schemes which follow this convention, making the parameters of the model a little easier to interpret, you can use the various contrast coding schemes implemented in the <code>codingMatrices</code> package <span class="citation">(<a href="#ref-R-codingMatrices" role="doc-biblioref">Venables 2021</a>)</span>. this package also implements several other default coding schemes not implemented in the <code>stats</code> package. Instead of <code>contr.</code>, this package provides contrast codes through function names starting with <code>code_</code>. For example, you can obtain a Helmert contrast with a different scaling as follows:</p>
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="contrast-coding-and-oneway-anova.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(codingMatrices)</span>
 <span id="cb241-2"><a href="contrast-coding-and-oneway-anova.html#cb241-2" aria-hidden="true" tabindex="-1"></a><span class="fu">code_helmert</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##     H2         H3    H4
@@ -616,14 +624,14 @@ div.csl-indent {
 ## 2  0.5 -0.3333333 -0.25
 ## 3  0.0  0.6666667 -0.25
 ## 4  0.0  0.0000000  0.75</code></pre>
-<p>Another nice feature of the <code>codingMatrices</code> package is the <code>mean_contrasts()</code> function, which will show you how the intercept of the resulting model is related to the group means, and how the slope of each contrast-coding predictor is a function of the group means. For instance</p>
+<p>Another nice feature of the <code>codingMatrices</code> package is the <code>mean_contrasts()</code> function, which will show you how the intercept of the resulting model is related to the group means, and how the slope of each contrast-coded predictor is a function of the group means. For instance</p>
 <div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="contrast-coding-and-oneway-anova.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_contrasts</span>(<span class="fu">code_helmert</span>(<span class="dv">4</span>))</span></code></pre></div>
 <pre><code>##     m1   m2   m3   m4  
 ## Ave  1/4  1/4  1/4  1/4
 ## H2    -1    1    .    .
 ## H3  -1/2 -1/2    1    .
 ## H4  -1/3 -1/3 -1/3    1</code></pre>
-<p>shows you in the row labelled <code>Ave</code> that the intercept is the sum of each group mean (in the columns) multiplied by <span class="math inline">\(\tfrac{1}{4}\)</span>; i.e. it is the average of averages. The next row (labelled <code>H2</code>) shows you how the slope of the first contrast-coding predictor can be computed from the group means (as the difference between the second mean and the first mean). By contrast, the <code>contr.helmert()</code> function will provide the same intercept, but slopes that are fractions of these differences</p>
+<p>shows you in the row labelled <code>Ave</code> that the intercept is the sum of each group mean (in the columns) multiplied by <span class="math inline">\(\tfrac{1}{4}\)</span>; i.e. it is the average of averages. The next row (labelled <code>H2</code>) shows you how the slope of the first contrast-coded predictor can be computed from the group means (as the difference between the second mean and the first mean). By contrast, the <code>contr.helmert()</code> function will provide the same intercept, but slopes that are fractions of these differences</p>
 <div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="contrast-coding-and-oneway-anova.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_contrasts</span>(<span class="fu">contr.helmert</span>(<span class="dv">4</span>))</span></code></pre></div>
 <pre><code>##     m1    m2    m3    m4   
 ## Ave   1/4   1/4   1/4   1/4

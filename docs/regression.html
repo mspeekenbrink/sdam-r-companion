@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,7 +239,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coding-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coding predictors</a></li>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
 <li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
@@ -283,6 +283,7 @@ div.csl-indent {
 <li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-through-bayes-factors.html"><a href="bayesian-hypothesis-testing-through-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing through Bayes Factors</a>
 <ul>
@@ -351,20 +352,20 @@ div.csl-indent {
 <span id="cb141-4"><a href="regression.html#cb141-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the data from the District of Columbia (Washintgon D.C.)</span></span>
 <span id="cb141-5"><a href="regression.html#cb141-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
 <span id="cb141-6"><a href="regression.html#cb141-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
-<pre><code>##        state hate_groups population hate_groups_per_million percent_bachelors_degree_or_higher
-## 1    Alabama          27    4863300                    5.55                               15.4
-## 2     Alaska           0     741894                    0.00                               29.7
-## 3    Arizona          18    6931071                    2.60                               27.7
-## 4   Arkansas          16    2988248                    5.35                               21.8
-## 5 California          79   39250017                    2.01                               32.3
-## 6   Colorado          16    5540545                    2.89                               39.2
-##   percent_in_poverty percent_Trump_votes
-## 1               18.5                62.9
-## 2               10.4                52.9
-## 3               17.4                49.5
-## 4               18.7                60.4
-## 5               15.4                32.7
-## 6               11.5                44.4</code></pre>
+<pre><code>##        state hate_groups population hate_groups_per_million
+## 1    Alabama          27    4863300                    5.55
+## 2     Alaska           0     741894                    0.00
+## 3    Arizona          18    6931071                    2.60
+## 4   Arkansas          16    2988248                    5.35
+## 5 California          79   39250017                    2.01
+## 6   Colorado          16    5540545                    2.89
+##   percent_bachelors_degree_or_higher percent_in_poverty percent_Trump_votes
+## 1                               15.4               18.5                62.9
+## 2                               29.7               10.4                52.9
+## 3                               27.7               17.4                49.5
+## 4                               21.8               18.7                60.4
+## 5                               32.3               15.4                32.7
+## 6                               39.2               11.5                44.4</code></pre>
 <p>You can see that there are a number of variables in the dataset (and not all of these were analysed in the book). For more information on the variables in the dataset, you can call the help file with <code>?trump2016</code>.</p>
 <p>Now let’s estimate a simple regression model to predict the percentage of votes for Trump by the number of hate groups per million citizens:</p>
 <div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="regression.html#cb143-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(percent_Trump_votes <span class="sc">~</span> hate_groups_per_million, <span class="at">data=</span>dat)</span>

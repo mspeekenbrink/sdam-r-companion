@@ -1,7 +1,7 @@
 fig:rstudio-interface-image
 tab:tetris-orthogonal-cotrast-codes
 fig:hold-position
-tab:unnamed-chunk-267
+tab:unnamed-chunk-273
 acknowledgements
 introduction
 what-is-r
@@ -53,7 +53,7 @@ mediation-analysis
 causal-steps
 investigating-the-moderated-indirect-effect-with-a-bootstrap-test
 contrast-coding-and-oneway-anova
-computing-contrast-coding-predictors
+computing-contrast-coded-predictors
 assigning-contrasts-to-factors
 default-coding-schemes
 factorial-anova
@@ -81,6 +81,7 @@ likelihood-ratio-test-with-the-anova-function
 confidence-intervals
 plotting-model-predictions
 obtaining-p-values-with-afexmixed
+crossed-random-effects
 bayesian-hypothesis-testing-through-bayes-factors
 the-bayesfactor-package
 a-bayesian-one-sample-t-test

@@ -95,7 +95,7 @@ Alternatively, we can use the `Anova` function from the `car` package to obtain 
 car::Anova(modg, type=3)
 ```
 
-You can see that while the `Anova` function reports $F$ statistics, the tests and the corresponding $p$-values are identical. In this case, each factor only has two levels, and hence one contrast code. As there is only one parameter associated to each main effect and interaction (the slope of the single contrast-coding predictor for that effect), the omnibus test is a single parameter test. We will see an example where this is not the case shortly.
+You can see that while the `Anova` function reports $F$ statistics, the tests and the corresponding $p$-values are identical. In this case, each factor only has two levels, and hence one contrast code. As there is only one parameter associated to each main effect and interaction (the slope of the single contrast-coded predictor for that effect), the omnibus test is a single parameter test. We will see an example where this is not the case shortly.
 
 
 ### A threeway ANOVA
@@ -160,7 +160,7 @@ ftable(exptrNum ~ primeCond + experimenterBelief, data=dat)
 ```
 As you can see, Experimenter 1 tested 26 participants in the high-power prime and high experimenter belief condition, whilst experimenter 2 tested 24 participants in the low-power prime and low experimenter belief condition. 
 
-The result of unbalanced data is that the contrast-coding predictors are no longer orthogonal. As a result, different ways of performing model comparisons will give different results. The differences are likely to be rather subtle here, because the sample sizes are mostly equal. Nevertheless, let's consider how we can obtain results for the Type 1 and Type 2 SS procedures.
+The result of unbalanced data is that the contrast-coded predictors are no longer orthogonal. As a result, different ways of performing model comparisons will give different results. The differences are likely to be rather subtle here, because the sample sizes are mostly equal. Nevertheless, let's consider how we can obtain results for the Type 1 and Type 2 SS procedures.
 
 A Type 2 procedure is easily obtained by using the `car::Anova` function, now with argument `type=2`:
 ```{r}
