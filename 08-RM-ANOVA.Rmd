@@ -337,7 +337,7 @@ as a measure of effect size. You can change this to the partial eta-square by se
 `correction = "HF"` (Huynh-Feldt) or `correction = "none"` (no correction).
 So, for example, we might use
 ```{r}
-nice(afmod, es="pes", correction = "none")
+afex::nice(afmod, es="pes", correction = "none")
 ```
 
 ## Contrasts with the `emmeans` package

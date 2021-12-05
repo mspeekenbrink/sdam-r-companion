@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-12-04" />
+<meta name="date" content="2021-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -440,10 +440,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="linear-mixed-effects-models.html#cb389-1" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(anchoring<span class="sc">$</span>anchor)</span>
 <span id="cb389-2"><a href="linear-mixed-effects-models.html#cb389-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(anchoring<span class="sc">$</span>anchor) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) <span class="co"># alphabetical order, so high before low</span></span>
 <span id="cb389-3"><a href="linear-mixed-effects-models.html#cb389-3" aria-hidden="true" tabindex="-1"></a><span class="co"># define a lmer</span></span>
-<span id="cb389-4"><a href="linear-mixed-effects-models.html#cb389-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
+<span id="cb389-4"><a href="linear-mixed-effects-models.html#cb389-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
 <span id="cb389-5"><a href="linear-mixed-effects-models.html#cb389-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
-<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-## lmerModLmerTest]
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: everest_feet ~ anchor + (1 | referrer)
 ##    Data: anchoring
 ## 
@@ -460,11 +459,9 @@ div.csl-indent {
 ## Number of obs: 4632, groups:  referrer, 31
 ## 
 ## Fixed effects:
-##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept) 22788.30     346.85    29.17   65.70   &lt;2e-16 ***
-## anchor1     23047.34     285.80  4617.54   80.64   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##             Estimate Std. Error t value
+## (Intercept)  22788.3      346.8   65.70
+## anchor1      23047.3      285.8   80.64
 ## 
 ## Correlation of Fixed Effects:
 ##         (Intr)
@@ -480,28 +477,27 @@ div.csl-indent {
 <div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="linear-mixed-effects-models.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb391-2"><a href="linear-mixed-effects-models.html#cb391-2" aria-hidden="true" tabindex="-1"></a>tdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">predicted=</span><span class="fu">predict</span>(mod), <span class="at">residual =</span> <span class="fu">residuals</span>(mod))</span>
 <span id="cb391-3"><a href="linear-mixed-effects-models.html#cb391-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-227-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-228-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>It might be cool to colour the residuals by referrer as follows:</p>
 <div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="linear-mixed-effects-models.html#cb392-1" aria-hidden="true" tabindex="-1"></a>tdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">predicted=</span><span class="fu">predict</span>(mod), <span class="at">residual =</span> <span class="fu">residuals</span>(mod), <span class="at">referrer=</span>anchoring<span class="sc">$</span>referrer)</span>
 <span id="cb392-2"><a href="linear-mixed-effects-models.html#cb392-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual, <span class="at">colour=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-228-1.svg" width="672" style="display: block; margin: auto;" />
+<p><img src="_main_files/figure-html/unnamed-chunk-229-1.svg" width="672" style="display: block; margin: auto;" />
 If the legend gets in the way, you can remove it as follows:</p>
 <div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="linear-mixed-effects-models.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual, <span class="at">colour=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-229-1.svg" width="672" style="display: block; margin: auto;" />
+<p><img src="_main_files/figure-html/unnamed-chunk-230-1.svg" width="672" style="display: block; margin: auto;" />
 The <code>theme</code> function allows for lots of functionality (check <code>?theme</code>). You can also get a quick predicted vs residual plot from base R by simply calling <code>plot(mod)</code>.</p>
 <p>We can get a nice-looking histogram of the residuals, and a QQ plot, as follows:</p>
 <div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="linear-mixed-effects-models.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>residual)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-230-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-231-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="linear-mixed-effects-models.html#cb395-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">sample=</span>residual)) <span class="sc">+</span> <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-230-2.svg" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-231-2.svg" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="random-intercepts-and-slopes" class="section level3" number="9.1.3">
 <h3><span class="header-section-number">9.1.3</span> Random intercepts and slopes</h3>
 <p>Now let’s estimate a model with random intercepts and random slopes for <code>anchor</code>. To do so, we can simply add <code>anchor</code> in the mixed effects structure specification, as follows:</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="linear-mixed-effects-models.html#cb396-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="linear-mixed-effects-models.html#cb396-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
 <span id="cb396-2"><a href="linear-mixed-effects-models.html#cb396-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
-<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-## lmerModLmerTest]
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: everest_feet ~ anchor + (1 + anchor | referrer)
 ##    Data: anchoring
 ## 
@@ -519,22 +515,19 @@ The <code>theme</code> function allows for lots of functionality (check <code>?t
 ## Number of obs: 4632, groups:  referrer, 31
 ## 
 ## Fixed effects:
-##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept) 22840.77     329.42    27.49   69.34   &lt;2e-16 ***
-## anchor1     23578.76    1138.95    27.32   20.70   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##             Estimate Std. Error t value
+## (Intercept)  22840.8      329.4   69.34
+## anchor1      23578.8     1139.0   20.70
 ## 
 ## Correlation of Fixed Effects:
 ##         (Intr)
 ## anchor1 -0.658</code></pre>
 <p>As you can see, the model now estimates a variance of the random slopes effects, as well as a correlation between the random intercept and slope effects. We could try to get a model without the correlations as follows:</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="linear-mixed-effects-models.html#cb398-1" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="linear-mixed-effects-models.html#cb398-1" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span></code></pre></div>
 <p>As you can see in the warning messages, this leads to various estimation issues. Moreover, the correlation is actually still there!</p>
 <div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="linear-mixed-effects-models.html#cb399-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
-<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-## lmerModLmerTest]
-## Formula: everest_feet ~ anchor + (1 + anchor || referrer)
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: everest_feet ~ anchor + ((1 | referrer) + (0 + anchor | referrer))
 ##    Data: anchoring
 ## 
 ## REML criterion at convergence: 97944.4
@@ -552,11 +545,9 @@ The <code>theme</code> function allows for lots of functionality (check <code>?t
 ## Number of obs: 4632, groups:  referrer, 31
 ## 
 ## Fixed effects:
-##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept) 22840.77     329.41    27.49   69.34   &lt;2e-16 ***
-## anchor1     23578.76    1138.97    27.32   20.70   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##             Estimate Std. Error t value
+## (Intercept)  22840.8      329.4   69.34
+## anchor1      23578.8     1139.0   20.70
 ## 
 ## Correlation of Fixed Effects:
 ##         (Intr)
@@ -567,11 +558,12 @@ The <code>theme</code> function allows for lots of functionality (check <code>?t
 <p>As it turns out, the <code>||</code> notation <strong>does not work well for factors</strong>!. It only works as expected with metric predictors. We can get the desired model by defining a contrast-coded predictor for <code>anchor</code> explicitly, as follows:</p>
 <div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="linear-mixed-effects-models.html#cb401-1" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor_contrast <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
 <span id="cb401-2"><a href="linear-mixed-effects-models.html#cb401-2" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor_contrast[anchoring<span class="sc">$</span>anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb401-3"><a href="linear-mixed-effects-models.html#cb401-3" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor_contrast <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor_contrast<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span>
+<span id="cb401-3"><a href="linear-mixed-effects-models.html#cb401-3" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor_contrast <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor_contrast<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span>
 <span id="cb401-4"><a href="linear-mixed-effects-models.html#cb401-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
-<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-## lmerModLmerTest]
-## Formula: everest_feet ~ anchor_contrast + (1 + anchor_contrast || referrer)
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: 
+## everest_feet ~ anchor_contrast + ((1 | referrer) + (0 + anchor_contrast |  
+##     referrer))
 ##    Data: anchoring
 ## 
 ## REML criterion at convergence: 97960.2
@@ -588,11 +580,9 @@ The <code>theme</code> function allows for lots of functionality (check <code>?t
 ## Number of obs: 4632, groups:  referrer, 31
 ## 
 ## Fixed effects:
-##                 Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)     22773.65     326.69    29.08   69.71   &lt;2e-16 ***
-## anchor_contrast 23526.08    1141.84    28.22   20.60   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##                 Estimate Std. Error t value
+## (Intercept)      22773.6      326.7   69.71
+## anchor_contrast  23526.1     1141.8   20.60
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr)
@@ -682,7 +672,7 @@ The <code>theme</code> function allows for lots of functionality (check <code>?t
 <p>It can be useful to plot the model predictions for each level of the random grouping factor. We can obtain such a plot by storing the model predictions with the data. By adding the <code>group =</code> and <code>colour =</code> arguments in the <code>aes()</code> function, you can then get separate results for all levels of the random effect factor (<code>referrer</code> here). For instance, we can plot the predictions for the different levels of the <code>anchor</code> factor with connecting lines as follows:</p>
 <div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="linear-mixed-effects-models.html#cb413-1" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modg)</span>
 <span id="cb413-2"><a href="linear-mixed-effects-models.html#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(anchoring,<span class="fu">aes</span>(<span class="at">x=</span>anchor,<span class="at">y=</span>pred,<span class="at">colour=</span>referrer, <span class="at">group=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-238-1.svg" width="720" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-239-1.svg" width="720" style="display: block; margin: auto;" /></p>
 <p>This would also work if the variable of the x-axis is continuous, rather than categorical.</p>
 </div>
 </div>
@@ -914,16 +904,11 @@ The <code>theme</code> function allows for lots of functionality (check <code>?t
 ## Number of obs: 1509, groups:  iid, 102; pid, 102
 ## 
 ## Fixed effects:
-##                             Estimate Std. Error        df t value Pr(&gt;|t|)
-## (Intercept)                  6.20784    0.07028 117.29792  88.331   &lt;2e-16
-## other_attr_c                 0.53693    0.02948 118.54368  18.211   &lt;2e-16
-## other_intel_c                0.37939    0.03634  92.46214  10.441   &lt;2e-16
-## other_attr_c:other_intel_c  -0.01269    0.01056 136.72908  -1.202    0.231
-##                               
-## (Intercept)                ***
-## other_attr_c               ***
-## other_intel_c              ***
-## other_attr_c:other_intel_c    
+##                             Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)                  6.20784    0.07028 117.29792  88.331   &lt;2e-16 ***
+## other_attr_c                 0.53693    0.02948 118.54368  18.211   &lt;2e-16 ***
+## other_intel_c                0.37939    0.03634  92.46214  10.441   &lt;2e-16 ***
+## other_attr_c:other_intel_c  -0.01269    0.01056 136.72908  -1.202    0.231    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -965,16 +950,11 @@ The <code>theme</code> function allows for lots of functionality (check <code>?t
 ## Number of obs: 1509, groups:  iid, 102; pid, 102
 ## 
 ## Fixed effects:
-##                             Estimate Std. Error        df t value Pr(&gt;|t|)
-## (Intercept)                  6.23128    0.06724 115.11853  92.673  &lt; 2e-16
-## other_attr_c                 0.55284    0.03177 130.82879  17.399  &lt; 2e-16
-## other_intel_c                0.36684    0.03763  90.58968   9.749 8.94e-16
-## other_attr_c:other_intel_c  -0.01010    0.01249 314.62283  -0.808     0.42
-##                               
-## (Intercept)                ***
-## other_attr_c               ***
-## other_intel_c              ***
-## other_attr_c:other_intel_c    
+##                             Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)                  6.23128    0.06724 115.11853  92.673  &lt; 2e-16 ***
+## other_attr_c                 0.55284    0.03177 130.82879  17.399  &lt; 2e-16 ***
+## other_intel_c                0.36684    0.03763  90.58968   9.749 8.94e-16 ***
+## other_attr_c:other_intel_c  -0.01010    0.01249 314.62283  -0.808     0.42    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 

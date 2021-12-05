@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-12-04" />
+<meta name="date" content="2021-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -407,7 +407,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 <span id="cb460-17"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb460-17" aria-hidden="true" tabindex="-1"></a><span class="co"># use ggplot to plot the values of the Bayes factor against the choice of r</span></span>
 <span id="cb460-18"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb460-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb460-19"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb460-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">r=</span>rscale,<span class="at">BF=</span>BFs),<span class="fu">aes</span>(<span class="at">x=</span>r,<span class="at">y=</span>BF)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-257-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-258-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>Given the scale of the <span class="math inline">\(y\)</span>-axis, there is overwhelming evidence against the null-hypothesis for most choices of the scaling factor. Hence, the results seem rather robust to the exact choice of prior.</p>
 </div>
 <div id="a-bayesian-two-sample-t-test" class="section level3" number="10.1.2">
@@ -432,10 +432,10 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 <span id="cb463-4"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb463-4" aria-hidden="true" tabindex="-1"></a><span class="co">#contrasts(dat$Condition) &lt;- c(-1/2,1/2)</span></span>
 <span id="cb463-5"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb463-5" aria-hidden="true" tabindex="-1"></a>bf2_tetr <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(Days_One_to_Seven_Number_of_Intrusions <span class="sc">~</span> Condition, <span class="at">data =</span> dat)</span></code></pre></div>
 <pre><code>## 
-  |                                                                          
-  |                                                                    |   0%
-  |                                                                          
-  |====================================================================| 100%</code></pre>
+  |                                                                           
+  |                                                                     |   0%
+  |                                                                           
+  |=====================================================================| 100%</code></pre>
 <div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb465-1" aria-hidden="true" tabindex="-1"></a>bf2_tetr</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
@@ -468,16 +468,16 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 <p>We can now use the <code>anofaBF</code> function to compute the Bayes factors:</p>
 <div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb468-1" aria-hidden="true" tabindex="-1"></a>bf_expB <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat)</span></code></pre></div>
 <pre><code>## 
-  |                                                                          
-  |                                                                    |   0%
-  |                                                                          
-  |=================                                                   |  25%
-  |                                                                          
-  |==================================                                  |  50%
-  |                                                                          
-  |===================================================                 |  75%
-  |                                                                          
-  |====================================================================| 100%</code></pre>
+  |                                                                           
+  |                                                                     |   0%
+  |                                                                           
+  |=================                                                    |  25%
+  |                                                                           
+  |==================================                                   |  50%
+  |                                                                           
+  |====================================================                 |  75%
+  |                                                                           
+  |=====================================================================| 100%</code></pre>
 <div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb470-1" aria-hidden="true" tabindex="-1"></a>bf_expB</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
@@ -493,16 +493,16 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 <p>A main thing to note here is that the comparisons of different versions of MODEL G are against the same MODEL R, which is an intercept-only model. We can see that all models which include <code>experimenterBelief</code> receive strong evidence against the intercept-only model, apart from the model which only includes <code>primeCond</code>, which has less evidence than the intercept-only model. Although this indicates that the <code>primeCond</code> effect might be ignorable, the comparisons are different from comparing reduced models to the general MODEL G with all effects included. We can obtain these Type 3 comparisons by setting the <code>whichModels</code> argument to `“top”``:</p>
 <div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb472-1" aria-hidden="true" tabindex="-1"></a>bf_expB2 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <pre><code>## 
-  |                                                                          
-  |                                                                    |   0%
-  |                                                                          
-  |=================                                                   |  25%
-  |                                                                          
-  |==================================                                  |  50%
-  |                                                                          
-  |===================================================                 |  75%
-  |                                                                          
-  |====================================================================| 100%</code></pre>
+  |                                                                           
+  |                                                                     |   0%
+  |                                                                           
+  |=================                                                    |  25%
+  |                                                                           
+  |==================================                                   |  50%
+  |                                                                           
+  |====================================================                 |  75%
+  |                                                                           
+  |=====================================================================| 100%</code></pre>
 <div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb474-1" aria-hidden="true" tabindex="-1"></a>bf_expB2</span></code></pre></div>
 <pre><code>## Bayes factor top-down analysis
 ## --------------
@@ -540,22 +540,22 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 <p>which indicates evidence for the null hypothesis that there is no moderation of the effect of <code>experimenterbelief</code> by <code>primeCond</code>, as the Bayes factor is well below 1. We cannot replicate all Type 3 analyses with the results obtained earlier, unless we ask the function to compare every possible model against the intercept-only model, by specifying <code>whichModels = "all"</code>:</p>
 <div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb480-1" aria-hidden="true" tabindex="-1"></a>bf_expB3 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
 <pre><code>## 
-  |                                                                          
-  |                                                                    |   0%
-  |                                                                          
-  |==========                                                          |  14%
-  |                                                                          
-  |===================                                                 |  29%
-  |                                                                          
-  |=============================                                       |  43%
-  |                                                                          
-  |=======================================                             |  57%
-  |                                                                          
-  |=================================================                   |  71%
-  |                                                                          
-  |==========================================================          |  86%
-  |                                                                          
-  |====================================================================| 100%</code></pre>
+  |                                                                           
+  |                                                                     |   0%
+  |                                                                           
+  |==========                                                           |  14%
+  |                                                                           
+  |====================                                                 |  29%
+  |                                                                           
+  |==============================                                       |  43%
+  |                                                                           
+  |=======================================                              |  57%
+  |                                                                           
+  |=================================================                    |  71%
+  |                                                                           
+  |===========================================================          |  86%
+  |                                                                           
+  |=====================================================================| 100%</code></pre>
 <div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="bayesian-hypothesis-testing-through-bayes-factors.html#cb482-1" aria-hidden="true" tabindex="-1"></a>bf_expB3</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------

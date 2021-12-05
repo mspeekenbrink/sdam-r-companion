@@ -1,5 +1,10 @@
 # Linear mixed-effects models
 
+```{r, echo=FALSE, results='hide'}
+unloadNamespace(c("afex"))
+unloadNamespace(c("lmerTest"))
+```
+
 In this Chapter, we will look at how to estimate and perform hypothesis tests for linear mixed-effects models. The main workhorse for estimating linear mixed-effects models is the `lme4` package [@R-lme4]. This package allows you to formulate a wide variety of mixed-effects and multilevel models through an extension of the R formula syntax. It is a really good package. But the main author of the package, Douglas Bates, has chosen not to provide $p$-values for the model parameters. We will therefore also consider the `afex` package, which provides an interface to the two main approximations (Kenward-Roger and Satterthwaite) to provide the degrees of freedom to compute $p$-values for $F$ tests. While the `mixed` function it provides is in principle all you need to estimate the models _and_ get the estimates, I think it is useful to also understand the underlying `lme4` package [@R-lme4], so we will start with a discussion of this, and then move to the `afex` package [@R-afex]. If you install the `afex` package, it will install quite a few other packages on which it relies. So to get all the required packages for this chapter, you can just type
 ```{r, eval=FALSE}
 install.packages("afex")
@@ -54,7 +59,7 @@ Now let's estimate a first linear mixed-effects model, with a fixed effect for a
 anchoring$anchor <- as.factor(anchoring$anchor)
 contrasts(anchoring$anchor) <- c(1/2, -1/2) # alphabetical order, so high before low
 # define a lmer
-mod <- lmer(everest_feet ~ anchor + (1|referrer), data=anchoring)
+mod <- lme4::lmer(everest_feet ~ anchor + (1|referrer), data=anchoring)
 summary(mod)
 ```
 
@@ -100,13 +105,13 @@ ggplot(tdat,aes(sample=residual)) + stat_qq() + stat_qq_line()
 Now let's estimate a model with random intercepts and random slopes for `anchor`. To do so, we can simply add `anchor` in the mixed effects structure specification, as follows:
 
 ```{r}
-modg <- lmer(everest_feet ~ anchor + (1 + anchor|referrer), data=anchoring)
+modg <- lme4::lmer(everest_feet ~ anchor + (1 + anchor|referrer), data=anchoring)
 summary(modg)
 ```
 
 As you can see, the model now estimates a variance of the random slopes effects, as well as a correlation between the random intercept and slope effects. We could try to get a model without the correlations as follows:
 ```{r}
-modr <- lmer(everest_feet ~ anchor + (1 + anchor||referrer), data=anchoring)
+modr <- lme4::lmer(everest_feet ~ anchor + (1 + anchor||referrer), data=anchoring)
 ```
 As you can see in the warning messages, this leads to various estimation issues. Moreover, the correlation is actually still there!
 ```{r}
@@ -116,7 +121,7 @@ As it turns out, the `||` notation __does not work well for factors__!. It only 
 ```{r}
 anchoring$anchor_contrast <- 1/2
 anchoring$anchor_contrast[anchoring$anchor == "low"] <- -1/2
-modr <- lmer(everest_feet ~ anchor_contrast + (1 + anchor_contrast||referrer), data=anchoring)
+modr <- lme4::lmer(everest_feet ~ anchor_contrast + (1 + anchor_contrast||referrer), data=anchoring)
 summary(modr)
 ```
 That is a little cumbersome, especially if you have a factor with lots of levels, in which case you would have to specify many contrast-coded predictors. The `lmer_alt()` function in the `afex` package will automatically generate the contrast-coded predictors needed, which will be convenient. You can try this by running:

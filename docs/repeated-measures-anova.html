@@ -24,7 +24,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-12-04" />
+<meta name="date" content="2021-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -888,7 +888,7 @@ as a measure of effect size. You can change this to the partial eta-square by se
 <code>es="pes"</code>. You can also change the correction to the degrees of freedom, from the default <code>correction = "GG"</code> (Greenhouse-Geisser), by setting
 <code>correction = "HF"</code> (Huynh-Feldt) or <code>correction = "none"</code> (no correction).
 So, for example, we might use</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="repeated-measures-anova.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nice</span>(afmod, <span class="at">es=</span><span class="st">&quot;pes&quot;</span>, <span class="at">correction =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="repeated-measures-anova.html#cb373-1" aria-hidden="true" tabindex="-1"></a>afex<span class="sc">::</span><span class="fu">nice</span>(afmod, <span class="at">es=</span><span class="st">&quot;pes&quot;</span>, <span class="at">correction =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type 3 tests)
 ## 
 ## Response: Response
