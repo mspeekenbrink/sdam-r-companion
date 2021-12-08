@@ -1,7 +1,4 @@
-fig:rstudio-interface-image
-tab:tetris-orthogonal-cotrast-codes
-fig:hold-position
-tab:unnamed-chunk-274
+tab:unnamed-chunk-6
 acknowledgements
 introduction
 what-is-r
@@ -82,12 +79,15 @@ confidence-intervals
 plotting-model-predictions
 obtaining-p-values-with-afexmixed
 crossed-random-effects
-bayesian-hypothesis-testing-through-bayes-factors
+bayesian-hypothesis-testing-with-bayes-factors
 the-bayesfactor-package
 a-bayesian-one-sample-t-test
 a-bayesian-two-sample-t-test
 a-bayesian-anova
 bayesian-regression-and-ancova
+bayesian-repeated-measures-anova
+parameter-estimates
+highest-density-interval
 reproducible-reports-with-rmarkdown
 yaml-headers
 markdown-syntax

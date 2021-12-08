@@ -10,6 +10,7 @@ before_chapter_script: "run_before.R"
 #output_dir: "book-output"
 clean: ["sdam.bbl", "R-packages.bib"]
 rmd_files: ["index.Rmd", "01-intro.Rmd", "02-modelling.Rmd", "03-GLM-simple.Rmd", "04-regression.Rmd", "05-moderation.Rmd", "06-oneway-ANOVA.Rmd", "07-factorial-ANOVA.Rmd", "08-RM-ANOVA.Rmd", "09-LMER.Rmd", "10-Bayes.Rmd", "11-reproducible.Rmd"]
+new_session: yes
 
 # compile with
 # R -e "bookdown::render_book('index.Rmd')"

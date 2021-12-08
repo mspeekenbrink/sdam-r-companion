@@ -1,25 +1,25 @@
-# Bayesian hypothesis testing through Bayes Factors
+# Bayesian hypothesis testing with Bayes Factors
 
 In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the `BayesFactor` package [@R-BayesFactor]. The package implements the "default" priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. -->
 
 ## The `BayesFactor` package
 
-The `BayesFactor` package implements Bayesian model comparisons for General Linear Models (as well as some other models for e.g. contingency tables and proportions) using JZS-priors for the parameters, or fixing those parameters to 0. Because Bayes Factors are __transitive__, in the sense that a ratio of Bayes Factor is itself another Bayes factor:
+The `BayesFactor` package implements Bayesian model comparisons for General Linear Models (as well as some other models for e.g. contingency tables and proportions) using JZS-priors for the parameters, or fixing those parameters to 0. Because Bayes Factors are __transitive__, in the sense that a ratio of Bayes Factors is itself another Bayes factor:
 $$\begin{align}
 \text{BF}_{1,2} &= \frac{p(Y_1,\ldots,Y_n|\text{MODEL 1})}{p(Y_1,\ldots,Y_n|\text{MODEL 2})} \\
 &= \frac{p(Y_1,\ldots,Y_n|\text{MODEL 1})/p(Y_1,\ldots,Y_n|\text{MODEL 0})} {p(Y_1,\ldots,Y_n|\text{MODEL 2})/p(Y_1,\ldots,Y_n|\text{MODEL 0})} \\
-&= \frac{\text{BF}_{1,0}}{\text{BF}_{2,0}}
+&= \frac{\text{BF}_{1,0}}{\text{BF}_{2,0}} ,
 \end{align}$$
-You can compute many other Bayes Factors which might not be provided by the package by simply dividing the Bayes factors that the package does provide. This makes the procedure of model comparison very flexible. 
+you can compute many other Bayes Factors which might not be immediately provided by the package, by simply dividing the Bayes factors that the package does provide. This makes the procedure of model comparison very flexible. 
 
 If you haven't installed the `BayesFactor` package yet, you need to do so first. Then you can load it as usual by:
-```{r}
+```{r, message=FALSE}
 library(BayesFactor)
 ```
 
 ### A Bayesian one-sample t-test
 
-A Bayesian alternative to a $t$-test is provided via the `ttestBF` function. Similar to the `t.test` function in the base `stats` package, this function allows computation of a Bayes factor for a one-sample t-test and independent-samples t-tests (as well as a paired t-test, which we haven't covered in the course). Let's re-analyse the data we considered before, concerning participants' judegments of the height of Mount Everest. The one-sample t-test we computed before, comparing the judgements to an assumed mean of $\mu = 8848$, was:
+A Bayesian alternative to a $t$-test is provided via the `ttestBF` function. Similar to the base R `t.test` function of the `stats` package, this function allows computation of a Bayes factor for a one-sample t-test or a two-sample t-tests (as well as a paired t-test, which we haven't covered in the course). Let's re-analyse the data we considered before, concerning participants' judgements of the height of Mount Everest. The one-sample t-test we computed before, comparing the judgements to an assumed mean of $\mu = 8848$, was:
 ```{r}
 # load the data
 library(sdamr)
@@ -30,7 +30,7 @@ dat <- subset(anchoring,(referrer == "swps" | referrer == "swpson") & anchor == 
 t.test(dat$everest_meters, mu=8848)
 ```
 The syntax for the Bayesian alternative is _very_ similar, namely:
-```{r}
+```{r, message=FALSE}
 bf_anchor <- ttestBF(dat$everest_meters, mu=8848)
 ```
 This code provides a test of the following models:
@@ -44,25 +44,25 @@ After computing the Bayes factor and storing it in an object `bf_anchor`, we jus
 ```{r}
 bf_anchor
 ```
-This output is quite sparse, which is by no means a bad thing. It shows a few important things. Under `Alt.` (which stands for the alternative hypothesis), we first see the scaling factor $r$ used for the JZS prior distribution on the effect size. We then see the value of the Bayes Factor, which is "extreme", showing that the alternative hypothesis at `r format(exp(ttestBF(dat$everest_meters, mu=8848)@bayesFactor$bf), scientific=FALSE, big.mark=",")`. Quite clearly, the average judgements differed from the true height of Mount Everest! After the computed value of the Bayes factor, you will find a proportional error estimate on the Bayes factor. In general, the marginal likelihoods that constitute the numerator ("top model") and denominator ("bottom model") of the Bayes factor can not be computed exactly, and have to be approximated by numerical integration routines, or simulation. This results in some (hopefully small) error in computation, and the error estimate indicates the extend to which the true Bayes factor might differ from the computed one. In this case, the error is (proportionally) very small, and hence we can be assured that our conclusion is unlikely to be affected by error in the approximation.  
+This output is quite sparse, which is by no means a bad thing. It shows a few important things. Under `Alt.` (which stands for the alternative hypothesis), we first see the scaling factor $r$ used for the JZS prior distribution on the effect size.  We then see the value of the Bayes Factor, which is "extreme" (>100), showing that the data increases the posterior odds ratio for the alternative model over the null model by a factor of `r format(exp(ttestBF(dat$everest_meters, mu=8848)@bayesFactor$bf), scientific=FALSE, big.mark=",")`. Quite clearly, the average judgements differed from the true height of Mount Everest! After the computed value of the Bayes factor, you will find a proportional error for the estimate of the Bayes factor. In general, the marginal likelihoods that constitute the numerator ("top model") and denominator ("bottom model") of the Bayes factor cannot be computed exactly, and have to be approximated by numerical integration routines or simulation. This results in some (hopefully small) error in computation, and the error estimate indicates the extend to which the true Bayes factor might differ from the computed one. In this case, the error is (proportionally) very small, and hence we can be assured that our conclusion is unlikely to be affected by error in the approximation.  
 
-As we didn't set the scaling factor explicitly, the default value is used, which is $r = \frac{\sqrt{2}}{2} = `r round(sqrt(2)/2,3)`$. Note that this is actually different from the default value of $r=1$ used in @rouder2009bayesian, which first introduced this version of the Bayesian t-test to a psychological audience, and the one used to illustrate the method in the SDAM book. While reducing the default value to $r=`r round(sqrt(2)/2,3)`$ is probably reasonable given the effect sizes generally encountered in psychological studies, a change in the default prior highlights the subjective nature of the prior distribution in the Bayesian model comparison procedure. You should also realise that different analyses, such as t-tests, ANOVA, and regression models, use different default values for the scaling factor. As shown in the SDAM book, the value of the Bayes factor depends on the choice for the scaling factor. Although the default value may be deemed reasonable, the choice should really be based on a consideration of the magnitude of the effect sizes you (yes, you!) expect in a particular study. This is not always easy, but you should pick one (the default value, for instance, if you can't think of a better one) _before_ conducting the analysis. If you feel that makes the test too subjective, you may may want to check the robustness of the result for different choices of the scaling factor. You can do this by computing the Bayes factor for a range of choices of the scaling factor, and then inspecting whether the strength of the evidence is in line with your choice for a reasonable range of values around your choice. The code below provides an example of this:
+As we didn't set the scaling factor explicitly, the default value is used, which is the "medium" scale $r = \frac{\sqrt{2}}{2} = `r round(sqrt(2)/2,3)`$. Note that this is actually different from the default value of $r=1$ proposed in @rouder2009bayesian, which first introduced this version of the Bayesian $t$-test to a psychological audience, and the one used to illustrate the method in the SDAM book. Whilst reducing the default value to $r=`r round(sqrt(2)/2,3)`$ is probably reasonable given the effect sizes generally encountered in psychological studies, a change in the default prior highlights the subjective nature of the prior distribution in the Bayesian model comparison procedure. You should also realise that different analyses, such as t-tests, ANOVA, and regression models, use different default values for the scaling factor. As shown in the SDAM book, the value of the Bayes factor depends on the choice for the scaling factor. Although the default value may be deemed reasonable, the choice should really be based on a consideration of the magnitude of the effect sizes you (yes, you!) expect in a particular study. This is not always easy, but you should pick one (the default value, for instance, if you can't think of a better one) _before_ conducting the analysis. If you feel that makes the test too subjective, you may may want to check the robustness of the result for different choices of the scaling factor. You can do this by computing the Bayes factor for a range of choices of the scaling factor, and then inspecting whether the strength of the evidence is in line with your choice for a reasonable range of values around your choice. The code below provides an example of this:
 
 ```{r}
 # create a vector with different values for the scaling factor r
-rscale <- seq(.001,3,length=100)
+rscale <- seq(.001, 3, length=100)
 
-# create an ampty vector to store the resulting Bayes factors
+# create an empty vector to store the resulting Bayes factors
 BFs <- vector("double", length=100)
 
 # compute the Bayes factor for each value of r
 for(i in 1:100) {
   temp_bf <- ttestBF(dat$everest_meters, mu=8848, r = rscale[i])
   # the object returned by the ttestBF function is a so-called S4 object
-  # this has "slots" which can be accessed through the "@" operatpr
-  # the actual value for the BF is extracted by @bayesFactor$bf
+  # this has "slots" which can be accessed through the "@" operator.
+  # The actual value of the BF is extracted by @bayesFactor$bf
   # which is stored in a logarithmic scale, so we need to use "exp"
-  # to obtain the value of the actual Bayes factor 
+  # to obtain the value of the actual Bayes factor:
   BFs[i] <- exp(temp_bf@bayesFactor$bf)
 }
 # use ggplot to plot the values of the Bayes factor against the choice of r
@@ -70,25 +70,25 @@ library(ggplot2)
 ggplot(data.frame(r=rscale,BF=BFs),aes(x=r,y=BF)) + geom_line()
 ```
 
-Given the scale of the $y$-axis, there is overwhelming evidence against the null-hypothesis for most choices of the scaling factor. Hence, the results seem rather robust to the exact choice of prior.
+Given the scale of the $y$-axis (e.g., the first tick mark is at `1e+10` = `r format(1e+10, scientific=FALSE, big.mark=",")`), there is overwhelming evidence against the null-hypothesis for most choices of the scaling factor. Hence, the results seem rather robust to the exact choice of prior.
 
 ### A Bayesian two-sample t-test
 
 To compare the means of two groups, we can revisit the Tetris study, where we considered whether the number of memory intrusions is reduced after playing Tetris in combination with memory reactivation, compared to just memory reactivation by itself. The `ttestBF` function allows us to provide the data for one group as the `x` argument, and the data for the other group as the `y` argument, so we can perform our model comparison, by subsetting the dependent variable appropriately, as follows:
 ```{r}
-data("tetris2015")
-bf_tetr <- ttestBF(x=tetris2015$Days_One_to_Seven_Number_of_Intrusions[tetris2015$Condition == "Reactivation"], y = tetris2015$Days_One_to_Seven_Number_of_Intrusions[tetris2015$Condition == "Tetris_Reactivation"])
+data("tetris2015", message=FALSE)
+bf_tetr <- ttestBF(x=subset(tetris2015, Condition == "Reactivation")$Days_One_to_Seven_Number_of_Intrusions, y = subset(tetris2015, Condition == "Tetris_Reactivation")$Days_One_to_Seven_Number_of_Intrusions)
 bf_tetr
 ```
 Which shows strong evidence for the alternative hypothesis over the null hypothesis that the means are identical (i.e. that the difference between the means is zero, $\mu_1 - \mu_2 = 0$), as the alternative model is `r round(bf_tetr@bayesFactor$bf,3)` times more likely than the null model, which sets the difference between the means to exactly $\mu_1 - \mu_2 = 0$, rather than allowing different values of this difference through the prior distribution.
 
 A two-sample t-test should really be identical to a two-group ANOVA model, as both concern the same General Linear Model (a model with a single contrast-coding predictor, with e.q. values of $-\tfrac{1}{2}$ and $\tfrac{1}{2}$). Before fully discussing the way to perform an ANOVA-type analysis with the `BayesFactor` package, let's just double-check this is indeed the case:
 
-```{r}
+```{r, message=FALSE}
 dat <- subset(tetris2015, Condition %in% c("Tetris_Reactivation","Reactivation"))
 # remove levels of Condition that are no longer needed due to subsetting
 dat$Condition <- droplevels(dat$Condition)
-#contrasts(dat$Condition) <- c(-1/2,1/2)
+# use the anovaBF function
 bf2_tetr <- anovaBF(Days_One_to_Seven_Number_of_Intrusions ~ Condition, data = dat)
 bf2_tetr
 ```
@@ -107,7 +107,7 @@ More general ANOVA-type models can be tested though the `anovaBF` function. This
 * `rscaleRandom`: prior scale for random effects. Accepts the same strings as `rscaleFixed`, and in addition `"nuisance"` ($r = 1$). The default is `"nuisance"`.
 * `rscaleEffects`: a named vector with prior scales for individual factors.
 
-The `anovaBF` function will (as far as I can gather) __always use `contr.sum()` contrasts for the factors__. So setting your own contrasts will have no effect on the results. The exact contrast should not really matter for omnibus tests, and sum-to-zero are a reasonable choice in general  (`contr.sum` implements what we called effect-coding before).^[Curiously, a scaling factor of $r = \tfrac{1}{2}$ in this case corresponds to a scaling factor of $r = \tfrac{\sqrt{2}}{2}$, which is something I don't immediately understand, and will require further investigation.] While the `anovaBF` function always uses the JZS prior for any effects, it allows you to specify exactly which scaling factor to use for every effect, if so desired.
+The `anovaBF` function will (as far as I can gather) __always use `contr.sum()` contrasts for the factors__. So setting your own contrasts will have no effect on the results. The exact contrast should not really matter for omnibus tests, and sum-to-zero are a reasonable choice in general  (`contr.sum` implements what we called effect-coding before).^[Curiously, a scaling factor of $r = \tfrac{1}{2}$ in this case corresponds to a scaling factor of $r = \tfrac{\sqrt{2}}{2}$, which is something I don't immediately understand, and will require further investigation.] While the `anovaBF` function always uses the JZS prior for any effects, it allows you to specify exactly which scaling factor to use for every effect, if so desired. One perhaps confusing thing is that effect-sizes for ANOVA designs (as far as I can gather) are based on standardized treatment-effects, whilst those for the t-test designs are based on Cohens-$d$ effect sizes. Hence, the values of the scaling factor $r$ for "medium", "wide", and "ultrawide" are different for the Bayesian $t$-test and ANOVA models (whilst they provide the same results for models with two conditions).
 
 Let's see what happens when we use a Bayesian ANOVA-type analysis for the data on experimenter beliefs in social priming. First, let's load the data, and turn the variables reflecting the experimental manipulations into factors:
 
@@ -117,29 +117,36 @@ dat <- expBelief
 dat$primeCond <- factor(dat$primeCond)
 dat$experimenterBelief <- factor(dat$experimenterBelief)
 ```
-We can now use the `anofaBF` function to compute the Bayes factors:
-```{r}
+We can now use the `anovaBF` function to compute the Bayes factors:
+```{r, message=FALSE}
+# this uses a sampling based approach
+# set the seed to make it reproducible
+set.seed(202111208) 
 bf_expB <- anovaBF(ApproachAdvantage ~ primeCond*experimenterBelief, data = dat)
 bf_expB
 ```
-A main thing to note here is that the comparisons of different versions of MODEL G are against the same MODEL R, which is an intercept-only model. We can see that all models which include `experimenterBelief` receive strong evidence against the intercept-only model, apart from the model which only includes `primeCond`, which has less evidence than the intercept-only model. Although this indicates that the `primeCond` effect might be ignorable, the comparisons are different from comparing reduced models to the general MODEL G with all effects included. We can obtain these Type 3 comparisons by setting the `whichModels` argument to `"top"``:
-```{r}
+A main thing to note here is that the comparisons of different versions of MODEL G are against the same MODEL R, which is an intercept-only model. We can see that all models which include `experimenterBelief` receive strong evidence against the intercept-only model, apart from the model which only includes `primeCond`, which has less evidence than the intercept-only model. Although this indicates that the `primeCond` effect might be ignorable, the comparisons are different from comparing reduced models to the general MODEL G with all effects included. We can obtain these Type 3 comparisons by setting the `whichModels` argument to `top``:
+```{r, message=FALSE}
+set.seed(202111208) 
 bf_expB2 <- anovaBF(ApproachAdvantage ~ primeCond*experimenterBelief, data = dat, whichModels = "top")
 bf_expB2
 ```
 
-It is very important to realise that the output now concerns the comparison of the reduced model (in the numerator, ie. the "top model") against the full model (in the denominator, i.e. the "bottom model"), as is stated in the `Against denimonator` part of the output. That means that low values of the Bayes factor now indicate evidence for the alternative hypothesis that an effect is different from 0. We can change the output in a measure of the alternative model against the null model by inverting the Bayes factor as follows:
+It is very important to realise that the output now concerns the comparison of the reduced model (in the numerator, i.e. the "top model") against the full model (in the denominator, i.e. the "bottom model"), as is stated in the `Against denimonator` part of the output. So these are $\text{BF}_{0,1}$ values, rather than $\text{BF}_{1,0}$ values. That means that low values of the Bayes factor now indicate evidence for the alternative hypothesis that an effect is different from 0. As we find a very low $\text{BF}_{0,1}$ value for the `experimenterBelief` effect, this thus shows strong evidence that this effect is different than 0. The $\text{BF}_{0,1}$ values for the other effects are larger than 1, which indicate more support for the null hypothesis than for the alternative hypothesis.
+
+We can change the output from a $\text{BF}_{0,1}$ value to a $\text{BF}_{1,0}$ value by simply inverting the Bayes factors, as follows:
 ```{r}
 1/bf_expB2
 ```
-which now shows strong evidence for the effect of `experimenterBelief` when we remove it from the full model. 
+As we noted before, we again see strong evidence for the effect of `experimenterBelief` when we remove it from the full model, but not for the other effects. 
 
 The transitivity of the Bayes factor means that we can also obtain some of these results through a ratio of the Bayes factors obtained earlier. For instance, a Type 3 test of the effect of `experimenterBelief:primeCond` interaction can be obtained by comparing a model with all effects included to a model without this interaction. In the analysis stored in `bf_expB`, we compared a number of the possible models to an intercept-only model. By comparing the Bayes factors of the model which excludes the interaction to a model which includes it, we can obtain the same Bayes factor of that interaction as follows. In the output of `bf_expB`, the fourth element compared the full model to the intercept-only model, whilst in the third element, a model with only the main effects of `experimenterBelief` and `primeCond` are compared to an intercept-only model. The Type 3 test of the interaction can then be obtained through the ratio of these two Bayes factors:
 ```{r}
 bf_expB[4]/bf_expB[3]
 ```
 which indicates evidence for the null hypothesis that there is no moderation of the effect of `experimenterbelief` by `primeCond`, as the Bayes factor is well below 1. We cannot replicate all Type 3 analyses with the results obtained earlier, unless we ask the function to compare every possible model against the intercept-only model, by specifying `whichModels = "all"`:
-```{r}
+```{r, message=FALSE}
+set.seed(202111208) 
 bf_expB3 <- anovaBF(ApproachAdvantage ~ primeCond*experimenterBelief, data = dat, whichModels = "all")
 bf_expB3
 ```
@@ -152,6 +159,130 @@ which reproduces mostly the result we obtained by setting `whichModel = "top"` b
 ### Bayesian regression and ANCOVA
 
 Apart from different default values of the scaling factor $r$ in the scaled-Cauchy distribution, the `BayesFactor` package works in the same way for models which include metric predictors. In a multiple regression model with only metric predictors, we can use the convenience function `regressionBF`. If you want to mix metric and categorical predictors, as in an ANCOVA model, you will have to use the `generalTestBF` function. All functions discussed so far are really just convenience interfaces to the `generalTestBF`, which implements Bayes factors for the General Linear Model. These convenience functions are used to determine an appropriate scaling factor for the different terms in the model, but not much else of concern, so you can replicate all the previous analyses through the  `generalTestBF`function, if you'd like.
+
+### Bayesian repeated-measures ANOVA
+
+An analysis similar to a repeated-measures ANOVA can also be obtained. Just like the `afex` package, the `BayesFactor` package requires data in the long format. Let's first prepare the data of the Cheerleader-effect experiment:
+```{r, message=FALSE, cache=TRUE}
+data("cheerleader")
+dat <- cheerleader
+# remove participants which should be excluded
+dat <- subset(dat, Excluded == 0)
+# get rid of unused factor levels in Item by 
+dat$Item <- factor(dat$Item)
+dat$Presentation <- forcats::fct_recode(dat$Item, Different = "Control_Group", Similar = "Distractor_Manipulation")
+dat$Version <- forcats::fct_recode(dat$Task, Identical = "Identical-Distractors", Variant = "Self-Distractors")
+```
+
+The way the `BayesFactor` package deals with repeated-measures designs is a little different
+from how we treated repeated-measures ANOVA. Rather than computing within-subjects
+composite variables, the package effectively deals with individual differences
+by adding random intercepts (like in a linear mixed-effects model). To do this,
+we add `Participant` as an additive effect, and then classify it as a random
+effect through the `whichRandom` argument. To obtain Type-3 comparisons, 
+we again set `whichModels` to `top`:
+```{r}
+set.seed(202111208) 
+bf_rmanova <- anovaBF(Response ~ Task*Item + Participant, whichRandom = "Participant", data=dat, whichModels = "top")
+bf_rmanova
+```
+In this case, the proportional errors of the results may be deemed to high. We
+can get more precise results by obtaining more samples (for these complex models,
+the estimation of the Bayes factor is done with a sampling-based approximation).
+We can do this, without the need to respecify the model, with the `recompute`
+function, where we can increase the number of sampling iterations from the default
+(10,000 iterations) to something higher:
+```{r, cache=TRUE}
+set.seed(1234)
+bf_rmanova2 <- recompute(bf_rmanova, iterations=100000)
+bf_rmanova2
+```
+This provides somewhat better results, although it would be better to increase
+the number of iterations even more.
+
+As before, the Bayes Factors are for the reduced model compared to the full model
+and we can get more easily interpretable results by computing the inverse value
+```{r}
+1/bf_rmanova2
+```
+We can see that we obtain "extreme" evidence for the main effect of Item. For the other effects, the evidence is more in favour of the null-hypothesis.
+
+### Parameter estimates
+
+By default, the Bayes Factor objects just provide the values of the 
+Bayes Factor. We don't get estimates of the parameters. 
+
+To get (approximate) posterior distributions for the parameters, we can 
+first estimate the general MODEL G with the `lmBF` function. This function
+is meant to compute a specific General Linear Model (rather than a set of such
+models). For example, for the Social Priming example, we can estimate the
+ANOVA model with `lmBF` as:
+```{r}
+dat <- expBelief
+dat$primeCond <- factor(dat$primeCond)
+dat$experimenterBelief <- factor(dat$experimenterBelief)
+set.seed(202111208) 
+bflm_expB <- lmBF(ApproachAdvantage ~ primeCond*experimenterBelief, data = dat)
+```
+
+We can then use this estimated model to obtain samples from the posterior 
+distribution over the model parameters. This is done with the `posterior`
+function of the `Bayesfactor` package. We can determine the number
+of samples through the `iterations` argument. This should generally
+be a high number, to get more reliable estimates:
+```{r}
+set.seed(1234)
+post_samples <- posterior(bflm_expB, iterations=100000)
+```
+
+The `post_samples` object can be effectively treated as a matrix, with columns 
+corresponding to the different parameters, and in the rows the samples. So
+we can obtain posterior means as the column-wise averages:
+```{r}
+colMeans(post_samples)
+```
+Here, `mu` corresponds to the "grand mean" (i.e. the average of averages),
+which is is the intercept in a GLM with sum-to-zero contrasts. The
+next mean corresponds to the posterior mean of the treatment effect of the 
+high-power prime condition (`primeCond-HPP`). I.e., this is the marginal mean
+of the high-power prime conditions, compared to the grand mean. The second effect
+is the posterior mean of the treatment effect of the low-power prime condition (`primeCond-LPP`). As
+there are only two power-prime conditions, this is exactly the negative value
+of the posterior mean of the high-power prime treatment effect (the grand mean
+is exactly halfway between these two treatment effects). We get similar
+treatment effects for the main effect of experimenter belief, and the 
+interaction between power prime and experimenter belief. The posterior
+mean labelled `sig2` is an estimate of the error variance. The columns
+after this are values related to the specification of the prior, which
+we will ignore for now.
+
+We can do more than compute means for these samples from the posterior
+distribution. For instance, we can plot the (approximate) posterior
+distributions as well. For example, we can plot the posterior distribution
+of the high-power prime treatment effect as:
+```{r}
+ggplot(data.frame(x=as.numeric(post_samples[,c("primeCond-HPP")])), aes(x=x)) + geom_density()
+```
+and for the experimenter-belief-high treatment effect as  
+```{r}
+ggplot(data.frame(x=as.numeric(post_samples[,c("experimenterBelief-H")])), aes(x=x)) + geom_density()
+```
+The first plot indicates that the posterior probability is quite high at the value of 0. In the second plot, the mass of the posterior distribution is clearly quite far removed from 0. This is in line with earlier results from the Bayes Factors, which showed little evidence for the main effect of power prime, but strong evidence for the effect of experimenter belief.
+
+### Highest-density interval
+
+A convenient way to obtain highest-density intervals, is by using the `hdi` function from the `HDInterval` package [@R-HDInterval]. This function is defined for
+a variety of objects, including those returned by the `BayesFactor::posterior()` function. The function has, in addition
+to the object, one more argument called `credMass`, which specifies the 
+width of the credible interval (`credMass = .95` is the default). For example,
+the 95% HDI interval for the two parameters that we plotted above are obtained as follows:
+
+```{r}
+HDInterval::hdi(post_samples[,c("primeCond-HPP")], credMass=0.95)
+# (don't have to specify credMass, as we want the default value)
+HDInterval::hdi(post_samples[,c("experimenterBelief-H")])
+```
+The output shows the lower and upper bound for each HDI. We see that the 95% HDI for power prime effect includes 0, whilst the 95% HDI for the experimenter belief effect does not. Again, this corresponds to what we observed earlier, that there is strong evidence for the experimenter belief effect, but not for the power prime effect.
 
 <!--
 ## Estimating Bayesian models with the `brms` package
