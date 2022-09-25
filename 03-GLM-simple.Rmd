@@ -30,7 +30,7 @@ Because the default in these functions is to set `na.rm=FALSE`, you will be awar
 
 ## Selecting subsets of data
 
-There are two main ways to select a subset of observations in `R`. You can either use an "indexing variable", or use the `subset` function. I will discuss both below.
+There are two main ways to select a subset of observations in base `R`. You can either use an "indexing variable", or use the `subset` function. I will discuss both below.
 
 ### Indexing variables
 

@@ -50,17 +50,17 @@ Another useful way to store R commands is in a different file format, called `R 
 
 ## Installing packages
 
-Part of the popularity of R stems from the thousands of packages that extend the basic capabilities of R.
+Part of the popularity of R stems from the thousands of packages that extend the basic capabilities of R. Packages extend the functionality of base R, and can provide new objects, functions, datasets, etc. Before these additional packages can be used, they need to be installed first.
 
 ### Installing the `sdamr` package
 
-The "Statistics: Data analysis and modelling" book has an associated R package which contains the data sets used as examples in the book, as well as some additional functions. It should be available on CRAN soon. Once it is available there, you can install it simply by typing
+The "Statistics: Data analysis and modelling" book has an associated R package which contains the data sets used as examples in the book, as well as some additional functions. It is available from the Comprehensive R Archive Network (CRAN), which is a large repository of R packages. You can install the package from there by simply typing in the R console:
 
 ```{r, eval=FALSE}
 install.packages("sdamr")
 ```
 
-If it is not available there, you will see a warning (`package ‘sdamr’ is not available for this version of R`). If that happens, you can install the development version from GitHub (see below). <!-- , you can install the package As it is still in development as I'm writing, it is not hosted on CRAN yet. That doesn't mean you can't install the package, but it requires a tiny bit more work.-->
+If for some reason the `sdamr` package is not available there, you will see a warning (`package ‘sdamr’ is not available for this version of R`). If that happens, you can install the development version from GitHub (see below). <!-- , you can install the package As it is still in development as I'm writing, it is not hosted on CRAN yet. That doesn't mean you can't install the package, but it requires a tiny bit more work.-->
 
 The source code of the `sdamr` package is hosted in GitHub, and the package can be installed from there as well with help of the `remotes` package. So you will first need to install that package, and then you can use the `install_github` function to install the `sdamr` package: 
 
@@ -79,15 +79,18 @@ install.packages("remotes")
 remotes::install_github("mspeekenbrink/sdam-r")
 ```
 
-Note that by typing `remotes::` before the function call, we are telling R that the function is available in the `remotes` package. This avoids you having to load the package (i.e. by `library(remotes)`) first. 
+Note that by typing `remotes::` before the function call, we are telling R that the function is available in the `remotes` package. This avoids you having to load the package (i.e. by `library(remotes)`) first.
 
-To check whether the package is installed, type 
+### Loading packages
 
+Once installed, the functionality of additional packages can be made available by loading them with the `library` function.
+
+To load the `sdamr` package, you would type 
 ```{r}
 library(sdamr)
 ```
 
-If you can't get this to work on your system, wait until the `sdamr` package becomes available on CRAN.
+This also provides a check whether the package is properly installed (if not, you will get an error message). Technically, loading a package with the `library()` function attaches all its functions and datasets to the global namespace. Roughly speaking, that means that if you type in the name of a function from a package, `R` will now where to look for the code of that function so that it can execute it. 
 
 ## Getting help
 
@@ -333,7 +336,7 @@ Not very pretty! A somewhat better version can be obtained by:
 ggplot(fifa2010teams,aes(x="",y=goals_for)) + geom_boxplot(width=.2) + xlab("")
 ```
 
-## Scatterplot
+### Scatterplot
 
 A quick scatterplot can be created with the `plot` function, in which you specify the variable to show on the x-axis and the variable on the y-axis:
 
@@ -347,7 +350,7 @@ ggplot(fifa2010teams, aes(x=matches_played, y=goals_for)) + geom_point()
 ```
 In `ggplot2`, specification of the variables on the x-axis and y-axis is done within the aesthetics specification (`aes`) within the initial call to `ggplot`. The later functions, such as `geom_point`, inherit the specifications provided there.
 
-## Raincloud plot
+### Raincloud plot
 
 A basic (but reasonably flexible) function to create a raincloud plot is provided in the `sdamr` package through the `plot_raincloud` function. The `data` argument expects a data frame, and the `y` argument expects the name of the variable for which you want to create the plot. Note that as the jitter applied to the plot is random, to get exactly the same plot again, you need to set the random number seed through `set.seed` before. This is only necessary if you want to recreate a plot exactly. We'll talk more about random number generation later.
 
@@ -356,3 +359,14 @@ set.seed(467)
 plot_raincloud(data=fifa2010teams, y=goals_for)
 ```
 
+## A note about namespaces and loading packages
+
+Loading packages with `library()` and attaching their functionality to the global namespace is convenient, but it can lead to errors as well. This is because packages can override functions already in the namespace. For example, a package might provide a function called `mean()`, which is also provided in base R. After loading the additional package, whenever you then call `mean()`, you will use that function from the additional package, and **not** from base R. As you might want to use a large number of additional packages, keeping track which functions will be used can be tricky. Whenever a function is "overwritten" (or "masked") by a new function, `R` will provide a warning message. For example, if you load the `dplyr` package (you may need to install this first with `install.packages("dplyr")`):
+```{r}
+library(dplyr)
+```
+you will see that this package offers a number of functions with the same name as functions in the `base` and `stats` packages from base `R`. So whenever you now call the `filter()` function, you will use the function as provided by `dplyr`, and **not** as provided by `stats`. 
+
+To avoid problems, it is best to explicitly indicate from which package (or namespace) you would like to use a function. This is done by typing `package_name::` before a function call (where `package_name` should be replaced with the actual name of the package). For example, after loading the `dplyr` package, we can still use the function from the `stats` package by using `stats::filter` instead of `filter`. By explicitly stating the namespace of packages, you don't have to load a package at all. Because you are telling `R` where to look for a function definition, it does not have to be available in the global namespace.
+
+If you are using many functions from a package repeatedly, it will be cumbersome to specify the name of the package before each function call. In this case, it makes sense to load the package. In other cases, I would suggest to specify the namespace explicitly. 

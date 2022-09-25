@@ -47,7 +47,7 @@ The equivalent tests with the $F$ statistic are easily obtained through
 car::Anova(modg,type=3)
 ```
 
-### A bit about namespaces
+### A reminder about namespaces
 
 In the code above, I'm using `car::` to refer to a function in the `car` package. Technically, a statement like `package_name::` denotes the __namespace__ of the package with the name `package_name` (i.e., `car` in this case). This allows you to use functions from a package without loading the package completely (without loading all the functions of the package in memory). This can be (and often is!) better than first loading the package through e.g. `library(car)` and then calling `Anova`.  The issue is that different packages can use the same name for a function, and when you call a function, it will be the one of the package that was last loaded. When packages use the same name for functions, the function with the same name from a package that was loaded earlier will be "masked" and R will print this as a warning in the R console. For example, if you load the `dplyr` package (a rather useful package for data manipulation, that is a little too much to discuss here in detail), you will see the following warnings:
 ```{r, warning=TRUE}

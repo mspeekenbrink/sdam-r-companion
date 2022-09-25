@@ -1,6 +1,6 @@
 # Statistical modelling
 
-As R was written by statisticians for statisticians, it naturally has very good support for statistical modelling. 
+As R was written by statisticians for statisticians, it naturally has very good support for statistical modelling. In particular, there are convenient functions for sampling observations from a wide-variety of probability distributions, and computing likelihoods according to those distributions. And of course, there is code to estimate and test many statistical models.
 
 ## Distributions
 
@@ -103,9 +103,7 @@ binom.test(x=8, n = 8, p = 0.5)
 ```
 The output provides the estimated $\theta$ for MODEL G under `sample estimates: probability of success`. Remember that the p-value of the test reflects the probability of the provided number of successes _or more extreme ones_ under the null hypothesis. 
 
-
 Comparing MODEL R with $\theta = 0.5$ against MODEL G with $\theta > 0.5$ corresponds to a one-sided test of the null hypothesis $H_0$: $\theta = 0.5$ against the alternative hypothesis that $\theta > 0.5$. This test can be performed by
 ```{r}
 binom.test(x=8, n = 8, p = 0.5, alternative = "greater")
 ```
-
