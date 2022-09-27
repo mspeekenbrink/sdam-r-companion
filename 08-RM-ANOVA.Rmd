@@ -301,21 +301,6 @@ afmod
 
 Note that `afex` automatically sets contrasts to `contr.sum`. That is useful here, as we haven't set the contrast for `Version` in the `ldat` data.
 
-<!--
-```{r}
-contrasts(ldat$Version) <- c(0.5,-0.5)
-ldat$Presentation <- factor(ldat$Presentation)
-contrasts(ldat$Presentation) <- cbind(c(-2/3, 1/3, 1/3), c(0,1/2, -1/2))
-```
-
-```{r, warning=TRUE}
-afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat, check_contrasts = FALSE)
-afmod
-```
-Note that we now get a warning...which we will ignore, as our contrasts are fine and we get exactly the same results.
-
--->
-
 Because neither `afex`, nor the `car::Anova` package on which it relies, provides 
 parameter estimates for the GLM, it doesn't really matter whether you supply
 your own (sum-to-zero) contrasts, or whether you let `afex` pick a `contr.sum()` contrast
