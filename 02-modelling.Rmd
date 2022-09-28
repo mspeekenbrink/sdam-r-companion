@@ -46,6 +46,7 @@ possible_theta <- seq(0,1,length=100)
 lik_theta <- dbinom(8,size=8,possible_theta)
 plot(x=possible_theta,y=lik_theta,type="l")
 ```
+
 Instead of the first argument in `dbinom` being 8, you can try this for different values.  
 
 The maximum likelihood estimate $\hat{\theta} = \frac{k}{n}$ is very simple to compute. Moreover, computations with R are _vectorized_. For instance, if `Y` is a vector, then `Y/8` divides each element of `Y` by 8. And if `Y` and `X` are vectors of the same length, then `Y/X` divides each element of `Y` by the corresponding element of `X`. 

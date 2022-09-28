@@ -87,10 +87,12 @@ It might be cool to colour the residuals by referrer as follows:
 tdat <- data.frame(predicted=predict(mod), residual = residuals(mod), referrer=anchoring$referrer)
 ggplot(tdat,aes(x=predicted,y=residual, colour=referrer)) + geom_point() + geom_hline(yintercept=0, lty=3)
 ```
+
 If the legend gets in the way, you can remove it as follows:
 ```{r}
 ggplot(tdat,aes(x=predicted,y=residual, colour=referrer)) + geom_point() + geom_hline(yintercept=0, lty=3) + theme(legend.position = "none")
 ```
+
 The `theme` function allows for lots of functionality (check `?theme`). You can also get a quick predicted vs residual plot from base R by simply calling `plot(mod)`.
 
 We can get a nice-looking histogram of the residuals, and a QQ plot, as follows:

@@ -66,7 +66,7 @@ We can then compute the $F$ test by entering this MODEL R, and the MODEL G we es
 ```{r}
 anova(modr,modg)
 ```
-the output lists the formula's of the models we compare, and then provides a table with test results. The columns in this table are
+The output lists the formula's of the models we compare, and then provides a table with test results. The columns in this table are
 * `Res.Df`: the denominator degrees of freedom, i.e. $n=-\text{npar}(M)$
 * `RSS`: the "residual sum of squares" or Sum of Squared Error of the model, i.e. $\text{SSE}(M)$
 * `Df`: the numerator degrees of freedom,,i.e. $\text{npar}(G) - \text{npar}(R) 
@@ -135,6 +135,7 @@ This returns a vector with for, each case in the data, the predicted value $\hat
 ```{r}
 hist(errorg)
 ```
+
 and a predicted by residual plot
 ```{r}
 # scatterplot of predicted vs residual
@@ -145,7 +146,6 @@ abline(h=0,lty=3)
 ```
 
 You can also call the plot function directly on the fitted model, which produces a range of plots to assess the model assumptions:
-
 ```{r}
 plot(modg)
 ```

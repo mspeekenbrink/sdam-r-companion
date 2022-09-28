@@ -125,10 +125,12 @@ Before conducting the analysis, it is always a good idea to look at the data. Le
 ```{r, warning=FALSE}
 plot_raincloud(dat, ApproachAdvantage, groups = experimenterBelief) + facet_grid(primeCond ~ exptrNum)
 ```
+
 This plot is not necessarily better than the one in SDAM. It does quite clearly highlight that experimenter belief does not seem to have an effect for Experimenter 4. However, personally, I find it more difficult to assess the effect of prime condition. For that, we could create a second plot to show the effect of `primeCond` within each panel:
 ```{r, warning=FALSE}
 plot_raincloud(dat, ApproachAdvantage, groups = primeCond) + facet_grid(experimenterBelief ~ exptrNum)
 ```
+
 This indicates quite clearly that priming condition does not seem to have much of an effect for any experimenter of experimenter belief condition.
 
 Back to the analysis, then. We can estimate a threeway factorial ANOVA by simply adding another independent variable to the formula:

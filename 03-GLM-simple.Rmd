@@ -192,6 +192,7 @@ I then plotted the histogram with the overlaid theoretical distribution as follo
 ggplot(data.frame(mean=boot_mean), aes(x=mean)) + geom_histogram(binwidth=30) + 
   stat_function(fun = function(x) dnorm(x, mean = mean(boot_mean), sd = sd(boot_mean)) * 30 * nsim, linetype=2) + ylab("count")
 ```
+
 Note the use of the `stat_function` in which I supplied a function to compute the Normal density function with a mean and standard deviation equal to those of the `boot_mean` variable. This then plots the density of that variable, assuming it follows a Normal distribution. We can also plot the Q-Q plot as follows:
 ```{r}
 ggplot(data.frame(mean=boot_mean), aes(sample = mean)) + stat_qq() + stat_qq_line() + ylab("sample") + xlab("theoretical")
@@ -213,6 +214,7 @@ We can plot the bootstrap distribution with the theoretical distribution overlai
 ggplot(data.frame(t=boot_t), aes(x=t)) + geom_histogram(binwidth=.1) + 
   stat_function(fun = function(x) dt(x, df = nrow(dat) - 1) * .1 * nsim, linetype=2) + ylab("count")
 ```
+
 and the Q-Q plot as:
 ```{r}
 ggplot(data.frame(t=boot_t), aes(sample = t)) + stat_qq(distribution = stats::qt, dparams = list(df = nrow(dat) - 1)) + 
