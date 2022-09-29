@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Introduction | An R companion to Statistics: data analysis and modelling</title>
+  <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Introduction | An R companion to Statistics: data analysis and modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="github-repo" content="mspeekenbrink/sdam-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Introduction | An R companion to Statistics: data analysis and modelling" />
+  
+  <meta name="twitter:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  
+
+<meta name="author" content="Maarten Speekenbrink" />
+
+
+<meta name="date" content="2021-12-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="statistical-modelling.html"/>
+<script src="book_assets/header-attrs-2.11/header-attrs.js"></script>
+<script src="book_assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="book_assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="book_assets/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
+<li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
+<li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
+<li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
+<li class="chapter" data-level="4.4" data-path="regression.html"><a href="regression.html#residuals-and-predicted-values"><i class="fa fa-check"></i><b>4.4</b> Residuals and predicted values</a></li>
+<li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
+<li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-bit-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A bit about namespaces</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
+<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
+<li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-car-package"><i class="fa fa-check"></i><b>8.3</b> Repeated-measures ANOVA with the <code>car</code> package</a></li>
+<li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
+<li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
+<li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
+<li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="9.1.4" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#likelihood-ratio-test-with-the-anova-function"><i class="fa fa-check"></i><b>9.1.4</b> Likelihood ratio test with the <code>anova</code> function</a></li>
+<li class="chapter" data-level="9.1.5" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#confidence-intervals"><i class="fa fa-check"></i><b>9.1.5</b> Confidence intervals</a></li>
+<li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing with Bayes Factors</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>10.1</b> The <code>BayesFactor</code> package</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>10.1.1</b> A Bayesian one-sample t-test</a></li>
+<li class="chapter" data-level="10.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>10.1.2</b> A Bayesian two-sample t-test</a></li>
+<li class="chapter" data-level="10.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>10.1.3</b> A Bayesian ANOVA</a></li>
+<li class="chapter" data-level="10.1.4" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>10.1.4</b> Bayesian regression and ANCOVA</a></li>
+<li class="chapter" data-level="10.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>10.1.5</b> Bayesian repeated-measures ANOVA</a></li>
+<li class="chapter" data-level="10.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>10.1.6</b> Parameter estimates</a></li>
+<li class="chapter" data-level="10.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>10.1.7</b> Highest-density interval</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>11</b> Reproducible reports with RMarkdown</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>11.1</b> YAML headers</a></li>
+<li class="chapter" data-level="11.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>11.2</b> Markdown syntax</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>11.2.1</b> Inline formatting</a></li>
+<li class="chapter" data-level="11.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>11.2.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="11.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>11.2.3</b> Math expressions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>11.3</b> R code chunks and inline R code</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>11.3.1</b> Figures</a></li>
+<li class="chapter" data-level="11.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>11.3.2</b> Tables</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>11.4</b> APA documents with <code>papaja</code></a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>11.4.1</b> Installation</a></li>
+<li class="chapter" data-level="11.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>11.4.2</b> How to use papaja</a></li>
+<li class="chapter" data-level="11.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>11.4.3</b> Getting help</a></li>
+<li class="chapter" data-level="11.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>11.4.4</b> Other related R packages</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R companion to Statistics: data analysis and modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<div id="what-is-r" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> What is R?<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h2>
+<p>R is a statistical programming language that has rapidly gained popularity in many scientific fields. It was developed by Ross Ihaka and Robert Gentleman as an open source implementation of the “S” programming language. (Next time you need a fun fact, you can say “Did you know that S came before R?”) R is also the name of the software that uses this language for statistical computing. With a huge online support community and dedicated packages that provide extra functionality for virtually any application and field of study, there’s hardly anything you <em>can’t</em> do in R.</p>
+<p>If you already know your way around statistical software like <code>JASP</code> or <code>SPSS</code>, the main difference is that <code>R</code> has no <strong>graphical user interface</strong>, which means there are no buttons to click and no dropdown menus. <code>R</code> can be run entirely by typing commands into a text interface (welcome to the Matrix!). This may seem a little daunting, but it also means a whole lot more flexibility, as you are not relying on a pre-determined toolkit for your analyses.</p>
+<p>If you need any more convincing, why are we using R and not one of the many other statistical packages like JASP, SPSS, MATLAB, Minitab, or even Microsoft Excel? Well, R is great because:</p>
+<ul>
+<li>R is free and open source, and always will be! Anybody can use the code and see exactly how it works.</li>
+<li>Because R is a programming language rather than a graphical interface, the user can easily save scripts as small text files for use in the future, or share them with collaborators.</li>
+<li>R has a very active and helpful online community - normally a quick search is all it takes to find that somebody has already solved the problem you’re having.</li>
+</ul>
+</div>
+<div id="getting-started" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Getting started</h2>
+<p>If you want to use R and RStudio, you should <em>first install R</em>, and after that install RStudio. R and RStudio are separate programs, and RStudio requires R to be installed.</p>
+<div id="download-r" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Download R</h3>
+<p>You can download R from <a href="https://cran.r-project.org/">CRAN (The Comprehensive R Archive Network)</a>. Select the link appropriate for your operating system and follow the instructions. You will want to download the installer for the latest release (currently version 4.0.2) of the base R software.</p>
+<iframe src="https://cran.r-project.org/" width="672" height="400px" data-external="1">
+</iframe>
+<p>As you can see, the CRAN website has a rather distinctive “old-school” look. Don’t let that fool you though. R itself is anything but old school.</p>
+</div>
+<div id="download-r-studio" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Download R Studio</h3>
+<p>R does not come with a graphical interface by default. Most people nowadays interact with R through second-party graphical platforms that provide extra functionality. Probably the most popular graphical front-end to R is <strong>RStudio</strong>. This is actually a full “integrated development environment” (IDE), but mostly, we will use it as a place where we can keep scripts, plots, and R output together in one place.</p>
+<p>Like R, RStudio is open source software and free to download for anyone that wants to. You can download RStudio from <a href="https://rstudio.com/products/rstudio/">the RStudio website</a> (select the free open source desktop version).</p>
+<iframe src="https://www.rstudio.com/products/rstudio/" width="672" height="400px" data-external="1">
+</iframe>
+<!-- If you are using a Mac, in addition to R and RStudio, you need to download XQuartz ([available here](https://www.xquartz.org/)). -->
+</div>
+</div>
+<div id="working-with-rstudio" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Working with RStudio</h2>
+<p>When you open RStudio, you will see something like Figure <a href="#fig:rstudio-interface-image"><strong>??</strong></a>. You will probably not see exactly the same layout, but once you click on <code>File</code> in the top menu, and then <code>New File &gt; R Script</code>, you should be pretty close. You can get direct access to the R environment itself in the <strong>console</strong> panel. If you type in commands here, they will be interpreted by R, and possibly some output is given. Working directly within the R console is handy if you want to do simple calculations, or try out different commands and functions. When you are conducting analyses, you will want to keep the commands that produce useful results somewhere, so you don’t have to type in everything again if you want to rerun the analyses, or if you need to change something. That is where R <em>scripts</em> come in handy. Basically, these are text files where you store a collection of commands that can be interpreted by R. Within RStudio, you can select lines of the script, and by clicking on <code>Run</code>, those lines will get pasted to the R console. R scripts should only contain working R commands. You can comment on your code by preceding a line (or the end of a line) by a hash-symbol (“#”). Anything after the has symbol is not evaluated by the R interpreter.</p>
+<div class="figure">
+<img src="images/RStudio-open-script.png" alt="The RStudio interface consists of four main panels. The _source_ panel (top left) is where you can keep scripts. The _console_ panel (bottom left) is where the R commands and text output go; this is where R truly lives. The _environment and history_ panel (top right) shows which R objects are currently available in memory and a history of all the R commands the R console received.  The _files, plots, packages, etc_ panel contains a file browser, a display panel for all plots, a list of installed R packages, and a browser for help files." width="100%" />
+<p class="caption">
+The RStudio interface consists of four main panels. The <em>source</em> panel (top left) is where you can keep scripts. The <em>console</em> panel (bottom left) is where the R commands and text output go; this is where R truly lives. The <em>environment and history</em> panel (top right) shows which R objects are currently available in memory and a history of all the R commands the R console received. The <em>files, plots, packages, etc</em> panel contains a file browser, a display panel for all plots, a list of installed R packages, and a browser for help files.
+</p>
+</div>
+<p>Another useful way to store R commands is in a different file format, called <code>R Markdown</code>. R Markdown allows you to combine text, plots, and R commands all in a single file. This file can then be “parsed” to produce a variety of document formats, such as HTML, pdf, and even Microsoft Word. If you click on <code>File &gt; New File &gt; R Markdown</code> in RStudio, you can see an example of such a file. As the name suggests, R Markdown is a combination of R and Markdown. Markdown is a lightweight markup language for creating formatted text documents with a plain-text editor. A markup language is, roughly put, a system which defines elements in a document by their role, for instance defining certain elements as titles or headers, and others as quoted text or test that should be emphasised. Common examples of markup languages are HTML and XML. If you know a little HTML, you might know that in modern implementations, it separates content and markup (HTML) from style (CSS). This separation allows you to easily create a variety of documents which are visually very different from the same HTML source file. When you use a word processor such as Microsoft Word, it creates a single document which specifies both content and style, and in a way which is specific to the word processor used. Markdown aims to provide a way to define a software-agnostic markup language, separating content from style, which can be used to produce a variety of output formats from the same source file. R markdown add to this an integration with R. Effectively, R Markdown first evaluates all the R code in an R Markdown file to create a “plain” markdown file, which can then be parsed into a variety of output formats. The great thing about this is that you can create automatically reproducible documents, and you don’t have to copy-paste results of analyses between R and your word processor, avoiding the common mistakes that this brings. And R Markdown is really flexible. For example, using a package like <code>bookdown</code>, you can even write whole books in R Markdown (like this one)! We will discuss R Markdown in more detail at a later point. If you want to get started already, a very useful resource is <a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The Definitive Guide</a>.</p>
+</div>
+<div id="installing-packages" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Installing packages</h2>
+<p>Part of the popularity of R stems from the thousands of packages that extend the basic capabilities of R.</p>
+<div id="installing-the-sdamr-package" class="section level3" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Installing the <code>sdamr</code> package</h3>
+<p>The “Statistics: Data analysis and modelling” book has an associated R package which contains the data sets used as examples in the book, as well as some additional functions. It should be available on CRAN soon. Once it is available there, you can install it simply by typing</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;sdamr&quot;</span>)</span></code></pre></div>
+<p>If it is not available there, you will see a warning (<code>package ‘sdamr’ is not available for this version of R</code>). If that happens, you can install the development version from GitHub (see below). <!-- , you can install the package As it is still in development as I'm writing, it is not hosted on CRAN yet. That doesn't mean you can't install the package, but it requires a tiny bit more work.--></p>
+<p>The source code of the <code>sdamr</code> package is hosted in GitHub, and the package can be installed from there as well with help of the <code>remotes</code> package. So you will first need to install that package, and then you can use the <code>install_github</code> function to install the <code>sdamr</code> package:</p>
+<!-- Much of this is related to installing packages from source code rather than from pre-compiled binary sources. Linux and Mac OSX versions of R by default come with the ability to install packages from source. On Microsoft Windows, you will need to install some additional software to do this.
+
+#### Installing RTools (Windows only)
+
+
+```r
+knitr::include_url("https://cran.r-project.org/bin/windows/Rtools/")
+```
+
+<iframe src="https://cran.r-project.org/bin/windows/Rtools/" width="672" height="400px" data-external="1"></iframe>
+
+-->
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="introduction.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb2-2"><a href="introduction.html#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;mspeekenbrink/sdam-r&quot;</span>)</span></code></pre></div>
+<p>Note that by typing <code>remotes::</code> before the function call, we are telling R that the function is available in the <code>remotes</code> package. This avoids you having to load the package (i.e. by <code>library(remotes)</code>) first.</p>
+<p>To check whether the package is installed, type</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span></code></pre></div>
+<p>If you can’t get this to work on your system, wait until the <code>sdamr</code> package becomes available on CRAN.</p>
+</div>
+</div>
+<div id="getting-help" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Getting help</h2>
+<p>R may be tricky to master, especially at the start, but help is never far away:</p>
+<ul>
+<li>From within R
+<ul>
+<li>If you want more information on a specific function, use a question mark before it (e.g., <code>?plot</code>) or the <code>help</code> function (e.g., <code>help(plot)</code>)</li>
+<li>If you don’t know the function name, use two question marks (e.g., <code>??plot</code>) or the <code>help.search</code> function (e.g., <code>help.search("plot")</code>)</li>
+<li>If you know a function is in a package, use search help on the package (e.g., <code>?ggplot2</code>)</li>
+<li>The <code>RSiteSearch("keyword")</code> function will will search for “keyword” in
+all functions available in R, associated packages, and the R-Help News
+groups (if desired).</li>
+</ul></li>
+<li>Online
+<ul>
+<li><a href="https://stackoverflow.com/">Stack Overflow</a> is a platform in which you can ask questions about R and its many packages. Many questions will already have been asked, so its archive of questions and answers is particularly useful.</li>
+<li>The meta-search engine at <a href="http://www.rseek.org">www.rseek.org</a> may also be handy.</li>
+<li>R has an active <a href="https://stat.ethz.ch/mailman/listinfo/r-help">help mailing list</a> as well, but when asking questions there, make sure you read the <a href="http://www.r-project.org/posting-guide.html">posting guide</a>, as some people on there sometimes get a little grumpy.</li>
+</ul></li>
+</ul>
+</div>
+<div id="first-steps-r-as-a-calculator" class="section level2" number="1.6">
+<h2><span class="header-section-number">1.6</span> First steps: R as a calculator</h2>
+<p>R can be used as a console-based calculator. Here are some examples.</p>
+<p>You can add numbers using the <code>+</code> operator, e.g <span class="math inline">\(2 + 11\)</span>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="introduction.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">11</span> <span class="co"># addition</span></span></code></pre></div>
+<pre><code>## [1] 13</code></pre>
+<p>You can multiply numbers using the <code>*</code> operator, e.g <span class="math inline">\(2 \times 11\)</span>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="introduction.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="dv">11</span> <span class="co"># multiplication</span></span></code></pre></div>
+<pre><code>## [1] 22</code></pre>
+<p>You can divide numbers using the <code>/</code> operator, e.g. <span class="math inline">\(\frac{2}{11}\)</span>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="introduction.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">/</span> <span class="dv">11</span> <span class="co"># division</span></span></code></pre></div>
+<pre><code>## [1] 0.1818182</code></pre>
+<p>You can raise numbers to a power by using the <code>^</code> operator, e.g. <span class="math inline">\(2^{11}\)</span>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="introduction.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span>(<span class="dv">11</span>) <span class="co"># exponentiation</span></span></code></pre></div>
+<pre><code>## [1] 2048</code></pre>
+<p>You can take a square-root by using the <code>sqrt</code> function, e.g. <span class="math inline">\(\sqrt{2}\)</span>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="introduction.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>) <span class="co"># square root</span></span></code></pre></div>
+<pre><code>## [1] 1.414214</code></pre>
+<p>which is mathematically equivalent to raising a number to the power of <span class="math inline">\(\tfrac{1}{2}\)</span>, e.g. <span class="math inline">\(2^{\tfrac{1}{2}}\)</span>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="introduction.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) <span class="co"># another way to compute the square root</span></span></code></pre></div>
+<pre><code>## [1] 1.414214</code></pre>
+<p>In performing arithmetical operations, it is important to realise that <code>R</code> obeys the commonly accepted rules of precedence in performing arithmetic operations, which is:</p>
+<ol style="list-style-type: decimal">
+<li>Brackets</li>
+<li>Powers</li>
+<li>Multiplication and division</li>
+<li>Addition and subtraction</li>
+</ol>
+<p>This means that anything within brackets is evaluated first (following the order of the remaining operations), than any elements involving powers are calculated, and after this those involving multiplication or division, and finally addition and multiplication. So</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="introduction.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">11</span><span class="sc">*</span><span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 35</code></pre>
+<p>is evaluated as <span class="math inline">\((11 \times 3) + 2\)</span>, whilst</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="introduction.html#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">11</span>)<span class="sc">*</span><span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 39</code></pre>
+<p>is evaluated as <span class="math inline">\((2+11) \times 3\)</span>. Another way to put this is that <code>R</code> doesn’t evaluate expression left-to-right. It takes the whole expression, first computes the results within brackets, then computes any powers, then multiplies or divides the results of this, and finally adds or subtracts the results of that. Many common errors result from not using brackets properly, or forgetting about the precedence of arithmetic operations.</p>
+<p>Unrelated to this, but also important: the hash symbol (“#”) is used for comments, such that anything following a “#” is not evaluated.</p>
+</div>
+<div id="data" class="section level2" number="1.7">
+<h2><span class="header-section-number">1.7</span> Data</h2>
+<p>You can load in data files that come with R packages by using the <code>data</code> function, with as argument the name of the dataset you want to load (as a string, so make sure you use quotation signs). For instance, you can load the dataset <code>fifa2010teams</code> from the <code>sdamr</code> package as follows:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="introduction.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb20-2"><a href="introduction.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;fifa2010teams&quot;</span>)</span></code></pre></div>
+<p>A loaded dataset will show up in the Environment panel in RStudio. If you click on the name of the dataset, you can then see the data as a table in the Source panel. You can also view the data in the R console by simply typing the name of the dataset. This will often produce a lot of output. If you just want to view a part of the dataset, you can use the <code>head</code> function, which will show the first 6 rows:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fifa2010teams)</span></code></pre></div>
+<pre><code>##   nr         team matches_played goals_for goals_scored goals_against
+## 1  1     Germany               7        16           16             5
+## 2  2 Netherlands               7        12           11             6
+## 3  3     Uruguay               7        11           11             8
+## 4  4   Argentina               5        10            9             6
+## 5  5      Brazil               5         9            9             4
+## 6  6       Spain               7         8            8             2
+##   penalty_goal own_goals_for yellow_cards indirect_red_cards direct_red_cards
+## 1            0             0           13                  0                0
+## 2            0             0           24                  0                0
+## 3            1             0           11                  0                1
+## 4            0             0            7                  0                0
+## 5            0             0            9                  0                1
+## 6            0             0            8                  0                0</code></pre>
+<p>You can also get a quick summary of the characteristics of the variables in the data through the <code>summary</code> function:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fifa2010teams)</span></code></pre></div>
+<pre><code>##        nr            team           matches_played   goals_for     
+##  Min.   : 1.00   Length:32          Min.   :3.00   Min.   : 0.000  
+##  1st Qu.: 8.75   Class :character   1st Qu.:3.00   1st Qu.: 2.000  
+##  Median :16.50   Mode  :character   Median :3.50   Median : 3.000  
+##  Mean   :16.50                      Mean   :4.00   Mean   : 4.531  
+##  3rd Qu.:24.25                      3rd Qu.:4.25   3rd Qu.: 5.250  
+##  Max.   :32.00                      Max.   :7.00   Max.   :16.000  
+##   goals_scored    goals_against     penalty_goal    own_goals_for
+##  Min.   : 0.000   Min.   : 1.000   Min.   :0.0000   Min.   :0    
+##  1st Qu.: 2.000   1st Qu.: 3.000   1st Qu.:0.0000   1st Qu.:0    
+##  Median : 3.000   Median : 5.000   Median :0.0000   Median :0    
+##  Mean   : 4.469   Mean   : 4.531   Mean   :0.2812   Mean   :0    
+##  3rd Qu.: 5.250   3rd Qu.: 5.250   3rd Qu.:0.2500   3rd Qu.:0    
+##  Max.   :16.000   Max.   :12.000   Max.   :2.0000   Max.   :0    
+##   yellow_cards    indirect_red_cards direct_red_cards
+##  Min.   : 2.000   Min.   :0          Min.   :0.0000  
+##  1st Qu.: 6.000   1st Qu.:0          1st Qu.:0.0000  
+##  Median : 7.500   Median :0          Median :0.0000  
+##  Mean   : 8.156   Mean   :0          Mean   :0.2812  
+##  3rd Qu.: 9.000   3rd Qu.:0          3rd Qu.:0.2500  
+##  Max.   :24.000   Max.   :0          Max.   :2.0000</code></pre>
+<div id="data-types" class="section level3" number="1.7.1">
+<h3><span class="header-section-number">1.7.1</span> Data types</h3>
+<p>Data in R is generally stored in <strong>vectors</strong>, which are fixed-length collections of values of a particular data type. Common data types are</p>
+<ul>
+<li><strong>logical</strong>: values which can either be <code>TRUE</code> or <code>FALSE</code></li>
+<li><strong>numeric</strong>: numbers of all kinds, such as <code>1</code>, <code>356</code>, and <code>34.5782</code></li>
+<li><strong>character</strong>: characters and strings, such as <code>q</code> and <code>Hello</code></li>
+</ul>
+<p>You can combine values of a data type in a vector by using the <code>c()</code> function (which stands for “combine”). For instance</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1]  TRUE FALSE  TRUE  TRUE</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="fl">802.376</span>)</span></code></pre></div>
+<pre><code>## [1]   3.000   4.000 802.376</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="introduction.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Coffee&quot;</span>,<span class="st">&quot;now&quot;</span>,<span class="st">&quot;please&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Coffee&quot; &quot;now&quot;    &quot;please&quot;</code></pre>
+<p>If you combine elements of different data types, then R will convert them to the most “general” type necessary. Combining a logical value with a numeric one, for instance, will convert logical value <code>TRUE</code> to 1, and <code>FALSE</code> to 0. Combining a character element with other elements, will convert everything to character elements:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="introduction.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="dv">12</span>)</span></code></pre></div>
+<pre><code>## [1]  1  0 12</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="introduction.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="fl">5.67788</span>, <span class="st">&quot;let&#39;s see what happens&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;TRUE&quot;                   &quot;5.67788&quot;                &quot;let&#39;s see what happens&quot;</code></pre>
+</div>
+<div id="objects" class="section level3" number="1.7.2">
+<h3><span class="header-section-number">1.7.2</span> Objects</h3>
+<p>Objects are named things that are stored in memory and available to functions etc. Objects can be vectors, such as discussed above, but also more general types, such as matrices, factors, and data frames. If you want to create an object, you use the assignment operator <code>&lt;-</code>, with on the left side the name you want to give to the object, and on the right side the content of the object. For instance, we can store a numeric vector as the object <code>my_vector</code> as follows:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="introduction.html#cb35-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">10</span><span class="sc">:</span><span class="dv">20</span>)</span></code></pre></div>
+<p>Note a little trick above, where <code>10:20</code> stands for a sequence of integers, i.e. <span class="math inline">\(10, 11, 12, \ldots, 20\)</span>. <code>my_vector</code> is now an object in R memory (you should see it show up in the Environment panel), and can be called by name, as in:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="introduction.html#cb36-1" aria-hidden="true" tabindex="-1"></a>my_vector</span></code></pre></div>
+<pre><code>##  [1]  1  2 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<p>A <strong>matrix</strong> is a collection of vectors of the same length, joined as columns or rows.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="introduction.html#cb38-1" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb38-2"><a href="introduction.html#cb38-2" aria-hidden="true" tabindex="-1"></a>mat <span class="co"># matrices are filled column-wise</span></span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1    6
+## [2,]    2    7
+## [3,]    3    8
+## [4,]    4    9
+## [5,]    5   10</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="introduction.html#cb40-1" aria-hidden="true" tabindex="-1"></a>mat[,<span class="dv">2</span>] <span class="co"># select the second column (the result is a vector)</span></span></code></pre></div>
+<pre><code>## [1]  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="introduction.html#cb42-1" aria-hidden="true" tabindex="-1"></a>mat[<span class="dv">3</span>,<span class="dv">1</span>] <span class="co"># select the value in the third row and first column</span></span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>A <strong>factor</strong> is useful for nominal and ordinal data. A factor is a vector with integers, where each integer is provided with a unique label. For instance</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="introduction.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct a factor by giving integer values and specifying the accompanying </span></span>
+<span id="cb44-2"><a href="introduction.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># labels</span></span>
+<span id="cb44-3"><a href="introduction.html#cb44-3" aria-hidden="true" tabindex="-1"></a>fact <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
+<span id="cb44-4"><a href="introduction.html#cb44-4" aria-hidden="true" tabindex="-1"></a>fact <span class="co"># display it</span></span></code></pre></div>
+<pre><code>## [1] red   green green blue 
+## Levels: red green blue</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="introduction.html#cb46-1" aria-hidden="true" tabindex="-1"></a>fact <span class="sc">==</span> <span class="st">&quot;green&quot;</span> <span class="co"># determine which elements equal (==) &#39;green&#39;</span></span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE  TRUE FALSE</code></pre>
+<p>A <strong>list</strong> is a collection of different R objects. This is a very general type of object, and the elements of a list can even be lists themselves. A list allows you to keep different types of information together, but you probably won’t need to use it much for the content discussed here. But let’s quickly look at some aspects of a list:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="introduction.html#cb48-1" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a=</span>mat, <span class="at">b=</span>fact) <span class="co"># construct a named list with a matrix and factor</span></span>
+<span id="cb48-2"><a href="introduction.html#cb48-2" aria-hidden="true" tabindex="-1"></a>lst</span></code></pre></div>
+<pre><code>## $a
+##      [,1] [,2]
+## [1,]    1    6
+## [2,]    2    7
+## [3,]    3    8
+## [4,]    4    9
+## [5,]    5   10
+## 
+## $b
+## [1] red   green green blue 
+## Levels: red green blue</code></pre>
+<p>If a list is <em>named</em>, meaning the elements have names, like above, you can select elements from the list by using a dollar sign and then the name of the elements:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="introduction.html#cb50-1" aria-hidden="true" tabindex="-1"></a>lst<span class="sc">$</span>a</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1    6
+## [2,]    2    7
+## [3,]    3    8
+## [4,]    4    9
+## [5,]    5   10</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="introduction.html#cb52-1" aria-hidden="true" tabindex="-1"></a>lst<span class="sc">$</span>b</span></code></pre></div>
+<pre><code>## [1] red   green green blue 
+## Levels: red green blue</code></pre>
+<p>You can also select elements by an index number, which should go in between double square brackets. For instance, if you want to select the first element, you can type</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="introduction.html#cb54-1" aria-hidden="true" tabindex="-1"></a>lst[[<span class="dv">1</span>]]</span></code></pre></div>
+<ul>
+<li>A <strong>data.frame</strong> is probably one of the most useful features of R for data analysis. A <code>data.frame</code> is like a matrix, in that it is a rectangular collection of data, but the columns are variables which can be of a different type (e.g., numeric, factors, or characters). You can construct data frames through the <code>data.frame</code> function, for instance as</li>
+</ul>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="introduction.html#cb55-1" aria-hidden="true" tabindex="-1"></a>my_data_frame <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">var1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">var2 =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">var3 =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>),<span class="at">times=</span><span class="dv">5</span>))</span>
+<span id="cb55-2"><a href="introduction.html#cb55-2" aria-hidden="true" tabindex="-1"></a>my_data_frame</span></code></pre></div>
+<pre><code>##    var1 var2 var3
+## 1     1   10    a
+## 2     2    9    b
+## 3     3    8    a
+## 4     4    7    b
+## 5     5    6    a
+## 6     6    5    b
+## 7     7    4    a
+## 8     8    3    b
+## 9     9    2    a
+## 10   10    1    b</code></pre>
+<p>Constructing a data frame looks similar to constructing a list, but all the (named) arguments should have the same length. If you for instance try</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="introduction.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">var1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">var2 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)</span></code></pre></div>
+<p>you will get an error. You won’t always get an error. If the length of longer elements are multiples of the length of shorter elements, R will fill in the missing values by repeating the shorter elements until they are of the same length as the longer elements. For instance</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="introduction.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">var1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">var2 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">var3 =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##    var1 var2 var3
+## 1     1    1    1
+## 2     2    2    1
+## 3     3    3    1
+## 4     4    4    1
+## 5     5    5    1
+## 6     6    1    1
+## 7     7    2    1
+## 8     8    3    1
+## 9     9    4    1
+## 10   10    5    1</code></pre>
+<p>This can be handy, but also risky, as sometimes you might not realise that R is filling in values for you, and your analyses might give rather unexpected results. I would therefore always ensure that you create a data frame with elements of the same length.</p>
+<p>Most of the time, you won’t create data frames yourself within R, but you will load in external data as a data frame.</p>
+</div>
+<div id="importing-data" class="section level3" number="1.7.3">
+<h3><span class="header-section-number">1.7.3</span> Importing data</h3>
+<p>R can load data in many formats. Personally, I mainly use data stored in “comma separated value” (CSV) format. This is one of the most portable ways of storing data, so that it can be used in a variety of programs like R, SPSS, JASP, Excel, <em>etc</em>. Data in a comma-separated value (CSV) format can be read through the <code>read.csv</code> function.</p>
+<p>A nice thing about R is that it can read data directly from the World Wide Web. So you don’t need to first download data, and then open it from within R. [TODO: example]</p>
+<p>At some point, you will probably also come across data stored in Excel or SPSS format. regarding Excel, it is safest to first save a spreadsheet as a CSV file, and then load this file into R. Alternatively, the <code>xlsx</code> package provides the function <code>read.xlsx</code> to directly read a spreadsheet into R. To load data in SPSS format, the package <code>foreign</code> package provides the <code>read.spss</code> function.</p>
+</div>
+</div>
+<div id="exploring-data-descriptive-statistics" class="section level2" number="1.8">
+<h2><span class="header-section-number">1.8</span> Exploring data: Descriptive statistics</h2>
+<p>Measures of location and spread can be computed through specialized functions, namely <code>mean</code>, <code>median</code>, <code>IQR</code> (inter-quartile range), <code>var</code> (variance), and <code>sd</code> (standard deviation). E.g.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="introduction.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<pre><code>## [1] 4.53125</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="introduction.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>will give you the mean and median of variable <code>goals_for</code> in data.frame <code>fifa2010teams</code>.</p>
+<p>You can obtain the inter-quartile range as</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="introduction.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(fifa2010teams<span class="sc">$</span>goals_for,<span class="at">type=</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>Note the use of the <code>type</code> argument here. There are many ways in which to compute and estimate percentiles and quantiles. Using <code>type=1</code> gives you the same result as the way I explained how to compute the IQR in the book. By default, R will use <code>type = 7</code>, which gives different results (type <code>?quantile</code> for more information).</p>
+<p>The <code>var</code> and <code>sd</code> functions from base R do not actually provide the <em>sample</em> variance_ and <em>sample</em> standard deviation. Rather, they give unbiased estimates of the “true” (population) variance and standard deviation. To compute the variance and standard deviation of the sample data, you can use the <code>sample_var</code> and <code>sample_sd</code> functions in the <code>sdamr</code> package:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="introduction.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_var</span>(fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<pre><code>## [1] 13.24902</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="introduction.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_sd</span>(fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<pre><code>## [1] 3.639921</code></pre>
+<p>There is no function in base R to compute the mode<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, but the <code>sdamr</code> package provides the function <code>sample_mode</code> to do just that:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="introduction.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_mode</span>(fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+</div>
+<div id="exploring-data-creating-plots" class="section level2" number="1.9">
+<h2><span class="header-section-number">1.9</span> Exploring data: Creating plots</h2>
+<p>There are two common ways to plot data with R. Base R has various plotting functions, such as <code>plot</code>, <code>hist</code>, <code>boxplot</code>, which are useful for quick plots to explore your data. The resulting plots are not always the most aesthetically pleasing. The R package <code>ggplot2</code> provides means to create a wide range of useful <em>and</em> beautiful plots. It is based on the idea of a “grammar of graphics,” which makes it extremely flexible, but also a little difficult to get your head around. In the following, I will show you how to use both base R and ggplot2.</p>
+<div id="histogram" class="section level3" number="1.9.1">
+<h3><span class="header-section-number">1.9.1</span> Histogram</h3>
+<p>R has many built-in plotting functions. These tend to be a little basic, and much prettier plots can be made with packages such as <code>ggplot2</code> <span class="citation">(<a href="#ref-R-ggplot2" role="doc-biblioref">Wickham et al. 2021</a>, my current favourite!)</span>. But for quick data exploration, the built-in plotting functions are faster. A histogram is plotted through the <code>hist</code> function. In the following example, I first generate some random data, store it in an object called <code>dat</code> and then plot a histogram:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="introduction.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>There are many parameters you can change. In the following, I give the plot a new title and x-axis labels, as well as request the number of bins to be 20:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="introduction.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(fifa2010teams<span class="sc">$</span>goals_for,<span class="at">main=</span><span class="st">&quot;Histogram of points scored by teams in the FIFA 2010 World Cup&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Goals for&quot;</span>, <span class="at">breaks=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>To create a nicer looking plot, you can use <code>ggplot2</code>.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="introduction.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb74-2"><a href="introduction.html#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fifa2010teams,<span class="fu">aes</span>(<span class="at">x=</span>goals_for)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Well, that’s not actually so pretty. We can make it better by changing some of the defaults:</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="introduction.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb76-2"><a href="introduction.html#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fifa2010teams,<span class="fu">aes</span>(<span class="at">x=</span>goals_for)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">10</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&#39;#8C8279&#39;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Goals scored&quot;</span>)</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-37-1.png" width="672" />
+Note that within the <code>geom_histogram</code> function, I’ve specified to use 10 bins, and draw a black line around the bars, and fill the bars with colour specified by the hexadecimal colour code ‘#8C8279.’ Finally, I’m using the <code>xlab</code> function to generate a better label for the x-axis. <code>ggplot2</code> is very powerful and flexible, so there are many such adjustments you can make. A useful resource with practical guidance on creating a variety of plots with <code>ggplot2</code> is the <a href="https://r-graphics.org/">R graphics cookbook</a>. A more thorough treatment of <code>ggplot2</code> and the underlying ideas of a Grammar of Graphics, is <a href="https://ggplot2-book.org/">ggplot2: elegant graphics for data analysis</a>.</p>
+</div>
+<div id="boxplot" class="section level3" number="1.9.2">
+<h3><span class="header-section-number">1.9.2</span> Boxplot</h3>
+<p>For a quick boxplot, you can use the base R function with the same name:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="introduction.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><code>ggplot2</code> also provides a boxplot through the <code>geom_boxplot</code> function. Note that in the <code>aes</code> specification, I’m now using <code>goals_for</code> as the y-axis.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="introduction.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fifa2010teams,<span class="fu">aes</span>(<span class="at">y=</span>goals_for)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-39-1.png" width="672" />
+Not very pretty! A somewhat better version can be obtained by:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="introduction.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fifa2010teams,<span class="fu">aes</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>,<span class="at">y=</span>goals_for)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">width=</span>.<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+</div>
+</div>
+<div id="scatterplot" class="section level2" number="1.10">
+<h2><span class="header-section-number">1.10</span> Scatterplot</h2>
+<p>A quick scatterplot can be created with the <code>plot</code> function, in which you specify the variable to show on the x-axis and the variable on the y-axis:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="introduction.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>fifa2010teams<span class="sc">$</span>matches_played, <span class="at">y=</span>fifa2010teams<span class="sc">$</span>goals_for)</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>To get a similar plot with <code>ggplot2</code>, you can use the <code>geom_point</code> function:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="introduction.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fifa2010teams, <span class="fu">aes</span>(<span class="at">x=</span>matches_played, <span class="at">y=</span>goals_for)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-42-1.png" width="672" />
+In <code>ggplot2</code>, specification of the variables on the x-axis and y-axis is done within the aesthetics specification (<code>aes</code>) within the initial call to <code>ggplot</code>. The later functions, such as <code>geom_point</code>, inherit the specifications provided there.</p>
+</div>
+<div id="raincloud-plot" class="section level2" number="1.11">
+<h2><span class="header-section-number">1.11</span> Raincloud plot</h2>
+<p>A basic (but reasonably flexible) function to create a raincloud plot is provided in the <code>sdamr</code> package through the <code>plot_raincloud</code> function. The <code>data</code> argument expects a data frame, and the <code>y</code> argument expects the name of the variable for which you want to create the plot. Note that as the jitter applied to the plot is random, to get exactly the same plot again, you need to set the random number seed through <code>set.seed</code> before. This is only necessary if you want to recreate a plot exactly. We’ll talk more about random number generation later.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="introduction.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">467</span>)</span>
+<span id="cb82-2"><a href="introduction.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(<span class="at">data=</span>fifa2010teams, <span class="at">y=</span>goals_for)</span></code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-ggplot2" class="csl-entry">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, and Dewey Dunnington. 2021. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>This section contains material adapted from <a href="https://ourcodingclub.github.io/tutorials/intro-to-r/" class="uri">https://ourcodingclub.github.io/tutorials/intro-to-r/</a><a href="introduction.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>There is a function <code>mode</code>, but this does something rather different!<a href="introduction.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="statistical-modelling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"source": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

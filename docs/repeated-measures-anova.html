@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Repeated-measures ANOVA | An R companion to Statistics: data analysis and modelling</title>
   <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Repeated-measures ANOVA | An R companion to Statistics: data analysis and modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
   <meta name="github-repo" content="mspeekenbrink/sdam-book" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-12-08" />
+<meta name="date" content="2022-09-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="factorial-anova.html"/>
 <link rel="next" href="linear-mixed-effects-models.html"/>
-<script src="book_assets/header-attrs-2.11/header-attrs.js"></script>
 <script src="book_assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,32 +49,31 @@
 
 
 
-<link href="book_assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="book_assets/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="book_assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="book_assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="book_assets/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -85,9 +82,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -120,28 +117,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -156,58 +131,49 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
-<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
 <li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
-<ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
-<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
-<ul>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
 <li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
-<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
-<ul>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
 <li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction.html"><a href="introduction.html#loading-packages"><i class="fa fa-check"></i><b>1.4.2</b> Loading packages</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
 <li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
-<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
-<ul>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
 <li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
 <li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
 <li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
-<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
-<ul>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
 <li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
 <li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+<li class="chapter" data-level="1.9.3" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.9.3</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.9.4" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.9.4</b> Raincloud plot</a></li>
 </ul></li>
-<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
-<li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#a-note-about-namespaces-and-loading-packages"><i class="fa fa-check"></i><b>1.10</b> A note about namespaces and loading packages</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
-<ul>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
 <li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
-<ul>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
 <li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
 <li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
-<ul>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
 <li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
-<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
-<ul>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
 <li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
 </ul></li>
@@ -215,8 +181,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
 <li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
-<ul>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a><ul>
 <li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
 <li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
 <li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
@@ -224,46 +189,36 @@ div.csl-indent {
 <li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
 <li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-bit-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A bit about namespaces</a></li>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a><ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-reminder-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A reminder about namespaces</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
-<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
-<ul>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
 <li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
-<ul>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a><ul>
 <li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
-<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
-<ul>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
-<ul>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a><ul>
 <li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
-<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
-<ul>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a><ul>
 <li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
-<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
-<ul>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a><ul>
 <li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
-<ul>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a><ul>
 <li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
-<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
-<ul>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a><ul>
 <li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
 <li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
 </ul></li>
@@ -271,10 +226,8 @@ div.csl-indent {
 <li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
 <li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
-<ul>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a><ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a><ul>
 <li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
 <li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
 <li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
@@ -285,41 +238,39 @@ div.csl-indent {
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
 <li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing with Bayes Factors</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>10.1</b> The <code>BayesFactor</code> package</a>
-<ul>
-<li class="chapter" data-level="10.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>10.1.1</b> A Bayesian one-sample t-test</a></li>
-<li class="chapter" data-level="10.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>10.1.2</b> A Bayesian two-sample t-test</a></li>
-<li class="chapter" data-level="10.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>10.1.3</b> A Bayesian ANOVA</a></li>
-<li class="chapter" data-level="10.1.4" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>10.1.4</b> Bayesian regression and ANCOVA</a></li>
-<li class="chapter" data-level="10.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>10.1.5</b> Bayesian repeated-measures ANOVA</a></li>
-<li class="chapter" data-level="10.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>10.1.6</b> Parameter estimates</a></li>
-<li class="chapter" data-level="10.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>10.1.7</b> Highest-density interval</a></li>
+<li class="chapter" data-level="10" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>10</b> Generalized linear models</a></li>
+<li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a></li>
+<li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
+<li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a><ul>
+<li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>13.1.1</b> A Bayesian one-sample t-test</a></li>
+<li class="chapter" data-level="13.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>13.1.2</b> A Bayesian two-sample t-test</a></li>
+<li class="chapter" data-level="13.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>13.1.3</b> A Bayesian ANOVA</a></li>
+<li class="chapter" data-level="13.1.4" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>13.1.4</b> Bayesian regression and ANCOVA</a></li>
+<li class="chapter" data-level="13.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>13.1.5</b> Bayesian repeated-measures ANOVA</a></li>
+<li class="chapter" data-level="13.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>13.1.6</b> Parameter estimates</a></li>
+<li class="chapter" data-level="13.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>13.1.7</b> Highest-density interval</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>11</b> Reproducible reports with RMarkdown</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>11.1</b> YAML headers</a></li>
-<li class="chapter" data-level="11.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>11.2</b> Markdown syntax</a>
-<ul>
-<li class="chapter" data-level="11.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>11.2.1</b> Inline formatting</a></li>
-<li class="chapter" data-level="11.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>11.2.2</b> Block-level elements</a></li>
-<li class="chapter" data-level="11.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>11.2.3</b> Math expressions</a></li>
+<li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a><ul>
+<li class="chapter" data-level="14.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>14.1</b> YAML headers</a></li>
+<li class="chapter" data-level="14.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>14.2</b> Markdown syntax</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>14.2.1</b> Inline formatting</a></li>
+<li class="chapter" data-level="14.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>14.2.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="14.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Math expressions</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>11.3</b> R code chunks and inline R code</a>
-<ul>
-<li class="chapter" data-level="11.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>11.3.1</b> Figures</a></li>
-<li class="chapter" data-level="11.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>11.3.2</b> Tables</a></li>
+<li class="chapter" data-level="14.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>14.3</b> R code chunks and inline R code</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>14.3.1</b> Figures</a></li>
+<li class="chapter" data-level="14.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>14.3.2</b> Tables</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>11.4</b> APA documents with <code>papaja</code></a>
-<ul>
-<li class="chapter" data-level="11.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>11.4.1</b> Installation</a></li>
-<li class="chapter" data-level="11.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>11.4.2</b> How to use papaja</a></li>
-<li class="chapter" data-level="11.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>11.4.3</b> Getting help</a></li>
-<li class="chapter" data-level="11.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>11.4.4</b> Other related R packages</a></li>
+<li class="chapter" data-level="14.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>14.4</b> APA documents with <code>papaja</code></a><ul>
+<li class="chapter" data-level="14.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>14.4.1</b> Installation</a></li>
+<li class="chapter" data-level="14.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>14.4.2</b> How to use papaja</a></li>
+<li class="chapter" data-level="14.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>14.4.3</b> Getting help</a></li>
+<li class="chapter" data-level="14.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>14.4.4</b> Other related R packages</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -337,16 +288,16 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="repeated-measures-anova" class="section level1" number="8">
-<h1><span class="header-section-number">Chapter 8</span> Repeated-measures ANOVA</h1>
+<div id="repeated-measures-anova" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapter 8</span> Repeated-measures ANOVA<a href="repeated-measures-anova.html#repeated-measures-anova" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this Chapter, we will focus on performing repeated-measures ANOVA with R.
 We will use the same data analysed in Chapter 10 of SDAM, which is from an
-experiment investigating the “cheerleader effect.” The dataset is
+experiment investigating the “cheerleader effect”. The dataset is
 available in the <code>sdamr</code> package as <code>cheerleader</code>. We can load it from there,
 and inspect the first six cases, as usual:</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="repeated-measures-anova.html#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
-<span id="cb329-2"><a href="repeated-measures-anova.html#cb329-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;cheerleader&quot;</span>)</span>
-<span id="cb329-3"><a href="repeated-measures-anova.html#cb329-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cheerleader)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" title="1"><span class="kw">library</span>(sdamr)</a>
+<a class="sourceLine" id="cb333-2" title="2"><span class="kw">data</span>(<span class="st">&quot;cheerleader&quot;</span>)</a>
+<a class="sourceLine" id="cb333-3" title="3"><span class="kw">head</span>(cheerleader)</a></code></pre></div>
 <pre><code>##   Participant Age    Sex                  Task LineClickAccuracy Excluded
 ## 1           1  47   Male Identical-Distractors         0.1361274        0
 ## 3           1  47   Male Identical-Distractors         0.1361274        0
@@ -363,20 +314,20 @@ and inspect the first six cases, as usual:</p>
 ## 9        &lt;NA&gt; Distractor_Manipulation 55.17647</code></pre>
 <p>This dataset is a little messy, and includes participants who were excluded
 by the authors. So let’s first clean it up a little:</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="repeated-measures-anova.html#cb331-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> cheerleader</span>
-<span id="cb331-2"><a href="repeated-measures-anova.html#cb331-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remove participants which should be excluded</span></span>
-<span id="cb331-3"><a href="repeated-measures-anova.html#cb331-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, Excluded <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb331-4"><a href="repeated-measures-anova.html#cb331-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get rid of unused factor levels in Item by </span></span>
-<span id="cb331-5"><a href="repeated-measures-anova.html#cb331-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Item <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>Item)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb335-1" title="1">dat &lt;-<span class="st"> </span>cheerleader</a>
+<a class="sourceLine" id="cb335-2" title="2"><span class="co"># remove participants which should be excluded</span></a>
+<a class="sourceLine" id="cb335-3" title="3">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(dat, Excluded <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb335-4" title="4"><span class="co"># get rid of unused factor levels in Item by </span></a>
+<a class="sourceLine" id="cb335-5" title="5">dat<span class="op">$</span>Item &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>Item)</a></code></pre></div>
 <p>Another thing is that the labels of the factors don’t correspond to the ones I used in writing the SDAM chapter.
-Relabelling factors is somewhat tedious with base R. It’s easier to use the <code>fct_recode</code> function from the <code>forcats</code> package <span class="citation">(<a href="#ref-R-forcats" role="doc-biblioref">Wickham 2021a</a>)</span>.
+Relabelling factors is somewhat tedious with base R. It’s easier to use the <code>fct_recode</code> function from the <code>forcats</code> package <span class="citation">(Wickham <a href="#ref-R-forcats">2022</a>)</span>.
 This function takes a factor as its first argument, and then in the remaining arguments, you
 can specify a new label (unquoted) for existing labels (quoted). As usual,
 if you don’t have this package installed, you would first need to run <code>install.packages("forcats")</code> before running the code below:</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="repeated-measures-anova.html#cb332-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Presentation <span class="ot">&lt;-</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(dat<span class="sc">$</span>Item, <span class="at">Different =</span> <span class="st">&quot;Control_Group&quot;</span>, <span class="at">Similar =</span> <span class="st">&quot;Distractor_Manipulation&quot;</span>)</span>
-<span id="cb332-2"><a href="repeated-measures-anova.html#cb332-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Version <span class="ot">&lt;-</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(dat<span class="sc">$</span>Task, <span class="at">Identical =</span> <span class="st">&quot;Identical-Distractors&quot;</span>, <span class="at">Variant =</span> <span class="st">&quot;Self-Distractors&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" title="1">dat<span class="op">$</span>Presentation &lt;-<span class="st"> </span>forcats<span class="op">::</span><span class="kw">fct_recode</span>(dat<span class="op">$</span>Item, <span class="dt">Different =</span> <span class="st">&quot;Control_Group&quot;</span>, <span class="dt">Similar =</span> <span class="st">&quot;Distractor_Manipulation&quot;</span>)</a>
+<a class="sourceLine" id="cb336-2" title="2">dat<span class="op">$</span>Version &lt;-<span class="st"> </span>forcats<span class="op">::</span><span class="kw">fct_recode</span>(dat<span class="op">$</span>Task, <span class="dt">Identical =</span> <span class="st">&quot;Identical-Distractors&quot;</span>, <span class="dt">Variant =</span> <span class="st">&quot;Self-Distractors&quot;</span>)</a></code></pre></div>
 <p>Let’s have a look at the resulting data.frame:</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="repeated-measures-anova.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb337-1" title="1"><span class="kw">head</span>(dat)</a></code></pre></div>
 <pre><code>##   Participant Age    Sex                  Task LineClickAccuracy Excluded
 ## 1           1  47   Male Identical-Distractors         0.1361274        0
 ## 3           1  47   Male Identical-Distractors         0.1361274        0
@@ -392,10 +343,10 @@ if you don’t have this package installed, you would first need to run <code>in
 ## 8        &lt;NA&gt;           Control_Group 55.29972    Different Identical
 ## 9        &lt;NA&gt; Distractor_Manipulation 55.17647      Similar Identical</code></pre>
 <p>Looks good! You can create a raincloud plot for this data as usual:</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="repeated-measures-anova.html#cb335-1" aria-hidden="true" tabindex="-1"></a>sdamr<span class="sc">::</span><span class="fu">plot_raincloud</span>(<span class="at">data=</span>dat, <span class="at">y=</span>Response, <span class="at">groups =</span> Presentation) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>Version)</span></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb339-1" title="1">sdamr<span class="op">::</span><span class="kw">plot_raincloud</span>(<span class="dt">data=</span>dat, <span class="dt">y=</span>Response, <span class="dt">groups =</span> Presentation) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">facet_wrap</span>(<span class="op">~</span>Version)</a></code></pre></div>
 <p><img src="08-RM-ANOVA_files/figure-html/unnamed-chunk-5-1.png" width="100%" /></p>
-<div id="long-and-wide-data" class="section level2" number="8.1">
-<h2><span class="header-section-number">8.1</span> Long and wide data</h2>
+<div id="long-and-wide-data" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.1</span> Long and wide data<a href="repeated-measures-anova.html#long-and-wide-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <code>cheerleader</code> data, and our <code>dat</code> <code>data.frame</code> is in the so-called <strong>long format</strong>.
 Data in the long format is structured so that each row contains is a single meaningful observation.
 Here, that translates to us having
@@ -405,7 +356,7 @@ For some analyses, the long format is most suitable, whilst for others the wide
 format. It is therefore useful to be able to transform the data from one format
 to the other. This used to be a real pain back in the days when I started
 using R. Luckily, there are now tools available that make this a lot easier.
-Here, we will use the <code>pivot_longer</code> and <code>pivot_wider</code> functions from the <code>tidyr</code> <span class="citation">(<a href="#ref-R-tidyr" role="doc-biblioref">Wickham 2021b</a>)</span>
+Here, we will use the <code>pivot_longer</code> and <code>pivot_wider</code> functions from the <code>tidyr</code> <span class="citation">(Wickham and Girlich <a href="#ref-R-tidyr">2022</a>)</span>
 package. The <code>pivot_wider</code> function is used to transform long-format data to the wide format.
 In the <code>id_cols</code> argument, you can list variable which identify a “unit of observation” (e.g. Participant), as well
 as other variables which don’t vary within subjects (such as condition). In the <code>names_from</code>
@@ -413,8 +364,8 @@ argument, you can specify a variable which identifies the within-subjects levels
 is used to name the resulting new set of dependent variables. In the <code>values_from</code>
 argument, you specify the variable which contains the values of the new set
 of dependent variables:</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="repeated-measures-anova.html#cb336-1" aria-hidden="true" tabindex="-1"></a>wdat <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(dat, <span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Version&quot;</span>), <span class="at">names_from =</span> Presentation, <span class="at">values_from =</span> Response)</span>
-<span id="cb336-2"><a href="repeated-measures-anova.html#cb336-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wdat)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" title="1">wdat &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">pivot_wider</span>(dat, <span class="dt">id_cols =</span> <span class="kw">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Version&quot;</span>), <span class="dt">names_from =</span> Presentation, <span class="dt">values_from =</span> Response)</a>
+<a class="sourceLine" id="cb340-2" title="2"><span class="kw">head</span>(wdat)</a></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   Participant Version   Alone Different Similar
 ##   &lt;fct&gt;       &lt;fct&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
@@ -441,8 +392,8 @@ in the long format. In the <code>names_to</code> argument, you can specify the
 name of the resulting identifier for each value, and in the <code>values_to</code>
 argument, you can specify the name of the variable in the long format
 which contains the values:</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="repeated-measures-anova.html#cb338-1" aria-hidden="true" tabindex="-1"></a>ldat <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(wdat, <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;Alone&quot;</span>, <span class="st">&quot;Different&quot;</span>, <span class="st">&quot;Similar&quot;</span>), <span class="at">names_to =</span> <span class="st">&quot;Presentation&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Response&quot;</span>)</span>
-<span id="cb338-2"><a href="repeated-measures-anova.html#cb338-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ldat)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" title="1">ldat &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">pivot_longer</span>(wdat, <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Alone&quot;</span>, <span class="st">&quot;Different&quot;</span>, <span class="st">&quot;Similar&quot;</span>), <span class="dt">names_to =</span> <span class="st">&quot;Presentation&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;Response&quot;</span>)</a>
+<a class="sourceLine" id="cb342-2" title="2"><span class="kw">head</span>(ldat)</a></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##   Participant Version   Presentation Response
 ##   &lt;fct&gt;       &lt;fct&gt;     &lt;chr&gt;           &lt;dbl&gt;
@@ -453,15 +404,15 @@ which contains the values:</p>
 ## 5 2           Identical Different        55.3
 ## 6 2           Identical Similar          55.2</code></pre>
 </div>
-<div id="repeated-measures-anova-with-separate-glms" class="section level2" number="8.2">
-<h2><span class="header-section-number">8.2</span> Repeated-measures ANOVA with separate GLMs</h2>
+<div id="repeated-measures-anova-with-separate-glms" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.2</span> Repeated-measures ANOVA with separate GLMs<a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In Chapter 10 of SDAM, we focused on performing repeated-measures ANOVA
 by constructing within-subjects composite scores, and then performing
 separate GLM analyses on these. We will start with this approach,
 and analyse the full 2 (Version: Identical, Variant) by 3 (Presentation: Alone,
 Different, Similar) design.</p>
-<div id="computing-within-subjects-composite-scores" class="section level3" number="8.2.1">
-<h3><span class="header-section-number">8.2.1</span> Computing within-subjects composite scores</h3>
+<div id="computing-within-subjects-composite-scores" class="section level3 hasAnchor">
+<h3><span class="header-section-number">8.2.1</span> Computing within-subjects composite scores<a href="repeated-measures-anova.html#computing-within-subjects-composite-scores" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The within-subjects composite scores are effectively
 contrasts, computed for each participant. Let’s define the following contrasts:</p>
 <table>
@@ -497,28 +448,28 @@ contrasts, computed for each participant. Let’s define the following contrasts
 <p>We can compute each composite score from these contrasts as:
 <span class="math display">\[W_{j,i} = \frac{\sum_{k=1}^g d_{j,k} Y_{i,k}}{\sqrt{\sum_{k=1}^g d_{j,k}^2}}\]</span>
 For <span class="math inline">\(W_0\)</span> (i.e. <span class="math inline">\(j=0\)</span>), the computation in R is:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="repeated-measures-anova.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the top part (numerator)</span></span>
-<span id="cb340-2"><a href="repeated-measures-anova.html#cb340-2" aria-hidden="true" tabindex="-1"></a>wdat<span class="sc">$</span>W0 <span class="ot">&lt;-</span> wdat<span class="sc">$</span>Alone <span class="sc">+</span> wdat<span class="sc">$</span>Different <span class="sc">+</span> wdat<span class="sc">$</span>Similar</span>
-<span id="cb340-3"><a href="repeated-measures-anova.html#cb340-3" aria-hidden="true" tabindex="-1"></a><span class="co"># apply scaling factor to get the correct SS</span></span>
-<span id="cb340-4"><a href="repeated-measures-anova.html#cb340-4" aria-hidden="true" tabindex="-1"></a>wdat<span class="sc">$</span>W0 <span class="ot">&lt;-</span> wdat<span class="sc">$</span>W0<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" title="1"><span class="co"># compute the top part (numerator)</span></a>
+<a class="sourceLine" id="cb344-2" title="2">wdat<span class="op">$</span>W0 &lt;-<span class="st"> </span>wdat<span class="op">$</span>Alone <span class="op">+</span><span class="st"> </span>wdat<span class="op">$</span>Different <span class="op">+</span><span class="st"> </span>wdat<span class="op">$</span>Similar</a>
+<a class="sourceLine" id="cb344-3" title="3"><span class="co"># apply scaling factor to get the correct SS</span></a>
+<a class="sourceLine" id="cb344-4" title="4">wdat<span class="op">$</span>W0 &lt;-<span class="st"> </span>wdat<span class="op">$</span>W0<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">3</span>)</a></code></pre></div>
 <p>Similarly, we can compute <span class="math inline">\(W_1\)</span> and <span class="math inline">\(W_2\)</span> as:</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="repeated-measures-anova.html#cb341-1" aria-hidden="true" tabindex="-1"></a>wdat<span class="sc">$</span>W1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>wdat<span class="sc">$</span>Different <span class="sc">+</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>wdat<span class="sc">$</span>Similar <span class="sc">-</span> (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>wdat<span class="sc">$</span>Alone</span>
-<span id="cb341-2"><a href="repeated-measures-anova.html#cb341-2" aria-hidden="true" tabindex="-1"></a>wdat<span class="sc">$</span>W1 <span class="ot">&lt;-</span> wdat<span class="sc">$</span>W1<span class="sc">/</span><span class="fu">sqrt</span>((<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="sc">-</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb341-3"><a href="repeated-measures-anova.html#cb341-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb341-4"><a href="repeated-measures-anova.html#cb341-4" aria-hidden="true" tabindex="-1"></a>wdat<span class="sc">$</span>W2 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>wdat<span class="sc">$</span>Different <span class="sc">-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>wdat<span class="sc">$</span>Similar</span>
-<span id="cb341-5"><a href="repeated-measures-anova.html#cb341-5" aria-hidden="true" tabindex="-1"></a>wdat<span class="sc">$</span>w2 <span class="ot">&lt;-</span> wdat<span class="sc">$</span>W2<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" title="1">wdat<span class="op">$</span>W1 &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)<span class="op">*</span>wdat<span class="op">$</span>Different <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)<span class="op">*</span>wdat<span class="op">$</span>Similar <span class="op">-</span><span class="st"> </span>(<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)<span class="op">*</span>wdat<span class="op">$</span>Alone</a>
+<a class="sourceLine" id="cb345-2" title="2">wdat<span class="op">$</span>W1 &lt;-<span class="st"> </span>wdat<span class="op">$</span>W1<span class="op">/</span><span class="kw">sqrt</span>((<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(<span class="op">-</span><span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb345-3" title="3"></a>
+<a class="sourceLine" id="cb345-4" title="4">wdat<span class="op">$</span>W2 &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>wdat<span class="op">$</span>Different <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>wdat<span class="op">$</span>Similar</a>
+<a class="sourceLine" id="cb345-5" title="5">wdat<span class="op">$</span>w2 &lt;-<span class="st"> </span>wdat<span class="op">$</span>W2<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">2</span><span class="op">/</span><span class="dv">4</span>)</a></code></pre></div>
 </div>
-<div id="performing-a-repeated-measures-anova-with-separate-models" class="section level3" number="8.2.2">
-<h3><span class="header-section-number">8.2.2</span> Performing a repeated-measures ANOVA with separate models</h3>
+<div id="performing-a-repeated-measures-anova-with-separate-models" class="section level3 hasAnchor">
+<h3><span class="header-section-number">8.2.2</span> Performing a repeated-measures ANOVA with separate models<a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We now have three new dependent variables (<span class="math inline">\(W_0\)</span>, <span class="math inline">\(W_1\)</span>, and <span class="math inline">\(W_2\)</span>), and for each
 we can perform a GLM analysis. To do this, we need to set a suitable contrast for Version.
 As in SDAM, I will use <span class="math inline">\((\tfrac{1}{2}, -\tfrac{1}{2})\)</span> for the Identical and Variant
 conditions respectively:</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="repeated-measures-anova.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(wdat<span class="sc">$</span>Version) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" title="1"><span class="kw">contrasts</span>(wdat<span class="op">$</span>Version) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">-0.5</span>)</a></code></pre></div>
 <p>We can then estimate a linear model for each composite variable. For <span class="math inline">\(W_0\)</span>,
 we estimate:</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="repeated-measures-anova.html#cb343-1" aria-hidden="true" tabindex="-1"></a>mod0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(W0 <span class="sc">~</span> Version, <span class="at">data=</span>wdat)</span>
-<span id="cb343-2"><a href="repeated-measures-anova.html#cb343-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod0)</span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" title="1">mod0 &lt;-<span class="st"> </span><span class="kw">lm</span>(W0 <span class="op">~</span><span class="st"> </span>Version, <span class="dt">data=</span>wdat)</a>
+<a class="sourceLine" id="cb347-2" title="2"><span class="kw">summary</span>(mod0)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = W0 ~ Version, data = wdat)
@@ -542,11 +493,11 @@ of the dependent variable (<span class="math inline">\(Y\)</span>). We can get t
 the estimates by the scaling factor (<span class="math inline">\(\sqrt{3}\)</span> in this case). The <code>coefficients</code>
 functions extracts the parameter estimates from the model. Hence, the rescaled
 estimates can be computed as:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="repeated-measures-anova.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(mod0)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb349-1" title="1"><span class="kw">coefficients</span>(mod0)<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">3</span>)</a></code></pre></div>
 <pre><code>## (Intercept)    Version1 
 ##   47.675478    0.499217</code></pre>
 <p>To obtain equivalent <span class="math inline">\(F\)</span>-tests, we can use the <code>Anova</code> function from the <code>car</code> package:</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="repeated-measures-anova.html#cb347-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod0, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" title="1">car<span class="op">::</span><span class="kw">Anova</span>(mod0, <span class="dt">type=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: W0
@@ -558,9 +509,9 @@ estimates can be computed as:</p>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>The procedure for the within-subjects composite scores <span class="math inline">\(W_1\)</span> and <span class="math inline">\(W_2\)</span> is
 similar. For <span class="math inline">\(W_1\)</span>, the analysis is:</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="repeated-measures-anova.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analysis for W1</span></span>
-<span id="cb349-2"><a href="repeated-measures-anova.html#cb349-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(W1 <span class="sc">~</span> Version, <span class="at">data=</span>wdat)</span>
-<span id="cb349-3"><a href="repeated-measures-anova.html#cb349-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" title="1"><span class="co"># Analysis for W1</span></a>
+<a class="sourceLine" id="cb353-2" title="2">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(W1 <span class="op">~</span><span class="st"> </span>Version, <span class="dt">data=</span>wdat)</a>
+<a class="sourceLine" id="cb353-3" title="3"><span class="kw">summary</span>(mod1)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = W1 ~ Version, data = wdat)
@@ -579,10 +530,10 @@ similar. For <span class="math inline">\(W_1\)</span>, the analysis is:</p>
 ## Residual standard error: 1.464 on 57 degrees of freedom
 ## Multiple R-squared:  7.766e-06,  Adjusted R-squared:  -0.01754 
 ## F-statistic: 0.0004426 on 1 and 57 DF,  p-value: 0.9833</code></pre>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="repeated-measures-anova.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(mod1)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">6</span><span class="sc">/</span><span class="dv">9</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" title="1"><span class="kw">coefficients</span>(mod1)<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">6</span><span class="op">/</span><span class="dv">9</span>)</a></code></pre></div>
 <pre><code>## (Intercept)    Version1 
 ##  1.29546036 -0.00983829</code></pre>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="repeated-measures-anova.html#cb353-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod1, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" title="1">car<span class="op">::</span><span class="kw">Anova</span>(mod1, <span class="dt">type=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: W1
@@ -593,9 +544,9 @@ similar. For <span class="math inline">\(W_1\)</span>, the analysis is:</p>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>And for <span class="math inline">\(W_2\)</span>, it is:</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="repeated-measures-anova.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analysis for W2</span></span>
-<span id="cb355-2"><a href="repeated-measures-anova.html#cb355-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(W2 <span class="sc">~</span> Version, <span class="at">data=</span>wdat)</span>
-<span id="cb355-3"><a href="repeated-measures-anova.html#cb355-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" title="1"><span class="co"># Analysis for W2</span></a>
+<a class="sourceLine" id="cb359-2" title="2">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(W2 <span class="op">~</span><span class="st"> </span>Version, <span class="dt">data=</span>wdat)</a>
+<a class="sourceLine" id="cb359-3" title="3"><span class="kw">summary</span>(mod2)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = W2 ~ Version, data = wdat)
@@ -614,10 +565,10 @@ similar. For <span class="math inline">\(W_1\)</span>, the analysis is:</p>
 ## Residual standard error: 0.9083 on 57 degrees of freedom
 ## Multiple R-squared:  0.09714,    Adjusted R-squared:  0.0813 
 ## F-statistic: 6.133 on 1 and 57 DF,  p-value: 0.01626</code></pre>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="repeated-measures-anova.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(mod2)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" title="1"><span class="kw">coefficients</span>(mod2)<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">2</span><span class="op">/</span><span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## (Intercept)    Version1 
 ##   0.2801500   0.8293672</code></pre>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="repeated-measures-anova.html#cb359-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod2, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" title="1">car<span class="op">::</span><span class="kw">Anova</span>(mod2, <span class="dt">type=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: W2
@@ -628,7 +579,7 @@ similar. For <span class="math inline">\(W_1\)</span>, the analysis is:</p>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Unfortunately, there is no simple way to obtain omnibus tests by combining
-these models. They can be computed “manually,” by extracting the relevant
+these models. They can be computed “manually”, by extracting the relevant
 SSR, SSE, and df terms from the models. These can then be used to compute an
 <span class="math inline">\(F\)</span>-statistic, and the <span class="math inline">\(p\)</span>-value can then be computed by using the <code>pf</code> function.</p>
 <p>This is not the most straightforward manner to obtain omnibus tests
@@ -637,7 +588,7 @@ But to show it is doable, let’s compute the omnibus test for the main effect o
 Presentation in this way. The relevant SSR, SSE, and df terms are stored
 in the objects returned by the <code>car::Anova</code> function. We can see the structure
 of this object with the <code>str</code> function:</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="repeated-measures-anova.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(car<span class="sc">::</span><span class="fu">Anova</span>(mod1, <span class="at">type=</span><span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" title="1"><span class="kw">str</span>(car<span class="op">::</span><span class="kw">Anova</span>(mod1, <span class="dt">type=</span><span class="dv">3</span>))</a></code></pre></div>
 <pre><code>## Classes &#39;anova&#39; and &#39;data.frame&#39;:    3 obs. of  4 variables:
 ##  $ Sum Sq : num  6.58e+01 9.49e-04 1.22e+02
 ##  $ Df     : num  1 1 57
@@ -651,15 +602,15 @@ row contains the values for the error term. The structure for the <code>mod2</co
 is the same. To get the relevant omnibus values, we can just take the appropriate
 elements from these data.frames. To get the omnibus SSR and <span class="math inline">\(\text{df}_1\)</span>
 terms, we can use:</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="repeated-measures-anova.html#cb363-1" aria-hidden="true" tabindex="-1"></a>SSR <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod1, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">1</span>] <span class="sc">+</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod2, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">1</span>]</span>
-<span id="cb363-2"><a href="repeated-measures-anova.html#cb363-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod1, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">1</span>] <span class="sc">+</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod2, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" title="1">SSR &lt;-<span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod1, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod2, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb367-2" title="2">df1 &lt;-<span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod1, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod2, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">1</span>]</a></code></pre></div>
 <p>And for the SSE and <span class="math inline">\(\text{df}_2\)</span> terms, we can use:</p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="repeated-measures-anova.html#cb364-1" aria-hidden="true" tabindex="-1"></a>SSE <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod1, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">3</span>] <span class="sc">+</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod2, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">3</span>]</span>
-<span id="cb364-2"><a href="repeated-measures-anova.html#cb364-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod1, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">3</span>] <span class="sc">+</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod2, <span class="at">type=</span><span class="dv">3</span>)<span class="sc">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" title="1">SSE &lt;-<span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod1, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">3</span>] <span class="op">+</span><span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod2, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Sum Sq&quot;</span>[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb368-2" title="2">df2 &lt;-<span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod1, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">3</span>] <span class="op">+</span><span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mod2, <span class="dt">type=</span><span class="dv">3</span>)<span class="op">$</span><span class="st">&quot;Df&quot;</span>[<span class="dv">3</span>]</a></code></pre></div>
 <p>With these values, the <span class="math inline">\(F\)</span>-statistic can then be computed as follows:</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="repeated-measures-anova.html#cb365-1" aria-hidden="true" tabindex="-1"></a>Fstat <span class="ot">&lt;-</span> (SSR<span class="sc">/</span>df1)<span class="sc">/</span>(SSE<span class="sc">/</span>df2)</span></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" title="1">Fstat &lt;-<span class="st"> </span>(SSR<span class="op">/</span>df1)<span class="op">/</span>(SSE<span class="op">/</span>df2)</a></code></pre></div>
 <p>Finally, the <span class="math inline">\(p\)</span>-value can be obtained as</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="repeated-measures-anova.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(Fstat, <span class="at">df1=</span>df1, <span class="at">df2=</span>df2)</span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" title="1"><span class="dv">1</span><span class="op">-</span><span class="kw">pf</span>(Fstat, <span class="dt">df1=</span>df1, <span class="dt">df2=</span>df2)</a></code></pre></div>
 <pre><code>## [1] 4.214718e-09</code></pre>
 <p>Note that we need to use <code>1-pf</code> as the <code>pf</code> function computes the probability
 <span class="math inline">\(P(F \leq \text{value})\)</span>, whilst we need <span class="math inline">\(P(F &gt; \text{value})\)</span>, and this equals
@@ -672,10 +623,10 @@ contrasts we have just obtained. But these can be computed with the <code>emmean
 package, after conducting the omnibus tests.</p>
 </div>
 </div>
-<div id="repeated-measures-anova-with-the-car-package" class="section level2" number="8.3">
-<h2><span class="header-section-number">8.3</span> Repeated-measures ANOVA with the <code>car</code> package</h2>
+<div id="repeated-measures-anova-with-the-car-package" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.3</span> Repeated-measures ANOVA with the <code>car</code> package<a href="repeated-measures-anova.html#repeated-measures-anova-with-the-car-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When you have data in the wide format, you can obtain a repeated-measures ANOVA
-by using the <code>Anova</code> function from the <code>car</code> package <span class="citation">(<a href="#ref-R-car" role="doc-biblioref">Fox, Weisberg, and Price 2021</a>)</span>. As you will see later,
+by using the <code>Anova</code> function from the <code>car</code> package <span class="citation">(Fox, Weisberg, and Price <a href="#ref-R-car">2022</a>)</span>. As you will see later,
 the analysis is more straightforward with the <code>afex</code> package, but this requires
 data to be in the long format.</p>
 <p>The first step to performing a repeated-measures ANOVA with the <code>car</code> package
@@ -683,12 +634,12 @@ is to perform a linear model for a multivariate dependent variable, which basica
 means providing a matrix of each repeated measurement as the DV. This is done
 by collating the variables within a <code>cbind</code> (for column-bind) argument within
 the model formula:</p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="repeated-measures-anova.html#cb368-1" aria-hidden="true" tabindex="-1"></a>mvmod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">cbind</span>(Alone, Different, Similar) <span class="sc">~</span> Version, <span class="at">data=</span>wdat)</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" title="1">mvmod &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">cbind</span>(Alone, Different, Similar) <span class="op">~</span><span class="st"> </span>Version, <span class="dt">data=</span>wdat)</a></code></pre></div>
 <p>So here, we are modelling the Alone, Different, and Similar attractiveness
 ratings simultaneously as a function of the Version categorical predictor.
 This model is basically a set of three linear regressions, as you can see from
 the output:</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="repeated-measures-anova.html#cb369-1" aria-hidden="true" tabindex="-1"></a>mvmod</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" title="1">mvmod</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = cbind(Alone, Different, Similar) ~ Version, data = wdat)
@@ -702,20 +653,20 @@ three measurements. This has to be done with a separate <code>data.frame</code>,
 row for each variable included in the <code>cbind</code> function specifying the multivariate DV.
 In this case, there is a single categorical predictor underlying all three
 measurements. So our <code>data.frame</code> can contain a single factor:</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="repeated-measures-anova.html#cb371-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Presentation =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Alone&quot;</span>, <span class="st">&quot;Different&quot;</span>, <span class="st">&quot;Similar&quot;</span>)))</span>
-<span id="cb371-2"><a href="repeated-measures-anova.html#cb371-2" aria-hidden="true" tabindex="-1"></a>idata</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" title="1">idata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Presentation =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;Alone&quot;</span>, <span class="st">&quot;Different&quot;</span>, <span class="st">&quot;Similar&quot;</span>)))</a>
+<a class="sourceLine" id="cb375-2" title="2">idata</a></code></pre></div>
 <pre><code>##   Presentation
 ## 1        Alone
 ## 2    Different
 ## 3      Similar</code></pre>
 <p>The next step is to supply a useful contrast for this within-subjects factor:</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="repeated-measures-anova.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(idata<span class="sc">$</span>Presentation) <span class="co"># check the levels</span></span></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" title="1"><span class="kw">contrasts</span>(idata<span class="op">$</span>Presentation) <span class="co"># check the levels</span></a></code></pre></div>
 <pre><code>##           Different Similar
 ## Alone             0       0
 ## Different         1       0
 ## Similar           0       1</code></pre>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="repeated-measures-anova.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(idata<span class="sc">$</span>Presentation) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>))</span>
-<span id="cb375-2"><a href="repeated-measures-anova.html#cb375-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(idata<span class="sc">$</span>Presentation)</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" title="1"><span class="kw">contrasts</span>(idata<span class="op">$</span>Presentation) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb379-2" title="2"><span class="kw">contrasts</span>(idata<span class="op">$</span>Presentation)</a></code></pre></div>
 <pre><code>##                 [,1] [,2]
 ## Alone     -0.6666667  0.0
 ## Different  0.3333333  0.5
@@ -727,8 +678,8 @@ within-subjects structure through the <code>idata</code> argument. Additionally,
 supply a right-hand-sided formula in the
 <code>idesign</code> argument in order to specify which effects to include as within-subjects factors.
 The <code>type=3</code> argument, as usual, specifies we would like to perform Type-3 SS tests.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="repeated-measures-anova.html#cb377-1" aria-hidden="true" tabindex="-1"></a>rmaov <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mvmod, <span class="at">idata=</span>idata, <span class="at">idesign =</span> <span class="sc">~</span>Presentation,  <span class="at">type=</span><span class="dv">3</span>)</span>
-<span id="cb377-2"><a href="repeated-measures-anova.html#cb377-2" aria-hidden="true" tabindex="-1"></a>rmaov</span></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" title="1">rmaov &lt;-<span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(mvmod, <span class="dt">idata=</span>idata, <span class="dt">idesign =</span> <span class="op">~</span>Presentation,  <span class="dt">type=</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb381-2" title="2">rmaov</a></code></pre></div>
 <pre><code>## 
 ## Type III Repeated Measures MANOVA Tests: Pillai test statistic
 ##                      Df test stat approx F num Df den Df    Pr(&gt;F)    
@@ -741,7 +692,7 @@ The <code>type=3</code> argument, as usual, specifies we would like to perform T
 <p>By default, because we have used a multivariate DV, this will show a so-called
 MANOVA (Multivariate ANalysis of VAriance). To obtain an ANOVA, we need to set
 the <code>multivariate</code> argument in the <code>summary</code> function to <code>FALSE</code>:</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="repeated-measures-anova.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rmaov, <span class="at">multivariate=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" title="1"><span class="kw">summary</span>(rmaov, <span class="dt">multivariate=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## Warning in summary.Anova.mlm(rmaov, multivariate = FALSE): HF eps &gt; 1 treated as
 ## 1</code></pre>
 <pre><code>## 
@@ -788,12 +739,12 @@ in the <code>Univariate Type III Repeated-Measures ANOVA Assuming Sphericity</co
 by performing analyses on the within-subjects composite scores, as we did
 in the previous section.</p>
 </div>
-<div id="repeated-measures-anova-with-the-afex-package" class="section level2" number="8.4">
-<h2><span class="header-section-number">8.4</span> Repeated-measures ANOVA with the <code>afex</code> package</h2>
-<p>The <code>afex</code> package <span class="citation">(<a href="#ref-R-afex" role="doc-biblioref">Singmann et al. 2021</a>)</span> provides a convenient interface to the <code>car::Anova()</code> function, via its <code>afex::aov_car()</code> function. To use this function, the data needs to be in the long format. You can specify the model with the usual formula interface, and you don’t need to worry about a multivariate response and such things. There is one new thing, however: To specify a repeated-measures ANOVA, the formula needs to contain a special <code>Error()</code> argument. Within the Error argument, you first state the variable which identifies the “units of observations” (i.e. <code>Participant</code> in this case). Then, after a forward-slash (“/”), you list the repeated-measures factor(s). So, the way to perform the repeated-measures ANOVA with the <code>afex</code> package, and the long data (<code>ldat</code>) we created earlier, is:</p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="repeated-measures-anova.html#cb382-1" aria-hidden="true" tabindex="-1"></a>afmod <span class="ot">&lt;-</span> afex<span class="sc">::</span><span class="fu">aov_car</span>(Response <span class="sc">~</span> Version<span class="sc">*</span>Presentation <span class="sc">+</span> <span class="fu">Error</span>(Participant<span class="sc">/</span>Presentation), <span class="at">data=</span>ldat)</span></code></pre></div>
+<div id="repeated-measures-anova-with-the-afex-package" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.4</span> Repeated-measures ANOVA with the <code>afex</code> package<a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>afex</code> package <span class="citation">(Singmann et al. <a href="#ref-R-afex">2022</a>)</span> provides a convenient interface to the <code>car::Anova()</code> function, via its <code>afex::aov_car()</code> function. To use this function, the data needs to be in the long format. You can specify the model with the usual formula interface, and you don’t need to worry about a multivariate response and such things. There is one new thing, however: To specify a repeated-measures ANOVA, the formula needs to contain a special <code>Error()</code> argument. Within the Error argument, you first state the variable which identifies the “units of observations” (i.e. <code>Participant</code> in this case). Then, after a forward-slash (“/”), you list the repeated-measures factor(s). So, the way to perform the repeated-measures ANOVA with the <code>afex</code> package, and the long data (<code>ldat</code>) we created earlier, is:</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" title="1">afmod &lt;-<span class="st"> </span>afex<span class="op">::</span><span class="kw">aov_car</span>(Response <span class="op">~</span><span class="st"> </span>Version<span class="op">*</span>Presentation <span class="op">+</span><span class="st"> </span><span class="kw">Error</span>(Participant<span class="op">/</span>Presentation), <span class="dt">data=</span>ldat)</a></code></pre></div>
 <pre><code>## Contrasts set to contr.sum for the following variables: Version</code></pre>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="repeated-measures-anova.html#cb384-1" aria-hidden="true" tabindex="-1"></a>afmod</span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" title="1">afmod</a></code></pre></div>
 <pre><code>## Anova Table (Type 3 tests)
 ## 
 ## Response: Response
@@ -807,45 +758,6 @@ in the previous section.</p>
 ## Sphericity correction method: GG</code></pre>
 <p><code>afex</code> provides an abridged ANOVA table, where the Greenhouse-Geisser correction is automatically applied.</p>
 <p>Note that <code>afex</code> automatically sets contrasts to <code>contr.sum</code>. That is useful here, as we haven’t set the contrast for <code>Version</code> in the <code>ldat</code> data.</p>
-<!--
-
-```r
-contrasts(ldat$Version) <- c(0.5,-0.5)
-ldat$Presentation <- factor(ldat$Presentation)
-contrasts(ldat$Presentation) <- cbind(c(-2/3, 1/3, 1/3), c(0,1/2, -1/2))
-```
-
-
-```r
-afmod <- afex::aov_car(Response ~ Version*Presentation + Error(Participant/Presentation), data=ldat, check_contrasts = FALSE)
-```
-
-```
-## Warning: Calculating Type 3 sums with contrasts != 'contr.sum' for: Version
-##   Results likely bogus or not interpretable!
-## You probably want check_contrasts = TRUE or options(contrasts=c('contr.sum','contr.poly'))
-```
-
-```r
-afmod
-```
-
-```
-## Anova Table (Type 3 tests)
-## 
-## Response: Response
-##                 Effect           df    MSE         F   ges p.value
-## 1              Version        1, 57 263.30      0.04 <.001    .839
-## 2         Presentation 1.96, 111.97   1.93 11.76 ***  .003   <.001
-## 3 Version:Presentation 1.96, 111.97   1.93    2.67 + <.001    .075
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
-## 
-## Sphericity correction method: GG
-```
-Note that we now get a warning...which we will ignore, as our contrasts are fine and we get exactly the same results.
-
--->
 <p>Because neither <code>afex</code>, nor the <code>car::Anova</code> package on which it relies, provides
 parameter estimates for the GLM, it doesn’t really matter whether you supply
 your own (sum-to-zero) contrasts, or whether you let <code>afex</code> pick a <code>contr.sum()</code> contrast
@@ -854,17 +766,17 @@ for you.</p>
 of work if you have data in the long format. I would generally recommend storing data in the long format,
 as this also makes it easier to apply linear mixed-effects models. You can obtain the
 results as reported by the <code>car::Anova()</code> function by calling the <code>summary</code> function:</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="repeated-measures-anova.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(afmod)</span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" title="1"><span class="kw">summary</span>(afmod)</a></code></pre></div>
 <pre><code>## Warning in summary.Anova.mlm(object$Anova, multivariate = FALSE): HF eps &gt; 1
 ## treated as 1</code></pre>
 <pre><code>## 
 ## Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
 ## 
-##                      Sum Sq num Df Error SS den Df  F value    Pr(&gt;F)    
-## (Intercept)          192932      1  15008.3     57 732.7366 &lt; 2.2e-16 ***
-## Version                  11      1  15008.3     57   0.0418   0.83878    
-## Presentation             45      2    216.3    114  11.7553 2.283e-05 ***
-## Version:Presentation     10      2    216.3    114   2.6670   0.07379 .  
+##                      Sum Sq num Df Error SS den Df   F value    Pr(&gt;F)    
+## (Intercept)          401272      1  15008.3     57 1523.9890 &lt; 2.2e-16 ***
+## Version                  11      1  15008.3     57    0.0418   0.83878    
+## Presentation             70      2    216.3    114   18.5675 1.047e-07 ***
+## Version:Presentation     10      2    216.3    114    2.6670   0.07379 .  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -880,13 +792,13 @@ results as reported by the <code>car::Anova()</code> function by calling the <co
 ##  for Departure from Sphericity
 ## 
 ##                      GG eps Pr(&gt;F[GG])    
-## Presentation         0.9822   2.62e-05 ***
+## Presentation         0.9822  1.314e-07 ***
 ## Version:Presentation 0.9822    0.07485 .  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ##                        HF eps   Pr(&gt;F[HF])
-## Presentation         1.016935 2.282549e-05
+## Presentation         1.016935 1.046537e-07
 ## Version:Presentation 1.016935 7.379140e-02</code></pre>
 <p>The <code>afex</code> package also has a function, called <code>nice</code>, to display the abbreviated ANOVA table
 we saw earlier. The arguments of this function allow you to change various aspects of the
@@ -895,32 +807,32 @@ as a measure of effect size. You can change this to the partial eta-square by se
 <code>es="pes"</code>. You can also change the correction to the degrees of freedom, from the default <code>correction = "GG"</code> (Greenhouse-Geisser), by setting
 <code>correction = "HF"</code> (Huynh-Feldt) or <code>correction = "none"</code> (no correction).
 So, for example, we might use</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="repeated-measures-anova.html#cb389-1" aria-hidden="true" tabindex="-1"></a>afex<span class="sc">::</span><span class="fu">nice</span>(afmod, <span class="at">es=</span><span class="st">&quot;pes&quot;</span>, <span class="at">correction =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" title="1">afex<span class="op">::</span><span class="kw">nice</span>(afmod, <span class="dt">es=</span><span class="st">&quot;pes&quot;</span>, <span class="dt">correction =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <pre><code>## Anova Table (Type 3 tests)
 ## 
 ## Response: Response
 ##                 Effect     df    MSE         F   pes p.value
 ## 1              Version  1, 57 263.30      0.04 &lt;.001    .839
-## 2         Presentation 2, 114   1.90 11.76 ***  .171   &lt;.001
+## 2         Presentation 2, 114   1.90 18.57 ***  .246   &lt;.001
 ## 3 Version:Presentation 2, 114   1.90    2.67 +  .045    .074
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
 </div>
-<div id="contrasts-with-the-emmeans-package" class="section level2" number="8.5">
-<h2><span class="header-section-number">8.5</span> Contrasts with the <code>emmeans</code> package</h2>
+<div id="contrasts-with-the-emmeans-package" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.5</span> Contrasts with the <code>emmeans</code> package<a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To obtain the individual contrast estimates and tests for a repeated-measures
 ANOVA, perhaps the most straightforward procedure is via the <code>emmeans</code> package
-<span class="citation">(<a href="#ref-R-emmeans" role="doc-biblioref">Lenth 2021</a>)</span>. We have already discussed the use of this package in
+<span class="citation">(Lenth <a href="#ref-R-emmeans">2022</a>)</span>. We have already discussed the use of this package in
 Section 7.4. The <code>emmeans::emmeans()</code> function calculates estimated marginal
 means, and it can do so for objects that are returned by the <code>afex::aov_car()</code>
 function. For example, we can obtain the marginal means for the different
 levels of <code>Version</code> as:</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="repeated-measures-anova.html#cb391-1" aria-hidden="true" tabindex="-1"></a>em_version <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Version)</span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" title="1">em_version &lt;-<span class="st"> </span>emmeans<span class="op">::</span><span class="kw">emmeans</span>(afmod, <span class="dt">specs =</span> <span class="op">~</span><span class="st"> </span>Version)</a></code></pre></div>
 <p>The <code>specs</code> argument should contain a right-sided formula with the factor(s) for
 which you want to compute the marginal means. You can see that the <code>emmeans</code>
 function computes the estimated marginal means, their standard error, associated
 degrees of freedom, and confidence intervals:</p>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="repeated-measures-anova.html#cb392-1" aria-hidden="true" tabindex="-1"></a>em_version</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" title="1">em_version</a></code></pre></div>
 <pre><code>##  Version   emmean   SE df lower.CL upper.CL
 ##  Identical   47.9 1.77 57     44.4     51.5
 ##  Variant     47.4 1.68 57     44.1     50.8
@@ -956,7 +868,7 @@ the resulting value is equal to 0). In the <code>methmod</code> argument, we her
 but is helpful in identifying the contrasts when you test multiple. The key thing is that we supplied a contrast
 with <code>c(1,-1)</code>. The output provides the estimate of the difference between <span class="math inline">\(\mu_I\)</span> and <span class="math inline">\(\mu_V\)</span>,
 as well as a <span class="math inline">\(t\)</span>-test and <span class="math inline">\(p\)</span>-value:</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="repeated-measures-anova.html#cb394-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_version, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;I - V&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" title="1">emmeans<span class="op">::</span><span class="kw">contrast</span>(em_version, <span class="dt">method=</span><span class="kw">list</span>(<span class="st">&quot;I - V&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)))</a></code></pre></div>
 <pre><code>##  contrast estimate   SE df t.ratio p.value
 ##  I - V       0.499 2.44 57   0.204  0.8388
 ## 
@@ -973,8 +885,8 @@ contrast, we want to determine the difference
 <span class="math display">\[\mu_D - \mu_S\]</span>
 which we can do through the contrast <code>c(0,1,-1)</code>. The following code computes the
 marginal means and then performs the contrast-tests on these:</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="repeated-measures-anova.html#cb396-1" aria-hidden="true" tabindex="-1"></a>em_presentation <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Presentation)</span>
-<span id="cb396-2"><a href="repeated-measures-anova.html#cb396-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_presentation, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;(D + S)/2 - A&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="st">&quot;D - S&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" title="1">em_presentation &lt;-<span class="st"> </span>emmeans<span class="op">::</span><span class="kw">emmeans</span>(afmod, <span class="dt">specs =</span> <span class="op">~</span><span class="st"> </span>Presentation)</a>
+<a class="sourceLine" id="cb400-2" title="2">emmeans<span class="op">::</span><span class="kw">contrast</span>(em_presentation, <span class="dt">method=</span><span class="kw">list</span>(<span class="st">&quot;(D + S)/2 - A&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="st">&quot;D - S&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)))</a></code></pre></div>
 <pre><code>##  contrast      estimate    SE df t.ratio p.value
 ##  (D + S)/2 - A    1.295 0.234 57   5.541  &lt;.0001
 ##  D - S            0.396 0.237 57   1.673  0.0998
@@ -983,9 +895,9 @@ marginal means and then performs the contrast-tests on these:</p>
 <p>This replicates the earlier results we obtained in Section 8.2 from the tests of the intercepts of <code>W1</code> and <code>W2</code>.</p>
 <p>Finally, we can also consider the marginal means of the combinations of the Presentation and Version factors. We
 do this by specifying the full (main effects and interaction) model in the <code>specs</code> argument:</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="repeated-measures-anova.html#cb398-1" aria-hidden="true" tabindex="-1"></a>em_pv <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(afmod, <span class="at">specs =</span> <span class="sc">~</span> Presentation<span class="sc">*</span>Version)</span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" title="1">em_pv &lt;-<span class="st"> </span>emmeans<span class="op">::</span><span class="kw">emmeans</span>(afmod, <span class="dt">specs =</span> <span class="op">~</span><span class="st"> </span>Presentation<span class="op">*</span>Version)</a></code></pre></div>
 <p>The marginal means are</p>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="repeated-measures-anova.html#cb399-1" aria-hidden="true" tabindex="-1"></a>em_pv</span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" title="1">em_pv</a></code></pre></div>
 <pre><code>##  Presentation Version   emmean   SE df lower.CL upper.CL
 ##  Alone        Identical   47.1 1.78 57     43.5     50.6
 ##  Different    Identical   48.8 1.78 57     45.3     52.4
@@ -1003,7 +915,7 @@ If we were to write this as a sum of all six means, we would do so as follows:
 <span class="math display">\[\tfrac{1}{2} \times \mu_{I,D} + \tfrac{1}{2} \mu_{I,S} + (-1) \times \mu_{I,A} + (-\tfrac{1}{2}) \times \mu_{V,D}  + (-\tfrac{1}{2}) \times \mu_{V,S} + 1 \times \mu_{V,A}\]</span>
 Hence, the implied contrast code is <code>c(.5, .5, -1, -.5, -.5, 1)</code>. Following a similar logic, the implied contrast
 code for the second interaction is <code>c(0, 1, -1, 0, -1, 1)</code>. Supplying these contrast codes to the <code>emmeans::contrast</code> function, we obtain the following results:</p>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="repeated-measures-anova.html#cb401-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">contrast</span>(em_pv, <span class="at">method=</span><span class="fu">list</span>(<span class="st">&quot;c1 by d1&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, <span class="dv">1</span>, <span class="sc">-</span>.<span class="dv">5</span>, <span class="sc">-</span>.<span class="dv">5</span>), <span class="st">&quot;c1 by d2&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" title="1">emmeans<span class="op">::</span><span class="kw">contrast</span>(em_pv, <span class="dt">method=</span><span class="kw">list</span>(<span class="st">&quot;c1 by d1&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="dv">1</span>, <span class="fl">-.5</span>, <span class="fl">-.5</span>), <span class="st">&quot;c1 by d2&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">0</span>, <span class="dv">-1</span>, <span class="dv">1</span>)))</a></code></pre></div>
 <pre><code>##  contrast estimate    SE df t.ratio p.value
 ##  c1 by d1 -0.00984 0.468 57  -0.021  0.9833
 ##  c1 by d2  1.17290 0.474 57   2.476  0.0163</code></pre>
@@ -1012,22 +924,22 @@ code for the second interaction is <code>c(0, 1, -1, 0, -1, 1)</code>. Supplying
 
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-R-car" class="csl-entry">
-Fox, John, Sanford Weisberg, and Brad Price. 2021. <em>Car: Companion to Applied Regression</em>. <a href="https://CRAN.R-project.org/package=car">https://CRAN.R-project.org/package=car</a>.
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references">
+<div id="ref-R-car">
+<p>Fox, John, Sanford Weisberg, and Brad Price. 2022. <em>Car: Companion to Applied Regression</em>. <a href="https://CRAN.R-project.org/package=car">https://CRAN.R-project.org/package=car</a>.</p>
 </div>
-<div id="ref-R-emmeans" class="csl-entry">
-Lenth, Russell V. 2021. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.
+<div id="ref-R-emmeans">
+<p>Lenth, Russell V. 2022. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.</p>
 </div>
-<div id="ref-R-afex" class="csl-entry">
-Singmann, Henrik, Ben Bolker, Jake Westfall, Frederik Aust, and Mattan S. Ben-Shachar. 2021. <em>Afex: Analysis of Factorial Experiments</em>. <a href="https://CRAN.R-project.org/package=afex">https://CRAN.R-project.org/package=afex</a>.
+<div id="ref-R-afex">
+<p>Singmann, Henrik, Ben Bolker, Jake Westfall, Frederik Aust, and Mattan S. Ben-Shachar. 2022. <em>Afex: Analysis of Factorial Experiments</em>. <a href="https://CRAN.R-project.org/package=afex">https://CRAN.R-project.org/package=afex</a>.</p>
 </div>
-<div id="ref-R-forcats" class="csl-entry">
-Wickham, Hadley. 2021a. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>.
+<div id="ref-R-forcats">
+<p>Wickham, Hadley. 2022. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>.</p>
 </div>
-<div id="ref-R-tidyr" class="csl-entry">
-———. 2021b. <em>Tidyr: Tidy Messy Data</em>. <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>.
+<div id="ref-R-tidyr">
+<p>Wickham, Hadley, and Maximilian Girlich. 2022. <em>Tidyr: Tidy Messy Data</em>. <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>.</p>
 </div>
 </div>
             </section>
@@ -1094,7 +1006,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Contrast coding and oneway ANOVA | An R companion to Statistics: data analysis and modelling</title>
+  <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Contrast coding and oneway ANOVA | An R companion to Statistics: data analysis and modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="github-repo" content="mspeekenbrink/sdam-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Contrast coding and oneway ANOVA | An R companion to Statistics: data analysis and modelling" />
+  
+  <meta name="twitter:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  
+
+<meta name="author" content="Maarten Speekenbrink" />
+
+
+<meta name="date" content="2021-12-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="moderation-and-mediation.html"/>
+<link rel="next" href="factorial-anova.html"/>
+<script src="book_assets/header-attrs-2.11/header-attrs.js"></script>
+<script src="book_assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="book_assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="book_assets/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
+<li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
+<li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
+<li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
+<li class="chapter" data-level="4.4" data-path="regression.html"><a href="regression.html#residuals-and-predicted-values"><i class="fa fa-check"></i><b>4.4</b> Residuals and predicted values</a></li>
+<li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
+<li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-bit-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A bit about namespaces</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
+<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
+<li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-car-package"><i class="fa fa-check"></i><b>8.3</b> Repeated-measures ANOVA with the <code>car</code> package</a></li>
+<li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
+<li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
+<li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
+<li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="9.1.4" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#likelihood-ratio-test-with-the-anova-function"><i class="fa fa-check"></i><b>9.1.4</b> Likelihood ratio test with the <code>anova</code> function</a></li>
+<li class="chapter" data-level="9.1.5" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#confidence-intervals"><i class="fa fa-check"></i><b>9.1.5</b> Confidence intervals</a></li>
+<li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing with Bayes Factors</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>10.1</b> The <code>BayesFactor</code> package</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>10.1.1</b> A Bayesian one-sample t-test</a></li>
+<li class="chapter" data-level="10.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>10.1.2</b> A Bayesian two-sample t-test</a></li>
+<li class="chapter" data-level="10.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>10.1.3</b> A Bayesian ANOVA</a></li>
+<li class="chapter" data-level="10.1.4" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>10.1.4</b> Bayesian regression and ANCOVA</a></li>
+<li class="chapter" data-level="10.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>10.1.5</b> Bayesian repeated-measures ANOVA</a></li>
+<li class="chapter" data-level="10.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>10.1.6</b> Parameter estimates</a></li>
+<li class="chapter" data-level="10.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>10.1.7</b> Highest-density interval</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>11</b> Reproducible reports with RMarkdown</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>11.1</b> YAML headers</a></li>
+<li class="chapter" data-level="11.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>11.2</b> Markdown syntax</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>11.2.1</b> Inline formatting</a></li>
+<li class="chapter" data-level="11.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>11.2.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="11.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>11.2.3</b> Math expressions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>11.3</b> R code chunks and inline R code</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>11.3.1</b> Figures</a></li>
+<li class="chapter" data-level="11.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>11.3.2</b> Tables</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>11.4</b> APA documents with <code>papaja</code></a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>11.4.1</b> Installation</a></li>
+<li class="chapter" data-level="11.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>11.4.2</b> How to use papaja</a></li>
+<li class="chapter" data-level="11.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>11.4.3</b> Getting help</a></li>
+<li class="chapter" data-level="11.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>11.4.4</b> Other related R packages</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R companion to Statistics: data analysis and modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="contrast-coding-and-oneway-anova" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Contrast coding and oneway ANOVA</h1>
+<p>There are several ways in which you can include nominal independent variables in the General Linear Model within R. The first option is to compute the contrast-coded predictors “by hand” and then enter these as metric predictors in the <code>lm</code> function. The second way is to specify the nominal variable as a <code>factor</code> and assign an appropriate contrast to this using the <code>contrasts</code> function. R will then compute the contrast-coded predictors to the factor “automatically” when you enter the factor as a predictor in the <code>lm</code> formula.</p>
+<p>Finally, you can also use the <code>aov</code> (Analysis Of Variance) function, or the <code>Anova</code> function. These functions are more focussed on omnibus tests rather than tests of the individual contrasts.</p>
+<p>We will discuss these options using the <code>tetris2015</code> data, which comes with the <code>sdamr</code> package. There are many variables in this dataset (for a description, see <code>?tetris2015</code>). The main variables used in the book are <code>Days_One_to_Seven_Number_of_Intrusions</code> (the number of memory intrusions after memory reactivation) and <code>Condition</code>. Let’s open the data and visualize the number of intrusions for the different conditions.</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="contrast-coding-and-oneway-anova.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb214-2"><a href="contrast-coding-and-oneway-anova.html#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tetris2015&quot;</span>)</span>
+<span id="cb214-3"><a href="contrast-coding-and-oneway-anova.html#cb214-3" aria-hidden="true" tabindex="-1"></a><span class="do">## as the main DV has a cumbersome name, I&#39;m creating a copy of the dataset </span></span>
+<span id="cb214-4"><a href="contrast-coding-and-oneway-anova.html#cb214-4" aria-hidden="true" tabindex="-1"></a><span class="do">## with a new variable &#39;intrusions&#39; which is a copy of Days_One_to_Seven_Number_of_Intrusions</span></span>
+<span id="cb214-5"><a href="contrast-coding-and-oneway-anova.html#cb214-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> tetris2015</span>
+<span id="cb214-6"><a href="contrast-coding-and-oneway-anova.html#cb214-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intrusions <span class="ot">&lt;-</span> dat<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions</span>
+<span id="cb214-7"><a href="contrast-coding-and-oneway-anova.html#cb214-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20201104</span>) <span class="co"># to replicate figure with random jitter</span></span>
+<span id="cb214-8"><a href="contrast-coding-and-oneway-anova.html#cb214-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(dat, intrusions, <span class="at">groups =</span> Condition)</span></code></pre></div>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
+<pre><code>## Warning: Removed 4 rows containing missing values (geom_segment).</code></pre>
+<p><img src="06-oneway-ANOVA_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div id="computing-contrast-coded-predictors" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Computing contrast-coded predictors</h2>
+<p>Let’s first focus on data from a subset of the conditions, namely the Tetris+Reactivation and Reactivation-Only condition</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="contrast-coding-and-oneway-anova.html#cb217-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Tetris_Reactivation&quot;</span>,<span class="st">&quot;Reactivation&quot;</span>))</span></code></pre></div>
+<p>Note the use of the <code>%in%</code> operator. The statement <code>Condition %in% c("Tetris_Ractivation","Reactivation")</code> returns TRUE whenever the value of <code>Condition</code> is equal to one of the values in the vector <code>c("Tetris_Ractivation","Reactivation")</code>. This is shorthand to the equivalent statement</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="contrast-coding-and-oneway-anova.html#cb218-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, Condition <span class="sc">==</span> <span class="st">&quot;Tetris_Reactivation&quot;</span> <span class="sc">|</span> Condition <span class="sc">==</span> <span class="st">&quot;Reactivation&quot;</span>)</span></code></pre></div>
+<p>If there are lots of “or” values, using <code>%in%</code> can be a lot more efficient (in terms of the code you have to type, at least).</p>
+<p>Say that we would like to use a dummy coded predictor, with the value of 0 for <code>Tetris_Reactivation</code>, and the value of 1 for <code>Reactivation</code> condition. One way to compute such a variable is as follows:</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="contrast-coding-and-oneway-anova.html#cb219-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>dummy <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb219-2"><a href="contrast-coding-and-oneway-anova.html#cb219-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>dummy[dat<span class="sc">$</span>Condition <span class="sc">==</span> <span class="st">&quot;Reactivation&quot;</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
+<p>The variable <code>dummy</code> is first being created as a new column in <code>dat</code>, by appending the name of the new variable to the <code>data.frame</code> with the usual “$” notation, and then assigning a value to it. On the second line, I then select a subset of the values of <code>dat$dummy</code> (all cases where <code>dat$Condition == "Reactivation"</code>) and assign the different value 1 to this subset. A quick check using the <code>table</code> function shows that we now indeed have a new variable with values 1 and 0:</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="contrast-coding-and-oneway-anova.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>dummy)</span></code></pre></div>
+<pre><code>## 
+##  0  1 
+## 18 18</code></pre>
+<p>We can now use this <code>dummy</code> variable like any other (metric) predictor in a linear model.</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="contrast-coding-and-oneway-anova.html#cb222-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(intrusions <span class="sc">~</span> dummy, <span class="at">data=</span>dat)</span>
+<span id="cb222-2"><a href="contrast-coding-and-oneway-anova.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intrusions ~ dummy, data = dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8333 -1.8333 -0.8333  1.1111 10.1667 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   1.8889     0.6266   3.015  0.00484 **
+## dummy         2.9444     0.8861   3.323  0.00214 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.658 on 34 degrees of freedom
+## Multiple R-squared:  0.2451, Adjusted R-squared:  0.2229 
+## F-statistic: 11.04 on 1 and 34 DF,  p-value: 0.00214</code></pre>
+<p>To compute other contrast-coded predictors, you can follow the same procedure. If a contrast-coded predictor only needs two values, then you can also use the <code>ifelse</code> function, which is a little less typing. The <code>ifelse</code> function has three arguments: a logical condition, the value to return when that condition is <code>TRUE</code>, and the value to return when that condition is <code>FALSE</code>. For instance, you can create a variable <code>effect</code>, with the value -.5 for <code>Tetris_Reactivation</code> and a value .5 for <code>Reactivation</code>, as</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="contrast-coding-and-oneway-anova.html#cb224-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>effect <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(dat<span class="sc">$</span>Condition <span class="sc">==</span> <span class="st">&quot;Reactivation&quot;</span>,.<span class="dv">5</span>,<span class="sc">-</span>.<span class="dv">5</span>)</span></code></pre></div>
+<p>Here, when <code>dat$Condition == "Reactivation"</code>, the condition is <code>TRUE</code>, and hence the value <code>.5</code> is returned, otherwise (when the condition is not true, so <code>Condition != "Reactivation"</code>), the value -.5 is returned. As before, we can enter this as a predictor in an linear model as usual:</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="contrast-coding-and-oneway-anova.html#cb225-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(intrusions <span class="sc">~</span> effect, <span class="at">data=</span>dat)</span>
+<span id="cb225-2"><a href="contrast-coding-and-oneway-anova.html#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intrusions ~ effect, data = dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8333 -1.8333 -0.8333  1.1111 10.1667 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   3.3611     0.4431   7.586  8.2e-09 ***
+## effect        2.9444     0.8861   3.323  0.00214 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.658 on 34 degrees of freedom
+## Multiple R-squared:  0.2451, Adjusted R-squared:  0.2229 
+## F-statistic: 11.04 on 1 and 34 DF,  p-value: 0.00214</code></pre>
+<p>The procedure is easily extended to multiple contrast-coded predictors. For an example, let’s consider the full dataset with all four conditions.</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="contrast-coding-and-oneway-anova.html#cb227-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> tetris2015</span>
+<span id="cb227-2"><a href="contrast-coding-and-oneway-anova.html#cb227-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intrusions <span class="ot">&lt;-</span> dat<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions</span></code></pre></div>
+<p>Say that we want a set of orthogonal contrast codes</p>
+<table>
+<caption>A set of orthogonal contrast codes.</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right"><span class="math inline">\(c_1\)</span></th>
+<th align="right"><span class="math inline">\(c_2\)</span></th>
+<th align="right"><span class="math inline">\(c_3\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>Control</code></td>
+<td align="right"><span class="math inline">\(\tfrac{3}{4}\)</span></td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left"><code>Tetris_Reactivation</code></td>
+<td align="right"><span class="math inline">\(-\tfrac{1}{4}\)</span></td>
+<td align="right"><span class="math inline">\(-\tfrac{1}{3}\)</span></td>
+<td align="right"><span class="math inline">\(-\tfrac{1}{2}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>Tetris</code></td>
+<td align="right"><span class="math inline">\(-\tfrac{1}{4}\)</span></td>
+<td align="right"><span class="math inline">\(\tfrac{2}{3}\)</span></td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left"><code>Reactivation</code></td>
+<td align="right"><span class="math inline">\(-\tfrac{1}{4}\)</span></td>
+<td align="right"><span class="math inline">\(-\tfrac{1}{3}\)</span></td>
+<td align="right"><span class="math inline">\(\tfrac{1}{2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The first contrast code has only two values, so we can use <code>ifelse</code>. The second and third have three possible values, and then we can’t use that function.</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="contrast-coding-and-oneway-anova.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use ifelse</span></span>
+<span id="cb228-2"><a href="contrast-coding-and-oneway-anova.html#cb228-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>c1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(dat<span class="sc">$</span>Condition <span class="sc">==</span> <span class="st">&quot;Control&quot;</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span>
+<span id="cb228-3"><a href="contrast-coding-and-oneway-anova.html#cb228-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create c2 and c3 with default values and then use subsets for other values</span></span>
+<span id="cb228-4"><a href="contrast-coding-and-oneway-anova.html#cb228-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>c2 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb228-5"><a href="contrast-coding-and-oneway-anova.html#cb228-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>c2[dat<span class="sc">$</span>Condition <span class="sc">==</span> <span class="st">&quot;Tetris&quot;</span>] <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span></span>
+<span id="cb228-6"><a href="contrast-coding-and-oneway-anova.html#cb228-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>c2[dat<span class="sc">$</span>Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Tetris_Reactivation&quot;</span>,<span class="st">&quot;Reactivation&quot;</span>)] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span></span>
+<span id="cb228-7"><a href="contrast-coding-and-oneway-anova.html#cb228-7" aria-hidden="true" tabindex="-1"></a><span class="co"># use sapply and switch</span></span>
+<span id="cb228-8"><a href="contrast-coding-and-oneway-anova.html#cb228-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>c3 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">as.character</span>(dat<span class="sc">$</span>Condition), <span class="cf">switch</span>, </span>
+<span id="cb228-9"><a href="contrast-coding-and-oneway-anova.html#cb228-9" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Control&quot;</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb228-10"><a href="contrast-coding-and-oneway-anova.html#cb228-10" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Tetris_Reactivation&quot;</span> <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb228-11"><a href="contrast-coding-and-oneway-anova.html#cb228-11" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Tetris&quot;</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb228-12"><a href="contrast-coding-and-oneway-anova.html#cb228-12" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Reactivation&quot;</span> <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span></code></pre></div>
+<p>When creating <code>c3</code>, I used a little R wizardry. The function <code>sapply(X, FUN, ...)</code> can be used to apply a function <code>FUN</code> to each element of a vector or list <code>X</code>. The argument <code>X</code> is that vector or list. As <code>dat$Condition</code> is a <code>factor</code>, but I want to use it as a character vector here, I’m using <code>as.character</code> to convert the <code>factor</code> in a <code>character</code> vector. The second argument <code>FUN</code> is the function you want to apply to the elements of <code>X</code>. I’m using the <code>switch(EXPR, ...)</code> function here. The <code>sapply</code> function will take each element in <code>X</code> and assign that to <code>switch</code> as the <code>EXPR</code> argument. Then any arguments specified as <code>...</code> in the <code>sapply</code> function will be passed as additional arguments to the <code>FUN</code> function. In this case, what is specified under <code>...</code> in the <code>sapply</code> function will be passed on to the <code>...</code> argument of <code>switch</code>. For <code>switch</code>, the <code>...</code> argument should be a list of alternative values of <code>EXPR</code>, with a corresponding return value. For instance, if <code>EXPR == Control</code>, the <code>switch</code> function will return 0. Using a combination of <code>sapply</code> and e.g. <code>switch</code> makes R a very powerful data manipulation tool. But the ins-and-outs of such applications will require practice. Alternatively, the <code>dplyr</code> package (which is part of the so-called <code>tidyverse</code>) has powerful functionality for data manipulation and data wrangling, which, with practice, are more straightforward to use than functions such as <code>sapply</code> in base R.</p>
+<p>A main reason for showing you <code>sapply</code> here is to show you the flexibility of R. There are many ways to obtain the same result. Which way you find most intuitive is a personal judgement.</p>
+<p>Getting back to the reason why we created the new variables in the first place, we can now use them as new predictors in a linear model</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="contrast-coding-and-oneway-anova.html#cb229-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(intrusions <span class="sc">~</span> c1 <span class="sc">+</span> c2 <span class="sc">+</span> c3, <span class="at">data=</span>dat)</span>
+<span id="cb229-2"><a href="contrast-coding-and-oneway-anova.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intrusions ~ c1 + c2 + c3, data = dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.1111 -1.8889 -0.8333  1.1111 10.8889 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   3.9306     0.3743  10.502 7.11e-16 ***
+## c1            1.5741     0.8643   1.821    0.073 .  
+## c2            0.5278     0.9168   0.576    0.567    
+## c3            2.9444     1.0586   2.781    0.007 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.176 on 68 degrees of freedom
+## Multiple R-squared:  0.1434, Adjusted R-squared:  0.1056 
+## F-statistic: 3.795 on 3 and 68 DF,  p-value: 0.01409</code></pre>
+<p>We can also obtain the equivalent <span class="math inline">\(F\)</span> tests through the <code>Anova</code> function in the <code>car</code> package</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="contrast-coding-and-oneway-anova.html#cb231-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modg, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: intrusions
+##              Sum Sq Df  F value    Pr(&gt;F)    
+## (Intercept) 1112.35  1 110.2886 7.108e-16 ***
+## c1            33.45  1   3.3165  0.072989 .  
+## c2             3.34  1   0.3314  0.566727    
+## c3            78.03  1   7.7364  0.006996 ** 
+## Residuals    685.83 68                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>To obtain an omnibus test for Condition (i.e. a test that all these slopes in <code>modg</code> are equal to 0), we can create a suitable intercept-only MODEL R and perform a model comparison as follows:</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="contrast-coding-and-oneway-anova.html#cb233-1" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> <span class="fu">lm</span>(intrusions <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>dat)</span>
+<span id="cb233-2"><a href="contrast-coding-and-oneway-anova.html#cb233-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr, modg)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: intrusions ~ 1
+## Model 2: intrusions ~ c1 + c2 + c3
+##   Res.Df    RSS Df Sum of Sq      F  Pr(&gt;F)  
+## 1     71 800.65                              
+## 2     68 685.83  3    114.82 3.7948 0.01409 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note that the results of this model comparison were already provided in the output of <code>summary(modg)</code>.</p>
+</div>
+<div id="assigning-contrasts-to-factors" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Assigning contrasts to factors</h2>
+<p>Creating new variables in a dataset yourself gives you full control, but it can also be a bit cumbersome. Luckily, R has functionality build-in to assign contrasts to nominal variables. These nominal variables with associated contrast codes are <code>factor</code>s. In the <code>tetris2015</code> dataset, the <code>Condition</code> column is already a factor. In other datasets, a nominal variable might be a <code>character</code> vector. You would then first need to turn this into a factor by calling e.g.</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="contrast-coding-and-oneway-anova.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This would be useful if dat$Condition is a character vector</span></span>
+<span id="cb235-2"><a href="contrast-coding-and-oneway-anova.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="co"># it is not needed here!</span></span>
+<span id="cb235-3"><a href="contrast-coding-and-oneway-anova.html#cb235-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Condition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dat<span class="sc">$</span>Condition)</span></code></pre></div>
+<p>Factors have contrast codes associated to them. In R, the default contrast code is dummy coding. You can view (and set) the contrasts via the <code>contrasts()</code> function. First, let’s have a look at what the contrast for <code>dat$Condition</code> looks like:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="contrast-coding-and-oneway-anova.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>Condition)</span></code></pre></div>
+<pre><code>##                     Tetris_Reactivation Tetris Reactivation
+## Control                               0      0            0
+## Tetris_Reactivation                   1      0            0
+## Tetris                                0      1            0
+## Reactivation                          0      0            1</code></pre>
+<p>The contrast is a matrix with each column representing a contrast code, and each row a level of the nominal variable. Remember, when there are four levels, we need three contrast codes. The default dummy coding uses the first level as the reference group, and then each contrast code represents a comparison of a later level to the reference level.</p>
+<p>You can choose your own contrast codes by assigning a matrix with contrast-code values to e.g. <code>contrasts(dat$Condition)</code>. For instance, we can use the orthogonal contrast code defined earlier. In the code below, I first create the contrast <em>matrix</em> by combining columns with the <code>cbind()</code> function. You can give the columns names you find intuitive with the <code>colnames</code> function.</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="contrast-coding-and-oneway-anova.html#cb238-1" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>),</span>
+<span id="cb238-2"><a href="contrast-coding-and-oneway-anova.html#cb238-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">c</span>(<span class="dv">0</span>,  <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>),</span>
+<span id="cb238-3"><a href="contrast-coding-and-oneway-anova.html#cb238-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">c</span>(<span class="dv">0</span>,  <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">0</span>,   <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb238-4"><a href="contrast-coding-and-oneway-anova.html#cb238-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(codes) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ctrl-vs-other&quot;</span>,<span class="st">&quot;tetr-vs-memory&quot;</span>, <span class="st">&quot;react-vs-t+r&quot;</span>)</span>
+<span id="cb238-5"><a href="contrast-coding-and-oneway-anova.html#cb238-5" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>Condition) <span class="ot">&lt;-</span> codes</span></code></pre></div>
+<p>When we now call <code>contrasts</code> again, we can see are new contrast codes:</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="contrast-coding-and-oneway-anova.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>Condition)</span></code></pre></div>
+<pre><code>##                     ctrl-vs-other tetr-vs-memory react-vs-t+r
+## Control                      0.75      0.0000000          0.0
+## Tetris_Reactivation         -0.25     -0.3333333         -0.5
+## Tetris                      -0.25      0.6666667          0.0
+## Reactivation                -0.25     -0.3333333          0.5</code></pre>
+<p>A nice thing about the <code>lm</code> function is that you can also supply factors as predictors directly. Internally, the <code>lm</code> function will then create the necessary contrast-coded predictors from the contrasts supplied to the factor. Let’s try this:</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="contrast-coding-and-oneway-anova.html#cb241-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(intrusions <span class="sc">~</span> Condition, <span class="at">data=</span>dat)</span>
+<span id="cb241-2"><a href="contrast-coding-and-oneway-anova.html#cb241-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intrusions ~ Condition, data = dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.1111 -1.8889 -0.8333  1.1111 10.8889 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)               3.9306     0.3743  10.502 7.11e-16 ***
+## Conditionctrl-vs-other    1.5741     0.8643   1.821    0.073 .  
+## Conditiontetr-vs-memory   0.5278     0.9168   0.576    0.567    
+## Conditionreact-vs-t+r     2.9444     1.0586   2.781    0.007 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.176 on 68 degrees of freedom
+## Multiple R-squared:  0.1434, Adjusted R-squared:  0.1056 
+## F-statistic: 3.795 on 3 and 68 DF,  p-value: 0.01409</code></pre>
+<p>You can see that the output (apart from the names of the effects) is exactly the same as when we created <code>c1</code>, <code>c2</code>, and <code>c3</code>. So that’s pretty neat!</p>
+<p>As I said, the <code>lm</code> function will create the contrast-coded predictors for factors. You can view the resulting “design matrix” (the matrix with values for all predictors actually used when estimating the parameters) with the <code>model.matrix</code> function (as the output is rather long, I’m calling this within the <code>head</code> function to only show the first few rows)</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="contrast-coding-and-oneway-anova.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">model.matrix</span>(modg))</span></code></pre></div>
+<pre><code>##   (Intercept) Conditionctrl-vs-other Conditiontetr-vs-memory
+## 1           1                   0.75                       0
+## 2           1                   0.75                       0
+## 3           1                   0.75                       0
+## 4           1                   0.75                       0
+## 5           1                   0.75                       0
+## 6           1                   0.75                       0
+##   Conditionreact-vs-t+r
+## 1                     0
+## 2                     0
+## 3                     0
+## 4                     0
+## 5                     0
+## 6                     0</code></pre>
+<p>As you can see, the design matrix also includes a column for the intercept. The value of this column is 1 for every case in the data. If you think about it, you can view the intercept as the slope of a predictor variable which always has the value 1:
+<span class="math display">\[\beta_0 = \beta_0 \times 1\]</span></p>
+<div id="default-coding-schemes" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Default coding schemes</h3>
+<p>In addition to assigning your own contrast codes, there are functions to create several “default” coding matrices. These are</p>
+<ul>
+<li><code>contr.treatment</code>: dummy coding.</li>
+<li><code>contr.sum</code>: effect-coding (sum-to-zero)</li>
+<li><code>contr.helmert</code>: orthogonal contrast codes comparing each level of a factor to all levels before it.</li>
+<li><code>contr.poly</code>: orthogonal contrast codes, usually used for ordinal levels.</li>
+</ul>
+<p>You can call each of these functions by specifying how many levels the factor has. E.g. for our <code>Condition</code> factor with four levels, the output of these functions is</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="contrast-coding-and-oneway-anova.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contr.treatment</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##   2 3 4
+## 1 0 0 0
+## 2 1 0 0
+## 3 0 1 0
+## 4 0 0 1</code></pre>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="contrast-coding-and-oneway-anova.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contr.sum</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##   [,1] [,2] [,3]
+## 1    1    0    0
+## 2    0    1    0
+## 3    0    0    1
+## 4   -1   -1   -1</code></pre>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="contrast-coding-and-oneway-anova.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contr.helmert</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##   [,1] [,2] [,3]
+## 1   -1   -1   -1
+## 2    1   -1   -1
+## 3    0    2   -1
+## 4    0    0    3</code></pre>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="contrast-coding-and-oneway-anova.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contr.poly</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##              .L   .Q         .C
+## [1,] -0.6708204  0.5 -0.2236068
+## [2,] -0.2236068 -0.5  0.6708204
+## [3,]  0.2236068 -0.5 -0.6708204
+## [4,]  0.6708204  0.5  0.2236068</code></pre>
+<p>When you look at the output of these functions, you might notice that the scale of each can be different. For instance, in the <code>contr.helmert</code> function, the difference between the highest and lowest value ranges from 2 to 4. In the book, I used values such that a one-unit increase on a contrast-coded predictor reflects a difference between conditions. This convention is not followed in the various <code>contr.</code> functions. If you want default contrast coding schemes which follow this convention, making the parameters of the model a little easier to interpret, you can use the various contrast coding schemes implemented in the <code>codingMatrices</code> package <span class="citation">(<a href="#ref-R-codingMatrices" role="doc-biblioref">Venables 2021</a>)</span>. this package also implements several other default coding schemes not implemented in the <code>stats</code> package. Instead of <code>contr.</code>, this package provides contrast codes through function names starting with <code>code_</code>. For example, you can obtain a Helmert contrast with a different scaling as follows:</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="contrast-coding-and-oneway-anova.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(codingMatrices)</span>
+<span id="cb253-2"><a href="contrast-coding-and-oneway-anova.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="fu">code_helmert</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##     H2         H3    H4
+## 1 -0.5 -0.3333333 -0.25
+## 2  0.5 -0.3333333 -0.25
+## 3  0.0  0.6666667 -0.25
+## 4  0.0  0.0000000  0.75</code></pre>
+<p>Another nice feature of the <code>codingMatrices</code> package is the <code>mean_contrasts()</code> function, which will show you how the intercept of the resulting model is related to the group means, and how the slope of each contrast-coded predictor is a function of the group means. For instance</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="contrast-coding-and-oneway-anova.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_contrasts</span>(<span class="fu">code_helmert</span>(<span class="dv">4</span>))</span></code></pre></div>
+<pre><code>##     m1   m2   m3   m4  
+## Ave  1/4  1/4  1/4  1/4
+## H2    -1    1    .    .
+## H3  -1/2 -1/2    1    .
+## H4  -1/3 -1/3 -1/3    1</code></pre>
+<p>shows you in the row labelled <code>Ave</code> that the intercept is the sum of each group mean (in the columns) multiplied by <span class="math inline">\(\tfrac{1}{4}\)</span>; i.e. it is the average of averages. The next row (labelled <code>H2</code>) shows you how the slope of the first contrast-coded predictor can be computed from the group means (as the difference between the second mean and the first mean). By contrast, the <code>contr.helmert()</code> function will provide the same intercept, but slopes that are fractions of these differences</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="contrast-coding-and-oneway-anova.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_contrasts</span>(<span class="fu">contr.helmert</span>(<span class="dv">4</span>))</span></code></pre></div>
+<pre><code>##     m1    m2    m3    m4   
+## Ave   1/4   1/4   1/4   1/4
+##      -1/2   1/2     .     .
+##      -1/6  -1/6   1/3     .
+##     -1/12 -1/12 -1/12   1/4</code></pre>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-codingMatrices" class="csl-entry">
+Venables, Bill. 2021. <em>codingMatrices: Alternative Factor Coding Matrices for Linear Model Formulae</em>. <a href="https://CRAN.R-project.org/package=codingMatrices">https://CRAN.R-project.org/package=codingMatrices</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="moderation-and-mediation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="factorial-anova.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"source": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Factorial ANOVA | An R companion to Statistics: data analysis and modelling</title>
   <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Factorial ANOVA | An R companion to Statistics: data analysis and modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
   <meta name="github-repo" content="mspeekenbrink/sdam-book" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2021-12-08" />
+<meta name="date" content="2022-09-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="contrast-coding-and-oneway-anova.html"/>
 <link rel="next" href="repeated-measures-anova.html"/>
-<script src="book_assets/header-attrs-2.11/header-attrs.js"></script>
 <script src="book_assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,32 +49,31 @@
 
 
 
-<link href="book_assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="book_assets/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="book_assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="book_assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="book_assets/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -85,9 +82,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -120,28 +117,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -156,58 +131,49 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
-<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
 <li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
-<ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
-<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
-<ul>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
 <li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
-<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
-<ul>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
 <li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction.html"><a href="introduction.html#loading-packages"><i class="fa fa-check"></i><b>1.4.2</b> Loading packages</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
 <li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
-<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
-<ul>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
 <li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
 <li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
 <li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
-<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
-<ul>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
 <li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
 <li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+<li class="chapter" data-level="1.9.3" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.9.3</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.9.4" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.9.4</b> Raincloud plot</a></li>
 </ul></li>
-<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.10</b> Scatterplot</a></li>
-<li class="chapter" data-level="1.11" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.11</b> Raincloud plot</a></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#a-note-about-namespaces-and-loading-packages"><i class="fa fa-check"></i><b>1.10</b> A note about namespaces and loading packages</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
-<ul>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
 <li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
-<ul>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
 <li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
 <li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
-<ul>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
 <li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
-<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
-<ul>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
 <li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
 </ul></li>
@@ -215,8 +181,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
 <li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
-<ul>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a><ul>
 <li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
 <li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
 <li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
@@ -224,46 +189,36 @@ div.csl-indent {
 <li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
 <li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-bit-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A bit about namespaces</a></li>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a><ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-reminder-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A reminder about namespaces</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
-<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
-<ul>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
 <li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
-<ul>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a><ul>
 <li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
-<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
-<ul>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
-<ul>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a><ul>
 <li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
-<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
-<ul>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a><ul>
 <li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
-<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
-<ul>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a><ul>
 <li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
-<ul>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a><ul>
 <li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
-<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
-<ul>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a><ul>
 <li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
 <li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
 </ul></li>
@@ -271,10 +226,8 @@ div.csl-indent {
 <li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
 <li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
-<ul>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a><ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a><ul>
 <li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
 <li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
 <li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
@@ -285,41 +238,39 @@ div.csl-indent {
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
 <li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>10</b> Bayesian hypothesis testing with Bayes Factors</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>10.1</b> The <code>BayesFactor</code> package</a>
-<ul>
-<li class="chapter" data-level="10.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>10.1.1</b> A Bayesian one-sample t-test</a></li>
-<li class="chapter" data-level="10.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>10.1.2</b> A Bayesian two-sample t-test</a></li>
-<li class="chapter" data-level="10.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>10.1.3</b> A Bayesian ANOVA</a></li>
-<li class="chapter" data-level="10.1.4" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>10.1.4</b> Bayesian regression and ANCOVA</a></li>
-<li class="chapter" data-level="10.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>10.1.5</b> Bayesian repeated-measures ANOVA</a></li>
-<li class="chapter" data-level="10.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>10.1.6</b> Parameter estimates</a></li>
-<li class="chapter" data-level="10.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>10.1.7</b> Highest-density interval</a></li>
+<li class="chapter" data-level="10" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>10</b> Generalized linear models</a></li>
+<li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a></li>
+<li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
+<li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a><ul>
+<li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>13.1.1</b> A Bayesian one-sample t-test</a></li>
+<li class="chapter" data-level="13.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>13.1.2</b> A Bayesian two-sample t-test</a></li>
+<li class="chapter" data-level="13.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>13.1.3</b> A Bayesian ANOVA</a></li>
+<li class="chapter" data-level="13.1.4" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>13.1.4</b> Bayesian regression and ANCOVA</a></li>
+<li class="chapter" data-level="13.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>13.1.5</b> Bayesian repeated-measures ANOVA</a></li>
+<li class="chapter" data-level="13.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>13.1.6</b> Parameter estimates</a></li>
+<li class="chapter" data-level="13.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>13.1.7</b> Highest-density interval</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>11</b> Reproducible reports with RMarkdown</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>11.1</b> YAML headers</a></li>
-<li class="chapter" data-level="11.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>11.2</b> Markdown syntax</a>
-<ul>
-<li class="chapter" data-level="11.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>11.2.1</b> Inline formatting</a></li>
-<li class="chapter" data-level="11.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>11.2.2</b> Block-level elements</a></li>
-<li class="chapter" data-level="11.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>11.2.3</b> Math expressions</a></li>
+<li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a><ul>
+<li class="chapter" data-level="14.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>14.1</b> YAML headers</a></li>
+<li class="chapter" data-level="14.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>14.2</b> Markdown syntax</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>14.2.1</b> Inline formatting</a></li>
+<li class="chapter" data-level="14.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>14.2.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="14.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Math expressions</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>11.3</b> R code chunks and inline R code</a>
-<ul>
-<li class="chapter" data-level="11.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>11.3.1</b> Figures</a></li>
-<li class="chapter" data-level="11.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>11.3.2</b> Tables</a></li>
+<li class="chapter" data-level="14.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>14.3</b> R code chunks and inline R code</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>14.3.1</b> Figures</a></li>
+<li class="chapter" data-level="14.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>14.3.2</b> Tables</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>11.4</b> APA documents with <code>papaja</code></a>
-<ul>
-<li class="chapter" data-level="11.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>11.4.1</b> Installation</a></li>
-<li class="chapter" data-level="11.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>11.4.2</b> How to use papaja</a></li>
-<li class="chapter" data-level="11.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>11.4.3</b> Getting help</a></li>
-<li class="chapter" data-level="11.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>11.4.4</b> Other related R packages</a></li>
+<li class="chapter" data-level="14.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>14.4</b> APA documents with <code>papaja</code></a><ul>
+<li class="chapter" data-level="14.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>14.4.1</b> Installation</a></li>
+<li class="chapter" data-level="14.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>14.4.2</b> How to use papaja</a></li>
+<li class="chapter" data-level="14.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>14.4.3</b> Getting help</a></li>
+<li class="chapter" data-level="14.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>14.4.4</b> Other related R packages</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -337,12 +288,12 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="factorial-anova" class="section level1" number="7">
-<h1><span class="header-section-number">Chapter 7</span> Factorial ANOVA</h1>
+<div id="factorial-anova" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapter 7</span> Factorial ANOVA<a href="factorial-anova.html#factorial-anova" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this chapter, we will look at factorial ANOVA, different ways of model comparisons (different SS types), and some ways to perform multiple comparisons and post-hoc tests. We will introduce these with the same data – from a study investigating the role of experimenter belief in social priming – used in Chapter 7 of SDAM. The dataset is available in the <code>sdamr</code> package as <code>expBelief</code>. We can load it from there, and inspect the first six cases, as usual:</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="factorial-anova.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
-<span id="cb259-2"><a href="factorial-anova.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;expBelief&quot;</span>)</span>
-<span id="cb259-3"><a href="factorial-anova.html#cb259-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(expBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" title="1"><span class="kw">library</span>(sdamr)</a>
+<a class="sourceLine" id="cb263-2" title="2"><span class="kw">data</span>(<span class="st">&quot;expBelief&quot;</span>)</a>
+<a class="sourceLine" id="cb263-3" title="3"><span class="kw">head</span>(expBelief)</a></code></pre></div>
 <pre><code>##    pid exptrNum age gender yearInUni                  ethnicity englishFluency
 ## 1 1001        1  18      F         1 caucasian                               7
 ## 2 1003        1  18      F         1 CAUCASIAN                               7
@@ -364,74 +315,74 @@ div.csl-indent {
 ## 4         5        6           5
 ## 5         6        6           6
 ## 6         7        7           7</code></pre>
-<div id="rainclouds-for-factorial-designs" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Rainclouds for factorial designs</h2>
+<div id="rainclouds-for-factorial-designs" class="section level2 hasAnchor">
+<h2><span class="header-section-number">7.1</span> Rainclouds for factorial designs<a href="factorial-anova.html#rainclouds-for-factorial-designs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The experiment had a 2 (social prime: low-power bs high power prime) by 2 (experimenter belief: low-power vs high-power manipulation). The two experimental factors are called <code>primeCond</code> and <code>experimenterBelief</code> in the data frame. The dependent variable we looked at is called <code>ApproachAdvantage</code>. We can use the <code>plot_raincloud</code> function from <code>sdamr</code> for plotting the data. The function has an argument <code>groups</code> which allows you to plot separate rainclouds for different levels of a grouping variable. In this case, we need four rainclouds. Because there is no variable to reflect the combinations of the levels of <code>primeCond</code> and <code>experimenterBelief</code>, we should create one first. The <code>interaction()</code> function is a useful function to create a new factor from the combinations of a set of given factors. As I’m going to make changes to the original dataset, I like to first create a new copy of the data fro this, so that I can later still use the original data set.</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="factorial-anova.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a copy of expBelief and call it &quot;dat&quot;</span></span>
-<span id="cb261-2"><a href="factorial-anova.html#cb261-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> expBelief</span>
-<span id="cb261-3"><a href="factorial-anova.html#cb261-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>condition <span class="ot">&lt;-</span> <span class="fu">interaction</span>(dat<span class="sc">$</span>primeCond, dat<span class="sc">$</span>experimenterBelief)</span>
-<span id="cb261-4"><a href="factorial-anova.html#cb261-4" aria-hidden="true" tabindex="-1"></a><span class="co"># show the levels of the newly created factor:</span></span>
-<span id="cb261-5"><a href="factorial-anova.html#cb261-5" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(dat<span class="sc">$</span>condition)</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb265-1" title="1"><span class="co"># create a copy of expBelief and call it &quot;dat&quot;</span></a>
+<a class="sourceLine" id="cb265-2" title="2">dat &lt;-<span class="st"> </span>expBelief</a>
+<a class="sourceLine" id="cb265-3" title="3">dat<span class="op">$</span>condition &lt;-<span class="st"> </span><span class="kw">interaction</span>(dat<span class="op">$</span>primeCond, dat<span class="op">$</span>experimenterBelief)</a>
+<a class="sourceLine" id="cb265-4" title="4"><span class="co"># show the levels of the newly created factor:</span></a>
+<a class="sourceLine" id="cb265-5" title="5"><span class="kw">levels</span>(dat<span class="op">$</span>condition)</a></code></pre></div>
 <pre><code>## [1] &quot;HPP.H&quot; &quot;LPP.H&quot; &quot;HPP.L&quot; &quot;LPP.L&quot;</code></pre>
 <p>You can see that the <code>condition</code> factor has four levels, which concatenate the levels of <code>primeCond</code> (which are <code>LPP</code> for low-power prime, and <code>HPP</code> for high-power prime) and <code>experimenterBelief</code> (which as <code>L</code> for when the experimenter is made to believe the participant received the low-power prime, and <code>H</code> for when the experimenter believed this was the high-power prime). We can now create a raincloud plot for the four conditions as follows:</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="factorial-anova.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(dat, ApproachAdvantage, <span class="at">groups=</span>condition)</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" title="1"><span class="kw">plot_raincloud</span>(dat, ApproachAdvantage, <span class="dt">groups=</span>condition)</a></code></pre></div>
 <p><img src="07-factorial-ANOVA_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>In the book, I first changed the labels of the two variables before calling the interaction function. If you want the same plot as in the book, you could run the following code (which is not evaluated here):</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="factorial-anova.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn primeCond and experimenterBelief in factors and change the labels</span></span>
-<span id="cb264-2"><a href="factorial-anova.html#cb264-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>primeCond <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>primeCond, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;PH&quot;</span>,<span class="st">&quot;PL&quot;</span>))</span>
-<span id="cb264-3"><a href="factorial-anova.html#cb264-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>experimenterBelief <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>experimenterBelief, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;EH&quot;</span>,<span class="st">&quot;EL&quot;</span>))</span>
-<span id="cb264-4"><a href="factorial-anova.html#cb264-4" aria-hidden="true" tabindex="-1"></a><span class="co"># now create an interaction factor, and change the separation sign to &quot;-&quot; instead of &quot;.&quot;</span></span>
-<span id="cb264-5"><a href="factorial-anova.html#cb264-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>condition <span class="ot">&lt;-</span> <span class="fu">interaction</span>(dat<span class="sc">$</span>primeCond, dat<span class="sc">$</span>experimenterBelief, <span class="at">sep=</span><span class="st">&quot;-&quot;</span>)</span>
-<span id="cb264-6"><a href="factorial-anova.html#cb264-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(dat, ApproachAdvantage, <span class="at">groups=</span>condition)</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" title="1"><span class="co"># turn primeCond and experimenterBelief in factors and change the labels</span></a>
+<a class="sourceLine" id="cb268-2" title="2">dat<span class="op">$</span>primeCond &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>primeCond, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;PH&quot;</span>,<span class="st">&quot;PL&quot;</span>))</a>
+<a class="sourceLine" id="cb268-3" title="3">dat<span class="op">$</span>experimenterBelief &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>experimenterBelief, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;EH&quot;</span>,<span class="st">&quot;EL&quot;</span>))</a>
+<a class="sourceLine" id="cb268-4" title="4"><span class="co"># now create an interaction factor, and change the separation sign to &quot;-&quot; instead of &quot;.&quot;</span></a>
+<a class="sourceLine" id="cb268-5" title="5">dat<span class="op">$</span>condition &lt;-<span class="st"> </span><span class="kw">interaction</span>(dat<span class="op">$</span>primeCond, dat<span class="op">$</span>experimenterBelief, <span class="dt">sep=</span><span class="st">&quot;-&quot;</span>)</a>
+<a class="sourceLine" id="cb268-6" title="6"><span class="kw">plot_raincloud</span>(dat, ApproachAdvantage, <span class="dt">groups=</span>condition)</a></code></pre></div>
 <p>The raincloud plot above effectively treats the design as a oneway design. If we want the plot to more directly reflect the factorial design, we can add some functionality from the <code>ggplot2</code> package. In particular, we can use so-called <em>facets</em>, which basically allow you to repeatedly draw a similar plot for different levels of an independent variable. Because the <code>plot_raincloud</code> produces a raincloud plot by calling underlying <code>ggplot2</code> functions, and the result is a <code>ggplot</code>, you can use any function from <code>ggplot2</code> to make changes to the resulting plot. For instance, we can, within a plot, separate the levels of the <code>experimenterBelief</code> manipulation, and then create two panels (facets) for the levels of the <code>primeCond</code> condition. This is done as follows:</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="factorial-anova.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(dat, ApproachAdvantage, <span class="at">groups =</span> experimenterBelief) <span class="sc">+</span> <span class="fu">facet_grid</span>(<span class="sc">~</span>primeCond)</span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" title="1"><span class="kw">plot_raincloud</span>(dat, ApproachAdvantage, <span class="dt">groups =</span> experimenterBelief) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(<span class="op">~</span>primeCond)</a></code></pre></div>
 <p><img src="07-factorial-ANOVA_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>As usual, it pays to read the documentation for the <code>facet_grid</code> function (try calling <code>?facet_grid</code>). There is an alternative for <code>facet_grid</code>, called <code>facet_wrap</code>, which provides slightly different labelling to the panels. <code>facet_grid</code> is particularly useful when you have <em>two</em> independent variables in a factorial design for which you would like to create different panels (we will show an example of this later). As we are considering factorial designs here, I chose to use <code>facet_grid</code>, but you can try <code>facet_wrap</code> as well.</p>
 </div>
-<div id="formulating-estimating-and-testing-a-factorial-anova" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Formulating, estimating, and testing a factorial ANOVA</h2>
+<div id="formulating-estimating-and-testing-a-factorial-anova" class="section level2 hasAnchor">
+<h2><span class="header-section-number">7.2</span> Formulating, estimating, and testing a factorial ANOVA<a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Formulating a factorial ANOVA model, where we distinguish between main effects and interactions, is not any different from formulating a moderated regression model. We can use the formula interface to indicate that we want to include predictors, as well as the product predictors required to assess interactions. In this case, however, we will enter nominal independent variables into the formula. When these are defined as <code>factors</code> with associated contrast codes, R will automatically expand the model to include the contrast-coded predictors, as well as all relevant product-predictors.</p>
 <p>The first thing to do is to make sure that the variables are defined as factors</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="factorial-anova.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check what type the two IVs are</span></span>
-<span id="cb266-2"><a href="factorial-anova.html#cb266-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat<span class="sc">$</span>primeCond)</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" title="1"><span class="co"># check what type the two IVs are</span></a>
+<a class="sourceLine" id="cb270-2" title="2"><span class="kw">class</span>(dat<span class="op">$</span>primeCond)</a></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="factorial-anova.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat<span class="sc">$</span>experimenterBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" title="1"><span class="kw">class</span>(dat<span class="op">$</span>experimenterBelief)</a></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="factorial-anova.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn each into a factor</span></span>
-<span id="cb270-2"><a href="factorial-anova.html#cb270-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>primeCond <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dat<span class="sc">$</span>primeCond)</span>
-<span id="cb270-3"><a href="factorial-anova.html#cb270-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>experimenterBelief <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dat<span class="sc">$</span>experimenterBelief)</span>
-<span id="cb270-4"><a href="factorial-anova.html#cb270-4" aria-hidden="true" tabindex="-1"></a><span class="co"># let&#39;s check the class for one of them to make sure</span></span>
-<span id="cb270-5"><a href="factorial-anova.html#cb270-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat<span class="sc">$</span>primeCond)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" title="1"><span class="co"># turn each into a factor</span></a>
+<a class="sourceLine" id="cb274-2" title="2">dat<span class="op">$</span>primeCond &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>primeCond)</a>
+<a class="sourceLine" id="cb274-3" title="3">dat<span class="op">$</span>experimenterBelief &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>experimenterBelief)</a>
+<a class="sourceLine" id="cb274-4" title="4"><span class="co"># let&#39;s check the class for one of them to make sure</span></a>
+<a class="sourceLine" id="cb274-5" title="5"><span class="kw">class</span>(dat<span class="op">$</span>primeCond)</a></code></pre></div>
 <pre><code>## [1] &quot;factor&quot;</code></pre>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="factorial-anova.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="co"># that worked :-)</span></span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" title="1"><span class="co"># that worked :-)</span></a></code></pre></div>
 <p>Now let’s define appropriate contrast codes. As usual, it is a good idea to first check the existing contrast, as this shows the order of the factor levels:</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="factorial-anova.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>primeCond)</span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" title="1"><span class="kw">contrasts</span>(dat<span class="op">$</span>primeCond)</a></code></pre></div>
 <pre><code>##     LPP
 ## HPP   0
 ## LPP   1</code></pre>
 <p>We can see that we need to define a single contrast, with the value for <code>HPP</code> (high-power prime) first and then the value for <code>LPP</code> (low-power prime) second. As the social priming hypothesis would predict the ApproachAdvantage score to be higher for <code>LPP</code> than for <code>HPP</code>, the following contrast makes sense:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="factorial-anova.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>primeCond) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb275-2"><a href="factorial-anova.html#cb275-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>primeCond)</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" title="1"><span class="kw">contrasts</span>(dat<span class="op">$</span>primeCond) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb279-2" title="2"><span class="kw">contrasts</span>(dat<span class="op">$</span>primeCond)</a></code></pre></div>
 <pre><code>##     [,1]
 ## HPP  0.5
 ## LPP -0.5</code></pre>
 <p>We define the contrast for <code>experimenterBelief</code> in the same way:</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="factorial-anova.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>experimenterBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" title="1"><span class="kw">contrasts</span>(dat<span class="op">$</span>experimenterBelief)</a></code></pre></div>
 <pre><code>##   L
 ## H 0
 ## L 1</code></pre>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="factorial-anova.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H comes before l</span></span>
-<span id="cb279-2"><a href="factorial-anova.html#cb279-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>experimenterBelief) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb279-3"><a href="factorial-anova.html#cb279-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>experimenterBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" title="1"><span class="co"># H comes before l</span></a>
+<a class="sourceLine" id="cb283-2" title="2"><span class="kw">contrasts</span>(dat<span class="op">$</span>experimenterBelief) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb283-3" title="3"><span class="kw">contrasts</span>(dat<span class="op">$</span>experimenterBelief)</a></code></pre></div>
 <pre><code>##   [,1]
 ## H  0.5
 ## L -0.5</code></pre>
 <p>Now we are ready to estimate the linear model. To estimate a model with the main effects and interaction, we would use:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="factorial-anova.html#cb281-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> <span class="fu">lm</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data=</span>dat)</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" title="1">modg &lt;-<span class="st"> </span><span class="kw">lm</span>(ApproachAdvantage <span class="op">~</span><span class="st"> </span>primeCond<span class="op">*</span>experimenterBelief, <span class="dt">data=</span>dat)</a></code></pre></div>
 <p>Remember that this notation will expand the formula to</p>
 <p><code>ApproachAdvantage ~ 1 + primeCond + experimenterBelief + primeCond:experimenterBelief</code></p>
 <p>i.e. to a model with an intercept, a main effect of <code>primeCond</code>, a main effect of <code>experimenterBelief</code>, and an interaction <code>primeCond:experimenterBelief</code>. The easiest way to obtain the parameter estimates (and t-tests for those) is to use the <code>summary</code> function on this fitted linear model:</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="factorial-anova.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" title="1"><span class="kw">summary</span>(modg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = ApproachAdvantage ~ primeCond * experimenterBelief, 
@@ -454,7 +405,7 @@ div.csl-indent {
 ## Multiple R-squared:  0.04565,    Adjusted R-squared:  0.03842 
 ## F-statistic: 6.314 on 3 and 396 DF,  p-value: 0.0003425</code></pre>
 <p>Alternatively, we can use the <code>Anova</code> function from the <code>car</code> package to obtain Type 3 (omnibus) tests:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="factorial-anova.html#cb284-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modg, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" title="1">car<span class="op">::</span><span class="kw">Anova</span>(modg, <span class="dt">type=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: ApproachAdvantage
@@ -467,46 +418,46 @@ div.csl-indent {
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>You can see that while the <code>Anova</code> function reports <span class="math inline">\(F\)</span> statistics, the tests and the corresponding <span class="math inline">\(p\)</span>-values are identical. In this case, each factor only has two levels, and hence one contrast code. As there is only one parameter associated to each main effect and interaction (the slope of the single contrast-coded predictor for that effect), the omnibus test is a single parameter test. We will see an example where this is not the case shortly.</p>
-<div id="a-threeway-anova" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">7.2.1</span> A threeway ANOVA</h3>
+<div id="a-threeway-anova" class="section level3 hasAnchor">
+<h3><span class="header-section-number">7.2.1</span> A threeway ANOVA<a href="factorial-anova.html#a-threeway-anova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can also try to assess the experimenter effects by including this as an additional factor. Experimenter has four levels, so we’ll need three contrast codes for this variable. In the data.frame, Experimenter is included as <code>exptrNum</code>, which is a numerical variable. So we will first convert it into a factor</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="factorial-anova.html#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat<span class="sc">$</span>exptrNum)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" title="1"><span class="kw">class</span>(dat<span class="op">$</span>exptrNum)</a></code></pre></div>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="factorial-anova.html#cb288-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>exptrNum <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>exptrNum, <span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" title="1">dat<span class="op">$</span>exptrNum &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>exptrNum, <span class="dt">labels=</span><span class="kw">paste0</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</a></code></pre></div>
 <p>I’m using <code>factor</code> here rather than <code>as.factor</code>, because the former allows me to add labels to the levels, through the <code>labels</code> argument. Note that I’m using the <code>paste0</code> function to create a vector with labels. This function can create combinations of (character) vectors, and is quite handy. The <code>paste0</code> function is very similar to the <code>paste</code> function, but doesn’t include a space between the combinations:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="factorial-anova.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" title="1"><span class="kw">paste0</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;E1&quot; &quot;E2&quot; &quot;E3&quot; &quot;E4&quot;</code></pre>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="factorial-anova.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" title="1"><span class="kw">paste</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;E 1&quot; &quot;E 2&quot; &quot;E 3&quot; &quot;E 4&quot;</code></pre>
 <p>Right, so let’s define a contrast for <code>exptrNum</code>.</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="factorial-anova.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>exptrNum)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" title="1"><span class="kw">contrasts</span>(dat<span class="op">$</span>exptrNum)</a></code></pre></div>
 <pre><code>##    E2 E3 E4
 ## E1  0  0  0
 ## E2  1  0  0
 ## E3  0  1  0
 ## E4  0  0  1</code></pre>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="factorial-anova.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>exptrNum) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>), </span>
-<span id="cb295-2"><a href="factorial-anova.html#cb295-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">0</span>),</span>
-<span id="cb295-3"><a href="factorial-anova.html#cb295-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>,<span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>))</span>
-<span id="cb295-4"><a href="factorial-anova.html#cb295-4" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>exptrNum)</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" title="1"><span class="kw">contrasts</span>(dat<span class="op">$</span>exptrNum) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>), </a>
+<a class="sourceLine" id="cb299-2" title="2">                                 <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>,<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>,<span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb299-3" title="3">                                 <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">4</span>,<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">4</span>,<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">4</span>,<span class="dv">3</span><span class="op">/</span><span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb299-4" title="4"><span class="kw">contrasts</span>(dat<span class="op">$</span>exptrNum)</a></code></pre></div>
 <pre><code>##    [,1]       [,2]  [,3]
 ## E1 -0.5 -0.3333333 -0.25
 ## E2  0.5 -0.3333333 -0.25
 ## E3  0.0  0.6666667 -0.25
 ## E4  0.0  0.0000000  0.75</code></pre>
 <p>Before conducting the analysis, it is always a good idea to look at the data. Let’s create a slightly different raincloud plot than the one in Chapter 8 of SDAMR, now more explicitly reflecting the factorial nature of the design:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="factorial-anova.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(dat, ApproachAdvantage, <span class="at">groups =</span> experimenterBelief) <span class="sc">+</span> <span class="fu">facet_grid</span>(primeCond <span class="sc">~</span> exptrNum)</span></code></pre></div>
-<p><img src="07-factorial-ANOVA_files/figure-html/unnamed-chunk-16-1.png" width="672" />
-This plot is not necessarily better than the one in SDAM. It does quite clearly highlight that experimenter belief does not seem to have an effect for Experimenter 4. However, personally, I find it more difficult to assess the effect of prime condition. For that, we could create a second plot to show the effect of <code>primeCond</code> within each panel:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="factorial-anova.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_raincloud</span>(dat, ApproachAdvantage, <span class="at">groups =</span> primeCond) <span class="sc">+</span> <span class="fu">facet_grid</span>(experimenterBelief <span class="sc">~</span> exptrNum)</span></code></pre></div>
-<p><img src="07-factorial-ANOVA_files/figure-html/unnamed-chunk-17-1.png" width="672" />
-This indicates quite clearly that priming condition does not seem to have much of an effect for any experimenter of experimenter belief condition.</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" title="1"><span class="kw">plot_raincloud</span>(dat, ApproachAdvantage, <span class="dt">groups =</span> experimenterBelief) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(primeCond <span class="op">~</span><span class="st"> </span>exptrNum)</a></code></pre></div>
+<p><img src="07-factorial-ANOVA_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>This plot is not necessarily better than the one in SDAM. It does quite clearly highlight that experimenter belief does not seem to have an effect for Experimenter 4. However, personally, I find it more difficult to assess the effect of prime condition. For that, we could create a second plot to show the effect of <code>primeCond</code> within each panel:</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" title="1"><span class="kw">plot_raincloud</span>(dat, ApproachAdvantage, <span class="dt">groups =</span> primeCond) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(experimenterBelief <span class="op">~</span><span class="st"> </span>exptrNum)</a></code></pre></div>
+<p><img src="07-factorial-ANOVA_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>This indicates quite clearly that priming condition does not seem to have much of an effect for any experimenter of experimenter belief condition.</p>
 <p>Back to the analysis, then. We can estimate a threeway factorial ANOVA by simply adding another independent variable to the formula:</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="factorial-anova.html#cb299-1" aria-hidden="true" tabindex="-1"></a>modg_exp <span class="ot">&lt;-</span> <span class="fu">lm</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief<span class="sc">*</span>exptrNum, <span class="at">data=</span>dat)</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" title="1">modg_exp &lt;-<span class="st"> </span><span class="kw">lm</span>(ApproachAdvantage <span class="op">~</span><span class="st"> </span>primeCond<span class="op">*</span>experimenterBelief<span class="op">*</span>exptrNum, <span class="dt">data=</span>dat)</a></code></pre></div>
 <p>This formula is expanded to</p>
 <pre><code>ApproachAdvantage ~ 1 + primeCond + experimenterBelief + exptrNum + primeCond:experimenterBelief + primeCond:exptrNum + experimenterBelief:exptrNum + primeCond:experimenterBelief:exptrNum</code></pre>
 <p>In other words, the model includes all the main effects, all pairwise interactions between the factors, as well as the threeway interaction. We can see the parameter estimates and associated <span class="math inline">\(t\)</span>-tests as usual through the summary function:</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="factorial-anova.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg_exp)</span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb305-1" title="1"><span class="kw">summary</span>(modg_exp)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = ApproachAdvantage ~ primeCond * experimenterBelief * 
@@ -558,7 +509,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## Multiple R-squared:  0.07105,    Adjusted R-squared:  0.03476 
 ## F-statistic: 1.958 on 15 and 384 DF,  p-value: 0.01719</code></pre>
 <p>Wow, there are a <em>lot</em> of estimates and tests here (16 in total)! While these tests are informative, it is common to (at least also) consider omnibus tests. Experimenter has four levels, so three associated contrasts, and we can’t find a test of the “overall” main effect of Experimenter in the output above. For these omnibus tests, we can (as before) use the <code>Anova</code> function from the <code>car</code> package:</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="factorial-anova.html#cb303-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modg_exp,<span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" title="1">car<span class="op">::</span><span class="kw">Anova</span>(modg_exp,<span class="dt">type=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: ApproachAdvantage
@@ -577,10 +528,10 @@ This indicates quite clearly that priming condition does not seem to have much o
 <p>If you’d just consider the output from this function, which does not provide a significant Experimenter by Belief interaction, you probably would have missed the potentially interesting <code>experimenterBelief1:exptrNum3</code> interaction, which was discussed in SDAM.</p>
 </div>
 </div>
-<div id="type-1-2-and-3-sums-of-squares" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Type 1, 2, and 3 Sums of Squares</h2>
+<div id="type-1-2-and-3-sums-of-squares" class="section level2 hasAnchor">
+<h2><span class="header-section-number">7.3</span> Type 1, 2, and 3 Sums of Squares<a href="factorial-anova.html#type-1-2-and-3-sums-of-squares" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Whilst intended (I think!) as a factorial experiment with an equal sample size for each priming condition, experimenter belief, and experimenter combination, the sample sizes are actually slightly unbalanced. One way to count the number of cases for each combination of factor levels is through the <code>ftable</code> function (which stands for frequency table). The function has various interfaces, and I find the <code>formula</code> interface easiest to work with. On the left-hand side of the formula, you can provide the name of a factor which you want to place in the columns of the table, and on the right-hand side you can include multiple factors which make up the rows, separated by a “+” sign:</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="factorial-anova.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ftable</span>(exptrNum <span class="sc">~</span> primeCond <span class="sc">+</span> experimenterBelief, <span class="at">data=</span>dat)</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" title="1"><span class="kw">ftable</span>(exptrNum <span class="op">~</span><span class="st"> </span>primeCond <span class="op">+</span><span class="st"> </span>experimenterBelief, <span class="dt">data=</span>dat)</a></code></pre></div>
 <pre><code>##                              exptrNum E1 E2 E3 E4
 ## primeCond experimenterBelief                     
 ## HPP       H                           26 25 25 25
@@ -590,7 +541,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 <p>As you can see, Experimenter 1 tested 26 participants in the high-power prime and high experimenter belief condition, whilst experimenter 2 tested 24 participants in the low-power prime and low experimenter belief condition.</p>
 <p>The result of unbalanced data is that the contrast-coded predictors are no longer orthogonal. As a result, different ways of performing model comparisons will give different results. The differences are likely to be rather subtle here, because the sample sizes are mostly equal. Nevertheless, let’s consider how we can obtain results for the Type 1 and Type 2 SS procedures.</p>
 <p>A Type 2 procedure is easily obtained by using the <code>car::Anova</code> function, now with argument <code>type=2</code>:</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="factorial-anova.html#cb307-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modg_exp,<span class="at">type=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" title="1">car<span class="op">::</span><span class="kw">Anova</span>(modg_exp,<span class="dt">type=</span><span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## Anova Table (Type II tests)
 ## 
 ## Response: ApproachAdvantage
@@ -607,7 +558,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>If you compare the results to those of the Type 3 procedure used earlier, you can see some subtle differences. You can see that (apart from the threeway interaction), the SSR terms are slightly different, leading to small differences in the <span class="math inline">\(F\)</span> statistic and associated <span class="math inline">\(p\)</span>-value.</p>
 <p>Unfortunately, the <code>car::Anova</code> function will not work with <code>type=1</code>. To get the results of a Type 1 procedure, you can use the <code>anova</code> function from the default <code>stats</code> package:</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="factorial-anova.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modg_exp)</span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" title="1"><span class="kw">anova</span>(modg_exp)</a></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: ApproachAdvantage
@@ -632,7 +583,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>again, comparing this to the results of those obtained previously, you can see differences in the SSR terms. It is important to realise that the Type 1 procedure depends on the order of the factors in the formula. For instance, if we change this order as follows:</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="factorial-anova.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(ApproachAdvantage <span class="sc">~</span> experimenterBelief<span class="sc">*</span>exptrNum<span class="sc">*</span>primeCond, <span class="at">data=</span>dat))</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" title="1"><span class="kw">anova</span>(<span class="kw">lm</span>(ApproachAdvantage <span class="op">~</span><span class="st"> </span>experimenterBelief<span class="op">*</span>exptrNum<span class="op">*</span>primeCond, <span class="dt">data=</span>dat))</a></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: ApproachAdvantage
@@ -660,15 +611,15 @@ This indicates quite clearly that priming condition does not seem to have much o
 <p>While the differences are very subtle here, this should not lead you to believe that the methods generally provide the same results. When the design is more unbalanced, the results can change quite dramatically.</p>
 <p>Finally, I want to point out again that all three procedures test the SSR terms against the same SSE term (the SS given under <code>Residuals</code>). This is the SSE of the full model (the model with all effects) and this is exactly the same for all three procedures. The procedures differ in how they compute the SSR terms for the different effects, as you can see.</p>
 </div>
-<div id="planned-comparisons-and-post-hoc-tests-with-emmeans" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Planned comparisons and post-hoc tests with <code>emmeans</code></h2>
-<p>The <code>emmeans</code> package <span class="citation">(<a href="#ref-R-emmeans" role="doc-biblioref">Lenth 2021</a>)</span> is very useful when you want to do more comparisons than can be implemented in the contrast codes within a single model, whether these are planned comparisons or post-hoc tests. The name of the package stands for <em>estimated marginal means</em>. One part of the functionality of the package is to compute the (unweighted) marginal means according to different types of models, including linear models. In the SDAM book, we discussed how these marginal means can be computed using contrast codes. For example, when using orthogonal contrasts, the intercept represents the grand mean, which is a simple average of averages, where the sample means of all groups are added and then divided by the number of groups. If the groups have unequal sample sizes, this is not taken into account in computing the grand mean. That is what is meant by <em>unweighted</em> marginal means.</p>
+<div id="planned-comparisons-and-post-hoc-tests-with-emmeans" class="section level2 hasAnchor">
+<h2><span class="header-section-number">7.4</span> Planned comparisons and post-hoc tests with <code>emmeans</code><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>emmeans</code> package <span class="citation">(Lenth <a href="#ref-R-emmeans">2022</a>)</span> is very useful when you want to do more comparisons than can be implemented in the contrast codes within a single model, whether these are planned comparisons or post-hoc tests. The name of the package stands for <em>estimated marginal means</em>. One part of the functionality of the package is to compute the (unweighted) marginal means according to different types of models, including linear models. In the SDAM book, we discussed how these marginal means can be computed using contrast codes. For example, when using orthogonal contrasts, the intercept represents the grand mean, which is a simple average of averages, where the sample means of all groups are added and then divided by the number of groups. If the groups have unequal sample sizes, this is not taken into account in computing the grand mean. That is what is meant by <em>unweighted</em> marginal means.</p>
 <p>You can think of the marginal means as the estimated population means assuming all groups have an equal sample size. The <code>emmeans</code> function (from the <code>emmeans</code> package with the same name) provides a simple way to compute the estimated marginal means for each condition, but also for the levels of one factor (averaging over the levels of other factors). The <code>emmeans</code> requires at least two arguments: an <code>object</code>, which is an estimated model, and <code>specs</code>, which is either a character vector with the names for the predictors for which the estimated marginal predictors should be computed, or a formula. Here, we will use the formula interface, as it is flexible and intuitive. Going back to our simpler 2 by 2 design (ignoring Experimenter), the estimated marginal means of the four conditions can be computed with <code>emmeans</code> as follows:</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="factorial-anova.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the package. If you don&#39;t have it installed, you will need to run</span></span>
-<span id="cb313-2"><a href="factorial-anova.html#cb313-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;emmeans&quot;) first!</span></span>
-<span id="cb313-3"><a href="factorial-anova.html#cb313-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb313-4"><a href="factorial-anova.html#cb313-4" aria-hidden="true" tabindex="-1"></a><span class="co"># call emmeans with modg as the object</span></span>
-<span id="cb313-5"><a href="factorial-anova.html#cb313-5" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(modg, <span class="at">specs =</span> <span class="sc">~</span> primeCond<span class="sc">:</span>experimenterBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" title="1"><span class="co"># load the package. If you don&#39;t have it installed, you will need to run</span></a>
+<a class="sourceLine" id="cb317-2" title="2"><span class="co"># install.packages(&quot;emmeans&quot;) first!</span></a>
+<a class="sourceLine" id="cb317-3" title="3"><span class="kw">library</span>(emmeans)</a>
+<a class="sourceLine" id="cb317-4" title="4"><span class="co"># call emmeans with modg as the object</span></a>
+<a class="sourceLine" id="cb317-5" title="5"><span class="kw">emmeans</span>(modg, <span class="dt">specs =</span> <span class="op">~</span><span class="st"> </span>primeCond<span class="op">:</span>experimenterBelief)</a></code></pre></div>
 <pre><code>##  primeCond experimenterBelief emmean   SE  df lower.CL upper.CL
 ##  HPP       H                    82.1 21.3 396    40.17    124.1
 ##  LPP       H                    51.3 21.4 396     9.17     93.5
@@ -677,7 +628,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## 
 ## Confidence level used: 0.95</code></pre>
 <p>You can see that the <code>emmeans</code> function computes an estimated marginal mean for each combination of <code>primeCond</code> and <code>experimenterBelief</code>. For each mean, we get an estimate, a standard error of that estimate, the degrees of freedom (<span class="math inline">\(n - \text{npar}(G)\)</span>), and a confidence interval. The marginal means for each group in the design are just the sample means in the groups in this case, but things become more complicated when we add additional metric predictors to the design, as we will see when we discuss ANCOVA in another chapter. You can also obtain estimated marginal means for the levels of one factor, averaging over the levels of the others. These are the marginal means that are compared in the main effects of that factor. For instance, for the <code>primeCond</code> factor, the marginal means are</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="factorial-anova.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(modg, <span class="at">specs =</span> <span class="sc">~</span> primeCond)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" title="1"><span class="kw">emmeans</span>(modg, <span class="dt">specs =</span> <span class="op">~</span><span class="st"> </span>primeCond)</a></code></pre></div>
 <pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
 <pre><code>##  primeCond emmean   SE  df lower.CL upper.CL
 ##  HPP         27.5 15.1 396    -2.28     57.2
@@ -686,7 +637,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## Results are averaged over the levels of: experimenterBelief 
 ## Confidence level used: 0.95</code></pre>
 <p>and for <code>experimenterBelief</code> they are:</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="factorial-anova.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(modg, <span class="at">specs =</span> <span class="sc">~</span> experimenterBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb322-1" title="1"><span class="kw">emmeans</span>(modg, <span class="dt">specs =</span> <span class="op">~</span><span class="st"> </span>experimenterBelief)</a></code></pre></div>
 <pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
 <pre><code>##  experimenterBelief emmean   SE  df lower.CL upper.CL
 ##  H                    66.7 15.1 396     37.0    96.45
@@ -696,7 +647,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 ## Confidence level used: 0.95</code></pre>
 <p>In addition to computing marginal means and providing confidence intervals for each, the package has a reasonably straightforward interface for testing <em>differences</em> between estimated marginal means. Such differences are effectively the contrasts that we have specified with contrast codes, and tested with Type 3 tests. A benefit of using <code>emmeans</code> is that you can test more of these contrasts than the required number of contrast codes (i.e. 3 in this example).</p>
 <p>If you want all pairwise comparisons between the means, you can get these by entering <code>pairwise</code> as the left-hand side of the formula:</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="factorial-anova.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(modg, <span class="at">specs =</span> pairwise <span class="sc">~</span> primeCond<span class="sc">:</span>experimenterBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" title="1"><span class="kw">emmeans</span>(modg, <span class="dt">specs =</span> pairwise <span class="op">~</span><span class="st"> </span>primeCond<span class="op">:</span>experimenterBelief)</a></code></pre></div>
 <pre><code>## $emmeans
 ##  primeCond experimenterBelief emmean   SE  df lower.CL upper.CL
 ##  HPP       H                    82.1 21.3 396    40.17    124.1
@@ -724,7 +675,7 @@ This indicates quite clearly that priming condition does not seem to have much o
 <li><code>holm</code></li>
 </ul>
 <p>There are other possibilities (see <code>?summary.emmGrid</code> for details). For instance, we can apply the Scheffé adjustment with:</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="factorial-anova.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(modg, <span class="at">specs =</span> pairwise <span class="sc">~</span> primeCond<span class="sc">:</span>experimenterBelief, <span class="at">adjust=</span><span class="st">&quot;scheffe&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" title="1"><span class="kw">emmeans</span>(modg, <span class="dt">specs =</span> pairwise <span class="op">~</span><span class="st"> </span>primeCond<span class="op">:</span>experimenterBelief, <span class="dt">adjust=</span><span class="st">&quot;scheffe&quot;</span>)</a></code></pre></div>
 <pre><code>## $emmeans
 ##  primeCond experimenterBelief emmean   SE  df lower.CL upper.CL
 ##  HPP       H                    82.1 21.3 396    40.17    124.1
@@ -744,18 +695,18 @@ This indicates quite clearly that priming condition does not seem to have much o
 ##  HPP L - LPP L    -6.84 30.4 396  -0.225  0.9970
 ## 
 ## P value adjustment: scheffe method with rank 3</code></pre>
-<div id="adjusted-p-values" class="section level3" number="7.4.1">
-<h3><span class="header-section-number">7.4.1</span> Adjusted p-values</h3>
-<p>One thing I should mention is that rather than showing you the corrected significance level <span class="math inline">\(\alpha\)</span> for each test, <code>emmeans</code> provides you with an <strong>adjusted p-value</strong>. A benefit of this is that you can just compare each <span class="math inline">\(p-value\)</span> to the usual criterion level and call each test significant when <span class="math inline">\(p&lt;.05\)</span>. However, I personally don’t find the resulting <span class="math inline">\(p\)</span> value easy to interpret as a probability. Remember that the conventional <span class="math inline">\(p\)</span>-value is the probability of obtaining a test result as large or more extreme, assuming that the null hypothesis is true. This is itself already a tricky concept, but with some experience with statistical distributions and the conceptual foundations of null-hypothesis significance testing, it is a valid probability that is interpretable as such. <span class="citation"><a href="#ref-wright1992adjusted" role="doc-biblioref">Wright</a> (<a href="#ref-wright1992adjusted" role="doc-biblioref">1992</a>)</span> defines the adjusted p-value as <em>the smallest family-wise significance level at which the tested null-hypothesis would be rejected</em>. This isn’t really a probability any more, as far as I can see it. It is true that the conventional <span class="math inline">\(p\)</span>-value is, by definition, also equal to the smallest significance level at which the null-hypothesis would be rejected. For instance, if a particular test provides a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(p = .07\)</span>, then you would reject the null-hypothesis by setting <span class="math inline">\(\alpha \geq .07\)</span>. Hence, <span class="math inline">\(\alpha = .07\)</span> is the smallest value of <span class="math inline">\(\alpha\)</span> which would provide a significant test result. Similarly, if the test provided a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(p=.004\)</span>, then <span class="math inline">\(\alpha = .004\)</span> is the smallest significance level for which the test would provide a significant result.</p>
+<div id="adjusted-p-values" class="section level3 hasAnchor">
+<h3><span class="header-section-number">7.4.1</span> Adjusted p-values<a href="factorial-anova.html#adjusted-p-values" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One thing I should mention is that rather than showing you the corrected significance level <span class="math inline">\(\alpha\)</span> for each test, <code>emmeans</code> provides you with an <strong>adjusted p-value</strong>. A benefit of this is that you can just compare each <span class="math inline">\(p-value\)</span> to the usual criterion level and call each test significant when <span class="math inline">\(p&lt;.05\)</span>. However, I personally don’t find the resulting <span class="math inline">\(p\)</span> value easy to interpret as a probability. Remember that the conventional <span class="math inline">\(p\)</span>-value is the probability of obtaining a test result as large or more extreme, assuming that the null hypothesis is true. This is itself already a tricky concept, but with some experience with statistical distributions and the conceptual foundations of null-hypothesis significance testing, it is a valid probability that is interpretable as such. <span class="citation">Wright (<a href="#ref-wright1992adjusted">1992</a>)</span> defines the adjusted p-value as <em>the smallest family-wise significance level at which the tested null-hypothesis would be rejected</em>. This isn’t really a probability any more, as far as I can see it. It is true that the conventional <span class="math inline">\(p\)</span>-value is, by definition, also equal to the smallest significance level at which the null-hypothesis would be rejected. For instance, if a particular test provides a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(p = .07\)</span>, then you would reject the null-hypothesis by setting <span class="math inline">\(\alpha \geq .07\)</span>. Hence, <span class="math inline">\(\alpha = .07\)</span> is the smallest value of <span class="math inline">\(\alpha\)</span> which would provide a significant test result. Similarly, if the test provided a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(p=.004\)</span>, then <span class="math inline">\(\alpha = .004\)</span> is the smallest significance level for which the test would provide a significant result.</p>
 <p>Although the <span class="math inline">\(p\)</span>-value is equivalent to this “minimum <span class="math inline">\(\alpha\)</span>” value, it is also a valid probability, and when you move to the domain of corrections for multiple comparisons, defining the <span class="math inline">\(p\)</span>-value as the minimum family-wise significance level <span class="math inline">\(\alpha_\text{FW}\)</span> for which the individual test would provide a significant test result, the correspondence with a proper probability is lost.</p>
 <p>For the Bonferroni correction, the adjusted <span class="math inline">\(p\)</span>-value is easy to compute. Remember that the Bonferroni correction for a total of <span class="math inline">\(q\)</span> tests is to set the significance level of each individual test to <span class="math inline">\(\alpha = \frac{\alpha}{q}\)</span>. We can adjust the <span class="math inline">\(p\)</span>-values correspondingly as <span class="math inline">\(p_\text{adj} = q \times p\)</span>. But if you’d perform <span class="math inline">\(q=100\)</span> tests, and <span class="math inline">\(p=.2\)</span>, then <span class="math inline">\(p_\text{adj} = 100 \times .2 = 20\)</span>, which is obviously not a valid probability! Adjusted <span class="math inline">\(p\)</span>-values are in this sense just convenience values which can be compared to e.g. <span class="math inline">\(\alpha_\text{FW} = .05\)</span>, but nothing more.</p>
 </div>
 </div>
-<div id="testing-general-contrasts-with-emmeans" class="section level2" number="7.5">
-<h2><span class="header-section-number">7.5</span> Testing general contrasts with <code>emmeans</code></h2>
+<div id="testing-general-contrasts-with-emmeans" class="section level2 hasAnchor">
+<h2><span class="header-section-number">7.5</span> Testing general contrasts with <code>emmeans</code><a href="factorial-anova.html#testing-general-contrasts-with-emmeans" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When you have computed the required estimated marginal means, you can then use these to define a set of general contrasts that you want to test. This set can include more contrasts than <span class="math inline">\(g-1\)</span>, but each contrast is defined in a way that we are used to. Let’s consider an example.</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="factorial-anova.html#cb325-1" aria-hidden="true" tabindex="-1"></a>ems <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(modg, <span class="at">specs =</span> <span class="sc">~</span> primeCond<span class="sc">:</span>experimenterBelief)</span>
-<span id="cb325-2"><a href="factorial-anova.html#cb325-2" aria-hidden="true" tabindex="-1"></a>ems</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" title="1">ems &lt;-<span class="st"> </span><span class="kw">emmeans</span>(modg, <span class="dt">specs =</span> <span class="op">~</span><span class="st"> </span>primeCond<span class="op">:</span>experimenterBelief)</a>
+<a class="sourceLine" id="cb329-2" title="2">ems</a></code></pre></div>
 <pre><code>##  primeCond experimenterBelief emmean   SE  df lower.CL upper.CL
 ##  HPP       H                    82.1 21.3 396    40.17    124.1
 ##  LPP       H                    51.3 21.4 396     9.17     93.5
@@ -848,16 +799,16 @@ This indicates quite clearly that priming condition does not seem to have much o
 <li><span class="math inline">\(c_8\)</span>: comparing high-power prime with low belief to low-power prime conditions</li>
 </ul>
 <p>Using the <code>contrast</code> function, all these comparisons can be tested simultaneously, using the Scheffé adjustment, as follows:</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="factorial-anova.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(ems, </span>
-<span id="cb327-2"><a href="factorial-anova.html#cb327-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="fu">list</span>(<span class="at">c1 =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>), </span>
-<span id="cb327-3"><a href="factorial-anova.html#cb327-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c2 =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb327-4"><a href="factorial-anova.html#cb327-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c3 =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">0</span>),</span>
-<span id="cb327-5"><a href="factorial-anova.html#cb327-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c4 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb327-6"><a href="factorial-anova.html#cb327-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c5 =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb327-7"><a href="factorial-anova.html#cb327-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c6 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb327-8"><a href="factorial-anova.html#cb327-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c7 =</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>),</span>
-<span id="cb327-9"><a href="factorial-anova.html#cb327-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c8 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
-<span id="cb327-10"><a href="factorial-anova.html#cb327-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">adjust=</span><span class="st">&quot;scheffe&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" title="1"><span class="kw">contrast</span>(ems, </a>
+<a class="sourceLine" id="cb331-2" title="2">         <span class="dt">method =</span> <span class="kw">list</span>(<span class="dt">c1 =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>), </a>
+<a class="sourceLine" id="cb331-3" title="3">                       <span class="dt">c2 =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb331-4" title="4">                       <span class="dt">c3 =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb331-5" title="5">                       <span class="dt">c4 =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb331-6" title="6">                       <span class="dt">c5 =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb331-7" title="7">                       <span class="dt">c6 =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb331-8" title="8">                       <span class="dt">c7 =</span> <span class="kw">c</span>(<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb331-9" title="9">                       <span class="dt">c8 =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">-1</span><span class="op">/</span><span class="dv">3</span>)),</a>
+<a class="sourceLine" id="cb331-10" title="10">         <span class="dt">adjust=</span><span class="st">&quot;scheffe&quot;</span>)</a></code></pre></div>
 <pre><code>##  contrast estimate   SE  df t.ratio p.value
 ##  c1          11.98 21.4 396   0.559  0.9577
 ##  c2          90.51 21.4 396   4.221  0.0006
@@ -873,13 +824,13 @@ This indicates quite clearly that priming condition does not seem to have much o
 
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-R-emmeans" class="csl-entry">
-Lenth, Russell V. 2021. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references">
+<div id="ref-R-emmeans">
+<p>Lenth, Russell V. 2022. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.</p>
 </div>
-<div id="ref-wright1992adjusted" class="csl-entry">
-Wright, S Paul. 1992. <span>“Adjusted p-Values for Simultaneous Inference.”</span> <em>Biometrics</em>, 1005–13.
+<div id="ref-wright1992adjusted">
+<p>Wright, S Paul. 1992. “Adjusted P-Values for Simultaneous Inference.” <em>Biometrics</em>, 1005–13.</p>
 </div>
 </div>
             </section>
@@ -946,7 +897,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
