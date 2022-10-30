@@ -9,7 +9,7 @@ In this Chapter, we will look at how to estimate and perform hypothesis tests fo
 ```{r, eval=FALSE}
 install.packages("afex")
 ```
-In the R package, and you should have everything you need.
+in the R console, and you should have everything you need.
 
 ## Formulating and estimating linear mixed-effects models with `lme4`
 
@@ -30,7 +30,7 @@ Formula     | Description
 `(a+b)*c`   | all main effects and pairwise interactions between `c` and `a` or `b` (expands to: `a + b + c + a:c + b:c`)
 `0 + a`     | `0` suppresses the intercept resulting in a model that has one parameter per level of `a` (identical to: `a - 1`)
 
-The `lme4` package extends the formula interface to specify random effects structures. Random effects are added to the formula by writing elements between parentheses `()`. Within these parentheses, you provide the specification of the random effects to be included on the left-hand side of a conditional sign `|`. On the right-hand side of the sign, you specify the grouping factor, or grouping factors, on which these random effects depend. The grouping factors __need to be of class `factor`__ (i.e., they can __not__ be numeric variables). Here are some examples of such specifications (again mostly adapted from @Singmann2019-mixed):
+The `lme4` package extends the formula interface to specify random effects structures. Random effects are added to the formula by writing elements between parentheses `()`. Within these parentheses, you provide the specification of the random effects to be included on the left-hand side of a conditional sign `|`. On the right-hand side of this conditional sign, you specify the grouping factor, or grouping factors, on which these random effects depend. The grouping factors __need to be of class `factor`__ (i.e., they can __not__ be numeric variables). Here are some examples of such specifications (again mostly adapted from @Singmann2019-mixed):
 
 Formula     | Description
 ------------|----------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ data("anchoring")
 Now let's estimate a first linear mixed-effects model, with a fixed effect for anchor, and random intercepts, using `everest_feet` as the dependent variable. We will first ensure that `anchor` is a factor and associate a sum-to-zero contrast to it. We will also make `referrer` a factor; the contrast for this shouldn't really matter, so we'll leave it as a dummy code. We then set up the model, using `(1|referrer)` to specify that random intercept-effects should be included for each level of the `referrer` factor. Finally, we use the `summary()` function on the estimated model to obtain the estimates of the parameters. 
 
 ```{r}
-anchoring$anchor <- as.factor(anchoring$anchor)
+anchoring$anchor <- factor(anchoring$anchor)
 contrasts(anchoring$anchor) <- c(1/2, -1/2) # alphabetical order, so high before low
 # define a lmer
 mod <- lme4::lmer(everest_feet ~ anchor + (1|referrer), data=anchoring)
@@ -282,4 +282,17 @@ crmod3
 The $F$-values of the last model are higher, which is consistent with the increased power that generally results from simpler random-effects structures (at a potential cost of increasing Type I error). In any case, knowing that the maximal and simpler random-effects structures both would lead to the same substantive conclusions provides some reassurance that the results are robust. The `afex` package also has a useful "vignette" (a longer document describing an analysis and package functionality) on mixed-effects models, which you can view through the command:
 ```{r, eval=FALSE}
 vignette("afex_mixed_example", package="afex")
+```
+
+## Automatically finding optimal random effects structures with the `buildmer` package
+
+A common issue with "maximal" linear mixed-effects models is that not all random effects can be estimated. These estimation issues are noted by warnings from `lme4` such as `boundary (singular) fit` or `Model failed to converge`. These warnings indicate that the model is too complex for the data at hand. @matuschek_balancing_2017 propose to search for a model with a parsimonious random effects structure. Starting with the maximal model, they propose to eliminate random effects from the model which don't lead to a significant reduction in the likelihood ratio. This backwards search procedure is implemented by the `buildmer()` function from the `buildmer` package. By default, the `buildmer()` function will find the maximal model that can be estimated without issues, and then reduces the complexity of this model by removing random effects through model comparisons via likelihood ratio tests, removing terms in the order of their contribution to the likelihood ratio until the test is significant (i.e. until removal leads to a significantly worse fitting model). The basic usage of the `buildmer()` function is similar to the `lme4::lmer()` and `afex::mixed()` functions: you supply a model formula with the intended maximal model and a `data.frame` containing the data. The `buildmer()` function will then estimate all possible subsets of this model and perform model comparisons between them. The procedure can be fine-tuned via the `buildmerControl` argument. For example, instead of the default backwards search procedure (starting from the most complex model and eliminating terms), the direction can be changed to a forwards procedure where the starting point is the simplest model, and random effects terms are added until the increase in the likelihood ratio is not significant. It is also possible to change the criterion for elimination from a likelihood-ratio test to a model selection criterion such as the Akaike Information Criterion (AIC). In the `include` argument, you can specify which terms will always be included. By default, the `buildmer()` function will also consider removing fixed effects. This can be avoided by specifying the fixed effects in the model formula provided as the `include` argument. Other arguments are used to specify further calculations on the final model. For example, whether to calculate an ANOVA table (`calc.anova = TRUE`) and how to approximate the degrees of freedom for this (e.g. `ddf = "Satterthwaite"`). In the code below, we use the `buildmer()` function to find the parsimonious maximal model for the `speeddate` data. The (rather extensive) list of messages show all the models fitted by the `buildmer()` function, which includes models without random effects (estimated via the `lm` function) as well as models with random effects (estimated via the `lmer` function).
+
+```{r}
+library(buildmer)
+max_mod <- buildmer(other_like ~ other_attr_c*other_intel_c + (1 + other_attr_c*other_intel_c|iid) + (1 + other_attr_c*other_intel_c|pid), data=dat, buildmerControl = buildmerControl(include = ~ other_attr_c*other_intel_c, calc.anova = TRUE, ddf = "Satterthwaite"))
+```
+The final model contains random intercepts and slopes for `other_attr_c` and `other_intel_c` for `pid`. For the `iid` groupings, only random intercepts are included:
+```{r}
+summary(max_mod)
 ```

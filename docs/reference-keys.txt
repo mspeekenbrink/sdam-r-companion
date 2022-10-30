@@ -84,6 +84,7 @@ confidence-intervals
 plotting-model-predictions
 obtaining-p-values-with-afexmixed
 crossed-random-effects
+automatically-finding-optimal-random-effects-structures-with-the-buildmer-package
 generalized-linear-models
 structural-equation-modelling-with-lavaan
 bayesian-estimation

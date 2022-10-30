@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-09-29" />
+<meta name="date" content="2022-10-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,25 +55,27 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +84,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -117,6 +119,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -131,29 +155,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
-<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
 <li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
-<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
+<ul>
 <li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
 <li class="chapter" data-level="1.4.2" data-path="introduction.html"><a href="introduction.html#loading-packages"><i class="fa fa-check"></i><b>1.4.2</b> Loading packages</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
 <li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
-<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
+<ul>
 <li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
 <li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
 <li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
-<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
+<ul>
 <li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
 <li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
 <li class="chapter" data-level="1.9.3" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.9.3</b> Scatterplot</a></li>
@@ -161,19 +191,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#a-note-about-namespaces-and-loading-packages"><i class="fa fa-check"></i><b>1.10</b> A note about namespaces and loading packages</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
-<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
 <li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
-<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
 <li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
 </ul></li>
@@ -181,7 +216,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
 <li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a><ul>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
 <li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
 <li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
@@ -189,36 +225,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
 <li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a><ul>
-<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a><ul>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-reminder-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A reminder about namespaces</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
-<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a><ul>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
+<ul>
 <li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
 <li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a><ul>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
-<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a><ul>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a><ul>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
-<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a><ul>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
+<ul>
 <li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
-<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a><ul>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
+<ul>
 <li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a><ul>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
-<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a><ul>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
+<ul>
 <li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
 <li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
 </ul></li>
@@ -226,8 +272,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
 <li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a><ul>
-<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a><ul>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
 <li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
 <li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
@@ -237,12 +285,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
 <li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
+<li class="chapter" data-level="9.4" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#automatically-finding-optimal-random-effects-structures-with-the-buildmer-package"><i class="fa fa-check"></i><b>9.4</b> Automatically finding optimal random effects structures with the <code>buildmer</code> package</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>10</b> Generalized linear models</a></li>
 <li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
-<li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a><ul>
-<li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a><ul>
+<li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a>
+<ul>
 <li class="chapter" data-level="13.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>13.1.1</b> A Bayesian one-sample t-test</a></li>
 <li class="chapter" data-level="13.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>13.1.2</b> A Bayesian two-sample t-test</a></li>
 <li class="chapter" data-level="13.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>13.1.3</b> A Bayesian ANOVA</a></li>
@@ -252,18 +303,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>13.1.7</b> Highest-density interval</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a><ul>
+<li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>14.1</b> YAML headers</a></li>
-<li class="chapter" data-level="14.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>14.2</b> Markdown syntax</a><ul>
+<li class="chapter" data-level="14.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>14.2</b> Markdown syntax</a>
+<ul>
 <li class="chapter" data-level="14.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>14.2.1</b> Inline formatting</a></li>
 <li class="chapter" data-level="14.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>14.2.2</b> Block-level elements</a></li>
 <li class="chapter" data-level="14.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Math expressions</a></li>
 </ul></li>
-<li class="chapter" data-level="14.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>14.3</b> R code chunks and inline R code</a><ul>
+<li class="chapter" data-level="14.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>14.3</b> R code chunks and inline R code</a>
+<ul>
 <li class="chapter" data-level="14.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>14.3.1</b> Figures</a></li>
 <li class="chapter" data-level="14.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>14.3.2</b> Tables</a></li>
 </ul></li>
-<li class="chapter" data-level="14.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>14.4</b> APA documents with <code>papaja</code></a><ul>
+<li class="chapter" data-level="14.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>14.4</b> APA documents with <code>papaja</code></a>
+<ul>
 <li class="chapter" data-level="14.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>14.4.1</b> Installation</a></li>
 <li class="chapter" data-level="14.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>14.4.2</b> How to use papaja</a></li>
 <li class="chapter" data-level="14.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>14.4.3</b> Getting help</a></li>
@@ -291,72 +346,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="references" class="section level1 unnumbered hasAnchor">
 <h1>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 
-<div id="refs" class="references">
-<div>
-<p>Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2022. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2022. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
 </div>
-<div>
-<p>Ben-Shachar, Mattan S., Dominique Makowski, Daniel Lüdecke, Indrajeet Patil, and Brenton M. Wiernik. 2022. <em>Effectsize: Indices of Effect Size and Standardized Parameters</em>. <a href="https://easystats.github.io/effectsize/">https://easystats.github.io/effectsize/</a>.</p>
+<div class="csl-entry">
+Ben-Shachar, Mattan S., Dominique Makowski, Daniel Lüdecke, Indrajeet Patil, and Brenton M. Wiernik. 2022. <em>Effectsize: Indices of Effect Size</em>. <a href="https://easystats.github.io/effectsize/">https://easystats.github.io/effectsize/</a>.
 </div>
-<div>
-<p>Fox, John, Sanford Weisberg, and Brad Price. 2022. <em>Car: Companion to Applied Regression</em>. <a href="https://CRAN.R-project.org/package=car">https://CRAN.R-project.org/package=car</a>.</p>
+<div class="csl-entry">
+Fox, John, Sanford Weisberg, and Brad Price. 2022. <em>Car: Companion to Applied Regression</em>. <a href="https://CRAN.R-project.org/package=car">https://CRAN.R-project.org/package=car</a>.
 </div>
-<div>
-<p>Højsgaard, Ulrich Halekoh Søren. 2020. <em>Pbkrtest: Parametric Bootstrap and Kenward Roger Based Methods for Mixed Model Comparison</em>. <a href="http://people.math.aau.dk/~sorenh/software/pbkrtest/">http://people.math.aau.dk/~sorenh/software/pbkrtest/</a>.</p>
+<div class="csl-entry">
+Højsgaard, Ulrich Halekoh Søren. 2020. <em>Pbkrtest: Parametric Bootstrap and Kenward Roger Based Methods for Mixed Model Comparison</em>. <a href="http://people.math.aau.dk/~sorenh/software/pbkrtest/">http://people.math.aau.dk/~sorenh/software/pbkrtest/</a>.
 </div>
-<div>
-<p>Kuznetsova, Alexandra, Per Bruun Brockhoff, and Rune Haubo Bojesen Christensen. 2020. <em>LmerTest: Tests in Linear Mixed Effects Models</em>. <a href="https://github.com/runehaubo/lmerTestR">https://github.com/runehaubo/lmerTestR</a>.</p>
+<div class="csl-entry">
+Kuznetsova, Alexandra, Per Bruun Brockhoff, and Rune Haubo Bojesen Christensen. 2020. <em>lmerTest: Tests in Linear Mixed Effects Models</em>. <a href="https://github.com/runehaubo/lmerTestR">https://github.com/runehaubo/lmerTestR</a>.
 </div>
-<div>
-<p>Lenth, Russell V. 2022. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.</p>
+<div class="csl-entry">
+Lenth, Russell V. 2022. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>.
 </div>
-<div>
-<p>Matuschek, Hannes, Reinhold Kliegl, Shravan Vasishth, Harald Baayen, and Douglas Bates. 2017. “Balancing Type I Error and Power in Linear Mixed Models.” <em>Journal of Memory and Language</em> 94: 305–15. <a href="https://doi.org/10.1016/j.jml.2017.01.001">https://doi.org/10.1016/j.jml.2017.01.001</a>.</p>
+<div class="csl-entry">
+Matuschek, Hannes, Reinhold Kliegl, Shravan Vasishth, Harald Baayen, and Douglas Bates. 2017. <span>“Balancing Type i Error and Power in Linear Mixed Models.”</span> <em>Journal of Memory and Language</em> 94: 305–15. <a href="https://doi.org/10.1016/j.jml.2017.01.001">https://doi.org/10.1016/j.jml.2017.01.001</a>.
 </div>
-<div>
-<p>Meredith, Mike, and John Kruschke. 2020. <em>HDInterval: Highest (Posterior) Density Intervals</em>. <a href="https://CRAN.R-project.org/package=HDInterval">https://CRAN.R-project.org/package=HDInterval</a>.</p>
+<div class="csl-entry">
+Meredith, Mike, and John Kruschke. 2020. <em>HDInterval: Highest (Posterior) Density Intervals</em>. <a href="https://CRAN.R-project.org/package=HDInterval">https://CRAN.R-project.org/package=HDInterval</a>.
 </div>
-<div>
-<p>Morey, Richard D., and Jeffrey N. Rouder. 2022. <em>BayesFactor: Computation of Bayes Factors for Common Designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>.</p>
+<div class="csl-entry">
+Morey, Richard D., and Jeffrey N. Rouder. 2022. <em>BayesFactor: Computation of Bayes Factors for Common Designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>.
 </div>
-<div>
-<p>R Core Team. 2022. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
+<div class="csl-entry">
+R Core Team. 2022. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
-<div>
-<p>Rouder, Jeffrey N, Paul L Speckman, Dongchu Sun, Richard D Morey, and Geoffrey Iverson. 2009. “Bayesian T Tests for Accepting and Rejecting the Null Hypothesis.” <em>Psychonomic Bulletin &amp; Review</em> 16 (2): 225–37.</p>
+<div class="csl-entry">
+Rouder, Jeffrey N, Paul L Speckman, Dongchu Sun, Richard D Morey, and Geoffrey Iverson. 2009. <span>“Bayesian t Tests for Accepting and Rejecting the Null Hypothesis.”</span> <em>Psychonomic Bulletin &amp; Review</em> 16 (2): 225–37.
 </div>
-<div>
-<p>Schloerke, Barret, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg, and Jason Crowley. 2021. <em>GGally: Extension to Ggplot2</em>. <a href="https://CRAN.R-project.org/package=GGally">https://CRAN.R-project.org/package=GGally</a>.</p>
+<div class="csl-entry">
+Schloerke, Barret, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg, and Jason Crowley. 2021. <em>GGally: Extension to Ggplot2</em>. <a href="https://CRAN.R-project.org/package=GGally">https://CRAN.R-project.org/package=GGally</a>.
 </div>
-<div>
-<p>Singmann, Henrik, Ben Bolker, Jake Westfall, Frederik Aust, and Mattan S. Ben-Shachar. 2022. <em>Afex: Analysis of Factorial Experiments</em>. <a href="https://CRAN.R-project.org/package=afex">https://CRAN.R-project.org/package=afex</a>.</p>
+<div class="csl-entry">
+Singmann, Henrik, Ben Bolker, Jake Westfall, Frederik Aust, and Mattan S. Ben-Shachar. 2022. <em>Afex: Analysis of Factorial Experiments</em>. <a href="https://CRAN.R-project.org/package=afex">https://CRAN.R-project.org/package=afex</a>.
 </div>
-<div>
-<p>Singmann, Henrik, and David Kellen. 2019. “An Introduction to Linear Mixed Modeling in Experimental Psychology.” In <em>New Methods in Cognitive Psychology</em>, 4–31. Psychology Press. <a href="http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf, preprint">http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf, preprint</a>.</p>
+<div class="csl-entry">
+Singmann, Henrik, and David Kellen. 2019. <span>“An Introduction to Linear Mixed Modeling in Experimental Psychology.”</span> In <em>New Methods in Cognitive Psychology</em>, 4–31. Psychology Press. <a href="http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf, preprint">http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf, preprint</a>.
 </div>
-<div>
-<p>Tingley, Dustin, Teppei Yamamoto, Kentaro Hirose, Luke Keele, Kosuke Imai, Minh Trinh, and Weihuang Wong. 2019. <em>Mediation: Causal Mediation Analysis</em>. <a href="https://imai.princeton.edu/projects/mechanisms.html">https://imai.princeton.edu/projects/mechanisms.html</a>.</p>
+<div class="csl-entry">
+Tingley, Dustin, Teppei Yamamoto, Kentaro Hirose, Luke Keele, Kosuke Imai, Minh Trinh, and Weihuang Wong. 2019. <em>Mediation: Causal Mediation Analysis</em>. <a href="https://imai.princeton.edu/projects/mechanisms.html">https://imai.princeton.edu/projects/mechanisms.html</a>.
 </div>
-<div>
-<p>Venables, Bill. 2022. <em>CodingMatrices: Alternative Factor Coding Matrices for Linear Model Formulae</em>. <a href="https://CRAN.R-project.org/package=codingMatrices">https://CRAN.R-project.org/package=codingMatrices</a>.</p>
+<div class="csl-entry">
+Venables, Bill. 2022. <em>codingMatrices: Alternative Factor Coding Matrices for Linear Model Formulae</em>. <a href="https://CRAN.R-project.org/package=codingMatrices">https://CRAN.R-project.org/package=codingMatrices</a>.
 </div>
-<div>
-<p>Wickham, Hadley. 2022. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>.</p>
+<div class="csl-entry">
+Wickham, Hadley. 2022. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>.
 </div>
-<div>
-<p>Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, and Dewey Dunnington. 2022. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.</p>
+<div class="csl-entry">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, and Dewey Dunnington. 2022. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.
 </div>
-<div>
-<p>Wickham, Hadley, and Maximilian Girlich. 2022. <em>Tidyr: Tidy Messy Data</em>. <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>.</p>
+<div class="csl-entry">
+Wickham, Hadley, and Maximilian Girlich. 2022. <em>Tidyr: Tidy Messy Data</em>. <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>.
 </div>
-<div>
-<p>Wright, S Paul. 1992. “Adjusted P-Values for Simultaneous Inference.” <em>Biometrics</em>, 1005–13.</p>
+<div class="csl-entry">
+Wright, S Paul. 1992. <span>“Adjusted p-Values for Simultaneous Inference.”</span> <em>Biometrics</em>, 1005–13.
 </div>
-<div>
-<p>Xie, Yihui. 2016. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. CRC Press.</p>
+<div class="csl-entry">
+Xie, Yihui. 2016. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. CRC Press.
 </div>
-<div>
-<p>Xie, Yihui, Joseph J Allaire, and Garrett Grolemund. 2018. <em>R Markdown: The Definitive Guide</em>. CRC Press.</p>
+<div class="csl-entry">
+Xie, Yihui, Joseph J Allaire, and Garrett Grolemund. 2018. <em>R Markdown: The Definitive Guide</em>. CRC Press.
 </div>
 </div>
 </div>

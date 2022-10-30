@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-09-29" />
+<meta name="date" content="2022-10-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,25 +55,27 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +84,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -117,6 +119,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -131,29 +155,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
-<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a><ul>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
 <li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
-<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a><ul>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
+<ul>
 <li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
 <li class="chapter" data-level="1.4.2" data-path="introduction.html"><a href="introduction.html#loading-packages"><i class="fa fa-check"></i><b>1.4.2</b> Loading packages</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
 <li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
-<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a><ul>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
+<ul>
 <li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
 <li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
 <li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
-<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a><ul>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
+<ul>
 <li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
 <li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
 <li class="chapter" data-level="1.9.3" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.9.3</b> Scatterplot</a></li>
@@ -161,19 +191,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#a-note-about-namespaces-and-loading-packages"><i class="fa fa-check"></i><b>1.10</b> A note about namespaces and loading packages</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a><ul>
-<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a><ul>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a><ul>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
 <li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a><ul>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
-<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a><ul>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
 <li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
 </ul></li>
@@ -181,7 +216,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
 <li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a><ul>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
 <li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
 <li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
@@ -189,36 +225,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
 <li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a><ul>
-<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a><ul>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-reminder-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A reminder about namespaces</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
-<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a><ul>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
+<ul>
 <li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
 <li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a><ul>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
-<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a><ul>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a><ul>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
-<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a><ul>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
+<ul>
 <li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
-<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a><ul>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
+<ul>
 <li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a><ul>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
-<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a><ul>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
+<ul>
 <li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
 <li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
 </ul></li>
@@ -226,8 +272,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
 <li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a><ul>
-<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a><ul>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
 <li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
 <li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
@@ -237,12 +285,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
 <li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
+<li class="chapter" data-level="9.4" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#automatically-finding-optimal-random-effects-structures-with-the-buildmer-package"><i class="fa fa-check"></i><b>9.4</b> Automatically finding optimal random effects structures with the <code>buildmer</code> package</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>10</b> Generalized linear models</a></li>
 <li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
-<li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a><ul>
-<li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a><ul>
+<li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a>
+<ul>
 <li class="chapter" data-level="13.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>13.1.1</b> A Bayesian one-sample t-test</a></li>
 <li class="chapter" data-level="13.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>13.1.2</b> A Bayesian two-sample t-test</a></li>
 <li class="chapter" data-level="13.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>13.1.3</b> A Bayesian ANOVA</a></li>
@@ -252,18 +303,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>13.1.7</b> Highest-density interval</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a><ul>
+<li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>14.1</b> YAML headers</a></li>
-<li class="chapter" data-level="14.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>14.2</b> Markdown syntax</a><ul>
+<li class="chapter" data-level="14.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>14.2</b> Markdown syntax</a>
+<ul>
 <li class="chapter" data-level="14.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>14.2.1</b> Inline formatting</a></li>
 <li class="chapter" data-level="14.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>14.2.2</b> Block-level elements</a></li>
 <li class="chapter" data-level="14.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Math expressions</a></li>
 </ul></li>
-<li class="chapter" data-level="14.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>14.3</b> R code chunks and inline R code</a><ul>
+<li class="chapter" data-level="14.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>14.3</b> R code chunks and inline R code</a>
+<ul>
 <li class="chapter" data-level="14.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>14.3.1</b> Figures</a></li>
 <li class="chapter" data-level="14.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>14.3.2</b> Tables</a></li>
 </ul></li>
-<li class="chapter" data-level="14.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>14.4</b> APA documents with <code>papaja</code></a><ul>
+<li class="chapter" data-level="14.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>14.4</b> APA documents with <code>papaja</code></a>
+<ul>
 <li class="chapter" data-level="14.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>14.4.1</b> Installation</a></li>
 <li class="chapter" data-level="14.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>14.4.2</b> How to use papaja</a></li>
 <li class="chapter" data-level="14.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>14.4.3</b> Getting help</a></li>
@@ -288,13 +343,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="the-one-sample-t-test" class="section level1 hasAnchor">
+<div id="the-one-sample-t-test" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> The one-sample t-test<a href="the-one-sample-t-test.html#the-one-sample-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>You can open the anchoring data as follows:</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1"><span class="kw">library</span>(sdamr)</a>
-<a class="sourceLine" id="cb103-2" title="2"><span class="kw">data</span>(anchoring)</a></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="the-one-sample-t-test.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb103-2"><a href="the-one-sample-t-test.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(anchoring)</span></code></pre></div>
 <p>And view the first few rows of the data with the <code>head</code> function:</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="kw">head</span>(anchoring)</a></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="the-one-sample-t-test.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(anchoring)</span></code></pre></div>
 <pre><code>##   session_id sex age citizenship referrer us_or_international lab_or_online
 ## 1    2400853   f  18          US abington                  US        In-lab
 ## 2    2400856   f  19          CN abington                  US        In-lab
@@ -309,25 +364,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4    low         2400             NA
 ## 5    low        10000             NA
 ## 6   high        25000             NA</code></pre>
-<div id="missing-values" class="section level2 hasAnchor">
+<div id="missing-values" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Missing values<a href="the-one-sample-t-test.html#missing-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Sometimes a data set has missing values. In <code>R</code>, a missing value is shown as <code>NA</code> (for Not Available). For example, you can see missing values in the <code>everest_meters</code> variable. In this case, these are generally due to most participants being asked to judge the height of Mount Everest in feet, rather than meters.</p>
 <p>If a variable has missing values, functions such as <code>mean</code> and <code>sd</code> will return a missing value, rather than a numeric value. For instance:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">mean</span>(anchoring<span class="op">$</span>everest_meters)</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="the-one-sample-t-test.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(anchoring<span class="sc">$</span>everest_meters)</span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1"><span class="kw">sd</span>(anchoring<span class="op">$</span>everest_meters)</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="the-one-sample-t-test.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(anchoring<span class="sc">$</span>everest_meters)</span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p>The reason for this is that when there are missing values, it is not possible to compute or estimate the mean or standard deviation from <em>all</em> the data. To compute the values for just the non-missing cases, you could first delete all cases with missing values from your <code>data.frame</code>, for instance with the <code>subset</code> function discussed later. But I think it is better to keep the dataset as is, and use other ways to avoid issues with missing values. Luckily, many functions have arguments to deal with missing values. For instance, the two functions above have an <code>na.rm</code> argument (for not-available-remove). Setting this to <code>TRUE</code> will call the function only on the non-missing-values:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" title="1"><span class="kw">mean</span>(anchoring<span class="op">$</span>everest_meters, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="the-one-sample-t-test.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(anchoring<span class="sc">$</span>everest_meters, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 6636.786</code></pre>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" title="1"><span class="kw">sd</span>(anchoring<span class="op">$</span>everest_meters, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="the-one-sample-t-test.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(anchoring<span class="sc">$</span>everest_meters, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 3942.714</code></pre>
 <p>Because the default in these functions is to set <code>na.rm=FALSE</code>, you will be aware of missing values in your data, which is useful, although having to then to explicitly set <code>na.rm=TRUE</code> can be a little annoying.</p>
 </div>
-<div id="selecting-subsets-of-data" class="section level2 hasAnchor">
+<div id="selecting-subsets-of-data" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Selecting subsets of data<a href="the-one-sample-t-test.html#selecting-subsets-of-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>There are two main ways to select a subset of observations in base <code>R</code>. You can either use an “indexing variable”, or use the <code>subset</code> function. I will discuss both below.</p>
-<div id="indexing-variables" class="section level3 hasAnchor">
+<div id="indexing-variables" class="section level3 hasAnchor" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Indexing variables<a href="the-one-sample-t-test.html#indexing-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>An indexing variable is used to specify the rows in a <code>data.frame</code> that you want to use. Generally, an indexing variable is a logical variable, which takes the value <code>TRUE</code> for cases (rows) that you want to include, and <code>FALSE</code> for cases that you want to exclude. Using an index variable, we will treat the <code>data.frame</code> as a matrix, which allows us to use square brackets, as in <code>data[row,column]</code> to either select rows or columns. For example, <code>anchoring[,"age"]</code> selects the column named “age” and returns it, while <code>anchoring[1:10,]</code> selects rows 1 to 10. The nice thing about R is that instead of providing row row numbers, we can create a logical variable based on the data itself to select rows. To do so, we can use the logical comparators and operators:</p>
 <table>
@@ -367,41 +422,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Some examples of using index variables are as follows. An index variable which is <code>TRUE</code> for males and <code>FALSE</code> for females can be computed as follows:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" title="1">index &lt;-<span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="the-one-sample-t-test.html#cb114-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> anchoring<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;m&quot;</span></span></code></pre></div>
 <p>Let’s see what this variable looks like:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1"><span class="kw">head</span>(index)</a></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="the-one-sample-t-test.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(index)</span></code></pre></div>
 <pre><code>## [1] FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
 <p>It is indeed a logical variable which is <code>TRUE</code> whenever <code>sex</code> is equal to <code>"m"</code>, and <code>FALSE</code> otherwise. You can use it to select all the males in the anchoring data by:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1">dat &lt;-<span class="st"> </span>anchoring[index,]</a></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="the-one-sample-t-test.html#cb117-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> anchoring[index,]</span></code></pre></div>
 <p>Note that you don’t have to create an index variable separately. You can obtain the same result by computing the index variable within the brackets, like so:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1">dat &lt;-<span class="st"> </span>anchoring[anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>,]</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="the-one-sample-t-test.html#cb118-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> anchoring[anchoring<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;m&quot;</span>,]</span></code></pre></div>
 <p>You can select all males over 30 years of age, and check the number of observations in this subset by the <code>nrow</code> function, as follows:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" title="1">dat &lt;-<span class="st"> </span>anchoring[anchoring<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>,]</a>
-<a class="sourceLine" id="cb119-2" title="2"><span class="kw">nrow</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="the-one-sample-t-test.html#cb119-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> anchoring[anchoring<span class="sc">$</span>age <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> anchoring<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;m&quot;</span>,]</span>
+<span id="cb119-2"><a href="the-one-sample-t-test.html#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dat)</span></code></pre></div>
 <pre><code>## [1] 361</code></pre>
 <p>You can select all participants who are male and over 30 years of age, or females who are female and over 30 years of age by:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" title="1">dat &lt;-<span class="st"> </span>anchoring[(anchoring<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>) <span class="op">|</span><span class="st"> </span>(anchoring<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>anchoring<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;f&quot;</span>),]</a></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="the-one-sample-t-test.html#cb121-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> anchoring[(anchoring<span class="sc">$</span>age <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> anchoring<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;m&quot;</span>) <span class="sc">|</span> (anchoring<span class="sc">$</span>age <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> anchoring<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;f&quot;</span>),]</span></code></pre></div>
 </div>
-<div id="the-subset-function" class="section level3 hasAnchor">
+<div id="the-subset-function" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> The <code>subset</code> function<a href="the-one-sample-t-test.html#the-subset-function" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The subset function is quite similar to using index variables, but it doesn’t require the treatment of the <code>data.frame</code> as a matrix and it looks for variable names in the <code>data.frame</code> so you don’t have to use e.g. <code>anchoring$</code> before the variable name. This makes the subset function a bit easier to use than using indexing variables. The <code>subset</code> function has the following arguments:
 * <code>x</code>: the object (e.g. the <code>data.frame</code>) for which you want to select a subset of cases
 * <code>subset</code>: a logical expression indicating elements or rows to keep
 * <code>select</code>: an optional expression which indicates which columns to select from a data frame</p>
 <p>I generally use just the first two arguments. We can replicate the selections above using the <code>subset</code> function as follows:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>)</a>
-<a class="sourceLine" id="cb122-2" title="2">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>)</a>
-<a class="sourceLine" id="cb122-3" title="3">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, (age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>sex <span class="op">==</span><span class="st"> &quot;m&quot;</span>) <span class="op">|</span><span class="st"> </span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>sex <span class="op">==</span><span class="st"> &quot;f&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="the-one-sample-t-test.html#cb122-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring, sex <span class="sc">==</span> <span class="st">&quot;m&quot;</span>)</span>
+<span id="cb122-2"><a href="the-one-sample-t-test.html#cb122-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring, age <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> sex <span class="sc">==</span> <span class="st">&quot;m&quot;</span>)</span>
+<span id="cb122-3"><a href="the-one-sample-t-test.html#cb122-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring, (age <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> sex <span class="sc">==</span> <span class="st">&quot;m&quot;</span>) <span class="sc">|</span> (age <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> sex <span class="sc">==</span> <span class="st">&quot;f&quot;</span>))</span></code></pre></div>
 <p>For more information on indexing and subsetting, have a look at e.g. <a href="http://www.cookbook-r.com/Basics/Getting_a_subset_of_a_data_structure/" class="uri">http://www.cookbook-r.com/Basics/Getting_a_subset_of_a_data_structure/</a></p>
 <p>The data analysed in the SDAM book was selected as follows:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, anchor <span class="op">==</span><span class="st"> &quot;low&quot;</span> <span class="op">&amp;</span><span class="st"> </span>(referrer <span class="op">==</span><span class="st"> &quot;swps&quot;</span> <span class="op">|</span><span class="st"> </span>referrer <span class="op">==</span><span class="st"> &quot;swpson&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="the-one-sample-t-test.html#cb123-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring, anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span> <span class="sc">&amp;</span> (referrer <span class="sc">==</span> <span class="st">&quot;swps&quot;</span> <span class="sc">|</span> referrer <span class="sc">==</span> <span class="st">&quot;swpson&quot;</span>))</span></code></pre></div>
 <p>Note the use of the brackets around the “or” argument. Here, we want to select those cases where the value of the <code>anchor</code> variable equals <code>"low"</code> and the value of the <code>referrer</code> variable equals <code>"swps"</code> or <code>"swpson"</code>. Combinations of logical statements with the <code>&amp;</code> operator evaluate to <code>TRUE</code> when the elements on the left and right of it are evaluated as <code>TRUE</code>. By placing brackets around <code>(referrer == "swps" | referrer == "swpson")</code>, this part is <code>TRUE</code> whenever the value of the <code>referrer</code> variable equals <code>"swps"</code> or <code>"swpson"</code>. Combining this with the left element, we then select those cases out of this subset for whom the <code>anchor</code> variable equals <code>"low"</code>. Another way to get the same result is as:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">subset</span>(anchoring, (anchor <span class="op">==</span><span class="st"> &quot;low&quot;</span> <span class="op">&amp;</span><span class="st"> </span>referrer <span class="op">==</span><span class="st"> &quot;swps&quot;</span>) <span class="op">|</span><span class="st"> </span>(anchor <span class="op">==</span><span class="st"> &quot;low&quot;</span> <span class="op">&amp;</span><span class="st"> </span>referrer <span class="op">==</span><span class="st"> &quot;swpson&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="the-one-sample-t-test.html#cb124-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring, (anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span> <span class="sc">&amp;</span> referrer <span class="sc">==</span> <span class="st">&quot;swps&quot;</span>) <span class="sc">|</span> (anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span> <span class="sc">&amp;</span> referrer <span class="sc">==</span> <span class="st">&quot;swpson&quot;</span>))</span></code></pre></div>
 <p>Knowing how logical statements are evaluated in computer languages is very important. I won’t pretend this is easy at first. But with practice (and probably many mistakes, like I have made and sometimes still make), you will get an intuitive understanding of it. And when in doubt, check that the results are as you expected, by for instance first assigning the outcome of your expression to a new variable in your <code>data.frame</code> and then inspecting the values for errors. For example, you could use something like</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" title="1">tmp &lt;-<span class="st"> </span>anchoring <span class="co">## assign a copy of the anchoring data to a &quot;throwaway object&quot;</span></a>
-<a class="sourceLine" id="cb125-2" title="2">tmp<span class="op">$</span>selected &lt;-<span class="st"> </span>tmp<span class="op">$</span>anchor <span class="op">==</span><span class="st"> &quot;low&quot;</span> <span class="op">&amp;</span><span class="st"> </span>(tmp<span class="op">$</span>referrer <span class="op">==</span><span class="st"> &quot;swps&quot;</span> <span class="op">|</span><span class="st"> </span>tmp<span class="op">$</span>referrer <span class="op">==</span><span class="st"> &quot;swpson&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="the-one-sample-t-test.html#cb125-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> anchoring <span class="do">## assign a copy of the anchoring data to a &quot;throwaway object&quot;</span></span>
+<span id="cb125-2"><a href="the-one-sample-t-test.html#cb125-2" aria-hidden="true" tabindex="-1"></a>tmp<span class="sc">$</span>selected <span class="ot">&lt;-</span> tmp<span class="sc">$</span>anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span> <span class="sc">&amp;</span> (tmp<span class="sc">$</span>referrer <span class="sc">==</span> <span class="st">&quot;swps&quot;</span> <span class="sc">|</span> tmp<span class="sc">$</span>referrer <span class="sc">==</span> <span class="st">&quot;swpson&quot;</span>)</span></code></pre></div>
 <p>and then call</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" title="1"><span class="kw">ftable</span>(tmp<span class="op">$</span>anchor, tmp<span class="op">$</span>referrer, tmp<span class="op">$</span>selected)</a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="the-one-sample-t-test.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ftable</span>(tmp<span class="sc">$</span>anchor, tmp<span class="sc">$</span>referrer, tmp<span class="sc">$</span>selected)</span></code></pre></div>
 <pre><code>##                FALSE TRUE
 ##                          
 ## high abington     38    0
@@ -469,7 +524,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>ftable</code> function is useful to obtain frequency tables in a slightly more readable format than through the <code>table</code> function. But as you can see, the output is still rather extensive. But we can clearly see that, as intended, the only cases for which the new <code>selected</code> variable is <code>TRUE</code> are all cases where <code>referrer</code> equals <code>"swps"</code> or <code>"swpson"</code>.</p>
 </div>
 </div>
-<div id="one-sample-t-test" class="section level2 hasAnchor">
+<div id="one-sample-t-test" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> One-sample t-test<a href="the-one-sample-t-test.html#one-sample-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>R has a <code>t.test</code> function which allows you to compute a variety of t-tests. For a one-sample t-test, you would use the following arguments:</p>
 <ul>
@@ -478,7 +533,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>alternative</code>: similar as in <code>binom.test</code>, the range of values for <code>mu</code> (i.e. <span class="math inline">\(\mu\)</span>) considered in MODEL G. This must be either <code>two.sided</code> (all values allowed), <code>greater</code> (only values <span class="math inline">\(\mu &gt; \underline{\mu}\)</span> allowed), or <code>less</code> (only values <span class="math inline">\(\mu &lt; \underline{\mu}\)</span> allowed). The default value is <code>alternative = "two.sided"</code>.</li>
 </ul>
 <p>For instance, we can run the two-sided t-test also reported in the SDAM book by</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1"><span class="kw">t.test</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="the-one-sample-t-test.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -491,7 +546,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mean of x 
 ##  6312.193</code></pre>
 <p>A one-sided test where MODEL R assumes <span class="math inline">\(\mu = 8848\)</span> and MODEL G assumes that <span class="math inline">\(\mu &lt; 8848\)</span>, is obtained by</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" title="1"><span class="kw">t.test</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="the-one-sample-t-test.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -504,21 +559,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mean of x 
 ##  6312.193</code></pre>
 </div>
-<div id="effect-size" class="section level2 hasAnchor">
+<div id="effect-size" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Effect size<a href="the-one-sample-t-test.html#effect-size" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For a one-sample t-test, the computation of Cohen’s <span class="math inline">\(d\)</span> is straightforward. You simply divide the difference between the mean and the assumed mean by the standard deviation:</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1">(<span class="kw">mean</span>(dat<span class="op">$</span>everest_meters) <span class="op">-</span><span class="st"> </span><span class="dv">8848</span>)<span class="op">/</span><span class="kw">sd</span>(dat<span class="op">$</span>everest_meters)</a></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="the-one-sample-t-test.html#cb132-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(dat<span class="sc">$</span>everest_meters) <span class="sc">-</span> <span class="dv">8848</span>)<span class="sc">/</span><span class="fu">sd</span>(dat<span class="sc">$</span>everest_meters)</span></code></pre></div>
 <pre><code>## [1] -0.8086795</code></pre>
 <p>Note the use of brackets around the difference between the sample mean and assumed mean. What we want to compute is
 <span class="math display">\[\text{Cohen&#39;s } d = \frac{\overline{Y} - \underline{\mu}}{\sigma_Y}\]</span>
 If I would have left the brackets out, R would compute the difference between the sample mean on the one hand, and the assumed mean divided by the standard deviation on the other hand:</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1"><span class="kw">mean</span>(dat<span class="op">$</span>everest_meters) <span class="op">-</span><span class="st"> </span><span class="dv">8848</span><span class="op">/</span><span class="kw">sd</span>(dat<span class="op">$</span>everest_meters)</a></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="the-one-sample-t-test.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>everest_meters) <span class="sc">-</span> <span class="dv">8848</span><span class="sc">/</span><span class="fu">sd</span>(dat<span class="sc">$</span>everest_meters)</span></code></pre></div>
 <pre><code>## [1] 6309.371</code></pre>
 <p>which is
 <span class="math display">\[\overline{Y} - \frac{\underline{\mu}}{\sigma_Y}\]</span>
 and not what we intend to compute! Many errors are due to missing brackets.</p>
-<p>If you don’t want to calculate Cohen’s <span class="math inline">\(d\)</span> in this way, you can also use the <code>cohens_d</code> function from the <code>effectsize</code> package <span class="citation">(Ben-Shachar et al. <a href="#ref-R-effectsize">2022</a>)</span>, which provides functions for a wide variety of effect-size measures. You can supply a <code>t.test</code> directly as an argument to the <code>cohens_d</code> function:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1">effectsize<span class="op">::</span><span class="kw">cohens_d</span>(<span class="kw">t.test</span>(dat<span class="op">$</span>everest_meters, <span class="dt">mu=</span><span class="dv">8848</span>))</a></code></pre></div>
+<p>If you don’t want to calculate Cohen’s <span class="math inline">\(d\)</span> in this way, you can also use the <code>cohens_d</code> function from the <code>effectsize</code> package <span class="citation">(<a href="#ref-R-effectsize" role="doc-biblioref">Ben-Shachar et al. 2022</a>)</span>, which provides functions for a wide variety of effect-size measures. You can supply a <code>t.test</code> directly as an argument to the <code>cohens_d</code> function:</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="the-one-sample-t-test.html#cb136-1" aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">cohens_d</span>(<span class="fu">t.test</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>))</span></code></pre></div>
 <pre><code>## Cohen&#39;s d |         95% CI
 ## --------------------------
 ## -0.81     | [-1.19, -0.59]
@@ -526,57 +581,57 @@ and not what we intend to compute! Many errors are due to missing brackets.</p>
 ## - Deviation from a difference of 8848.</code></pre>
 <p>The output does not only provide the value of Cohen’s <span class="math inline">\(d\)</span> that we computed earlier, but also a confidence interval around this measure. In terms of the code, note that instead of first loading the <code>effectsize</code> package with <code>library(effectsize)</code>, I called the function directly by prepending the <code>cohens_d</code> function with the package name, as in <code>effectsize::cohens_d</code>. Calling functions in this way without loading the package first is handy, because some packages may use the same name for different functions. If that is the case, when you call a function with that name, you will get the function as implemented in the package you loaded the last. This often leads to errors. Where possible, it is best to avoid loading packages, and always use functions without first loading a package by prepending the name of the function with the package name.</p>
 </div>
-<div id="nonparametric-bootstrap" class="section level2 hasAnchor">
+<div id="nonparametric-bootstrap" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Nonparametric bootstrap<a href="the-one-sample-t-test.html#nonparametric-bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>(This section is rather advanced and you can skip it for now if you want. You may want to return to this if you need or want to apply a bootstrapping technique.)</p>
 <p>When discussing the Central Limit Theorem, I described how you can use <em>bootstrapping</em> to evaluate whether an assumed distribution for a statistic is likely to hold. Such a bootstrap analysis is quite easy to perform in R, although the idea itself is somewhat advanced. The key idea is to repeatedly sample, with replacement, from a given dataset, to obtain lots of new datasets, and then compute the statistic for those new dataset. To sample with replacement, the <code>sample</code> function in R comes in handy. In particular, you can use this function to sample the indices (from 1 to <span class="math inline">\(n\)</span>) of observations in a dataset. For example, if I have a dataset with 10 observations, I might sample with replacement numbers between 1 and 10 as follows:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1234</span>)</a>
-<a class="sourceLine" id="cb138-2" title="2"><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="the-one-sample-t-test.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb138-2"><a href="the-one-sample-t-test.html#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##  [1] 10  6  5  9  5  6  4  2  7  6</code></pre>
 <p>The first argument to the <code>sample</code> function is the set of elements you want to sample from (numbers in the sequence from 1 to 10 in this case), the second specifies the number of samples (10 in this case), and the third specifies that we sample with replacement, which means that we can sample the same element multiple times. Here, you can see that the number 3 occurs 3 times in our new sample, and the number 10 twice. If we then use these numbers to select observations in our dataset, the new dataset would replicate observation 3 three times, and observation 10 two times. Such replications of observations is exactly what we want in a nonparametric bootstrap. One way to get a bootstrap distribution of the sample mean, by sampling <code>nsim</code> new datasets of the same size as the original dataset (given as <span class="math inline">\(n\)</span>=<code>nrow(dat)</code>) would be as follows:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1"><span class="kw">set.seed</span>(<span class="dv">23456</span>)</a>
-<a class="sourceLine" id="cb140-2" title="2">nsim &lt;-<span class="st"> </span><span class="dv">100000</span> <span class="co"># number of new datasets</span></a>
-<a class="sourceLine" id="cb140-3" title="3">boot_mean &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.0</span>,nsim) <span class="co"># initialize a vector to store the means in the new datasets</span></a>
-<a class="sourceLine" id="cb140-4" title="4"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nsim) { <span class="co"># iterate for each bootstrap sample</span></a>
-<a class="sourceLine" id="cb140-5" title="5">  y &lt;-<span class="st"> </span>dat[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(dat),<span class="dt">size=</span><span class="kw">nrow</span>(dat),<span class="dt">replace=</span><span class="ot">TRUE</span>),]<span class="op">$</span>everest_meters <span class="co"># sample data</span></a>
-<a class="sourceLine" id="cb140-6" title="6">  boot_mean[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(y) <span class="co"># compute mean and store it in an element of boot_mean</span></a>
-<a class="sourceLine" id="cb140-7" title="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="the-one-sample-t-test.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23456</span>)</span>
+<span id="cb140-2"><a href="the-one-sample-t-test.html#cb140-2" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co"># number of new datasets</span></span>
+<span id="cb140-3"><a href="the-one-sample-t-test.html#cb140-3" aria-hidden="true" tabindex="-1"></a>boot_mean <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>,nsim) <span class="co"># initialize a vector to store the means in the new datasets</span></span>
+<span id="cb140-4"><a href="the-one-sample-t-test.html#cb140-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsim) { <span class="co"># iterate for each bootstrap sample</span></span>
+<span id="cb140-5"><a href="the-one-sample-t-test.html#cb140-5" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> dat[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat),<span class="at">size=</span><span class="fu">nrow</span>(dat),<span class="at">replace=</span><span class="cn">TRUE</span>),]<span class="sc">$</span>everest_meters <span class="co"># sample data</span></span>
+<span id="cb140-6"><a href="the-one-sample-t-test.html#cb140-6" aria-hidden="true" tabindex="-1"></a>  boot_mean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(y) <span class="co"># compute mean and store it in an element of boot_mean</span></span>
+<span id="cb140-7"><a href="the-one-sample-t-test.html#cb140-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>R is rather slow in performing <code>for</code> loops. It is more efficient to generate all the <code>y</code> samples for all simulations in one go. Instead of repeatedly sampling <code>size=nrow(dat)</code> samples, we can sample the indices for all bootstrap samples in one go as <code>size=nsim*nrow(dat)</code>. If we then place the sampled <code>y</code> values in a matrix, we can compute the mean for each column in that matrix to get our <code>boot_mean</code> variable. This is how I performed the bootstrapped distribution of the sample mean:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="kw">set.seed</span>(<span class="dv">23456</span>)</a>
-<a class="sourceLine" id="cb141-2" title="2">nsim &lt;-<span class="st"> </span><span class="dv">100000</span> <span class="co"># number of new datasets</span></a>
-<a class="sourceLine" id="cb141-3" title="3">boot_mean &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.0</span>,nsim) <span class="co"># initialize a vector to store the means in the new datasets</span></a>
-<a class="sourceLine" id="cb141-4" title="4">y &lt;-<span class="st"> </span><span class="kw">matrix</span>(dat[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(dat),<span class="dt">size=</span>nsim<span class="op">*</span><span class="kw">nrow</span>(dat),<span class="dt">replace=</span><span class="ot">TRUE</span>),]<span class="op">$</span>everest_meters,<span class="dt">ncol=</span>nsim)</a>
-<a class="sourceLine" id="cb141-5" title="5">boot_mean &lt;-<span class="st"> </span><span class="kw">colMeans</span>(y)</a></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="the-one-sample-t-test.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23456</span>)</span>
+<span id="cb141-2"><a href="the-one-sample-t-test.html#cb141-2" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co"># number of new datasets</span></span>
+<span id="cb141-3"><a href="the-one-sample-t-test.html#cb141-3" aria-hidden="true" tabindex="-1"></a>boot_mean <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>,nsim) <span class="co"># initialize a vector to store the means in the new datasets</span></span>
+<span id="cb141-4"><a href="the-one-sample-t-test.html#cb141-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(dat[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat),<span class="at">size=</span>nsim<span class="sc">*</span><span class="fu">nrow</span>(dat),<span class="at">replace=</span><span class="cn">TRUE</span>),]<span class="sc">$</span>everest_meters,<span class="at">ncol=</span>nsim)</span>
+<span id="cb141-5"><a href="the-one-sample-t-test.html#cb141-5" aria-hidden="true" tabindex="-1"></a>boot_mean <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(y)</span></code></pre></div>
 <p>I then plotted the histogram with the overlaid theoretical distribution as follows:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">mean=</span>boot_mean), <span class="kw">aes</span>(<span class="dt">x=</span>mean)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">30</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb142-2" title="2"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> <span class="cf">function</span>(x) <span class="kw">dnorm</span>(x, <span class="dt">mean =</span> <span class="kw">mean</span>(boot_mean), <span class="dt">sd =</span> <span class="kw">sd</span>(boot_mean)) <span class="op">*</span><span class="st"> </span><span class="dv">30</span> <span class="op">*</span><span class="st"> </span>nsim, <span class="dt">linetype=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;count&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="the-one-sample-t-test.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">mean=</span>boot_mean), <span class="fu">aes</span>(<span class="at">x=</span>mean)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">30</span>) <span class="sc">+</span> </span>
+<span id="cb142-2"><a href="the-one-sample-t-test.html#cb142-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="fu">mean</span>(boot_mean), <span class="at">sd =</span> <span class="fu">sd</span>(boot_mean)) <span class="sc">*</span> <span class="dv">30</span> <span class="sc">*</span> nsim, <span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;count&quot;</span>)</span></code></pre></div>
 <p><img src="03-GLM-simple_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>Note the use of the <code>stat_function</code> in which I supplied a function to compute the Normal density function with a mean and standard deviation equal to those of the <code>boot_mean</code> variable. This then plots the density of that variable, assuming it follows a Normal distribution. We can also plot the Q-Q plot as follows:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">mean=</span>boot_mean), <span class="kw">aes</span>(<span class="dt">sample =</span> mean)) <span class="op">+</span><span class="st"> </span><span class="kw">stat_qq</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_qq_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;sample&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;theoretical&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="the-one-sample-t-test.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">mean=</span>boot_mean), <span class="fu">aes</span>(<span class="at">sample =</span> mean)) <span class="sc">+</span> <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;sample&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;theoretical&quot;</span>)</span></code></pre></div>
 <p><img src="03-GLM-simple_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>To get a bootstrapped distribution of the <span class="math inline">\(t\)</span>-statistic, we can follow a mostly similar procedure. In this case, we want to determine the distribution of the <span class="math inline">\(t\)</span>-statistic assuming that the null-hypothesis is true. To get this, rather than testing against <span class="math inline">\(\underline{\mu} - 8848\)</span>, we set <span class="math inline">\(\underline{\mu} = \overline{Y}\)</span> here. The reasoning behind this is that <span class="math inline">\(\overline{Y}\)</span> is our best estimate of <span class="math inline">\(\mu\)</span>, whilst the assumed value <span class="math inline">\(\underline{\mu}\)</span> might be completely wrong. If the distribution of the <span class="math inline">\(t\)</span>-statistic with our best guess <span class="math inline">\(\underline{\mu} = \overline{Y}\)</span> follows a t-distribution, we could assume it would also follow a t-distribution if the null-hypothesis were true. The code to get the bootstrapped distribution of the <span class="math inline">\(t\)</span>-statistic is:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1"><span class="kw">set.seed</span>(<span class="dv">23456</span>)</a>
-<a class="sourceLine" id="cb144-2" title="2">nsim &lt;-<span class="st"> </span><span class="dv">100000</span> <span class="co"># number of new datasets</span></a>
-<a class="sourceLine" id="cb144-3" title="3">boot_t &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.0</span>,nsim)</a>
-<a class="sourceLine" id="cb144-4" title="4">s_mean &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>everest_meters)</a>
-<a class="sourceLine" id="cb144-5" title="5">y &lt;-<span class="st"> </span><span class="kw">matrix</span>(dat[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(dat),<span class="dt">size=</span>nsim<span class="op">*</span><span class="kw">nrow</span>(dat),<span class="dt">replace=</span><span class="ot">TRUE</span>),]<span class="op">$</span>everest_meters,<span class="dt">ncol=</span>nsim)</a>
-<a class="sourceLine" id="cb144-6" title="6">boot_t &lt;-<span class="st"> </span><span class="kw">apply</span>(y, <span class="dt">MARGIN=</span><span class="dv">2</span>, <span class="dt">FUN=</span><span class="cf">function</span>(x) <span class="kw">t.test</span>(x, <span class="dt">mu=</span>s_mean)<span class="op">$</span>statistic)</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="the-one-sample-t-test.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23456</span>)</span>
+<span id="cb144-2"><a href="the-one-sample-t-test.html#cb144-2" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co"># number of new datasets</span></span>
+<span id="cb144-3"><a href="the-one-sample-t-test.html#cb144-3" aria-hidden="true" tabindex="-1"></a>boot_t <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>,nsim)</span>
+<span id="cb144-4"><a href="the-one-sample-t-test.html#cb144-4" aria-hidden="true" tabindex="-1"></a>s_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>everest_meters)</span>
+<span id="cb144-5"><a href="the-one-sample-t-test.html#cb144-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(dat[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat),<span class="at">size=</span>nsim<span class="sc">*</span><span class="fu">nrow</span>(dat),<span class="at">replace=</span><span class="cn">TRUE</span>),]<span class="sc">$</span>everest_meters,<span class="at">ncol=</span>nsim)</span>
+<span id="cb144-6"><a href="the-one-sample-t-test.html#cb144-6" aria-hidden="true" tabindex="-1"></a>boot_t <span class="ot">&lt;-</span> <span class="fu">apply</span>(y, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="at">FUN=</span><span class="cf">function</span>(x) <span class="fu">t.test</span>(x, <span class="at">mu=</span>s_mean)<span class="sc">$</span>statistic)</span></code></pre></div>
 <p>Note the use of the <code>apply</code> function on the last line. The <code>apply</code> function can be used to apply any function provided in the <code>FUN</code> argument over a particular (set) of dimensions in an array. In this case, <code>y</code> is a matrix, and specifying <code>MARGIN=2</code> means that we apply the function over each column in that matrix (setting the argument to <code>MARGIN=1</code> would apply the function to each row in the matrix). The function that we apply to each column of <code>y</code> (which is each bootstrapped sample) is the <code>t.test</code> function, and we only store the value of the <code>statistic</code> variable of the output of that function (which is the value of the <span class="math inline">\(t\)</span>-statistic).</p>
 <p>We can plot the bootstrap distribution with the theoretical distribution overlaid as follows:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">t=</span>boot_t), <span class="kw">aes</span>(<span class="dt">x=</span>t)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span>.<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb145-2" title="2"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> <span class="cf">function</span>(x) <span class="kw">dt</span>(x, <span class="dt">df =</span> <span class="kw">nrow</span>(dat) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="fl">.1</span> <span class="op">*</span><span class="st"> </span>nsim, <span class="dt">linetype=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;count&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="the-one-sample-t-test.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">t=</span>boot_t), <span class="fu">aes</span>(<span class="at">x=</span>t)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span>.<span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb145-2"><a href="the-one-sample-t-test.html#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">dt</span>(x, <span class="at">df =</span> <span class="fu">nrow</span>(dat) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> .<span class="dv">1</span> <span class="sc">*</span> nsim, <span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;count&quot;</span>)</span></code></pre></div>
 <p><img src="03-GLM-simple_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>and the Q-Q plot as:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">t=</span>boot_t), <span class="kw">aes</span>(<span class="dt">sample =</span> t)) <span class="op">+</span><span class="st"> </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> stats<span class="op">::</span>qt, <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">df =</span> <span class="kw">nrow</span>(dat) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb146-2" title="2"><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> stats<span class="op">::</span>qt, <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">df =</span> <span class="kw">nrow</span>(dat) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;sample&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;theoretical&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="the-one-sample-t-test.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">t=</span>boot_t), <span class="fu">aes</span>(<span class="at">sample =</span> t)) <span class="sc">+</span> <span class="fu">stat_qq</span>(<span class="at">distribution =</span> stats<span class="sc">::</span>qt, <span class="at">dparams =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="fu">nrow</span>(dat) <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb146-2"><a href="the-one-sample-t-test.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">distribution =</span> stats<span class="sc">::</span>qt, <span class="at">dparams =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="fu">nrow</span>(dat) <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;sample&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;theoretical&quot;</span>)</span></code></pre></div>
 <p><img src="03-GLM-simple_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-R-effectsize">
-<p>Ben-Shachar, Mattan S., Dominique Makowski, Daniel Lüdecke, Indrajeet Patil, and Brenton M. Wiernik. 2022. <em>Effectsize: Indices of Effect Size and Standardized Parameters</em>. <a href="https://easystats.github.io/effectsize/">https://easystats.github.io/effectsize/</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-effectsize" class="csl-entry">
+Ben-Shachar, Mattan S., Dominique Makowski, Daniel Lüdecke, Indrajeet Patil, and Brenton M. Wiernik. 2022. <em>Effectsize: Indices of Effect Size</em>. <a href="https://easystats.github.io/effectsize/">https://easystats.github.io/effectsize/</a>.
 </div>
 </div>
             </section>
