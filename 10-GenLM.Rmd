@@ -1,0 +1,134 @@
+# Generalized linear models
+
+## Univariate generalized linear models
+
+Many generalized linear models can be estimated with the `glm()` function. This function works similarly to the `lm()` function, but contains an additional `family` argument to specify the distribution of the dependent variable, and the link function to be used.
+
+A logistic regression model can be estimated by specifying the family argument as `binomial()`. The `binomial()` family uses a logistic link function by default, and a call to `binomial()` is identical to `binomial(link="logit")`. 
+```{r}
+library(sdamr)
+data("metacognition")
+dat <- subset(metacognition, id == 1)
+dat$confidence <- center(dat$confidence)
+dat$contrast <- center(dat$contrast)
+mod_logistic <- glm(correct ~ confidence * contrast, family=binomial(), data=dat)
+summary(mod_logistic)
+```
+Other possible link functions for the binomial family are `probit`, `cauchit`, `log` and `cloglog`. A model with a Probit link function can be estimated by specifying this link in the `binomial()` family argument as follows:
+```{r}
+mod_probit <- glm(correct ~ confidence * contrast, family=binomial("probit"), data=dat)
+summary(mod_probit)
+```
+
+A Poisson regression model can be estimated by specifying the family as `family=poisson()`. The default link function is the log function, and hence `family=poisson()` is the same as `family=poisson(link="log")`. Other possible link functions are `identity` and `sqrt`. 
+
+```{r}
+data("gestures")
+contrasts(gestures$context) <- c(1,-1)
+contrasts(gestures$language) <- c(1,-1)
+contrasts(gestures$gender) <- c(1,-1)
+gestures$log_d <- log(gestures$dur)
+mod_poisson <- glm(gestures ~ context*language*gender, data=gestures, family=poisson(), offset=log_d)
+summary(mod_poisson)
+```
+
+```{r}
+mod_qpoisson <- glm(gestures ~ context*language*gender, data=gestures, family=quasipoisson(), offset=log_d)
+summary(mod_qpoisson)
+```
+
+## Log-linear models
+
+`loglin()` or `loglm()`
+
+```{r}
+data("rps")
+dat <- rps
+dat$previous_human <- dplyr::lag(dat$human_action)
+dat$previous_ai <- dplyr::lag(dat$ai_action)
+dat$previous_human[dat$round == 1] <- NA
+dat$previous_ai[dat$round == 1] <- NA
+dat <- subset(dat, round > 25 & ai_strategy == "Level1")
+tab <- table(dat[,c("previous_human", "previous_ai","human_action")])
+```
+The `table()` function creates a cross-tabulation of the three variables:
+```{r}
+tab
+```
+The `loglm()` function is used to estimate log-linear models. When the supplied data is a cross-tabulation as above, The formula can contain numbers which then refer to the dimensions of the table. So, for the cross-tabulation above, 1 would refer to `previous_human`, 2 to `previous_ai`, and 3 to `human_action`. Independence is specified by separating the dimensions with a `+` sign, whilst dependence is specified by linking the dimensions with a `*` sign. For example, a model in which all dimensions are independent is specified as:
+```{r}
+mod_1_2_3 <- MASS::loglm(~ 1 + 2 + 3, data=tab)
+```
+and a model in which all dimensions are dependent as:
+```{r}
+mod_123 <- MASS::loglm(~ 1*2*3, data=tab)
+```
+The final model is the saturated model, and fits the data perfectly:
+```{r}
+mod_123
+```
+The independence model is the simplest model, and does not fit the data well:
+```{r}
+mod_1_2_3
+```
+Note that two test statistics are provided. The value under `Likelihood Ratio` is the $-2 \log \text{likelihood}$ of the model compared to the saturated model. The value under `Pearson` is 
+
+Other possible models are specified as follows:
+```{r}
+mod_12_3 <- MASS::loglm(~ 1*2 + 3, data=tab)
+mod_13_2 <- MASS::loglm(~ 1*3 + 2, data=tab)
+mod_23_1 <- MASS::loglm(~ 2*3 + 1, data=tab)
+mod_12_23 <- MASS::loglm(~ 1*2 + 2*3, data=tab)
+mod_12_13 <- MASS::loglm(~ 1*2 + 1*3, data=tab)
+mod_13_23 <- MASS::loglm(~ 1*3 + 2*3, data=tab)
+mod_12_13_23 <- MASS::loglm(~ 1*2 + 1*3 + 2*3, data=tab)
+```
+
+
+## Multinomial regression
+
+Multinomial logistic regression models can be estimated via the `multinom()` function of the `nnet` package.
+
+
+```{r}
+dat$previous_ai <- factor(dat$previous_ai)
+dat$previous_human <- factor(dat$previous_human)
+dat$human_action <- factor(dat$human_action)
+contrasts(dat$previous_ai) <- contrasts(dat$previous_human) <- cbind(c(-1,1,0),c(-1,0,1))
+mod_multinomial <- nnet::multinom(human_action ~ previous_human + previous_ai, data=dat)
+summary(mod_multinomial)
+```
+
+You can change the reference category with the `relevel()` function.
+
+```{r}
+dat$human_action <- relevel(dat$human_action, ref = "rock")
+mod_multinomial2 <- nnet::multinom(human_action ~ previous_human + previous_ai, data=dat)
+summary(mod_multinomial2)
+```
+
+## Generalized linear mixed effects models
+
+The `glmer()` function of the `lme4` package  can be used to estimate generalized linear mixed effects models. The interface is similar to the `lmer` function, with an additional `family` argument as for `glm()`. 
+
+```{r glmer-metacognition, cache=TRUE}
+dat <- metacognition
+mod_mixed_logistic <- glmer(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat)
+summary(mod_mixed_logistic)
+```
+
+Scaling the predictors (i.e. $Z$-transforming) provides much better results:
+```{r glmer-metacognition-scaled, cache=TRUE}
+dat$confidence <- scale(dat$confidence)
+dat$contrast <- scale(dat$contrast)
+mod_mixed_logistic <- glmer(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat)
+summary(mod_mixed_logistic)
+```
+
+Instead of the `glmer()` function, you can also use the `mixed()` function of the `afex` package. This has the benefit that better tests can be computed. For generalized linear models, `afex::mixed()` allows `method="LRT"` for likelihood-ratio tests, and `method="PB"` for a parametric bootstrap test.  
+
+```{r}
+mod_mixed_logistic2 <- afex::mixed(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat, method="LRT")
+mod_mixed_logistic2
+summary(mod_mixed_logistic2)
+```
