@@ -1,61 +1,233 @@
 # Generalized linear models
 
-## Univariate generalized linear models
+In this chapter, we will first illustrate the main methods of estimation, inference, and model checking with a logistic regression model. We will then go on to describe extensions to other generalized linear (mixed-effects) models. As we will see, most generalized linear models can be estimated with the `glm()` function, which works similarly to the `lm()` function, but contains an additional `family` argument to specify the distribution of the dependent variable and the link function to be used.
 
-Many generalized linear models can be estimated with the `glm()` function. This function works similarly to the `lm()` function, but contains an additional `family` argument to specify the distribution of the dependent variable, and the link function to be used.
+After discussing models estimated via the `glm()` function, we will move on to estimating log-linear models via the `loglm()` function from the `MASS` package, multinomial regression models via the `multinom()` function from the `nnet` package, and finally generalized linear mixed effects models with the `glmer()` function from the `lme4` package, or the `mixed()` function from the `afex` package.
 
-A logistic regression model can be estimated by specifying the family argument as `binomial()`. The `binomial()` family uses a logistic link function by default, and a call to `binomial()` is identical to `binomial(link="logit")`. 
+## Model estimation and inference
+
+Most generalized linear models can be estimated with the `glm()` function. The first argument of this function (`formula`) should be a formula specifying the predictors of the model. This part is equivalent to how you specify a model formula in the `lm()` function. So factors will be converted into contrast-coded predictors according to the `contrasts()` set for those factors. And in the formula, a `+` is used to include a variable "as is", whilst separating variables by a `*` indicates including both main effects and interactions of these variables (see Table \@ref(tab:lmer-fixed-effects-formula-examples)). What is new in the `glm()` function is the `family` argument, which is used to define both the random component of the model (i.e. the conditional distribution of the dependent variable) and the link function. For logistic regression, we should specify the family argument as `binomial()`. 
+
+The `binomial()` family uses a logistic link function by default, and a call to `binomial()` is identical to `binomial(link="logit")`. The following code estimates a logistic regression model to a subset of the `metacognition` data:
 ```{r}
 library(sdamr)
 data("metacognition")
+# select the subset for participant 1
 dat <- subset(metacognition, id == 1)
+# center confidence and contrast
 dat$confidence <- center(dat$confidence)
 dat$contrast <- center(dat$contrast)
+# specify the glm model
 mod_logistic <- glm(correct ~ confidence * contrast, family=binomial(), data=dat)
+```
+You can see the parameter estimates and the results of Wald tests (testing for each parameter the null hypothesis that the true value equals 0) through the `summary()` function:
+```{r}
 summary(mod_logistic)
 ```
-Other possible link functions for the binomial family are `probit`, `cauchit`, `log` and `cloglog`. A model with a Probit link function can be estimated by specifying this link in the `binomial()` family argument as follows:
+Results under the header `Coefficients:` show the parameter estimates $\hat{\beta}_j$ (`Estimate`), standard errors $\text{SE}(\hat{\beta}_j)$ (`Std. Error`), and Wald tests (`z value` for the test statistic, and `Pr(>|z|)` for the $p$-value). Above this, under the header `Deviance Residuals:`, the output also provides a summary of the residual deviances for each observation. These deviances are also available via the `residuals()` function, by calling e.g. `residuals(mod_logistic, type="deviance")`. The standardized Pearson residuals can be computed via the same function, calling `residuals(mod_logistic, type="pearson")`. We will come back to computing residuals later, when discussing Poisson regression.
+
+Likelihood-ratio tests can be obtained via the `Anova()` function of the `car` package, setting `type=3` to perform model comparisons of the full MODEL G to alternative MODEL R's which exclude each predictor (i.e. like the Wald test testing the null-hypothesis that the true slope equals 0):
+```{r}
+car::Anova(mod_logistic, type=3)
+```
+Note that this function does not provide a likelihood-ratio test of the intercept. If you really want this test as well, you can obtain this by estimating a model without an intercept, and then using the `anova()` function to compare this model to the model with an intercept. To estimate a model without an intercept, you need to add `-1` in the model formula:
+```{r}
+mod_logistic_0 <- glm(correct ~ -1 + confidence * contrast, family=binomial(), data=dat) 
+```
+To get a likelihood-ratio test comparing this model to the previous one, you to use the `anova()` function with the argument `test = "LRT"`:
+```{r}
+anova(mod_logistic_0, mod_logistic, test="LRT")
+```
+
+<!--
+Calling the `plot()` function on a `glm` model provides a number of plots to assess model fit:
+```{r}
+plot(mod_logistic)
+```
+
+The first plot ("Residuals vs Fitted") shows the residual deviance for each observation on the $Y$-axis, and the model prediction (on the scale of the link function) on the $x$-axis. This plot can be used to assess the linearity assumption of the model. For dichotomous data, the residuals will be on two "lines" (one line for values of the dependent variable equal to 1, and the other for values of the dependent variable equal to 0). Points which are numbered indicate rows in the `data.frame` which are potential outliers fpr this model.
+
+The second plot ("Normal Q-Q") plots the empirical quantiles of the standardized Pearson residuals on the $y$-axis, and the theoretical quantiles on the $x$-axis. The interpretation is similar to a Q-Q plot for the General Linear Model. Again, labelled points indicate rows in the `data.frame` which are potential outliers for this model.
+
+The third plot ("Scale-Location") 
+
+Finally, the "Residuals vs Leverage" plot
+
+-->
+
+## Confidence intervals
+
+Profile likelihood confidence intervals for the parameters can be obtained with the `confint()` function.
+```{r}
+confint(mod_logistic)
+```
+By default, this computes 95% confidence intervals. You can change this via the `level` argument. For example, a 90% confidence interval can be computed as:
+```{r}
+confint(mod_logistic, level=.9)
+```
+
+Whilst not recommended as they are less accurate, confidence intervals based on the Normal approximation can also be computed. Wald confidence intervals are defined as $$\hat{\beta}_j \pm z_{1-\tfrac{1}{2} \alpha} \text{SE}(\hat{\beta}_j)$$ This can be easily computed from the information available via the `summary()` function, which provides parameter estimates and standard errors. The `summary()` function returns a list, which can be stored as a new object in order to use. You can view all the elements in the list by typing e.g. `str(summary(mod_logistic))` in the console. The coefficients and standard errors are part of the `coefficients` element in the list, which contains a matrix with parameter estimates, standard errors, and the results of the Wald tests. The confidence intervals are computed by taking the column of the matrix containing the parameter estimates, and adding and subtracting the column with standard errors, multiplied by the critical $z$-value computed via the `qnorm()` function:
+```{r}
+# store coefficients matrix
+est <- summary(mod_logistic)$coefficients
+# compute the critical Z value (alpha = .05 for 95% confidence interval)
+qz <- qnorm(1-(.05)/2)
+# compute lower and upper confidence bounds
+cbind(est[,1] - qz*est[,2],
+      est[,1] + qz*est[,2])
+```
+Compared to the confidence intervals based on the profile likelihood, the Wald confidence are a somewhat wider.
+
+If you are to use a piece of code repeatedly, it is generally a good idea to define it as a function that can be re-used. This is more efficient. It can also avoid errors, as you would only need to correct errors once in the definition of the function, and not everywhere you would otherwise perform the computation. The code below defines a new function `zconfint()`, which provides a simple alternative to the `confint()` function using the Wald approximation and a 95% confidence interval by default:
+```{r}
+z_confint <- function(mod, level=.95) {
+  est <- summary(mod)$coefficients
+  out <- cbind(est[,1] - qnorm(1-(1-level)/2)*est[,2],
+               est[,1] + qnorm(1-(1-level)/2)*est[,2])
+  colnames(out) <- c(paste(100*(1-.95)/2,"%"), paste(100 - 100*(1-.95)/2,"%"))
+  return(out)
+}
+```
+You can now use this function simply as:
+```{r}
+z_confint(mod_logistic)
+```
+and compute a 90% confidence interval by explicitly setting the `level` argument:
+```{r}
+z_confint(mod_logistic, level=.9)
+```
+The above is mainly meant for didactic purposes. The profile-likelihood confidence intervals computed with the `confint()` function are generally preferred over the Wald approximation implemented via this new `z_confint()` function.
+
+## Model predictions
+
+The `predict()` function can be used to extract the model predictions. Model predictions can be obtained on the scale of the link function (`type="link"`, the default), but also on the scale of the response (`type="response"`). The former are just the values of the linear function of the model, i.e. $$\hat{y}_\text{link} = \hat{\beta}_0 + \sum_{j=1}^m \hat{\beta}_j \times X_{j,i}$$
+The latter are transformations of these predictions via the inverse-link function:
+$$\hat{y}_\text{response} = h(\hat{\beta}_0 + \sum_{j=1}^m \hat{\beta}_j \times X_{j,i})$$
+
+We can use the predictions to get a rough overview of the predicted probability of a correct response as a function of the (centered) confidence, for each of the levels of (centered) contrast as follows:
+```{r}
+# store model predictions in the data frame
+dat$pred <- predict(mod_logistic, type="response")
+library(ggplot2)
+ggplot(dat,aes(x=confidence,y=pred)) + geom_point() + facet_wrap(~contrast) + ylim(c(0,1))
+```
+
+## Alternative link functions for logistic regression
+
+Other possible link functions for the `binomial()` family are `probit`, `cauchit`, `log` and `cloglog`. A model with a Probit link function can be estimated by specifying this link in the `binomial()` family argument as follows:
 ```{r}
 mod_probit <- glm(correct ~ confidence * contrast, family=binomial("probit"), data=dat)
 summary(mod_probit)
+car::Anova(mod_probit, type=3)
 ```
 
-A Poisson regression model can be estimated by specifying the family as `family=poisson()`. The default link function is the log function, and hence `family=poisson()` is the same as `family=poisson(link="log")`. Other possible link functions are `identity` and `sqrt`. 
+The `cauchit` link function is the Cauchy cumulative probability distribution:
+$$g(y) = 0.5 + \frac{\arctan(y)}{\pi}$$
+and the `cloglog` the complementary-log-log link function:
+$$g(y) = \log\left(-\log(1 - y)\right)$$
+## Poisson regression
 
+A Poisson regression model can be estimated by specifying the family as `family=poisson()`. The default link is the (canonical) log link function, and hence `family=poisson()` is the same as `family=poisson(link="log")`. Other possible link functions are `identity` ($g(y) = y$) and `sqrt` ($g(y) = \sqrt{y}$). 
+
+The analysis of the `gestures` data in the SDAM book can be replicated with the following code, which first sets the contrasts applied to the `context`, `language`, and `gender` factors, and then creates a new variable for the offset in the model (which is the $\log(\texttt{duration})$, and supplied as the `offset` argument to thee `glm()` function:
 ```{r}
+# load the data
 data("gestures")
+# set the contrasts
 contrasts(gestures$context) <- c(1,-1)
 contrasts(gestures$language) <- c(1,-1)
 contrasts(gestures$gender) <- c(1,-1)
+# create a new variable for the offset
 gestures$log_d <- log(gestures$dur)
+# estimate the model, including the offset
 mod_poisson <- glm(gestures ~ context*language*gender, data=gestures, family=poisson(), offset=log_d)
+```
+As before, we can obtain the parameter estimates as Wald tests via the `summary()` function:
+```{r}
 summary(mod_poisson)
 ```
+And we can obtain likelihood-ratio tests via `car::Anova()`:
+```{r}
+car::Anova(mod_poisson, type=3)
+```
 
+The output of the `summary()` function includes a summary of the residual deviances. These residuals seem relatively large, but standardized Pearson residuals have a more straightforward interpretation. We can get a similar summary of the standardized Pearson residuals by calling the `summary()` function on the output of `residuals(type="pearson")`:
+```{r}
+summary(residuals(mod_poisson, type="pearson"))
+```
+Under the null-hypothesis that the model fits the data well, the standardized Pearson residuals follow a standard Normal distribution. That implies that absolute values larger than 3 should be very unlikely. Inh this model, such unlikely residuals are often present. 
+
+It is useful to plot a hisogram of the standardized Pearson residuals for generalized linear models. The following code provides a histogram and overlays a standard Normal distribution (which is the distribution of the standardized Pearson residuals under the null-hypothesis that the model in question is equal to the true model, in the sense that the probability distribution over the dependent variable equals the actual distribution of the dependent variable). A histogram depicts counts on the $y$-axis, but a density function such as the standard Normal density function depicts a probability distribution. These have different scales: the area under the curve of a probability density is equal 1, whilst the area covered by a histogram is equal to $n \times w$, where $n$ is the number of observations and $w$ the width of the bins in the hisotgram. To make these commensurable, we therefore need to rescale the standard Normal density function to the scale of the hisogram. In the code below, this rescaling is done via the `bw` ($w$) and `n_obs` ($n$) arguments, computed first and then used to rescale the output of the `dnorm` function (which provides the values of the Normal density function). The result is then provided as the `fun` argument to the `stat_function()` function of the `ggplot2` package:
+```{r}
+library(ggplot2)
+bw <- 1 # binwidth
+n_obs <- length(residuals(mod_poisson, type="pearson")) # number of observations
+tdat <- data.frame(residual = residuals(mod_poisson, type="pearson"))
+ggplot(tdat, aes(x=residual)) + geom_histogram(binwidth=bw, colour="black") + stat_function(fun=function(x) dnorm(x) * bw * n_obs, colour="red") + xlab("Standarized Pearson residual") + ylab("Frequency")
+```
+
+You can compute the proportion of observations with an absolute standardized Pearson residual larger than 3 as follows:
+```{r}
+sum(abs(residuals(mod_poisson, type="pearson")) > 3)/length(residuals(mod_poisson, type="pearson"))
+```
+This shows that more than 20% of the observations have rather extreme Pearson residuals.
+
+<!--
+We can plot the predicted against the observed counts as follows:
+```{r}
+gestures$pred <- predict(mod_poisson, type="response")
+ggplot(gestures, aes(x=pred, y=gestures)) + geom_point() + facet_grid(context ~ gender) + geom_abline(intercept=0,slope=1, lty=3) + xlab("predicted count") + ylab("observed count")
+```
+To assess for overdispersion, it can be more useful to plot the predicted variance against a (rough estimate of the) observed variance. In a Poisson distribution, the predicted variance is equal to the predicted conditional mean, $\hat{\mu}_{X_1,\ldots,X_m}$ (which are equal to the values returned by `predict(..., type="response")`). A rough estimate of the variance is the squared deviation between the observed values and the predicted mean
+```{r}
+gestures$est_var <- (gestures$gestures - gestures$pred)^2
+ggplot(gestures, aes(x=pred, y=est_var)) + geom_point() + facet_grid(context ~ gender) + geom_abline(intercept=0,slope=1, lty=3) + xlab("predicted variance") + ylab("observed variance")
+
+plot(mod_poisson, which =3)
+```
+-->
+
+## Quasi-Poisson regression
+
+Quasi-Poisson regression models can be estimated by setting the family argument to `quasipoisson`. As for the `poisson()` family, the default link function is the `log` link.
 ```{r}
 mod_qpoisson <- glm(gestures ~ context*language*gender, data=gestures, family=quasipoisson(), offset=log_d)
 summary(mod_qpoisson)
 ```
+The $F$-tests of this model can be obtained via the `car::Anova()` function, by setting the argument `test.statistic="F"`, as well as `error.estimate = "dispersion"` (the latter to indicate that the error variance is estimated from the estimated dispersion parameter of the quasi-Poisson model):
+```{r}
+car::Anova(mod_qpoisson, type=3, test.statistic="F", error.estimate="dispersion")
+```
+Note that the use of an $F$-test here is recommended by @dunn2018generalized because of the estimation of the dispersion parameter. You would not use this test for most generalized linear models, where the dispersion is taken as fixed.
 
 ## Log-linear models
 
-`loglin()` or `loglm()`
-
+Log-linear models can be estimated with the `loglm()` function from the `MASS` package. We will illustrate the use of this function with the rock-paper-scissors example discussed in the SDAM book. 
 ```{r}
+# load the rock-paper-scissors data
 data("rps")
+head(rps)
+```
+
+To analyse this data, we first create new variables for the previous human and previous AI actions. For this, we use the `lag()` function from the `dlyr` package. This function shifts values in a vector, by default by one element. So if you have a vector `c(1,2,3)`, the result of `lag(c(1,2,3)) = c(NA,1,2)` (all elements are shifted right, and the first element is set to a missing value `NA`).
+```{r}
 dat <- rps
+# create lagged variables 
 dat$previous_human <- dplyr::lag(dat$human_action)
 dat$previous_ai <- dplyr::lag(dat$ai_action)
+# set the value in the first round to NA for all participants
 dat$previous_human[dat$round == 1] <- NA
 dat$previous_ai[dat$round == 1] <- NA
+# select a subset of the data with only the last half of each game
+# and only the "level 1" AI opponent
 dat <- subset(dat, round > 25 & ai_strategy == "Level1")
-tab <- table(dat[,c("previous_human", "previous_ai","human_action")])
 ```
-The `table()` function creates a cross-tabulation of the three variables:
+We can now use the `table()` function to create a cross-tabulation of the three variables of interest
 ```{r}
+tab <- table(dat[,c("previous_human", "previous_ai","human_action")])
 tab
 ```
-The `loglm()` function is used to estimate log-linear models. When the supplied data is a cross-tabulation as above, The formula can contain numbers which then refer to the dimensions of the table. So, for the cross-tabulation above, 1 would refer to `previous_human`, 2 to `previous_ai`, and 3 to `human_action`. Independence is specified by separating the dimensions with a `+` sign, whilst dependence is specified by linking the dimensions with a `*` sign. For example, a model in which all dimensions are independent is specified as:
+The `loglm()` function is used to estimate log-linear models, using a formula interface similar to `glm()` and `lm()`. When the supplied data is a cross-tabulation as above, the formula can contain numbers which refer to the numbers of the dimensions of the table. So, for the cross-tabulation above, 1 would refer to `previous_human`, 2 to `previous_ai`, and 3 to `human_action`. Independence is specified by separating the dimensions with a `+` sign, whilst dependence is specified by linking the dimensions with a `*` sign. For example, a model in which all dimensions are independent is specified as:
 ```{r}
 mod_1_2_3 <- MASS::loglm(~ 1 + 2 + 3, data=tab)
 ```
@@ -63,7 +235,7 @@ and a model in which all dimensions are dependent as:
 ```{r}
 mod_123 <- MASS::loglm(~ 1*2*3, data=tab)
 ```
-The final model is the saturated model, and fits the data perfectly:
+This last model is the saturated model, and fits the data perfectly:
 ```{r}
 mod_123
 ```
@@ -71,36 +243,61 @@ The independence model is the simplest model, and does not fit the data well:
 ```{r}
 mod_1_2_3
 ```
-Note that two test statistics are provided. The value under `Likelihood Ratio` is the $-2 \log \text{likelihood}$ of the model compared to the saturated model. The value under `Pearson` is 
+Note that two test statistics are provided. The value under `Likelihood Ratio` is the $-2 \log \text{likelihood}$ of the model compared to the saturated model. The value under `Pearson` contains the value of the Pearson goodness-of-fit test:
+$$X^2 = \sum_{j=1}^k \frac{(O_j - E_j)^2}{E_j}$$
+where $O_j$ is the observed count for cell $j$ in the multiway contingency table, and $E_j$ the expected count computed according to the estimated model. As we have not discussed this test in the SDAM book, we will ignore it for now and focus on the likelihood ratio tests.
 
-Other possible models are specified as follows:
+The remaining other possible models are specified as follows:
 ```{r}
+# human action independent from previous human and previous AI
 mod_12_3 <- MASS::loglm(~ 1*2 + 3, data=tab)
+# previous AI independent from previous human and current human action
 mod_13_2 <- MASS::loglm(~ 1*3 + 2, data=tab)
+# previous human action independent from previous AI and current human action
 mod_23_1 <- MASS::loglm(~ 2*3 + 1, data=tab)
 mod_12_23 <- MASS::loglm(~ 1*2 + 2*3, data=tab)
 mod_12_13 <- MASS::loglm(~ 1*2 + 1*3, data=tab)
 mod_13_23 <- MASS::loglm(~ 1*3 + 2*3, data=tab)
 mod_12_13_23 <- MASS::loglm(~ 1*2 + 1*3 + 2*3, data=tab)
 ```
-
+By inspecting these objects, you will see that the likelihood-ratio test is significant for all of these models. Hence, the null-hypothesis that each of these models is equal to the true model is rejected.
 
 ## Multinomial regression
 
-Multinomial logistic regression models can be estimated via the `multinom()` function of the `nnet` package.
-
-
+Multinomial logistic regression models can be estimated via the `multinom()` function of the `nnet` package. The function uses the usual formula interface. But there is no `family()` argument here. This function will always use multinomial logistic regression with a baseline logit formulation. Continuing with our example of the rock-paper-scissors data, we can estimate the multinomial logistic regression model as follows:
 ```{r}
+# turn variables into factors
 dat$previous_ai <- factor(dat$previous_ai)
 dat$previous_human <- factor(dat$previous_human)
 dat$human_action <- factor(dat$human_action)
+# set effect-coding contrasts
 contrasts(dat$previous_ai) <- contrasts(dat$previous_human) <- cbind(c(-1,1,0),c(-1,0,1))
 mod_multinomial <- nnet::multinom(human_action ~ previous_human + previous_ai, data=dat)
+```
+And we can obtain the results as usual via the `summary()` function:
+```{r}
 summary(mod_multinomial)
 ```
+Note that there are separate rows for the logit comparing `rock` to the baseline `paper`, and the logit comparing `scissors` to the baseline `paper`. Whilst the function returns parameter estimates and standard errors, we do not get the usual Wald tests. These can be easily computed though, as the $z$-statistic for the Walk test is simply $$z = \frac{\hat{\beta}}{\text{SE}{\hat{\beta}}}$$
+The `summary()` function for `multinom` models returns a list. The elements of this list that we need are named `coefficients` and `standard.errors`:
+```{r}
+est <- summary(mod_multinomial)$coefficients
+se <- summary(mod_multinomial)$standard.errors
+z <- est/se
+z
+```
+The corresponding $p$-values can be computed with the `pnorm()` function, which computes cumulative probabilities of the standard Normal distribution. For this, we take the absolute values of the $z$-statistic, and then compute the probability of obtaining a value *larger* than this as `1 - pnorm(abs(z))` (by default, the `pnorm()` function returns the probability of a value *lower* than its argument). Finally, for a two-sided test, we need to multiply this by 2:
+```{r}
+2*(1-pnorm(abs(z)))
+```
 
-You can change the reference category with the `relevel()` function.
+Granted, whilst certainly doable, this procedure is not exactly straightforward. It is more convenient to compute likelihood-ratio tests, which are available via the `car::Anova()` function:
+```{r}
+car::Anova(mod_multinomial, type=3)
+```
+Note that this provides a single test for each factor, taking the effect of each contrast code for this predictor in each baseline category logit together. 
 
+If you want to use a different baseline category than the default (which is the first level of the dependent variable), you can change the baseline category via the `ref` argument of the `relevel()` function:
 ```{r}
 dat$human_action <- relevel(dat$human_action, ref = "rock")
 mod_multinomial2 <- nnet::multinom(human_action ~ previous_human + previous_ai, data=dat)
@@ -109,24 +306,24 @@ summary(mod_multinomial2)
 
 ## Generalized linear mixed effects models
 
-The `glmer()` function of the `lme4` package  can be used to estimate generalized linear mixed effects models. The interface is similar to the `lmer` function, with an additional `family` argument as for `glm()`. 
-
+The `glmer()` function of the `lme4` package  can be used to estimate generalized linear mixed effects models. The interface is similar to the `lmer` function, with an additional `family` argument as for `glm()`. For example, we can fit a mixed-effects logistic regression model for the metacognition model, with random intercepts and slopes for (centered) `confidence` and `contrast` for each participant, as follows:
 ```{r glmer-metacognition, cache=TRUE}
+data("metacognition")
 dat <- metacognition
-mod_mixed_logistic <- glmer(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat)
+dat$confidence <- center(dat$confidence)
+dat$contrast <- center(dat$contrast)
+mod_mixed_logistic <- lme4::glmer(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat)
 summary(mod_mixed_logistic)
 ```
-
-Scaling the predictors (i.e. $Z$-transforming) provides much better results:
+Note the warnings about estimation issues. Estimation issues are more common in generalized linear mixed-effects models than linear mixed-effects models. A hint is provided in the warning as: `- Rescale variables?`. Estimation of mixed-effects models is generally easier when all predictors have the same scale, with a standard deviation equal to about 1. In this case, scaling the predictors (i.e. $Z$-transforming) provides much better results:
 ```{r glmer-metacognition-scaled, cache=TRUE}
 dat$confidence <- scale(dat$confidence)
 dat$contrast <- scale(dat$contrast)
-mod_mixed_logistic <- glmer(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat)
+mod_mixed_logistic <- lme4::glmer(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat)
 summary(mod_mixed_logistic)
 ```
 
-Instead of the `glmer()` function, you can also use the `mixed()` function of the `afex` package. This has the benefit that better tests can be computed. For generalized linear models, `afex::mixed()` allows `method="LRT"` for likelihood-ratio tests, and `method="PB"` for a parametric bootstrap test.  
-
+Instead of the `glmer()` function, you can also use the `mixed()` function of the `afex` package. This has the benefit that better tests results can be computed. For generalized linear models, `afex::mixed()` allows `method="LRT"` for likelihood-ratio tests, and `method="PB"` for a parametric bootstrap test.  
 ```{r}
 mod_mixed_logistic2 <- afex::mixed(correct ~ confidence * contrast + (confidence + contrast||id), family=binomial(), data=dat, method="LRT")
 mod_mixed_logistic2

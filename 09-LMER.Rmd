@@ -19,7 +19,9 @@ The gold standard for fitting linear mixed-effects models in R is the `lmer()` (
 * `data`: A `data.frame`, which needs to be in the so-called "long" format, with a single row per observation. This may be different from what you might be used to when dealing with repeated-measures. A repeated-measures ANOVA in SPSS requires data in the "wide" format, where you use columns for the different repeated measures. Data in the "wide" format has a single row for each participants. In the "long" format, you will have multiple rows for the data from a single grouping level (e.g., participant, lab, etc.).  
 * `REML`: A logical variable whether to estimate the model with restricted maximum likelihood (`REML = TRUE`, the default) or with maximum likelihood (`REML = FALSE`).
 
-As correct use of the formula interface is vital, let's first consider again how the formula interface works in general. Formulas allow you to specify a linear model succinctly (and by default, any model created with a formula will include an intercept, unless explicitly removed). Here are some examples (adapted from @Singmann2019-mixed): 
+As correct use of the formula interface is vital, let's first consider again how the formula interface works in general. Formulas allow you to specify a linear model succinctly (and by default, any model created with a formula will include an intercept, unless explicitly removed). Here are some examples (adapted from @Singmann2019-mixed):
+
+Table: (\#tab:lmer-fixed-effects-formula-examples) Examples of R's formula notation for fixed effects.
 
 Formula     | Description
 ------------|----------------------------------------------------------------------------------------
@@ -31,6 +33,8 @@ Formula     | Description
 `0 + a`     | `0` suppresses the intercept resulting in a model that has one parameter per level of `a` (identical to: `a - 1`)
 
 The `lme4` package extends the formula interface to specify random effects structures. Random effects are added to the formula by writing elements between parentheses `()`. Within these parentheses, you provide the specification of the random effects to be included on the left-hand side of a conditional sign `|`. On the right-hand side of this conditional sign, you specify the grouping factor, or grouping factors, on which these random effects depend. The grouping factors __need to be of class `factor`__ (i.e., they can __not__ be numeric variables). Here are some examples of such specifications (again mostly adapted from @Singmann2019-mixed):
+
+Table: (\#tab:lmer-fixed-effects-formula-examples) Examples of lme4's formula notation for random effects.
 
 Formula     | Description
 ------------|----------------------------------------------------------------------------------------

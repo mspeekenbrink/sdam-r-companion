@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-10-30" />
+<meta name="date" content="2022-11-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,7 +287,17 @@ div.csl-indent {
 <li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
 <li class="chapter" data-level="9.4" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#automatically-finding-optimal-random-effects-structures-with-the-buildmer-package"><i class="fa fa-check"></i><b>9.4</b> Automatically finding optimal random effects structures with the <code>buildmer</code> package</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>10</b> Generalized linear models</a></li>
+<li class="chapter" data-level="10" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>10</b> Generalized linear models</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-estimation-and-inference"><i class="fa fa-check"></i><b>10.1</b> Model estimation and inference</a></li>
+<li class="chapter" data-level="10.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#confidence-intervals-1"><i class="fa fa-check"></i><b>10.2</b> Confidence intervals</a></li>
+<li class="chapter" data-level="10.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-predictions"><i class="fa fa-check"></i><b>10.3</b> Model predictions</a></li>
+<li class="chapter" data-level="10.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#alternative-link-functions-for-logistic-regression"><i class="fa fa-check"></i><b>10.4</b> Alternative link functions for logistic regression</a></li>
+<li class="chapter" data-level="10.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-poisson-regression"><i class="fa fa-check"></i><b>10.5</b> Quasi-Poisson regression</a></li>
+<li class="chapter" data-level="10.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#log-linear-models"><i class="fa fa-check"></i><b>10.6</b> Log-linear models</a></li>
+<li class="chapter" data-level="10.7" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#multinomial-regression"><i class="fa fa-check"></i><b>10.7</b> Multinomial regression</a></li>
+<li class="chapter" data-level="10.8" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#generalized-linear-mixed-effects-models"><i class="fa fa-check"></i><b>10.8</b> Generalized linear mixed effects models</a></li>
+</ul></li>
 <li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
 <li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
@@ -345,7 +355,676 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="generalized-linear-models" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Chapter 10</span> Generalized linear models<a href="generalized-linear-models.html#generalized-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter, we will first illustrate the main methods of estimation, inference, and model checking with a logistic regression model. We will then go on to describe extensions to other generalized linear (mixed-effects) models. As we will see, most generalized linear models can be estimated with the <code>glm()</code> function, which works similarly to the <code>lm()</code> function, but contains an additional <code>family</code> argument to specify the distribution of the dependent variable and the link function to be used.</p>
+<p>After discussing models estimated via the <code>glm()</code> function, we will move on to estimating log-linear models via the <code>loglm()</code> function from the <code>MASS</code> package, multinomial regression models via the <code>multinom()</code> function from the <code>nnet</code> package, and finally generalized linear mixed effects models with the <code>glmer()</code> function from the <code>lme4</code> package, or the <code>mixed()</code> function from the <code>afex</code> package.</p>
+<div id="model-estimation-and-inference" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Model estimation and inference<a href="generalized-linear-models.html#model-estimation-and-inference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Most generalized linear models can be estimated with the <code>glm()</code> function. The first argument of this function (<code>formula</code>) should be a formula specifying the predictors of the model. This part is equivalent to how you specify a model formula in the <code>lm()</code> function. So factors will be converted into contrast-coded predictors according to the <code>contrasts()</code> set for those factors. And in the formula, a <code>+</code> is used to include a variable “as is”, whilst separating variables by a <code>*</code> indicates including both main effects and interactions of these variables (see Table <a href="linear-mixed-effects-models.html#tab:lmer-fixed-effects-formula-examples">9.1</a>). What is new in the <code>glm()</code> function is the <code>family</code> argument, which is used to define both the random component of the model (i.e. the conditional distribution of the dependent variable) and the link function. For logistic regression, we should specify the family argument as <code>binomial()</code>.</p>
+<p>The <code>binomial()</code> family uses a logistic link function by default, and a call to <code>binomial()</code> is identical to <code>binomial(link="logit")</code>. The following code estimates a logistic regression model to a subset of the <code>metacognition</code> data:</p>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="generalized-linear-models.html#cb547-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb547-2"><a href="generalized-linear-models.html#cb547-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;metacognition&quot;</span>)</span>
+<span id="cb547-3"><a href="generalized-linear-models.html#cb547-3" aria-hidden="true" tabindex="-1"></a><span class="co"># select the subset for participant 1</span></span>
+<span id="cb547-4"><a href="generalized-linear-models.html#cb547-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(metacognition, id <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb547-5"><a href="generalized-linear-models.html#cb547-5" aria-hidden="true" tabindex="-1"></a><span class="co"># center confidence and contrast</span></span>
+<span id="cb547-6"><a href="generalized-linear-models.html#cb547-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>confidence <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>confidence)</span>
+<span id="cb547-7"><a href="generalized-linear-models.html#cb547-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>contrast <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>contrast)</span>
+<span id="cb547-8"><a href="generalized-linear-models.html#cb547-8" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the glm model</span></span>
+<span id="cb547-9"><a href="generalized-linear-models.html#cb547-9" aria-hidden="true" tabindex="-1"></a>mod_logistic <span class="ot">&lt;-</span> <span class="fu">glm</span>(correct <span class="sc">~</span> confidence <span class="sc">*</span> contrast, <span class="at">family=</span><span class="fu">binomial</span>(), <span class="at">data=</span>dat)</span></code></pre></div>
+<p>You can see the parameter estimates and the results of Wald tests (testing for each parameter the null hypothesis that the true value equals 0) through the <code>summary()</code> function:</p>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="generalized-linear-models.html#cb548-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_logistic)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = correct ~ confidence * contrast, family = binomial(), 
+##     data = dat)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.7208   0.1124   0.1867   0.5837   1.4906  
+## 
+## Coefficients:
+##                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         1.850776   0.233722   7.919 2.40e-15 ***
+## confidence          0.037734   0.007389   5.106 3.28e-07 ***
+## contrast            0.503369   0.108244   4.650 3.31e-06 ***
+## confidence:contrast 0.008201   0.003249   2.524   0.0116 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 397.94  on 377  degrees of freedom
+## Residual deviance: 273.66  on 374  degrees of freedom
+## AIC: 281.66
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>Results under the header <code>Coefficients:</code> show the parameter estimates <span class="math inline">\(\hat{\beta}_j\)</span> (<code>Estimate</code>), standard errors <span class="math inline">\(\text{SE}(\hat{\beta}_j)\)</span> (<code>Std. Error</code>), and Wald tests (<code>z value</code> for the test statistic, and <code>Pr(&gt;|z|)</code> for the <span class="math inline">\(p\)</span>-value). Above this, under the header <code>Deviance Residuals:</code>, the output also provides a summary of the residual deviances for each observation. These deviances are also available via the <code>residuals()</code> function, by calling e.g. <code>residuals(mod_logistic, type="deviance")</code>. The standardized Pearson residuals can be computed via the same function, calling <code>residuals(mod_logistic, type="pearson")</code>. We will come back to computing residuals later, when discussing Poisson regression.</p>
+<p>Likelihood-ratio tests can be obtained via the <code>Anova()</code> function of the <code>car</code> package, setting <code>type=3</code> to perform model comparisons of the full MODEL G to alternative MODEL R’s which exclude each predictor (i.e. like the Wald test testing the null-hypothesis that the true slope equals 0):</p>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="generalized-linear-models.html#cb550-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod_logistic, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table (Type III tests)
+## 
+## Response: correct
+##                     LR Chisq Df Pr(&gt;Chisq)    
+## confidence           29.8242  1  4.731e-08 ***
+## contrast             24.0379  1  9.446e-07 ***
+## confidence:contrast   6.6468  1   0.009933 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note that this function does not provide a likelihood-ratio test of the intercept. If you really want this test as well, you can obtain this by estimating a model without an intercept, and then using the <code>anova()</code> function to compare this model to the model with an intercept. To estimate a model without an intercept, you need to add <code>-1</code> in the model formula:</p>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="generalized-linear-models.html#cb552-1" aria-hidden="true" tabindex="-1"></a>mod_logistic_0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(correct <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> confidence <span class="sc">*</span> contrast, <span class="at">family=</span><span class="fu">binomial</span>(), <span class="at">data=</span>dat) </span></code></pre></div>
+<p>To get a likelihood-ratio test comparing this model to the previous one, you to use the <code>anova()</code> function with the argument <code>test = "LRT"</code>:</p>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="generalized-linear-models.html#cb553-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_logistic_0, mod_logistic, <span class="at">test=</span><span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: correct ~ -1 + confidence * contrast
+## Model 2: correct ~ confidence * contrast
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       375     368.10                          
+## 2       374     273.66  1   94.434 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<!--
+Calling the `plot()` function on a `glm` model provides a number of plots to assess model fit:
 
+```r
+plot(mod_logistic)
+```
+
+<img src="10-GenLM_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="10-GenLM_files/figure-html/unnamed-chunk-6-2.png" width="672" /><img src="10-GenLM_files/figure-html/unnamed-chunk-6-3.png" width="672" /><img src="10-GenLM_files/figure-html/unnamed-chunk-6-4.png" width="672" />
+
+The first plot ("Residuals vs Fitted") shows the residual deviance for each observation on the $Y$-axis, and the model prediction (on the scale of the link function) on the $x$-axis. This plot can be used to assess the linearity assumption of the model. For dichotomous data, the residuals will be on two "lines" (one line for values of the dependent variable equal to 1, and the other for values of the dependent variable equal to 0). Points which are numbered indicate rows in the `data.frame` which are potential outliers fpr this model.
+
+The second plot ("Normal Q-Q") plots the empirical quantiles of the standardized Pearson residuals on the $y$-axis, and the theoretical quantiles on the $x$-axis. The interpretation is similar to a Q-Q plot for the General Linear Model. Again, labelled points indicate rows in the `data.frame` which are potential outliers for this model.
+
+The third plot ("Scale-Location") 
+
+Finally, the "Residuals vs Leverage" plot
+
+-->
+</div>
+<div id="confidence-intervals-1" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Confidence intervals<a href="generalized-linear-models.html#confidence-intervals-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Profile likelihood confidence intervals for the parameters can be obtained with the <code>confint()</code> function.</p>
+<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="generalized-linear-models.html#cb555-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(mod_logistic)</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                           2.5 %     97.5 %
+## (Intercept)         1.420750411 2.34632015
+## confidence          0.023796104 0.05304488
+## contrast            0.298046450 0.72633736
+## confidence:contrast 0.001951436 0.01480515</code></pre>
+<p>By default, this computes 95% confidence intervals. You can change this via the <code>level</code> argument. For example, a 90% confidence interval can be computed as:</p>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="generalized-linear-models.html#cb558-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(mod_logistic, <span class="at">level=</span>.<span class="dv">9</span>)</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                            5 %       95 %
+## (Intercept)         1.48654679 2.26100030
+## confidence          0.02597812 0.05045421
+## contrast            0.33035069 0.68880772
+## confidence:contrast 0.00294661 0.01370484</code></pre>
+<p>Whilst not recommended as they are less accurate, confidence intervals based on the Normal approximation can also be computed. Wald confidence intervals are defined as <span class="math display">\[\hat{\beta}_j \pm z_{1-\tfrac{1}{2} \alpha} \text{SE}(\hat{\beta}_j)\]</span> This can be easily computed from the information available via the <code>summary()</code> function, which provides parameter estimates and standard errors. The <code>summary()</code> function returns a list, which can be stored as a new object in order to use. You can view all the elements in the list by typing e.g. <code>str(summary(mod_logistic))</code> in the console. The coefficients and standard errors are part of the <code>coefficients</code> element in the list, which contains a matrix with parameter estimates, standard errors, and the results of the Wald tests. The confidence intervals are computed by taking the column of the matrix containing the parameter estimates, and adding and subtracting the column with standard errors, multiplied by the critical <span class="math inline">\(z\)</span>-value computed via the <code>qnorm()</code> function:</p>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="generalized-linear-models.html#cb561-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store coefficients matrix</span></span>
+<span id="cb561-2"><a href="generalized-linear-models.html#cb561-2" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod_logistic)<span class="sc">$</span>coefficients</span>
+<span id="cb561-3"><a href="generalized-linear-models.html#cb561-3" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the critical Z value (alpha = .05 for 95% confidence interval)</span></span>
+<span id="cb561-4"><a href="generalized-linear-models.html#cb561-4" aria-hidden="true" tabindex="-1"></a>qz <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>(.<span class="dv">05</span>)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb561-5"><a href="generalized-linear-models.html#cb561-5" aria-hidden="true" tabindex="-1"></a><span class="co"># compute lower and upper confidence bounds</span></span>
+<span id="cb561-6"><a href="generalized-linear-models.html#cb561-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(est[,<span class="dv">1</span>] <span class="sc">-</span> qz<span class="sc">*</span>est[,<span class="dv">2</span>],</span>
+<span id="cb561-7"><a href="generalized-linear-models.html#cb561-7" aria-hidden="true" tabindex="-1"></a>      est[,<span class="dv">1</span>] <span class="sc">+</span> qz<span class="sc">*</span>est[,<span class="dv">2</span>])</span></code></pre></div>
+<pre><code>##                            [,1]       [,2]
+## (Intercept)         1.392689995 2.30886155
+## confidence          0.023250692 0.05221643
+## contrast            0.291214848 0.71552335
+## confidence:contrast 0.001833409 0.01456941</code></pre>
+<p>Compared to the confidence intervals based on the profile likelihood, the Wald confidence are a somewhat wider.</p>
+<p>If you are to use a piece of code repeatedly, it is generally a good idea to define it as a function that can be re-used. This is more efficient. It can also avoid errors, as you would only need to correct errors once in the definition of the function, and not everywhere you would otherwise perform the computation. The code below defines a new function <code>zconfint()</code>, which provides a simple alternative to the <code>confint()</code> function using the Wald approximation and a 95% confidence interval by default:</p>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="generalized-linear-models.html#cb563-1" aria-hidden="true" tabindex="-1"></a>z_confint <span class="ot">&lt;-</span> <span class="cf">function</span>(mod, <span class="at">level=</span>.<span class="dv">95</span>) {</span>
+<span id="cb563-2"><a href="generalized-linear-models.html#cb563-2" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod)<span class="sc">$</span>coefficients</span>
+<span id="cb563-3"><a href="generalized-linear-models.html#cb563-3" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">cbind</span>(est[,<span class="dv">1</span>] <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span>level)<span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>est[,<span class="dv">2</span>],</span>
+<span id="cb563-4"><a href="generalized-linear-models.html#cb563-4" aria-hidden="true" tabindex="-1"></a>               est[,<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span>level)<span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>est[,<span class="dv">2</span>])</span>
+<span id="cb563-5"><a href="generalized-linear-models.html#cb563-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(out) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="dv">100</span><span class="sc">*</span>(<span class="dv">1</span><span class="fl">-.95</span>)<span class="sc">/</span><span class="dv">2</span>,<span class="st">&quot;%&quot;</span>), <span class="fu">paste</span>(<span class="dv">100</span> <span class="sc">-</span> <span class="dv">100</span><span class="sc">*</span>(<span class="dv">1</span><span class="fl">-.95</span>)<span class="sc">/</span><span class="dv">2</span>,<span class="st">&quot;%&quot;</span>))</span>
+<span id="cb563-6"><a href="generalized-linear-models.html#cb563-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb563-7"><a href="generalized-linear-models.html#cb563-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>You can now use this function simply as:</p>
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="generalized-linear-models.html#cb564-1" aria-hidden="true" tabindex="-1"></a><span class="fu">z_confint</span>(mod_logistic)</span></code></pre></div>
+<pre><code>##                           2.5 %     97.5 %
+## (Intercept)         1.392689995 2.30886155
+## confidence          0.023250692 0.05221643
+## contrast            0.291214848 0.71552335
+## confidence:contrast 0.001833409 0.01456941</code></pre>
+<p>and compute a 90% confidence interval by explicitly setting the <code>level</code> argument:</p>
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="generalized-linear-models.html#cb566-1" aria-hidden="true" tabindex="-1"></a><span class="fu">z_confint</span>(mod_logistic, <span class="at">level=</span>.<span class="dv">9</span>)</span></code></pre></div>
+<pre><code>##                           2.5 %     97.5 %
+## (Intercept)         1.466338069 2.23521347
+## confidence          0.025579154 0.04988797
+## contrast            0.325323639 0.68141456
+## confidence:contrast 0.002857215 0.01354560</code></pre>
+<p>The above is mainly meant for didactic purposes. The profile-likelihood confidence intervals computed with the <code>confint()</code> function are generally preferred over the Wald approximation implemented via this new <code>z_confint()</code> function.</p>
+</div>
+<div id="model-predictions" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Model predictions<a href="generalized-linear-models.html#model-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>predict()</code> function can be used to extract the model predictions. Model predictions can be obtained on the scale of the link function (<code>type="link"</code>, the default), but also on the scale of the response (<code>type="response"</code>). The former are just the values of the linear function of the model, i.e. <span class="math display">\[\hat{y}_\text{link} = \hat{\beta}_0 + \sum_{j=1}^m \hat{\beta}_j \times X_{j,i}\]</span>
+The latter are transformations of these predictions via the inverse-link function:
+<span class="math display">\[\hat{y}_\text{response} = h(\hat{\beta}_0 + \sum_{j=1}^m \hat{\beta}_j \times X_{j,i})\]</span></p>
+<p>We can use the predictions to get a rough overview of the predicted probability of a correct response as a function of the (centered) confidence, for each of the levels of (centered) contrast as follows:</p>
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="generalized-linear-models.html#cb568-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store model predictions in the data frame</span></span>
+<span id="cb568-2"><a href="generalized-linear-models.html#cb568-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod_logistic, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb568-3"><a href="generalized-linear-models.html#cb568-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb568-4"><a href="generalized-linear-models.html#cb568-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat,<span class="fu">aes</span>(<span class="at">x=</span>confidence,<span class="at">y=</span>pred)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>contrast) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="10-GenLM_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="alternative-link-functions-for-logistic-regression" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Alternative link functions for logistic regression<a href="generalized-linear-models.html#alternative-link-functions-for-logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Other possible link functions for the <code>binomial()</code> family are <code>probit</code>, <code>cauchit</code>, <code>log</code> and <code>cloglog</code>. A model with a Probit link function can be estimated by specifying this link in the <code>binomial()</code> family argument as follows:</p>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="generalized-linear-models.html#cb569-1" aria-hidden="true" tabindex="-1"></a>mod_probit <span class="ot">&lt;-</span> <span class="fu">glm</span>(correct <span class="sc">~</span> confidence <span class="sc">*</span> contrast, <span class="at">family=</span><span class="fu">binomial</span>(<span class="st">&quot;probit&quot;</span>), <span class="at">data=</span>dat)</span>
+<span id="cb569-2"><a href="generalized-linear-models.html#cb569-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_probit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = correct ~ confidence * contrast, family = binomial(&quot;probit&quot;), 
+##     data = dat)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.77711   0.07343   0.16127   0.61259   1.39558  
+## 
+## Coefficients:
+##                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         1.040633   0.120410   8.642  &lt; 2e-16 ***
+## confidence          0.020422   0.004071   5.016 5.26e-07 ***
+## contrast            0.280031   0.061099   4.583 4.58e-06 ***
+## confidence:contrast 0.004224   0.001871   2.257    0.024 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 397.94  on 377  degrees of freedom
+## Residual deviance: 272.29  on 374  degrees of freedom
+## AIC: 280.29
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="generalized-linear-models.html#cb571-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod_probit, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table (Type III tests)
+## 
+## Response: correct
+##                     LR Chisq Df Pr(&gt;Chisq)    
+## confidence           27.2776  1  1.762e-07 ***
+## contrast             23.4433  1  1.286e-06 ***
+## confidence:contrast   5.2805  1    0.02157 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The <code>cauchit</code> link function is the Cauchy cumulative probability distribution:
+<span class="math display">\[g(y) = 0.5 + \frac{\arctan(y)}{\pi}\]</span>
+and the <code>cloglog</code> the complementary-log-log link function:
+<span class="math display">\[g(y) = \log\left(-\log(1 - y)\right)\]</span>
+## Poisson regression</p>
+<p>A Poisson regression model can be estimated by specifying the family as <code>family=poisson()</code>. The default link is the (canonical) log link function, and hence <code>family=poisson()</code> is the same as <code>family=poisson(link="log")</code>. Other possible link functions are <code>identity</code> (<span class="math inline">\(g(y) = y\)</span>) and <code>sqrt</code> (<span class="math inline">\(g(y) = \sqrt{y}\)</span>).</p>
+<p>The analysis of the <code>gestures</code> data in the SDAM book can be replicated with the following code, which first sets the contrasts applied to the <code>context</code>, <code>language</code>, and <code>gender</code> factors, and then creates a new variable for the offset in the model (which is the <span class="math inline">\(\log(\texttt{duration})\)</span>, and supplied as the <code>offset</code> argument to thee <code>glm()</code> function:</p>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="generalized-linear-models.html#cb573-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb573-2"><a href="generalized-linear-models.html#cb573-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;gestures&quot;</span>)</span>
+<span id="cb573-3"><a href="generalized-linear-models.html#cb573-3" aria-hidden="true" tabindex="-1"></a><span class="co"># set the contrasts</span></span>
+<span id="cb573-4"><a href="generalized-linear-models.html#cb573-4" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(gestures<span class="sc">$</span>context) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb573-5"><a href="generalized-linear-models.html#cb573-5" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(gestures<span class="sc">$</span>language) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb573-6"><a href="generalized-linear-models.html#cb573-6" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(gestures<span class="sc">$</span>gender) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb573-7"><a href="generalized-linear-models.html#cb573-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new variable for the offset</span></span>
+<span id="cb573-8"><a href="generalized-linear-models.html#cb573-8" aria-hidden="true" tabindex="-1"></a>gestures<span class="sc">$</span>log_d <span class="ot">&lt;-</span> <span class="fu">log</span>(gestures<span class="sc">$</span>dur)</span>
+<span id="cb573-9"><a href="generalized-linear-models.html#cb573-9" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model, including the offset</span></span>
+<span id="cb573-10"><a href="generalized-linear-models.html#cb573-10" aria-hidden="true" tabindex="-1"></a>mod_poisson <span class="ot">&lt;-</span> <span class="fu">glm</span>(gestures <span class="sc">~</span> context<span class="sc">*</span>language<span class="sc">*</span>gender, <span class="at">data=</span>gestures, <span class="at">family=</span><span class="fu">poisson</span>(), <span class="at">offset=</span>log_d)</span></code></pre></div>
+<p>As before, we can obtain the parameter estimates as Wald tests via the <code>summary()</code> function:</p>
+<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="generalized-linear-models.html#cb574-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_poisson)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = gestures ~ context * language * gender, family = poisson(), 
+##     data = gestures, offset = log_d)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -6.5549  -1.7616   0.0867   1.3777   3.5992  
+## 
+## Coefficients:
+##                            Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                -0.96553    0.01982 -48.703  &lt; 2e-16 ***
+## context1                    0.04595    0.01982   2.318  0.02046 *  
+## language1                   0.02877    0.01982   1.451  0.14677    
+## gender1                     0.06223    0.01982   3.139  0.00169 ** 
+## context1:language1         -0.03608    0.01982  -1.820  0.06877 .  
+## context1:gender1           -0.02598    0.01982  -1.310  0.19007    
+## language1:gender1          -0.04170    0.01982  -2.104  0.03542 *  
+## context1:language1:gender1  0.03724    0.01982   1.878  0.06031 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 326.95  on 53  degrees of freedom
+## Residual deviance: 303.96  on 46  degrees of freedom
+## AIC: 623.09
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>And we can obtain likelihood-ratio tests via <code>car::Anova()</code>:</p>
+<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="generalized-linear-models.html#cb576-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod_poisson, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table (Type III tests)
+## 
+## Response: gestures
+##                         LR Chisq Df Pr(&gt;Chisq)   
+## context                   5.3915  1   0.020235 * 
+## language                  2.1118  1   0.146170   
+## gender                    9.8764  1   0.001674 **
+## context:language          3.3206  1   0.068416 . 
+## context:gender            1.7183  1   0.189909   
+## language:gender           4.4396  1   0.035115 * 
+## context:language:gender   3.5325  1   0.060178 . 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The output of the <code>summary()</code> function includes a summary of the residual deviances. These residuals seem relatively large, but standardized Pearson residuals have a more straightforward interpretation. We can get a similar summary of the standardized Pearson residuals by calling the <code>summary()</code> function on the output of <code>residuals(type="pearson")</code>:</p>
+<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb578-1"><a href="generalized-linear-models.html#cb578-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">residuals</span>(mod_poisson, <span class="at">type=</span><span class="st">&quot;pearson&quot;</span>))</span></code></pre></div>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -5.46630 -1.67602  0.08694 -0.04635  1.41827  3.85069</code></pre>
+<p>Under the null-hypothesis that the model fits the data well, the standardized Pearson residuals follow a standard Normal distribution. That implies that absolute values larger than 3 should be very unlikely. Inh this model, such unlikely residuals are often present.</p>
+<p>It is useful to plot a hisogram of the standardized Pearson residuals for generalized linear models. The following code provides a histogram and overlays a standard Normal distribution (which is the distribution of the standardized Pearson residuals under the null-hypothesis that the model in question is equal to the true model, in the sense that the probability distribution over the dependent variable equals the actual distribution of the dependent variable). A histogram depicts counts on the <span class="math inline">\(y\)</span>-axis, but a density function such as the standard Normal density function depicts a probability distribution. These have different scales: the area under the curve of a probability density is equal 1, whilst the area covered by a histogram is equal to <span class="math inline">\(n \times w\)</span>, where <span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(w\)</span> the width of the bins in the hisotgram. To make these commensurable, we therefore need to rescale the standard Normal density function to the scale of the hisogram. In the code below, this rescaling is done via the <code>bw</code> (<span class="math inline">\(w\)</span>) and <code>n_obs</code> (<span class="math inline">\(n\)</span>) arguments, computed first and then used to rescale the output of the <code>dnorm</code> function (which provides the values of the Normal density function). The result is then provided as the <code>fun</code> argument to the <code>stat_function()</code> function of the <code>ggplot2</code> package:</p>
+<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb580-1"><a href="generalized-linear-models.html#cb580-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb580-2"><a href="generalized-linear-models.html#cb580-2" aria-hidden="true" tabindex="-1"></a>bw <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># binwidth</span></span>
+<span id="cb580-3"><a href="generalized-linear-models.html#cb580-3" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">residuals</span>(mod_poisson, <span class="at">type=</span><span class="st">&quot;pearson&quot;</span>)) <span class="co"># number of observations</span></span>
+<span id="cb580-4"><a href="generalized-linear-models.html#cb580-4" aria-hidden="true" tabindex="-1"></a>tdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">residual =</span> <span class="fu">residuals</span>(mod_poisson, <span class="at">type=</span><span class="st">&quot;pearson&quot;</span>))</span>
+<span id="cb580-5"><a href="generalized-linear-models.html#cb580-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat, <span class="fu">aes</span>(<span class="at">x=</span>residual)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span>bw, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="fu">stat_function</span>(<span class="at">fun=</span><span class="cf">function</span>(x) <span class="fu">dnorm</span>(x) <span class="sc">*</span> bw <span class="sc">*</span> n_obs, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Standarized Pearson residual&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Frequency&quot;</span>)</span></code></pre></div>
+<p><img src="10-GenLM_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>You can compute the proportion of observations with an absolute standardized Pearson residual larger than 3 as follows:</p>
+<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="generalized-linear-models.html#cb581-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">abs</span>(<span class="fu">residuals</span>(mod_poisson, <span class="at">type=</span><span class="st">&quot;pearson&quot;</span>)) <span class="sc">&gt;</span> <span class="dv">3</span>)<span class="sc">/</span><span class="fu">length</span>(<span class="fu">residuals</span>(mod_poisson, <span class="at">type=</span><span class="st">&quot;pearson&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] 0.2222222</code></pre>
+<p>This shows that more than 20% of the observations have rather extreme Pearson residuals.</p>
+<!--
+We can plot the predicted against the observed counts as follows:
+
+```r
+gestures$pred <- predict(mod_poisson, type="response")
+ggplot(gestures, aes(x=pred, y=gestures)) + geom_point() + facet_grid(context ~ gender) + geom_abline(intercept=0,slope=1, lty=3) + xlab("predicted count") + ylab("observed count")
+```
+
+<img src="10-GenLM_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+To assess for overdispersion, it can be more useful to plot the predicted variance against a (rough estimate of the) observed variance. In a Poisson distribution, the predicted variance is equal to the predicted conditional mean, $\hat{\mu}_{X_1,\ldots,X_m}$ (which are equal to the values returned by `predict(..., type="response")`). A rough estimate of the variance is the squared deviation between the observed values and the predicted mean
+
+```r
+gestures$est_var <- (gestures$gestures - gestures$pred)^2
+ggplot(gestures, aes(x=pred, y=est_var)) + geom_point() + facet_grid(context ~ gender) + geom_abline(intercept=0,slope=1, lty=3) + xlab("predicted variance") + ylab("observed variance")
+```
+
+<img src="10-GenLM_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+
+```r
+plot(mod_poisson, which =3)
+```
+
+<img src="10-GenLM_files/figure-html/unnamed-chunk-22-2.png" width="672" />
+-->
+</div>
+<div id="quasi-poisson-regression" class="section level2 hasAnchor" number="10.5">
+<h2><span class="header-section-number">10.5</span> Quasi-Poisson regression<a href="generalized-linear-models.html#quasi-poisson-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Quasi-Poisson regression models can be estimated by setting the family argument to <code>quasipoisson</code>. As for the <code>poisson()</code> family, the default link function is the <code>log</code> link.</p>
+<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="generalized-linear-models.html#cb583-1" aria-hidden="true" tabindex="-1"></a>mod_qpoisson <span class="ot">&lt;-</span> <span class="fu">glm</span>(gestures <span class="sc">~</span> context<span class="sc">*</span>language<span class="sc">*</span>gender, <span class="at">data=</span>gestures, <span class="at">family=</span><span class="fu">quasipoisson</span>(), <span class="at">offset=</span>log_d)</span>
+<span id="cb583-2"><a href="generalized-linear-models.html#cb583-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_qpoisson)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = gestures ~ context * language * gender, family = quasipoisson(), 
+##     data = gestures, offset = log_d)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -6.5549  -1.7616   0.0867   1.3777   3.5992  
+## 
+## Coefficients:
+##                            Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                -0.96553    0.04821 -20.028   &lt;2e-16 ***
+## context1                    0.04595    0.04821   0.953    0.346    
+## language1                   0.02877    0.04821   0.597    0.554    
+## gender1                     0.06223    0.04821   1.291    0.203    
+## context1:language1         -0.03608    0.04821  -0.748    0.458    
+## context1:gender1           -0.02598    0.04821  -0.539    0.593    
+## language1:gender1          -0.04170    0.04821  -0.865    0.392    
+## context1:language1:gender1  0.03724    0.04821   0.772    0.444    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 5.913283)
+## 
+##     Null deviance: 326.95  on 53  degrees of freedom
+## Residual deviance: 303.96  on 46  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>The <span class="math inline">\(F\)</span>-tests of this model can be obtained via the <code>car::Anova()</code> function, by setting the argument <code>test.statistic="F"</code>, as well as <code>error.estimate = "dispersion"</code> (the latter to indicate that the error variance is estimated from the estimated dispersion parameter of the quasi-Poisson model):</p>
+<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="generalized-linear-models.html#cb585-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod_qpoisson, <span class="at">type=</span><span class="dv">3</span>, <span class="at">test.statistic=</span><span class="st">&quot;F&quot;</span>, <span class="at">error.estimate=</span><span class="st">&quot;dispersion&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table (Type III tests)
+## 
+## Response: gestures
+## Error estimate based on estimated dispersion 
+## 
+##                          Sum Sq Df F values Pr(&gt;F)
+## context                   5.392  1   0.9118 0.3446
+## language                  2.112  1   0.3571 0.5530
+## gender                    9.876  1   1.6702 0.2027
+## context:language          3.321  1   0.5616 0.4574
+## context:gender            1.718  1   0.2906 0.5924
+## language:gender           4.440  1   0.7508 0.3907
+## context:language:gender   3.532  1   0.5974 0.4435
+## Residuals               272.011 46</code></pre>
+<p>Note that the use of an <span class="math inline">\(F\)</span>-test here is recommended by <span class="citation">Dunn and Smyth (<a href="#ref-dunn2018generalized" role="doc-biblioref">2018</a>)</span> because of the estimation of the dispersion parameter. You would not use this test for most generalized linear models, where the dispersion is taken as fixed.</p>
+</div>
+<div id="log-linear-models" class="section level2 hasAnchor" number="10.6">
+<h2><span class="header-section-number">10.6</span> Log-linear models<a href="generalized-linear-models.html#log-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Log-linear models can be estimated with the <code>loglm()</code> function from the <code>MASS</code> package. We will illustrate the use of this function with the rock-paper-scissors example discussed in the SDAM book.</p>
+<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb587-1"><a href="generalized-linear-models.html#cb587-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the rock-paper-scissors data</span></span>
+<span id="cb587-2"><a href="generalized-linear-models.html#cb587-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;rps&quot;</span>)</span>
+<span id="cb587-3"><a href="generalized-linear-models.html#cb587-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rps)</span></code></pre></div>
+<pre><code>##   id ai_strategy round human_action ai_action score
+## 1  1      Level2     1         rock      rock     0
+## 2  1      Level2     2         rock  scissors     1
+## 3  1      Level2     3         rock     paper    -1
+## 4  1      Level2     4        paper      rock     1
+## 5  1      Level2     5     scissors  scissors     0
+## 6  1      Level2     6        paper     paper     0</code></pre>
+<p>To analyse this data, we first create new variables for the previous human and previous AI actions. For this, we use the <code>lag()</code> function from the <code>dlyr</code> package. This function shifts values in a vector, by default by one element. So if you have a vector <code>c(1,2,3)</code>, the result of <code>lag(c(1,2,3)) = c(NA,1,2)</code> (all elements are shifted right, and the first element is set to a missing value <code>NA</code>).</p>
+<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb589-1"><a href="generalized-linear-models.html#cb589-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> rps</span>
+<span id="cb589-2"><a href="generalized-linear-models.html#cb589-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create lagged variables </span></span>
+<span id="cb589-3"><a href="generalized-linear-models.html#cb589-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>previous_human <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(dat<span class="sc">$</span>human_action)</span>
+<span id="cb589-4"><a href="generalized-linear-models.html#cb589-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>previous_ai <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(dat<span class="sc">$</span>ai_action)</span>
+<span id="cb589-5"><a href="generalized-linear-models.html#cb589-5" aria-hidden="true" tabindex="-1"></a><span class="co"># set the value in the first round to NA for all participants</span></span>
+<span id="cb589-6"><a href="generalized-linear-models.html#cb589-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>previous_human[dat<span class="sc">$</span>round <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb589-7"><a href="generalized-linear-models.html#cb589-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>previous_ai[dat<span class="sc">$</span>round <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb589-8"><a href="generalized-linear-models.html#cb589-8" aria-hidden="true" tabindex="-1"></a><span class="co"># select a subset of the data with only the last half of each game</span></span>
+<span id="cb589-9"><a href="generalized-linear-models.html#cb589-9" aria-hidden="true" tabindex="-1"></a><span class="co"># and only the &quot;level 1&quot; AI opponent</span></span>
+<span id="cb589-10"><a href="generalized-linear-models.html#cb589-10" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, round <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> ai_strategy <span class="sc">==</span> <span class="st">&quot;Level1&quot;</span>)</span></code></pre></div>
+<p>We can now use the <code>table()</code> function to create a cross-tabulation of the three variables of interest</p>
+<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb590-1"><a href="generalized-linear-models.html#cb590-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(dat[,<span class="fu">c</span>(<span class="st">&quot;previous_human&quot;</span>, <span class="st">&quot;previous_ai&quot;</span>,<span class="st">&quot;human_action&quot;</span>)])</span>
+<span id="cb590-2"><a href="generalized-linear-models.html#cb590-2" aria-hidden="true" tabindex="-1"></a>tab</span></code></pre></div>
+<pre><code>## , , human_action = paper
+## 
+##               previous_ai
+## previous_human paper rock scissors
+##       paper       12    2        7
+##       rock         9   19       40
+##       scissors    94    8       11
+## 
+## , , human_action = rock
+## 
+##               previous_ai
+## previous_human paper rock scissors
+##       paper       45   94       17
+##       rock         5   10        5
+##       scissors    24    5       15
+## 
+## , , human_action = scissors
+## 
+##               previous_ai
+## previous_human paper rock scissors
+##       paper       11   10        8
+##       rock        12   15      107
+##       scissors     5    5        5</code></pre>
+<p>The <code>loglm()</code> function is used to estimate log-linear models, using a formula interface similar to <code>glm()</code> and <code>lm()</code>. When the supplied data is a cross-tabulation as above, the formula can contain numbers which refer to the numbers of the dimensions of the table. So, for the cross-tabulation above, 1 would refer to <code>previous_human</code>, 2 to <code>previous_ai</code>, and 3 to <code>human_action</code>. Independence is specified by separating the dimensions with a <code>+</code> sign, whilst dependence is specified by linking the dimensions with a <code>*</code> sign. For example, a model in which all dimensions are independent is specified as:</p>
+<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb592-1"><a href="generalized-linear-models.html#cb592-1" aria-hidden="true" tabindex="-1"></a>mod_1_2_3 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>, <span class="at">data=</span>tab)</span></code></pre></div>
+<p>and a model in which all dimensions are dependent as:</p>
+<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb593-1"><a href="generalized-linear-models.html#cb593-1" aria-hidden="true" tabindex="-1"></a>mod_123 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span><span class="dv">3</span>, <span class="at">data=</span>tab)</span></code></pre></div>
+<p>This last model is the saturated model, and fits the data perfectly:</p>
+<div class="sourceCode" id="cb594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb594-1"><a href="generalized-linear-models.html#cb594-1" aria-hidden="true" tabindex="-1"></a>mod_123</span></code></pre></div>
+<pre><code>## Call:
+## MASS::loglm(formula = ~1 * 2 * 3, data = tab)
+## 
+## Statistics:
+##                  X^2 df P(&gt; X^2)
+## Likelihood Ratio   0  0        1
+## Pearson            0  0        1</code></pre>
+<p>The independence model is the simplest model, and does not fit the data well:</p>
+<div class="sourceCode" id="cb596"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb596-1"><a href="generalized-linear-models.html#cb596-1" aria-hidden="true" tabindex="-1"></a>mod_1_2_3</span></code></pre></div>
+<pre><code>## Call:
+## MASS::loglm(formula = ~1 + 2 + 3, data = tab)
+## 
+## Statistics:
+##                       X^2 df P(&gt; X^2)
+## Likelihood Ratio 678.4482 20        0
+## Pearson          986.9995 20        0</code></pre>
+<p>Note that two test statistics are provided. The value under <code>Likelihood Ratio</code> is the <span class="math inline">\(-2 \log \text{likelihood}\)</span> of the model compared to the saturated model. The value under <code>Pearson</code> contains the value of the Pearson goodness-of-fit test:
+<span class="math display">\[X^2 = \sum_{j=1}^k \frac{(O_j - E_j)^2}{E_j}\]</span>
+where <span class="math inline">\(O_j\)</span> is the observed count for cell <span class="math inline">\(j\)</span> in the multiway contingency table, and <span class="math inline">\(E_j\)</span> the expected count computed according to the estimated model. As we have not discussed this test in the SDAM book, we will ignore it for now and focus on the likelihood ratio tests.</p>
+<p>The remaining other possible models are specified as follows:</p>
+<div class="sourceCode" id="cb598"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb598-1"><a href="generalized-linear-models.html#cb598-1" aria-hidden="true" tabindex="-1"></a><span class="co"># human action independent from previous human and previous AI</span></span>
+<span id="cb598-2"><a href="generalized-linear-models.html#cb598-2" aria-hidden="true" tabindex="-1"></a>mod_12_3 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>, <span class="at">data=</span>tab)</span>
+<span id="cb598-3"><a href="generalized-linear-models.html#cb598-3" aria-hidden="true" tabindex="-1"></a><span class="co"># previous AI independent from previous human and current human action</span></span>
+<span id="cb598-4"><a href="generalized-linear-models.html#cb598-4" aria-hidden="true" tabindex="-1"></a>mod_13_2 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span>, <span class="at">data=</span>tab)</span>
+<span id="cb598-5"><a href="generalized-linear-models.html#cb598-5" aria-hidden="true" tabindex="-1"></a><span class="co"># previous human action independent from previous AI and current human action</span></span>
+<span id="cb598-6"><a href="generalized-linear-models.html#cb598-6" aria-hidden="true" tabindex="-1"></a>mod_23_1 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">data=</span>tab)</span>
+<span id="cb598-7"><a href="generalized-linear-models.html#cb598-7" aria-hidden="true" tabindex="-1"></a>mod_12_23 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span><span class="dv">3</span>, <span class="at">data=</span>tab)</span>
+<span id="cb598-8"><a href="generalized-linear-models.html#cb598-8" aria-hidden="true" tabindex="-1"></a>mod_12_13 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">3</span>, <span class="at">data=</span>tab)</span>
+<span id="cb598-9"><a href="generalized-linear-models.html#cb598-9" aria-hidden="true" tabindex="-1"></a>mod_13_23 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span><span class="dv">3</span>, <span class="at">data=</span>tab)</span>
+<span id="cb598-10"><a href="generalized-linear-models.html#cb598-10" aria-hidden="true" tabindex="-1"></a>mod_12_13_23 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">loglm</span>(<span class="sc">~</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span><span class="dv">3</span>, <span class="at">data=</span>tab)</span></code></pre></div>
+<p>By inspecting these objects, you will see that the likelihood-ratio test is significant for all of these models. Hence, the null-hypothesis that each of these models is equal to the true model is rejected.</p>
+</div>
+<div id="multinomial-regression" class="section level2 hasAnchor" number="10.7">
+<h2><span class="header-section-number">10.7</span> Multinomial regression<a href="generalized-linear-models.html#multinomial-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Multinomial logistic regression models can be estimated via the <code>multinom()</code> function of the <code>nnet</code> package. The function uses the usual formula interface. But there is no <code>family()</code> argument here. This function will always use multinomial logistic regression with a baseline logit formulation. Continuing with our example of the rock-paper-scissors data, we can estimate the multinomial logistic regression model as follows:</p>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="generalized-linear-models.html#cb599-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn variables into factors</span></span>
+<span id="cb599-2"><a href="generalized-linear-models.html#cb599-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>previous_ai <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>previous_ai)</span>
+<span id="cb599-3"><a href="generalized-linear-models.html#cb599-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>previous_human <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>previous_human)</span>
+<span id="cb599-4"><a href="generalized-linear-models.html#cb599-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>human_action <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>human_action)</span>
+<span id="cb599-5"><a href="generalized-linear-models.html#cb599-5" aria-hidden="true" tabindex="-1"></a><span class="co"># set effect-coding contrasts</span></span>
+<span id="cb599-6"><a href="generalized-linear-models.html#cb599-6" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>previous_ai) <span class="ot">&lt;-</span> <span class="fu">contrasts</span>(dat<span class="sc">$</span>previous_human) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb599-7"><a href="generalized-linear-models.html#cb599-7" aria-hidden="true" tabindex="-1"></a>mod_multinomial <span class="ot">&lt;-</span> nnet<span class="sc">::</span><span class="fu">multinom</span>(human_action <span class="sc">~</span> previous_human <span class="sc">+</span> previous_ai, <span class="at">data=</span>dat)</span></code></pre></div>
+<pre><code>## # weights:  18 (10 variable)
+## initial  value 659.167373 
+## iter  10 value 470.043639
+## final  value 465.766168 
+## converged</code></pre>
+<p>And we can obtain the results as usual via the <code>summary()</code> function:</p>
+<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="generalized-linear-models.html#cb601-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_multinomial)</span></code></pre></div>
+<pre><code>## Call:
+## nnet::multinom(formula = human_action ~ previous_human + previous_ai, 
+##     data = dat)
+## 
+## Coefficients:
+##          (Intercept) previous_human1 previous_human2 previous_ai1 previous_ai2
+## rock      0.03037873      -1.3502186      -0.5966141   0.75578735   -0.1067017
+## scissors -0.32841978       0.6223544      -1.4315078  -0.05389995    0.7076566
+## 
+## Std. Errors:
+##          (Intercept) previous_human1 previous_human2 previous_ai1 previous_ai2
+## rock       0.1356216       0.2172106       0.1796017    0.1927292    0.1940639
+## scissors   0.1505282       0.1874375       0.2240852    0.2043583    0.1727103
+## 
+## Residual Deviance: 931.5323 
+## AIC: 951.5323</code></pre>
+<p>Note that there are separate rows for the logit comparing <code>rock</code> to the baseline <code>paper</code>, and the logit comparing <code>scissors</code> to the baseline <code>paper</code>. Whilst the function returns parameter estimates and standard errors, we do not get the usual Wald tests. These can be easily computed though, as the <span class="math inline">\(z\)</span>-statistic for the Walk test is simply <span class="math display">\[z = \frac{\hat{\beta}}{\text{SE}{\hat{\beta}}}\]</span>
+The <code>summary()</code> function for <code>multinom</code> models returns a list. The elements of this list that we need are named <code>coefficients</code> and <code>standard.errors</code>:</p>
+<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="generalized-linear-models.html#cb603-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod_multinomial)<span class="sc">$</span>coefficients</span>
+<span id="cb603-2"><a href="generalized-linear-models.html#cb603-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod_multinomial)<span class="sc">$</span>standard.errors</span>
+<span id="cb603-3"><a href="generalized-linear-models.html#cb603-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> est<span class="sc">/</span>se</span>
+<span id="cb603-4"><a href="generalized-linear-models.html#cb603-4" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div>
+<pre><code>##          (Intercept) previous_human1 previous_human2 previous_ai1 previous_ai2
+## rock       0.2239963       -6.216173       -3.321874    3.9214994   -0.5498278
+## scissors  -2.1817818        3.320329       -6.388230   -0.2637522    4.0973625</code></pre>
+<p>The corresponding <span class="math inline">\(p\)</span>-values can be computed with the <code>pnorm()</code> function, which computes cumulative probabilities of the standard Normal distribution. For this, we take the absolute values of the <span class="math inline">\(z\)</span>-statistic, and then compute the probability of obtaining a value <em>larger</em> than this as <code>1 - pnorm(abs(z))</code> (by default, the <code>pnorm()</code> function returns the probability of a value <em>lower</em> than its argument). Finally, for a two-sided test, we need to multiply this by 2:</p>
+<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb605-1"><a href="generalized-linear-models.html#cb605-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span></code></pre></div>
+<pre><code>##          (Intercept) previous_human1 previous_human2 previous_ai1 previous_ai2
+## rock      0.82276015    5.094278e-10    8.941497e-04 8.799968e-05 5.824375e-01
+## scissors  0.02912564    8.991128e-04    1.678169e-10 7.919709e-01 4.178842e-05</code></pre>
+<p>Granted, whilst certainly doable, this procedure is not exactly straightforward. It is more convenient to compute likelihood-ratio tests, which are available via the <code>car::Anova()</code> function:</p>
+<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb607-1"><a href="generalized-linear-models.html#cb607-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod_multinomial, <span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table (Type III tests)
+## 
+## Response: human_action
+##                LR Chisq Df Pr(&gt;Chisq)    
+## previous_human  210.124  4  &lt; 2.2e-16 ***
+## previous_ai      45.408  4   3.27e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note that this provides a single test for each factor, taking the effect of each contrast code for this predictor in each baseline category logit together.</p>
+<p>If you want to use a different baseline category than the default (which is the first level of the dependent variable), you can change the baseline category via the <code>ref</code> argument of the <code>relevel()</code> function:</p>
+<div class="sourceCode" id="cb609"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb609-1"><a href="generalized-linear-models.html#cb609-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>human_action <span class="ot">&lt;-</span> <span class="fu">relevel</span>(dat<span class="sc">$</span>human_action, <span class="at">ref =</span> <span class="st">&quot;rock&quot;</span>)</span>
+<span id="cb609-2"><a href="generalized-linear-models.html#cb609-2" aria-hidden="true" tabindex="-1"></a>mod_multinomial2 <span class="ot">&lt;-</span> nnet<span class="sc">::</span><span class="fu">multinom</span>(human_action <span class="sc">~</span> previous_human <span class="sc">+</span> previous_ai, <span class="at">data=</span>dat)</span></code></pre></div>
+<pre><code>## # weights:  18 (10 variable)
+## initial  value 659.167373 
+## iter  10 value 468.234594
+## final  value 465.766168 
+## converged</code></pre>
+<div class="sourceCode" id="cb611"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb611-1"><a href="generalized-linear-models.html#cb611-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_multinomial2)</span></code></pre></div>
+<pre><code>## Call:
+## nnet::multinom(formula = human_action ~ previous_human + previous_ai, 
+##     data = dat)
+## 
+## Coefficients:
+##          (Intercept) previous_human1 previous_human2 previous_ai1 previous_ai2
+## paper    -0.03035337        1.350194       0.5966090   -0.7557765    0.1066863
+## scissors -0.35881414        1.972567      -0.8347918   -0.8096717    0.8143598
+## 
+## Std. Errors:
+##          (Intercept) previous_human1 previous_human2 previous_ai1 previous_ai2
+## paper      0.1356200       0.2172092       0.1796009    0.1927278    0.1940637
+## scissors   0.1493363       0.2179507       0.2395315    0.1979328    0.1909146
+## 
+## Residual Deviance: 931.5323 
+## AIC: 951.5323</code></pre>
+</div>
+<div id="generalized-linear-mixed-effects-models" class="section level2 hasAnchor" number="10.8">
+<h2><span class="header-section-number">10.8</span> Generalized linear mixed effects models<a href="generalized-linear-models.html#generalized-linear-mixed-effects-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>glmer()</code> function of the <code>lme4</code> package can be used to estimate generalized linear mixed effects models. The interface is similar to the <code>lmer</code> function, with an additional <code>family</code> argument as for <code>glm()</code>. For example, we can fit a mixed-effects logistic regression model for the metacognition model, with random intercepts and slopes for (centered) <code>confidence</code> and <code>contrast</code> for each participant, as follows:</p>
+<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb613-1"><a href="generalized-linear-models.html#cb613-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;metacognition&quot;</span>)</span>
+<span id="cb613-2"><a href="generalized-linear-models.html#cb613-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> metacognition</span>
+<span id="cb613-3"><a href="generalized-linear-models.html#cb613-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>confidence <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>confidence)</span>
+<span id="cb613-4"><a href="generalized-linear-models.html#cb613-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>contrast <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>contrast)</span>
+<span id="cb613-5"><a href="generalized-linear-models.html#cb613-5" aria-hidden="true" tabindex="-1"></a>mod_mixed_logistic <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">glmer</span>(correct <span class="sc">~</span> confidence <span class="sc">*</span> contrast <span class="sc">+</span> (confidence <span class="sc">+</span> contrast<span class="sc">||</span>id), <span class="at">family=</span><span class="fu">binomial</span>(), <span class="at">data=</span>dat)</span></code></pre></div>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
+## Model failed to converge with max|grad| = 0.00269636 (tol = 0.002, component 1)</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="generalized-linear-models.html#cb616-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_mixed_logistic)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: correct ~ confidence * contrast + (confidence + contrast || id)
+##    Data: dat
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   5876.5   5925.0  -2931.2   5862.5     7553 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -28.7441   0.0402   0.1343   0.5330   1.8092 
+## 
+## Random effects:
+##  Groups Name        Variance  Std.Dev.
+##  id     (Intercept) 2.965e-01 0.544536
+##  id.1   confidence  1.243e-05 0.003526
+##  id.2   contrast    2.024e-02 0.142280
+## Number of obs: 7560, groups:  id, 20
+## 
+## Fixed effects:
+##                      Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         1.7230381  0.1340016   12.86   &lt;2e-16 ***
+## confidence          0.0294809  0.0016858   17.49   &lt;2e-16 ***
+## contrast            0.5332956  0.0402099   13.26   &lt;2e-16 ***
+## confidence:contrast 0.0089827  0.0006359   14.12   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) cnfdnc cntrst
+## confidence  0.208               
+## contrast    0.083  0.049        
+## cnfdnc:cntr 0.043  0.336  0.420 
+## optimizer (Nelder_Mead) convergence code: 0 (OK)
+## Model failed to converge with max|grad| = 0.00269636 (tol = 0.002, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<p>Note the warnings about estimation issues. Estimation issues are more common in generalized linear mixed-effects models than linear mixed-effects models. A hint is provided in the warning as: <code>- Rescale variables?</code>. Estimation of mixed-effects models is generally easier when all predictors have the same scale, with a standard deviation equal to about 1. In this case, scaling the predictors (i.e. <span class="math inline">\(Z\)</span>-transforming) provides much better results:</p>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="generalized-linear-models.html#cb618-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>confidence <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat<span class="sc">$</span>confidence)</span>
+<span id="cb618-2"><a href="generalized-linear-models.html#cb618-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>contrast <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat<span class="sc">$</span>contrast)</span>
+<span id="cb618-3"><a href="generalized-linear-models.html#cb618-3" aria-hidden="true" tabindex="-1"></a>mod_mixed_logistic <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">glmer</span>(correct <span class="sc">~</span> confidence <span class="sc">*</span> contrast <span class="sc">+</span> (confidence <span class="sc">+</span> contrast<span class="sc">||</span>id), <span class="at">family=</span><span class="fu">binomial</span>(), <span class="at">data=</span>dat)</span>
+<span id="cb618-4"><a href="generalized-linear-models.html#cb618-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_mixed_logistic)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: correct ~ confidence * contrast + (confidence + contrast || id)
+##    Data: dat
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   5876.5   5925.0  -2931.2   5862.5     7553 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -28.7442   0.0402   0.1343   0.5330   1.8092 
+## 
+## Random effects:
+##  Groups Name        Variance Std.Dev.
+##  id     (Intercept) 0.29652  0.5445  
+##  id.1   confidence  0.01981  0.1408  
+##  id.2   contrast    0.10416  0.3227  
+## Number of obs: 7560, groups:  id, 20
+## 
+## Fixed effects:
+##                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)          1.72304    0.13401   12.86   &lt;2e-16 ***
+## confidence           1.17701    0.06730   17.49   &lt;2e-16 ***
+## contrast             1.20970    0.09121   13.26   &lt;2e-16 ***
+## confidence:contrast  0.81351    0.05759   14.12   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) cnfdnc cntrst
+## confidence  0.208               
+## contrast    0.083  0.049        
+## cnfdnc:cntr 0.043  0.336  0.420</code></pre>
+<p>Instead of the <code>glmer()</code> function, you can also use the <code>mixed()</code> function of the <code>afex</code> package. This has the benefit that better tests results can be computed. For generalized linear models, <code>afex::mixed()</code> allows <code>method="LRT"</code> for likelihood-ratio tests, and <code>method="PB"</code> for a parametric bootstrap test.</p>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="generalized-linear-models.html#cb620-1" aria-hidden="true" tabindex="-1"></a>mod_mixed_logistic2 <span class="ot">&lt;-</span> afex<span class="sc">::</span><span class="fu">mixed</span>(correct <span class="sc">~</span> confidence <span class="sc">*</span> contrast <span class="sc">+</span> (confidence <span class="sc">+</span> contrast<span class="sc">||</span>id), <span class="at">family=</span><span class="fu">binomial</span>(), <span class="at">data=</span>dat, <span class="at">method=</span><span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<pre><code>## Contrasts set to contr.sum for the following variables: id</code></pre>
+<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb622-1"><a href="generalized-linear-models.html#cb622-1" aria-hidden="true" tabindex="-1"></a>mod_mixed_logistic2</span></code></pre></div>
+<pre><code>## Mixed Model Anova Table (Type 3 tests, LRT-method)
+## 
+## Model: correct ~ confidence * contrast + (confidence + contrast || id)
+## Data: dat
+## Df full model: 7
+##                Effect df      Chisq p.value
+## 1          confidence  1  62.21 ***   &lt;.001
+## 2            contrast  1  49.46 ***   &lt;.001
+## 3 confidence:contrast  1 255.32 ***   &lt;.001
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="generalized-linear-models.html#cb624-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_mixed_logistic2)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: correct ~ confidence * contrast + (confidence + contrast || id)
+##    Data: data
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   5876.5   5925.0  -2931.2   5862.5     7553 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -28.7442   0.0402   0.1343   0.5330   1.8092 
+## 
+## Random effects:
+##  Groups Name        Variance Std.Dev.
+##  id     (Intercept) 0.29652  0.5445  
+##  id.1   confidence  0.01981  0.1408  
+##  id.2   contrast    0.10416  0.3227  
+## Number of obs: 7560, groups:  id, 20
+## 
+## Fixed effects:
+##                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)          1.72304    0.13401   12.86   &lt;2e-16 ***
+## confidence           1.17701    0.06730   17.49   &lt;2e-16 ***
+## contrast             1.20970    0.09121   13.26   &lt;2e-16 ***
+## confidence:contrast  0.81351    0.05759   14.12   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) cnfdnc cntrst
+## confidence  0.208               
+## contrast    0.083  0.049        
+## cnfdnc:cntr 0.043  0.336  0.420</code></pre>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-dunn2018generalized" class="csl-entry">
+Dunn, Peter K, and Gordon K Smyth. 2018. <em>Generalized Linear Models with Examples in <span>R</span></em>. Springer.
+</div>
 </div>
             </section>
 

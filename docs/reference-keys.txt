@@ -1,5 +1,6 @@
 fig:rstudio-interface-image
 tab:tetris-orthogonal-cotrast-codes
+tab:lmer-fixed-effects-formula-examples
 fig:hold-position
 tab:unnamed-chunk-6
 acknowledgements
@@ -86,6 +87,14 @@ obtaining-p-values-with-afexmixed
 crossed-random-effects
 automatically-finding-optimal-random-effects-structures-with-the-buildmer-package
 generalized-linear-models
+model-estimation-and-inference
+confidence-intervals-1
+model-predictions
+alternative-link-functions-for-logistic-regression
+quasi-poisson-regression
+log-linear-models
+multinomial-regression
+generalized-linear-mixed-effects-models
 structural-equation-modelling-with-lavaan
 bayesian-estimation
 bayesian-hypothesis-testing-with-bayes-factors
