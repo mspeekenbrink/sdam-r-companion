@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-11-13" />
+<meta name="date" content="2022-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -298,7 +298,22 @@ div.csl-indent {
 <li class="chapter" data-level="10.7" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#multinomial-regression"><i class="fa fa-check"></i><b>10.7</b> Multinomial regression</a></li>
 <li class="chapter" data-level="10.8" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#generalized-linear-mixed-effects-models"><i class="fa fa-check"></i><b>10.8</b> Generalized linear mixed effects models</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a></li>
+<li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#lavaan"><i class="fa fa-check"></i><b>11.1</b> Lavaan</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#the-lavaan-model-syntax"><i class="fa fa-check"></i><b>11.1.1</b> The lavaan model syntax</a></li>
+<li class="chapter" data-level="11.1.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#model-estimation"><i class="fa fa-check"></i><b>11.1.2</b> Model estimation</a></li>
+<li class="chapter" data-level="11.1.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#extracting-results"><i class="fa fa-check"></i><b>11.1.3</b> Extracting results</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#plotting-sem-models-with-the-semplot-package"><i class="fa fa-check"></i><b>11.2</b> Plotting SEM models with the <code>semPlot</code> package</a></li>
+<li class="chapter" data-level="11.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#path-models"><i class="fa fa-check"></i><b>11.3</b> Path models</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#regression-models"><i class="fa fa-check"></i><b>11.3.1</b> Regression models</a></li>
+<li class="chapter" data-level="11.3.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#mediation-models"><i class="fa fa-check"></i><b>11.3.2</b> Mediation models</a></li>
+<li class="chapter" data-level="11.3.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model"><i class="fa fa-check"></i><b>11.3.3</b> A more complex path model</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
 <li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
 <ul>
@@ -355,7 +370,653 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="structural-equation-modelling-with-lavaan" class="section level1 hasAnchor" number="11">
 <h1><span class="header-section-number">Chapter 11</span> Structural Equation modelling with lavaan<a href="structural-equation-modelling-with-lavaan.html#structural-equation-modelling-with-lavaan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>There are several packages for <code>R</code> which allow you to estimate Structural Equation Models (SEM), including <code>sem</code> <span class="citation">(<a href="#ref-R-sem" role="doc-biblioref">Fox, Nie, and Byrnes 2022</a>)</span>, <code>OpenMx</code> <span class="citation">(<a href="#ref-R-OpenMx" role="doc-biblioref">Boker et al. 2022</a>)</span>, and <code>lavaan</code> <span class="citation">(<a href="#ref-R-lavaan" role="doc-biblioref">Rosseel, Jorgensen, and Rockwood 2022</a>)</span>. Here, we will focus solely on <code>lavaan</code>.</p>
+<div id="lavaan" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Lavaan<a href="structural-equation-modelling-with-lavaan.html#lavaan" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The name “lavaan” stands for “<code>la</code>tent <code>va</code>riable <code>an</code>alysis”. It is a package which can estimate a wide-variety of SEM models, including path models without latent variables. It has a convenient and intuitive syntax to define SEM models and it is actively developed. That is why it has perhaps become the go-to <code>R</code> package for SEM analysis. Although the help files in the <code>R</code> package are not overly comprehensive, the <a href="https://www.lavaan.ugent.be/">lavaan website</a> has a useful tutorial, and I suggest you check this out.</p>
+<div id="the-lavaan-model-syntax" class="section level3 hasAnchor" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> The lavaan model syntax<a href="structural-equation-modelling-with-lavaan.html#the-lavaan-model-syntax" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In <code>lavaan</code>, SEM models can be specified via a formulation similar to the usual syntax for models in <code>lm()</code> and <code>glm()</code>. However, there are some new relational symbols used to define (residual) covariances, and latent variables.</p>
+<table>
+<colgroup>
+<col width="32%" />
+<col width="67%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formula</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>v =~ y</code></td>
+<td>latent variable <code>v</code> is defined and measured by <code>y</code></td>
+</tr>
+<tr class="even">
+<td><code>v =~ y1 + y2 + y3</code></td>
+<td>latent variable <code>v</code> is defined and measured by <code>y1</code>, <code>y2</code>, and <code>y3</code></td>
+</tr>
+<tr class="odd">
+<td><code>v =~ 1 + y1 + y2 + y3</code></td>
+<td>latent variable <code>v</code> is defined and measured by <code>y1</code>, <code>y2</code>, and <code>y3</code>, <br /> with the inclusion of an explicit intercept <code>1</code> to model the mean of <code>v</code></td>
+</tr>
+<tr class="even">
+<td><code>y ~ x</code></td>
+<td><code>y</code> is regressed on <code>x</code>, i.e. a causal relation from <code>x</code> to <code>y</code></td>
+</tr>
+<tr class="odd">
+<td><code>y ~ b*x</code></td>
+<td><code>y</code> is regressed on <code>x</code>, with the slope of <code>x</code> labelled as <code>b</code></td>
+</tr>
+<tr class="even">
+<td><code>y ~ x1 + x2 + x3</code></td>
+<td><code>y</code> is regressed on <code>x1</code>, <code>x2</code> and <code>x3</code>,<br /> i.e. causal relations from <code>x1</code>, <code>x2</code>, and <code>x3</code> to <code>y</code></td>
+</tr>
+<tr class="odd">
+<td><code>y ~ a*x1 + b*x2 + c*x3</code></td>
+<td>regression with labelled slopes</td>
+</tr>
+<tr class="even">
+<td><code>abc := a*b*c</code></td>
+<td>define a derived term <code>abc</code> as a function of the model parameters</td>
+</tr>
+<tr class="odd">
+<td><code>y1 ~~ y2</code></td>
+<td>(residual) co-variance between <code>y1</code> and <code>y2</code></td>
+</tr>
+<tr class="even">
+<td><code>y1 ~~ 0*y2</code></td>
+<td>fix the (residual) co-variance between <code>y1</code> and <code>y2</code> to 0</td>
+</tr>
+<tr class="odd">
+<td><code>y ~~ y</code></td>
+<td>(residual) variance for <code>y</code></td>
+</tr>
+<tr class="even">
+<td><code>y ~~ 0*y</code></td>
+<td>fix the (residual) variance for <code>y</code> to 0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="model-estimation" class="section level3 hasAnchor" number="11.1.2">
+<h3><span class="header-section-number">11.1.2</span> Model estimation<a href="structural-equation-modelling-with-lavaan.html#model-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Under the hood, there is really only a single function used to define and estimate SEM models in the <code>lavaan</code> package, namely the <code>lavaan::lavaan()</code> function. But the <code>lavaan</code> package offers several wrappers around this function to make estimation of common SEM models more convenient. Amongst these are the <code>lavaan::sem()</code> function, and the <code>lavaan::cfa()</code> function.</p>
+</div>
+<div id="extracting-results" class="section level3 hasAnchor" number="11.1.3">
+<h3><span class="header-section-number">11.1.3</span> Extracting results<a href="structural-equation-modelling-with-lavaan.html#extracting-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Once a model is estimated, you can use the <code>summary()</code> function on the object returned to get the basic parameter estimates and tests. This function provides the most important results. You can additionally get some of the more widely used fit indices by setting the argument <code>"fit.measures = TRUE"</code>. Other functions which can be called on a model fitted by <code>lavaan</code> are:</p>
+<ul>
+<li><code>fitMeasures()</code>: this function returns a long list of model fit measures, only some of which (the more important ones) were discussed in the SDAM book</li>
+<li><code>fitted()</code>: this function returns the model-implied variance-covariance matrix and mean vector.</li>
+<li><code>anova()</code>: When provided with a single model, this function returns the results of a likelihood-ratio test of the model against the saturated model. When supplied with multiple models, the function returns likelihood-ratio tests comparing these. This assumes the models are nested!</li>
+</ul>
+</div>
+</div>
+<div id="plotting-sem-models-with-the-semplot-package" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Plotting SEM models with the <code>semPlot</code> package<a href="structural-equation-modelling-with-lavaan.html#plotting-sem-models-with-the-semplot-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>semPlot</code> package <span class="citation">(<a href="#ref-R-semPlot" role="doc-biblioref"><strong>R-semPlot?</strong></a>)</span> package provides a convenient way to plot SEM models fitted by <code>lavaan</code>. In principle, all that is needed to plot a <code>lavaan</code>-estimated object <code>mod</code> is a call to <code>semPlot::semPaths(mod)</code>. However, the default settings don’t necessarily provide the best looking plots. But the <code>semPlot</code> package is very flexible, and by setting several arguments, it is possible to produce agreeable plots, although it will often require multiple attempts. Important arguments to the <code>semPlot::semPaths()</code> function are</p>
+<ul>
+<li><code>object</code>: for our purposes, this is the object returned by <code>lavaan</code></li>
+<li><code>what</code>: this allows you to change the appearance of the arrows based on the parameter estimates. The default (<code>"path"</code>) just displays the arrows, but by setting this argument to <code>"est"</code> the linewidth of the arrows reflects the magnitude of the links. For more options, see <code>?semPlot::semPath</code>.</li>
+<li><code>whatLabels</code>: This argument sets labels for the arrows. Some of the options are <code>"name"</code> (display the name of the link) and <code>"est"</code> (display the parameter estimates). For more options, see <code>?semPlot::semPath</code>.</li>
+</ul>
+</div>
+<div id="path-models" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Path models<a href="structural-equation-modelling-with-lavaan.html#path-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Path models can be defined and estimated with the <code>lavaan::sem()</code> function. Important arguments for this function are:</p>
+<ul>
+<li><code>model</code>: A <code>string</code> providing the model description</li>
+<li><code>data</code>: the <code>data.frame</code> in which all variables in the model description can be found</li>
+<li><code>meanstructure</code> (passed onto the <code>lavaan</code> function): a <code>logical</code> value (<code>TRUE</code> or <code>FALSE</code>) indicating whether the means of the variables should be estimated via intercept terms</li>
+<li><code>conditional.x</code> (passed onto the <code>lavaan</code> function): a <code>logical</code> value (<code>TRUE</code> or <code>FALSE</code>) indicating whether the model should just consider the conditional distribution of the endogenous variables, conditional upon the exogenous variables.</li>
+<li><code>fixed.x</code> (passed onto the <code>lavaan</code> function): a <code>logical</code> value (<code>TRUE</code> or <code>FALSE</code>) indicating whether the exogenous variables should be considered as fixed (<code>TRUE</code> by default).</li>
+<li><code>estimator</code> (passed onto the <code>lavaan</code> function): a <code>string</code> which can be <code>"ML"</code> for maximum likelihood, <code>"GLS"</code> for (normal theory) generalized least squares, <code>"WLS"</code> for weighted least squares (sometimes called ADF estimation), or other values. See <code>?lavOptions</code> for other possibilities.</li>
+</ul>
+<p>Usually, it is fine to stick to the defaults, and just specify the <code>model</code> and <code>data</code> arguments.</p>
+<div id="regression-models" class="section level3 hasAnchor" number="11.3.1">
+<h3><span class="header-section-number">11.3.1</span> Regression models<a href="structural-equation-modelling-with-lavaan.html#regression-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A simple regression model can be estimated as follows:</p>
+<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb626-1"><a href="structural-equation-modelling-with-lavaan.html#cb626-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb626-2"><a href="structural-equation-modelling-with-lavaan.html#cb626-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb626-3"><a href="structural-equation-modelling-with-lavaan.html#cb626-3" aria-hidden="true" tabindex="-1"></a><span class="co"># exclude the outlying Columbia state</span></span>
+<span id="cb626-4"><a href="structural-equation-modelling-with-lavaan.html#cb626-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
+<span id="cb626-5"><a href="structural-equation-modelling-with-lavaan.html#cb626-5" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model in lavaan syntax</span></span>
+<span id="cb626-6"><a href="structural-equation-modelling-with-lavaan.html#cb626-6" aria-hidden="true" tabindex="-1"></a>mod_spec <span class="ot">&lt;-</span> <span class="st">&#39;percent_Trump_votes ~ 1 + hate_groups_per_million&#39;</span></span>
+<span id="cb626-7"><a href="structural-equation-modelling-with-lavaan.html#cb626-7" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
+<span id="cb626-8"><a href="structural-equation-modelling-with-lavaan.html#cb626-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;lavaan&quot;</span>)</span></code></pre></div>
+<pre><code>## This is lavaan 0.6-12
+## lavaan is FREE software! Please report any bugs.</code></pre>
+<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb628-1"><a href="structural-equation-modelling-with-lavaan.html#cb628-1" aria-hidden="true" tabindex="-1"></a>fmod <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_spec, <span class="at">data=</span>dat)</span></code></pre></div>
+<p>We can then see the estimates and tests via the <code>summary()</code> function:</p>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="structural-equation-modelling-with-lavaan.html#cb629-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 11 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                         3
+## 
+##   Number of observations                            50
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Regressions:
+##                         Estimate  Std.Err  z-value  P(&gt;|z|)
+##   percent_Trump_votes ~                                    
+##     ht_grps_pr_mll         2.300    0.658    3.496    0.000
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .prcnt_Trmp_vts   42.897    2.361   18.171    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .prcnt_Trmp_vts   80.228   16.046    5.000    0.000</code></pre>
+<p>The output of the <code>summary()</code> function first provides information about the way the model was estimated (by maximum likelihood or <code>"ML"</code> by default). Next, under <code>"Model Test User Model"</code> you will find the results of a likelihood-ratio test comparing the model to a saturated model. This test was referred to as the “overall model fit” test in the SDAM book. After this come the parameter estimates, standard errors, and Wald tests. These are displayed in the following order: causal regression effects (<code>"Regressions"</code>), intercepts (<code>"Intercepts"</code>), and (residual) variances (“<code>Variances"</code>).</p>
+<p>If you want to plot the model, you can use the <code>semPaths()</code> function from the <code>semPlot</code> package:</p>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="structural-equation-modelling-with-lavaan.html#cb631-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb631-2"><a href="structural-equation-modelling-with-lavaan.html#cb631-2" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/simple-regression-semPlot-1.png" width="672" /></p>
+<p>The default plot is quite basic and does not look so nice. In the following code, I set the arguments <code>layout = tree2</code> and <code>rotation = 2</code> to make the plot go from left to right, disable the automatic shortening of variable names by setting <code>nCharNodes = 0</code>, increase the size of the observed (or “manifest”) variables by setting <code>sizeMan=7</code> and a relatively smaller size for the constant intercepts by setting <code>sizeInt = 4</code>. To display the estimated values as part of the arrows, I also set <code>whatLabels = "est"</code>. There are many other tweaks possible, and it pays to play around with the <code>semPaths()</code> function to get the result you want. You should look at the <code>?semPaths</code> help file to see all the options available. Note that it is useful to rename your variables before calling <code>lavaan::sem()</code> to get better names of the variables in <code>semPlot()</code>, as I will do in the next example.</p>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="structural-equation-modelling-with-lavaan.html#cb632-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, </span>
+<span id="cb632-2"><a href="structural-equation-modelling-with-lavaan.html#cb632-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels=</span><span class="st">&quot;est&quot;</span>, <span class="at">width=</span><span class="dv">4</span>, <span class="at">height=</span><span class="dv">1</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The multiple regression model discussed in the SDAM book is defined in <code>lavaan</code> syntax as</p>
+<p><code>like ~ 1 + attr + sinc + intel + fun + amb</code></p>
+<p>This specifies that <code>like</code> is predicted by (observed) variables <code>attr</code>, <code>sinc</code>, <code>intel</code>, <code>fun</code>, and <code>amb</code>. We also include and intercept via the <code>1</code> term in the formula. The model can be specified and estimated as follows:</p>
+<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb633-1"><a href="structural-equation-modelling-with-lavaan.html#cb633-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb633-2"><a href="structural-equation-modelling-with-lavaan.html#cb633-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb633-3"><a href="structural-equation-modelling-with-lavaan.html#cb633-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> speeddate</span>
+<span id="cb633-4"><a href="structural-equation-modelling-with-lavaan.html#cb633-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the following lines are just to get shorter names for the variables</span></span>
+<span id="cb633-5"><a href="structural-equation-modelling-with-lavaan.html#cb633-5" aria-hidden="true" tabindex="-1"></a><span class="co"># this is usefull for semPlot. There are better ways to do this though.</span></span>
+<span id="cb633-6"><a href="structural-equation-modelling-with-lavaan.html#cb633-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>like <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_like</span>
+<span id="cb633-7"><a href="structural-equation-modelling-with-lavaan.html#cb633-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>attr <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_attr</span>
+<span id="cb633-8"><a href="structural-equation-modelling-with-lavaan.html#cb633-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>sinc <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_sinc</span>
+<span id="cb633-9"><a href="structural-equation-modelling-with-lavaan.html#cb633-9" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intel <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_intel</span>
+<span id="cb633-10"><a href="structural-equation-modelling-with-lavaan.html#cb633-10" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fun <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_fun</span>
+<span id="cb633-11"><a href="structural-equation-modelling-with-lavaan.html#cb633-11" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>amb <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_amb</span>
+<span id="cb633-12"><a href="structural-equation-modelling-with-lavaan.html#cb633-12" aria-hidden="true" tabindex="-1"></a><span class="co"># the lavaan model specification</span></span>
+<span id="cb633-13"><a href="structural-equation-modelling-with-lavaan.html#cb633-13" aria-hidden="true" tabindex="-1"></a>mod_spec <span class="ot">&lt;-</span>   <span class="st">&#39;like ~ 1 + attr + sinc + intel + fun + amb&#39;</span></span>
+<span id="cb633-14"><a href="structural-equation-modelling-with-lavaan.html#cb633-14" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
+<span id="cb633-15"><a href="structural-equation-modelling-with-lavaan.html#cb633-15" aria-hidden="true" tabindex="-1"></a>fmod <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_spec, <span class="at">data=</span>dat)</span></code></pre></div>
+<p>The results can again be obtained with the <code>summary()</code> function. Here we will supply the additional <code>"fit.measures = TRUE"</code> argument to get additional measures of model fit:</p>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="structural-equation-modelling-with-lavaan.html#cb634-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the results</span></span>
+<span id="cb634-2"><a href="structural-equation-modelling-with-lavaan.html#cb634-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 17 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                         7
+## 
+##                                                   Used       Total
+##   Number of observations                          1389        1562
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                              1367.918
+##   Degrees of freedom                                 5
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    1.000
+##   Tucker-Lewis Index (TLI)                       1.000
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)              -2138.891
+##   Loglikelihood unrestricted model (H1)      -2138.891
+##                                                       
+##   Akaike (AIC)                                4291.783
+##   Bayesian (BIC)                              4328.437
+##   Sample-size adjusted Bayesian (BIC)         4306.201
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.000
+##   90 Percent confidence interval - lower         0.000
+##   90 Percent confidence interval - upper         0.000
+##   P-value RMSEA &lt;= 0.05                             NA
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.000
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   like ~                                              
+##     attr              0.338    0.020   17.007    0.000
+##     sinc              0.134    0.028    4.826    0.000
+##     intel             0.146    0.032    4.617    0.000
+##     fun               0.353    0.023   15.445    0.000
+##     amb               0.063    0.024    2.621    0.009
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .like             -0.753    0.170   -4.428    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .like              1.274    0.048   26.353    0.000</code></pre>
+<p>Compared to the usual output, we now also get a likelihood-ratio test against a baseline model (<code>"Model Test Baseline Model"</code>), two fit indices (the CFI and TLI, the latter of which was discussed in the SDAM book), then the AIC and BIC measures, and then two other measures of model fit (the RMSEA and SRMR).</p>
+<p>As before, we can get a graphical depiction of the model by using the <code>semPaths()</code> function from the <code>semPlot</code> package. In the code below, I’m additionally setting the argument <code>curvature=3</code> to make the arrows for the covariances between the exogenous predictors more spread out and easier to see:</p>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="structural-equation-modelling-with-lavaan.html#cb636-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb636-2"><a href="structural-equation-modelling-with-lavaan.html#cb636-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">1</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb636-3"><a href="structural-equation-modelling-with-lavaan.html#cb636-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">curvature=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="mediation-models" class="section level3 hasAnchor" number="11.3.2">
+<h3><span class="header-section-number">11.3.2</span> Mediation models<a href="structural-equation-modelling-with-lavaan.html#mediation-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The mediation models concerned the <code>legacy2015</code> data in the <code>sdamr</code> package, which we should load first:</p>
+<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb637-1"><a href="structural-equation-modelling-with-lavaan.html#cb637-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;legacy2015&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb637-2"><a href="structural-equation-modelling-with-lavaan.html#cb637-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> legacy2015 </span></code></pre></div>
+<p>The Full Mediation model for the relation between legacy motive, intention, and donation, is specified through separate formulas for <code>intention</code> and <code>donation</code>, which are on separate lines of the string that will be supplied to <code>lavaan</code>. We can also explicitly label the regression parameters, which will allow us to compute the indirect effect of <code>legacy</code> on <code>donation</code></p>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="structural-equation-modelling-with-lavaan.html#cb638-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb638-2"><a href="structural-equation-modelling-with-lavaan.html#cb638-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + a*legacy</span></span>
+<span id="cb638-3"><a href="structural-equation-modelling-with-lavaan.html#cb638-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + b*intention</span></span>
+<span id="cb638-4"><a href="structural-equation-modelling-with-lavaan.html#cb638-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ab := a*b # indirect effect of legacy on donation</span></span>
+<span id="cb638-5"><a href="structural-equation-modelling-with-lavaan.html#cb638-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>Here, we have specified that <code>intention</code> is caused by <code>legacy</code>, and <code>donation</code> by <code>intention</code>. We have also included an intercept for both endogenous variables. The model can be estimated as usual:</p>
+<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb639-1"><a href="structural-equation-modelling-with-lavaan.html#cb639-1" aria-hidden="true" tabindex="-1"></a>fmod1 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod1, <span class="at">data=</span>dat)</span></code></pre></div>
+<p>The results are:</p>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="structural-equation-modelling-with-lavaan.html#cb640-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod1, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 20 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                         6
+## 
+##   Number of observations                           237
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 5.989
+##   Degrees of freedom                                 1
+##   P-value (Chi-square)                           0.014
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                                51.556
+##   Degrees of freedom                                 3
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.897
+##   Tucker-Lewis Index (TLI)                       0.692
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)               -883.794
+##   Loglikelihood unrestricted model (H1)       -880.800
+##                                                       
+##   Akaike (AIC)                                1779.588
+##   Bayesian (BIC)                              1800.397
+##   Sample-size adjusted Bayesian (BIC)         1781.379
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.145
+##   90 Percent confidence interval - lower         0.052
+##   90 Percent confidence interval - upper         0.266
+##   P-value RMSEA &lt;= 0.05                          0.047
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.048
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   intention ~                                         
+##     legacy     (a)    0.267    0.058    4.580    0.000
+##   donation ~                                          
+##     intention  (b)    1.065    0.205    5.185    0.000
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .intention         1.785    0.245    7.284    0.000
+##    .donation         -0.391    0.619   -0.632    0.528
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .intention         0.739    0.068   10.886    0.000
+##    .donation          8.047    0.739   10.886    0.000
+## 
+## Defined Parameters:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##     ab                0.285    0.083    3.433    0.001</code></pre>
+<p>As we have defined a new parameter for the indirect effect of <code>legacy</code> on <code>donation</code>, the results also show the estimate of this new parameter under <code>"Defined Parameters"</code>, named <code>ab</code>. We even get a Wald test for the null-hypothesis that the indirect effect is equal to 0 (i.e. no mediation), which is rejected.</p>
+<p>A longer list of fit indices can also be obtained via</p>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="structural-equation-modelling-with-lavaan.html#cb642-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fmod1)</span></code></pre></div>
+<pre><code>##                npar                fmin               chisq                  df 
+##               6.000               0.013               5.989               1.000 
+##              pvalue      baseline.chisq         baseline.df     baseline.pvalue 
+##               0.014              51.556               3.000               0.000 
+##                 cfi                 tli                nnfi                 rfi 
+##               0.897               0.692               0.692               0.652 
+##                 nfi                pnfi                 ifi                 rni 
+##               0.884               0.295               0.901               0.897 
+##                logl   unrestricted.logl                 aic                 bic 
+##            -883.794            -880.800            1779.588            1800.397 
+##              ntotal                bic2               rmsea      rmsea.ci.lower 
+##             237.000            1781.379               0.145               0.052 
+##      rmsea.ci.upper        rmsea.pvalue                 rmr          rmr_nomean 
+##               0.266               0.047               0.137               0.168 
+##                srmr        srmr_bentler srmr_bentler_nomean                crmr 
+##               0.048               0.048               0.059               0.059 
+##         crmr_nomean          srmr_mplus   srmr_mplus_nomean               cn_05 
+##               0.083               0.048               0.059             153.018 
+##               cn_01                 gfi                agfi                pgfi 
+##             263.563               0.998               0.982               0.111 
+##                 mfi                ecvi 
+##               0.990               0.076</code></pre>
+<p>although this is not as nicely presented as in <code>summary(..., fit.measures=TRUE)</code>.</p>
+<p>A graphical depiction of the model is obtained as:</p>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="structural-equation-modelling-with-lavaan.html#cb644-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod1, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb644-2"><a href="structural-equation-modelling-with-lavaan.html#cb644-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb644-3"><a href="structural-equation-modelling-with-lavaan.html#cb644-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+Note I am setting the argument <code>"intAtSide = FALSE"</code> to create a better looking plot. You can compare the result with setting <code>"intAtSide = TRUE"</code> to see the effect of this setting.</p>
+<p>The Partial Mediation model is specified again by separate formulas for <code>intention</code> and <code>donation</code>, but now we include two predictors for <code>donation</code>:</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb645-1"><a href="structural-equation-modelling-with-lavaan.html#cb645-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb645-2"><a href="structural-equation-modelling-with-lavaan.html#cb645-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + a*legacy</span></span>
+<span id="cb645-3"><a href="structural-equation-modelling-with-lavaan.html#cb645-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + b*intention + c*legacy</span></span>
+<span id="cb645-4"><a href="structural-equation-modelling-with-lavaan.html#cb645-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ab := a*b</span></span>
+<span id="cb645-5"><a href="structural-equation-modelling-with-lavaan.html#cb645-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb645-6"><a href="structural-equation-modelling-with-lavaan.html#cb645-6" aria-hidden="true" tabindex="-1"></a>fmod2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod2, <span class="at">data=</span>dat)</span>
+<span id="cb645-7"><a href="structural-equation-modelling-with-lavaan.html#cb645-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod2, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 24 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                         7
+## 
+##   Number of observations                           237
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                                51.556
+##   Degrees of freedom                                 3
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    1.000
+##   Tucker-Lewis Index (TLI)                       1.000
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)               -880.800
+##   Loglikelihood unrestricted model (H1)       -880.800
+##                                                       
+##   Akaike (AIC)                                1775.599
+##   Bayesian (BIC)                              1799.876
+##   Sample-size adjusted Bayesian (BIC)         1777.688
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.000
+##   90 Percent confidence interval - lower         0.000
+##   90 Percent confidence interval - upper         0.000
+##   P-value RMSEA &lt;= 0.05                             NA
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.000
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   intention ~                                         
+##     legacy     (a)    0.267    0.058    4.580    0.000
+##   donation ~                                          
+##     intention  (b)    0.917    0.212    4.331    0.000
+##     legacy     (c)    0.488    0.198    2.463    0.014
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .intention         1.785    0.245    7.284    0.000
+##    .donation         -1.961    0.884   -2.220    0.026
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .intention         0.739    0.068   10.886    0.000
+##    .donation          7.846    0.721   10.886    0.000
+## 
+## Defined Parameters:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##     ab                0.245    0.078    3.147    0.002</code></pre>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb647-1"><a href="structural-equation-modelling-with-lavaan.html#cb647-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod2, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb647-2"><a href="structural-equation-modelling-with-lavaan.html#cb647-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, </span>
+<span id="cb647-3"><a href="structural-equation-modelling-with-lavaan.html#cb647-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+Finally, the Common Cause model can be specified by three formulas. The first two lines concern the regression equations. The third line (<code>donation ~~ 0*intention</code>) specifies that the (residual) covariance between <code>donation</code> and <code>intention</code> should be fixed to 0.</p>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="structural-equation-modelling-with-lavaan.html#cb648-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb648-2"><a href="structural-equation-modelling-with-lavaan.html#cb648-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + legacy</span></span>
+<span id="cb648-3"><a href="structural-equation-modelling-with-lavaan.html#cb648-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + legacy</span></span>
+<span id="cb648-4"><a href="structural-equation-modelling-with-lavaan.html#cb648-4" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~~ 0*intention</span></span>
+<span id="cb648-5"><a href="structural-equation-modelling-with-lavaan.html#cb648-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb648-6"><a href="structural-equation-modelling-with-lavaan.html#cb648-6" aria-hidden="true" tabindex="-1"></a>fmod3 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod3, <span class="at">data=</span>dat)</span>
+<span id="cb648-7"><a href="structural-equation-modelling-with-lavaan.html#cb648-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod3, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 20 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                         6
+## 
+##   Number of observations                           237
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                                18.048
+##   Degrees of freedom                                 1
+##   P-value (Chi-square)                           0.000
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                                51.556
+##   Degrees of freedom                                 3
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.649
+##   Tucker-Lewis Index (TLI)                      -0.053
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)               -889.824
+##   Loglikelihood unrestricted model (H1)       -880.800
+##                                                       
+##   Akaike (AIC)                                1791.648
+##   Bayesian (BIC)                              1812.456
+##   Sample-size adjusted Bayesian (BIC)         1793.438
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.268
+##   90 Percent confidence interval - lower         0.169
+##   90 Percent confidence interval - upper         0.383
+##   P-value RMSEA &lt;= 0.05                          0.000
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.084
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   intention ~                                         
+##     legacy            0.267    0.058    4.580    0.000
+##   donation ~                                          
+##     legacy            0.733    0.197    3.714    0.000
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##  .intention ~~                                        
+##    .donation          0.000                           
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .intention         1.785    0.245    7.284    0.000
+##    .donation         -0.325    0.830   -0.392    0.695
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .intention         0.739    0.068   10.886    0.000
+##    .donation          8.467    0.778   10.886    0.000</code></pre>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="structural-equation-modelling-with-lavaan.html#cb650-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod3, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb650-2"><a href="structural-equation-modelling-with-lavaan.html#cb650-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb650-3"><a href="structural-equation-modelling-with-lavaan.html#cb650-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+We can obtain likelihood-ratio tests for nested models with the <code>anova()</code> function. For sample, we can compare the Full Mediation model to the Partial Mediation model with:</p>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb651-1"><a href="structural-equation-modelling-with-lavaan.html#cb651-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fmod1, fmod2)</span></code></pre></div>
+<pre><code>## Chi-Squared Difference Test
+## 
+##       Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)  
+## fmod2  0 1775.6 1799.9 0.0000                                
+## fmod1  1 1779.6 1800.4 5.9889     5.9889       1     0.0144 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>And we can compare the Common Cause model to the Partial Mediation model with:</p>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="structural-equation-modelling-with-lavaan.html#cb653-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fmod3, fmod2)</span></code></pre></div>
+<pre><code>## Chi-Squared Difference Test
+## 
+##       Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## fmod2  0 1775.6 1799.9  0.000                                  
+## fmod3  1 1791.7 1812.5 18.048     18.048       1  2.154e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>As the Partial Mediation model is saturated, these tests are equivalent to the model fit tests reported by the <code>summary()</code> function for <code>fmod1</code> and <code>fmod3</code>.</p>
+</div>
+<div id="a-more-complex-path-model" class="section level3 hasAnchor" number="11.3.3">
+<h3><span class="header-section-number">11.3.3</span> A more complex path model<a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>More complex path models can be estimated by including more formula’s in the model specification. For example:</p>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="structural-equation-modelling-with-lavaan.html#cb655-1" aria-hidden="true" tabindex="-1"></a>mod_complex <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb655-2"><a href="structural-equation-modelling-with-lavaan.html#cb655-2" aria-hidden="true" tabindex="-1"></a><span class="st">    belief ~ 1 + education</span></span>
+<span id="cb655-3"><a href="structural-equation-modelling-with-lavaan.html#cb655-3" aria-hidden="true" tabindex="-1"></a><span class="st">    legacy ~ 1 + age</span></span>
+<span id="cb655-4"><a href="structural-equation-modelling-with-lavaan.html#cb655-4" aria-hidden="true" tabindex="-1"></a><span class="st">    income ~ 1 + age + education</span></span>
+<span id="cb655-5"><a href="structural-equation-modelling-with-lavaan.html#cb655-5" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + belief + legacy + income</span></span>
+<span id="cb655-6"><a href="structural-equation-modelling-with-lavaan.html#cb655-6" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + intention + income</span></span>
+<span id="cb655-7"><a href="structural-equation-modelling-with-lavaan.html#cb655-7" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb655-8"><a href="structural-equation-modelling-with-lavaan.html#cb655-8" aria-hidden="true" tabindex="-1"></a>fmod_complex <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_complex, <span class="at">data=</span>legacy2015)</span>
+<span id="cb655-9"><a href="structural-equation-modelling-with-lavaan.html#cb655-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod_complex)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 43 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                        19
+## 
+##                                                   Used       Total
+##   Number of observations                           224         237
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                                41.291
+##   Degrees of freedom                                11
+##   P-value (Chi-square)                           0.000
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   belief ~                                            
+##     education         0.132    0.048    2.723    0.006
+##   legacy ~                                            
+##     age              -0.006    0.005   -1.120    0.263
+##   income ~                                            
+##     age               0.002    0.009    0.254    0.800
+##     education         0.384    0.102    3.757    0.000
+##   intention ~                                         
+##     belief            0.738    0.064   11.615    0.000
+##     legacy            0.123    0.049    2.522    0.012
+##     income           -0.080    0.030   -2.710    0.007
+##   donation ~                                          
+##     intention         1.098    0.213    5.152    0.000
+##     income            0.257    0.121    2.113    0.035
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .belief            4.416    0.222   19.912    0.000
+##    .legacy            4.322    0.208   20.773    0.000
+##    .income            1.220    0.569    2.143    0.032
+##    .intention        -1.077    0.386   -2.790    0.005
+##    .donation         -1.232    0.774   -1.592    0.111
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .belief            0.520    0.049   10.583    0.000
+##    .legacy            0.906    0.086   10.583    0.000
+##    .income            2.318    0.219   10.583    0.000
+##    .intention         0.485    0.046   10.583    0.000
+##    .donation          8.039    0.760   10.583    0.000</code></pre>
+<p>To plot complex models like this, it may be useful to hide the constant (intercept) terms, which is achieved by setting <code>"intercepts" = FALSE</code> in the call to <code>semPlot::semPaths()</code>:</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="structural-equation-modelling-with-lavaan.html#cb657-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod_complex, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, </span>
+<span id="cb657-2"><a href="structural-equation-modelling-with-lavaan.html#cb657-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, <span class="at">intercepts=</span><span class="cn">FALSE</span>, <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, </span>
+<span id="cb657-3"><a href="structural-equation-modelling-with-lavaan.html#cb657-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, </span>
+<span id="cb657-4"><a href="structural-equation-modelling-with-lavaan.html#cb657-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 
+</div>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-OpenMx" class="csl-entry">
+Boker, Steven M., Michael C. Neale, Hermine H. Maes, Michael Spiegel, Timothy R. Brick, Ryne Estabrook, Timothy C. Bates, et al. 2022. <em>OpenMx: Extended Structural Equation Modelling</em>. <a href="https://CRAN.R-project.org/package=OpenMx">https://CRAN.R-project.org/package=OpenMx</a>.
+</div>
+<div id="ref-R-sem" class="csl-entry">
+Fox, John, Zhenghua Nie, and Jarrett Byrnes. 2022. <em>Sem: Structural Equation Models</em>. <a href="https://CRAN.R-project.org/package=sem">https://CRAN.R-project.org/package=sem</a>.
+</div>
+<div id="ref-R-lavaan" class="csl-entry">
+Rosseel, Yves, Terrence D. Jorgensen, and Nicholas Rockwood. 2022. <em>Lavaan: Latent Variable Analysis</em>. <a href="https://lavaan.ugent.be">https://lavaan.ugent.be</a>.
+</div>
 </div>
             </section>
 

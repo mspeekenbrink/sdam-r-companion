@@ -1,0 +1,226 @@
+# Structural Equation modelling with lavaan
+
+There are several packages for `R` which allow you to estimate Structural Equation Models (SEM), including `sem` [@R-sem], `OpenMx` [@R-OpenMx], and `lavaan` [@R-lavaan]. Here, we will focus solely on `lavaan`.
+
+## Lavaan
+
+The name "lavaan" stands for "`la`tent `va`riable `an`alysis". It is a package which can estimate a wide-variety of SEM models, including path models without latent variables. It has a convenient and intuitive syntax to define SEM models and it is actively developed. That is why it has perhaps become the go-to `R` package for SEM analysis. Although the help files in the `R` package are not overly comprehensive, the [lavaan website](https://www.lavaan.ugent.be/) has a useful tutorial, and I suggest you check this out.
+
+### The lavaan model syntax
+
+In `lavaan`, SEM models can be specified via a formulation similar to the usual syntax for models in `lm()` and `glm()`. However, there are some new relational symbols used to define (residual) covariances, and latent variables.
+
+Formula   | Description 
+-----------------------------------|------------------------------------------------------------------------
+`v =~ y`     | latent variable `v` is defined and measured by `y` 
+`v =~ y1 + y2 + y3`  | latent variable `v` is defined and measured by `y1`, `y2`, and `y3`
+`v =~ 1 + y1 + y2 + y3`  | latent variable `v` is defined and measured by `y1`, `y2`, and `y3`, <br /> with the inclusion of an explicit intercept `1` to model the mean of `v`
+`y ~ x`     | `y` is regressed on `x`, i.e. a causal relation from `x` to `y`
+`y ~ b*x`     | `y` is regressed on `x`, with the slope of `x` labelled as `b`
+`y ~ x1 + x2 + x3`     | `y` is regressed on `x1`, `x2` and `x3`,<br /> i.e. causal relations from `x1`, `x2`, and `x3` to `y`
+`y ~ a*x1 + b*x2 + c*x3`  | regression with labelled slopes
+`abc := a*b*c` | define a derived term `abc` as a function of the model parameters
+`y1 ~~ y2` | (residual) co-variance between `y1` and `y2`
+`y1 ~~ 0*y2` | fix the (residual) co-variance between `y1` and `y2` to 0
+`y ~~ y` | (residual) variance for `y`
+`y ~~ 0*y` | fix the (residual) variance for `y` to 0
+
+### Model estimation
+
+Under the hood, there is really only a single function used to define and estimate SEM models in the `lavaan` package, namely the `lavaan::lavaan()` function. But the `lavaan` package offers several wrappers around this function to make estimation of common SEM models more convenient. Amongst these are the `lavaan::sem()` function, and the `lavaan::cfa()` function.
+
+### Extracting results
+
+Once a model is estimated, you can use the `summary()` function on the object returned to get the basic parameter estimates and tests. This function provides the most important results. You can additionally get some of the more widely used fit indices by setting the argument `"fit.measures = TRUE"`. Other functions which can be called on a model fitted by `lavaan` are:
+
+* `fitMeasures()`: this function returns a long list of model fit measures, only some of which (the more important ones) were discussed in the SDAM book
+* `fitted()`: this function returns the model-implied variance-covariance matrix and mean vector. 
+* `anova()`: When provided with a single model, this function returns the results of a likelihood-ratio test of the model against the saturated model. When supplied with multiple models, the function returns likelihood-ratio tests comparing these. This assumes the models are nested!
+
+## Plotting SEM models with the `semPlot` package
+
+The `semPlot` package [@R-semPlot] package provides a convenient way to plot SEM models fitted by `lavaan`. In principle, all that is needed to plot a `lavaan`-estimated object `mod` is a call to `semPlot::semPaths(mod)`. However, the default settings don't necessarily provide the best looking plots. But the `semPlot` package is very flexible, and by setting several arguments, it is possible to produce agreeable plots, although it will often require multiple attempts. Important arguments to the `semPlot::semPaths()` function are
+
+* `object`: for our purposes, this is the object returned by `lavaan`
+* `what`: this allows you to change the appearance of the arrows based on the parameter estimates. The default (`"path"`) just displays the arrows, but by setting this argument to `"est"` the linewidth of the arrows reflects the magnitude of the links. For more options, see `?semPlot::semPath`.
+* `whatLabels`: This argument sets labels for the arrows. Some of the options are `"name"` (display the name of the link) and `"est"` (display the parameter estimates). For more options, see `?semPlot::semPath`.
+
+
+## Path models
+
+Path models can be defined and estimated with the `lavaan::sem()` function. Important arguments for this function are:
+
+* `model`: A `string` providing the model description
+* `data`: the `data.frame` in which all variables in the model description can be found
+* `meanstructure` (passed onto the `lavaan` function): a `logical` value  (`TRUE` or `FALSE`) indicating whether the means of the variables should be estimated via intercept terms
+* `conditional.x` (passed onto the `lavaan` function): a `logical` value (`TRUE` or `FALSE`) indicating whether the model should just consider the conditional distribution of the endogenous variables, conditional upon the exogenous variables. 
+* `fixed.x` (passed onto the `lavaan` function): a `logical` value (`TRUE` or `FALSE`) indicating whether the exogenous variables should be considered as fixed (`TRUE` by default).
+* `estimator` (passed onto the `lavaan` function): a `string` which can be `"ML"` for maximum likelihood, `"GLS"` for (normal theory) generalized least squares, `"WLS"` for weighted least squares (sometimes called ADF estimation), or other values. See `?lavOptions` for other possibilities.
+
+Usually, it is fine to stick to the defaults, and just specify the `model` and `data` arguments.
+
+### Regression models
+
+A simple regression model can be estimated  as follows:
+```{r SEM-simple-regression-structural-plot, fig.cap="Graphical representation of a simple regression model", fig.width=1.2*4, fig.height=1.2*1, out.width="80%"}
+# load the data
+data("trump2016", package="sdamr")
+# exclude the outlying Columbia state
+dat <- subset(trump2016,state != "District of Columbia")
+# specify the model in lavaan syntax
+mod_spec <- 'percent_Trump_votes ~ 1 + hate_groups_per_million'
+# estimate the model
+library("lavaan")
+fmod <- lavaan::sem(mod_spec, data=dat)
+```
+We can then see the estimates and tests via the `summary()` function:
+```{r}
+summary(fmod)
+```
+The output of the `summary()` function first provides information about the way the model was estimated (by maximum likelihood or `"ML"` by default). Next, under `"Model Test User Model"` you will find the results of a likelihood-ratio test comparing the model to a saturated model. This test was referred to as the "overall model fit" test in the SDAM book. After this come the parameter estimates, standard errors, and Wald tests. These are displayed in the following order: causal regression effects (`"Regressions"`), intercepts (`"Intercepts"`), and (residual) variances ("`Variances"`).
+
+If you want to plot the model, you can use the `semPaths()` function from the `semPlot` package:
+```{r simple-regression-semPlot}
+library(semPlot)
+semPlot::semPaths(fmod)
+```
+
+The default plot is quite basic and does not look so nice. In the following code, I set the arguments `layout = tree2` and `rotation = 2` to make the plot go from left to right, disable the automatic shortening of variable names by setting `nCharNodes = 0`, increase the size of the observed (or "manifest") variables by setting `sizeMan=7` and a relatively smaller size for the constant intercepts by setting `sizeInt = 4`. To display the estimated values as part of the arrows, I also set `whatLabels = "est"`. There are many other tweaks possible, and it pays to play around with the `semPaths()` function to get the result you want. You should look at the `?semPaths` help file to see all the options available. Note that it is useful to rename your variables before calling `lavaan::sem()` to get better names of the variables in `semPlot()`, as I will do in the next example.
+```{r}
+semPlot::semPaths(fmod, layout="tree2", sizeMan=7, sizeInt = 4, normalize=FALSE, 
+                  whatLabels="est", width=4, height=1, rotation=2, nCharNodes = 0)
+```
+
+The multiple regression model discussed in the SDAM book is defined in `lavaan` syntax as 
+
+`like ~ 1 + attr + sinc + intel + fun + amb`
+
+This specifies that `like` is predicted by (observed) variables `attr`, `sinc`, `intel`, `fun`, and `amb`. We also include and intercept via the `1` term in the formula. The model can be specified and estimated as follows:
+```{r}
+# load the data
+data("speeddate", package="sdamr")
+dat <- speeddate
+# the following lines are just to get shorter names for the variables
+# this is usefull for semPlot. There are better ways to do this though.
+dat$like <- dat$other_like
+dat$attr <- dat$other_attr
+dat$sinc <- dat$other_sinc
+dat$intel <- dat$other_intel
+dat$fun <- dat$other_fun
+dat$amb <- dat$other_amb
+# the lavaan model specification
+mod_spec <-   'like ~ 1 + attr + sinc + intel + fun + amb'
+# estimate the model
+fmod <- lavaan::sem(mod_spec, data=dat)
+```
+The results can again be obtained with the `summary()` function. Here we will supply the additional `"fit.measures = TRUE"` argument to get additional measures of model fit:
+```{r}
+# get the results
+summary(fmod, fit.measures=TRUE)
+```
+Compared to the usual output, we now also get a likelihood-ratio test against a baseline model (`"Model Test Baseline Model"`), two fit indices (the CFI and TLI, the latter of which was discussed in the SDAM book), then the AIC and BIC measures, and then two other measures of model fit (the RMSEA and SRMR).
+
+As before, we can get a graphical depiction of the model by using the `semPaths()` function from the `semPlot` package. In the code below, I'm additionally setting the argument `curvature=3` to make the arrows for the covariances between the exogenous predictors more spread out and easier to see:
+```{r}
+semPlot::semPaths(fmod, layout="tree", sizeMan=7, sizeInt = 4, style="ram", 
+                  residuals=TRUE, rotation=1, intAtSide = FALSE, 
+                  whatLabels = "est", nCharNodes = 0, curvature=3)
+```
+
+### Mediation models
+
+The mediation models concerned the `legacy2015` data in the `sdamr` package, which we should load first:
+```{r}
+data("legacy2015", package="sdamr")
+dat <- legacy2015 
+```
+The Full Mediation model for the relation between legacy motive, intention, and donation, is specified through separate formulas for `intention` and `donation`, which are on separate lines of the string that will be supplied to `lavaan`. We can also explicitly label the regression parameters, which will allow us to compute the indirect effect of `legacy` on `donation`
+```{r}
+mod1 <-   '
+    intention ~ 1 + a*legacy
+    donation ~ 1 + b*intention
+    ab := a*b # indirect effect of legacy on donation
+'
+```
+Here, we have specified that `intention` is caused by `legacy`, and `donation` by `intention`. We have also included an intercept for both endogenous variables. The model can be estimated as usual:
+```{r}
+fmod1 <- lavaan::sem(mod1, data=dat)
+```
+The results are:
+```{r}
+summary(fmod1, fit.measures=TRUE)
+```
+As we have defined a new parameter for the indirect effect of `legacy` on `donation`, the results also show the estimate of this new parameter under `"Defined Parameters"`, named `ab`. We even get a Wald test for the null-hypothesis that the indirect effect is equal to 0 (i.e. no mediation), which is rejected.
+
+A longer list of fit indices can also be obtained via
+```{r}
+fitMeasures(fmod1)
+```
+although this is not as nicely presented as in `summary(..., fit.measures=TRUE)`.
+
+A graphical depiction of the model is obtained as:
+```{r}
+semPlot::semPaths(fmod1, layout="tree", sizeMan=7, sizeInt = 4, style="ram", 
+                  residuals=TRUE, rotation=2, intAtSide = FALSE, 
+                  whatLabels = "est", nCharNodes = 0, normalize = FALSE)
+```
+Note I am setting the argument `"intAtSide = FALSE"` to create a better looking plot. You can compare the result with setting `"intAtSide = TRUE"` to see the effect of this setting.
+
+The Partial Mediation model is specified again by separate formulas for `intention` and `donation`, but now we include two predictors for `donation`:
+```{r}
+mod2 <-   '
+    intention ~ 1 + a*legacy
+    donation ~ 1 + b*intention + c*legacy
+    ab := a*b
+'
+fmod2 <- lavaan::sem(mod2, data=dat)
+summary(fmod2, fit.measures=TRUE)
+semPlot::semPaths(fmod2, layout="tree", sizeMan=7, sizeInt = 5, style="ram", 
+         residuals=TRUE, rotation=2, intAtSide = FALSE, whatLabels = "est", 
+         nCharNodes = 0, normalize=FALSE)
+```
+Finally, the Common Cause model can be specified by three formulas. The first two lines concern the regression equations. The third line (`donation ~~ 0*intention`) specifies that the (residual) covariance between `donation` and `intention` should be fixed to 0.  
+```{r}
+mod3 <-   '
+    intention ~ 1 + legacy
+    donation ~ 1 + legacy
+    donation ~~ 0*intention
+'
+fmod3 <- lavaan::sem(mod3, data=dat)
+summary(fmod3, fit.measures=TRUE)
+semPlot::semPaths(fmod3, layout="tree", sizeMan=7, sizeInt = 5, style="ram", 
+                  residuals=TRUE, rotation=2, intAtSide = FALSE, 
+                  whatLabels = "est", nCharNodes = 0, normalize=FALSE)
+```
+We can obtain likelihood-ratio tests for nested models with the `anova()` function. For sample, we can compare the Full Mediation model to the Partial Mediation model with: 
+```{r}
+anova(fmod1, fmod2)
+```
+And we can compare the Common Cause model to the Partial Mediation model with:
+```{r}
+anova(fmod3, fmod2)
+```
+As the Partial Mediation model is saturated, these tests are equivalent to the model fit tests reported by the `summary()` function for `fmod1` and `fmod3`.
+
+### A more complex path model
+
+More complex path models can be estimated by including more formula's in the model specification. For example:
+```{r}
+mod_complex <-   '
+    belief ~ 1 + education
+    legacy ~ 1 + age
+    income ~ 1 + age + education
+    intention ~ 1 + belief + legacy + income
+    donation ~ 1 + intention + income
+'
+fmod_complex <- lavaan::sem(mod_complex, data=legacy2015)
+summary(fmod_complex)
+```
+To plot complex models like this, it may be useful to hide the constant (intercept) terms, which is achieved by setting `"intercepts" = FALSE` in the call to `semPlot::semPaths()`:
+```{r}
+semPlot::semPaths(fmod_complex, layout="tree2", sizeMan=7, sizeInt = 5, 
+                  style="ram", intercepts=FALSE, residuals=TRUE, rotation=2, 
+                  intAtSide = FALSE, whatLabels = "est", nCharNodes = 0, 
+                  normalize=FALSE)
+```
+

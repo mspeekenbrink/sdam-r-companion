@@ -96,6 +96,15 @@ log-linear-models
 multinomial-regression
 generalized-linear-mixed-effects-models
 structural-equation-modelling-with-lavaan
+lavaan
+the-lavaan-model-syntax
+model-estimation
+extracting-results
+plotting-sem-models-with-the-semplot-package
+path-models
+regression-models
+mediation-models
+a-more-complex-path-model
 bayesian-estimation
 bayesian-hypothesis-testing-with-bayes-factors
 the-bayesfactor-package
