@@ -224,3 +224,39 @@ semPlot::semPaths(fmod_complex, layout="tree2", sizeMan=7, sizeInt = 5,
                   normalize=FALSE)
 ```
 
+## Latent variables
+
+
+
+## Exploratory factor analysis with the `psych` package
+
+We will only cover the most very basics of Exploratory Factor Analysis (EFA) here. In EFA, all "factors" (which are the latent variables in the model), are related to all observed variables (sometimes also called the "manifest" variables). 
+
+EFA is implemented in the `factanal()` function from the `stats` package in base R, and the `fa()` function in the `psych` package. We will focus on the latter package here. The `psych` package comes with various additional tools useful for EFA, and adheres to the conventions for EFA in psychology. 
+
+### Determining the number of factors with Parallel Analysis
+
+A first useful function implements so-called "parallel analysis" to determine the optimal number of underlying factors for a given set of observed variables. This method, whilst somewhat "hacky", tends to work well in practice. 
+
+`psych::fa.parallel()`
+
+
+### Estimating and rotating EFA solutions
+
+`psych::fa()`
+
+## Confirmatory factor analysis
+
+`lavaan::cfa()`
+
+## Modification indices
+
+`lavaan::modificationIndices()`
+
+`lavaan::modificationIndices(, minumum.value = 10)`
+
+`lavaan::modificationIndices(, minumum.value = 10, order = TRUE)`
+
+## General SEM models
+
+`lavaan:sem()`
