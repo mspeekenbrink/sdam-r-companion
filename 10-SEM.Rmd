@@ -231,13 +231,13 @@ Latent variables are defined in `lavaan` by the `=~` operator.
 
 ## Exploratory factor analysis with the `psych` package
 
-We will just cover the very basics of Exploratory Factor Analysis (EFA) here. In EFA, all "factors" (which are the latent variables in the model), are related to all observed variables (sometimes also called the "manifest" variables). 
+We will just cover the very basics of Exploratory Factor Analysis (EFA) here. In EFA, each "factor" (which is a latent variable in the model) is related to all observed variables (sometimes also called the "manifest" variables). 
 
-EFA is implemented in the `factanal()` function from the `stats` package in base R, and the `fa()` function in the `psych` package. We will focus on the latter package here. The `psych` package comes with various additional tools useful for EFA, and adheres to the conventions for EFA in psychology. 
+EFA is implemented in the `factanal()` function from the `stats` package (base R), and the `fa()` function in the `psych` package. We will focus on the latter function here. The `psych` package comes with various additional tools useful for EFA, and adheres to the conventions for EFA in psychology. 
 
 ### Determining the number of factors with Parallel Analysis
 
-A first useful function implements so-called "parallel analysis" to determine the optimal number of underlying factors for a given set of observed variables. This method, whilst somewhat "hacky", tends to work well in practice.
+A first useful function implements so-called "parallel analysis" to determine the optimal number of underlying factors for a given set of observed variables. This method, whilst somewhat "hacky", tends to work reasonably well in practice.
 
 We will use the `bfi` data from the `psychTools` package as an example.
 ```{r}
@@ -245,17 +245,21 @@ data(bfi, package="psychTools")
 head(bfi)
 ```
 
+Parallel analysis [see e.g. @hayton2004factor] focuses on the common variance "explained" by each factor. It uses so-called eigenvalues as the measure of common variance accounted for by the factors. An eigenvalue larger than 1 indicates that a factor accounts for more variance than that of a single variable (i.e. it accounts for shared variation between the variables). However, eigenvalues can be larger than 1 due to sampling error, even though a factor in reality does not account for substantial shared variation. Parallel analysis aims to compare the eigenvalues for factors to those of random data (where there is no shared variation). According to parallel analysis, the optimal number of factors is the number of factors that have larger eigenvalues than would be obtained for random data.
+
 A parallel analysis can be conducted via the `fa.parallel()` function from the `psych()` package. The first argument to this function, called `x`, can be either a `data.frame` containing just the variables you want to include in the EFA, or a correlation matrix. In a second argument, called `fa`, you can specify that you want to use EFA (`fa="fa"`), a principal components analysis (`fa="pc"`), or both (`fa="both"`). Here, we will just ask for a factor analysis. On the first line of the code below, we first exclude the last three columns (`gender`, `education`, and `age`) from the data, and then ask for a parallel analysis:
 ```{r}
 dat <- bfi[,-c(26:28)]
 psych::fa.parallel(dat, fa="fa")
 ```
+The plot shows the eigenvalues for the different factors (ordered in magnitude) as blue triangles, and eigenvalues for random data as red lines. There is also a message indicating the optimal number of factors according to the analysis, which is 6, as there are six blue triangles above the red line.
+
 We could obtain the same result via a correlation matrix, which can be computed with the `cor()` function. Note that if there are missing values in the data, by default this would return a missing value in the correlation matrix. We can avoid this by explicitly stating how we want to deal with missing variables (in this case, for each pair of variables, use the complete cases). 
 ```{r}
 # compute correlation matrix from pairwise complete cases
 bfi_cor <- cor(bfi[,-c(26:28)], use="pairwise.complete.obs")
 ```
-If you use a correlation matrix, you should also specify the number of observations used to compute the correlation. A lower bound on this can be computed via the `complete.cases()` function, which returns a logical vector with each element equalling `TRUE` when all variables in a row of the data are not missing. By summing up these logical values (`TRUE` has value 1, and `FALSE` value 0), you get the number of complete cases.
+If you use a correlation matrix, you should also specify the number of observations used to compute the correlation. A lower bound on this can be computed via the `complete.cases()` function, which returns a logical vector with each element equaling `TRUE` when all variables in a row of the data are not missing. By summing up these logical values (`TRUE` has value 1, and `FALSE` value 0), you get the number of complete cases.
 ```{r}
 n_obs <- sum(complete.cases(bfi[,-c(26:28)]))
 ```
@@ -267,7 +271,7 @@ Note that there is nothing to be gained from using a correlation matrix rather t
 
 ### Estimating and rotating EFA solutions
 
-EFA can be performed via the `fa()` function from the `psych` package. Like the `psych::fa.parallel()` function, the first argument, now called `r`, can be a `data.frame` or a correlation or covariance matrix. The second argument, called `nfactors`, is used to set how many factors you want to include in the model. A further argument, called `rotate`, is used to set the rotation method. By default, this is Oblimin rotation, a form of *oblique* rotation. There are many other options (see the help file `?psych::fa`), including `"none"` (no rotation), `"varimax"` (a popular form of orthogonal rotation), and `"promax"` (a popular form of oblique rotation). The argument `fm` is used to specify the estimation method, for which we will use `fm="ml"` to obtain maximum likelihood estimation.
+EFA can be performed via the `fa()` function from the `psych` package. Like the `psych::fa.parallel()` function, the first argument, now called `r`, can be a `data.frame` or a correlation or covariance matrix. The second argument, called `nfactors`, is used to set how many factors you want to include in the model. A further argument, called `rotate`, is used to set the rotation method. By default, this is *Oblimin* rotation, a form of *oblique* rotation. There are many other options (see the help file `?psych::fa`), including `"none"` (no rotation), `"varimax"` (a popular form of orthogonal rotation), and `"promax"` (a popular form of oblique rotation). The argument `fm` is used to specify the estimation method, for which we will use `fm="ml"` to obtain maximum likelihood estimation.
 
 Here is an example without rotation:
 ```{r}
@@ -275,12 +279,12 @@ psych::fa(bfi[,-c(26:28)], nfactors = 6, rotate="none", fm="ml")
 ```
 The output is rather extensive. A key table is the first one, with standardized factor loadings in the columns labelled `ML`.
 
-You can just check the factor loadings via the `stat::loadings()` function. This allows you to not print loadings below a certain value (e.g. .10), by setting the `cutoff` argument. Below we will show the loadings obtained after Varimax rotation:
+You can just check the factor loadings via the `stat::loadings()` function. This allows you to not print loadings below a certain value (e.g. .10), by setting the `cutoff` argument. Below we will show the loadings obtained after *Varimax* rotation:
 ```{r}
 bfi_fa <- psych::fa(bfi[,-c(26:28)], nfactors = 6, rotate="varimax", fm="ml")
 loadings(bfi_fa, cutoff=.1)
 ```
-Note that the factors are ordered according to how much variance they explain. In this case, the second factor `ML2` accounts for the most variance. A different solution is obtained with Promax rotation:
+Note that the factors are ordered according to how much variance they explain. In this case, the second factor `ML2` accounts for the most variance. A different solution is obtained with *Promax* rotation:
 ```{r}
 bfi_fa <- psych::fa(bfi[,-c(26:28)], nfactors = 6, rotate="promax", fm="ml")
 loadings(bfi_fa, cutoff=.1)
@@ -290,6 +294,13 @@ loadings(bfi_fa, cutoff=.1)
 
 Confirmatory Factor Analysis (CFA) can be performed via the `cfa()` function in the `lavaan` package. This function is very much like the `sem()` function, but uses different defaults. A main thing to supply is a specification of the model in the lavaan syntax.
 
+Factors can be specified with the `=~` operator. On the right-hand side of this operator, you can specify a name for the factor, and on the left hand side you can specify which observed variables load onto the factor (i.e. which observed variables are partially caused by the factor), separated by a "+" sign. For instance, the line
+```
+agreeableness =~ A1 + A2 + A3 + A4 + A5
+```
+specifies that a latent factor called "agreeableness" accounts for shared variation in observed variables `A1`, `A2`, `A3`, `A4`, and `A5`. 
+
+The following code specifies a CFA with a simple structure, in the sense that each observed variable only loads onto one factor:
 ```{r}
 bfi_cfa_spec <- '
   # factor specification
@@ -299,18 +310,25 @@ bfi_cfa_spec <- '
     neuroticism =~ N1 + N2 + N3 + N4 + N5
     openness =~ O1 + O2 + O3 + O4 + O5
 '
+```
+
+Using this lavaan model specification, the model can be estimated with the `lavaan::cfa()` function:
+```{r}
 bfi_cfa <- lavaan::cfa(bfi_cfa_spec, data=bfi)
 ```
 
+Having estimated the model, we can obtain parameter estimates and tests via the `summary` function:
 ```{r}
 summary(bfi_cfa)
 ```
+Note that for the `summary()` function to work, you need to have loaded the `lavaan` package with `library(lavaan)`.
 
-```{r}
-semPlot::semPaths(bfi_cfa, layout="tree", sizeMan=3, sizeInt = 5, style="ram", intercepts=FALSE, residuals=TRUE, rotation=1, intAtSide = FALSE, whatLabels = "est", nCharNodes = 5, normalize=TRUE, width=12, height=6)
+A plot can again be obtained with the `semPlot::semPaths()` function
+```{r, fig.width=12, fig.height=6}
+semPlot::semPaths(bfi_cfa, layout="tree", sizeMan=3, residuals=TRUE, rotation=1, whatLabels = "est", nCharNodes = 5, normalize=TRUE, width=12, height=6)
 ```
 
-If you want to obtain a solution for uncorrelated factors, you need to explicitly fix the covariances between the factors to 0. This can be done via the `~~` operator, and multiplying the factors on the right-hand side of this operator to 0. For example, the line
+Note that by default, factors are allowed to correlate. If you want to obtain a solution for uncorrelated factors, you need to explicitly fix the covariances between the factors to 0. This can be done via the `~~` operator, and multiplying the factors on the right-hand side of this operator to 0. For example, the line
 ```
 agreeableness ~~ 0*conscientiousness + 0*extraversion + 0*neuroticism + 0*openness
 ```
@@ -334,14 +352,15 @@ bfi_cfa2_spec <-   '
     neuroticism ~~ 0*openness
 '
 ```
-
+Using this specification, the results are:
 ```{r}
 bfi_cfa2 <- lavaan::cfa(bfi_cfa2_spec, data=bfi)
 summary(bfi_cfa2)
 ```
 
+The model plot indicates the fixed covariances with dotted lines:
 ```{r}
-semPlot::semPaths(bfi_cfa2, layout="tree", sizeMan=3, sizeInt = 5, style="ram", intercepts=FALSE, residuals=TRUE, rotation=1, intAtSide = FALSE, whatLabels = "est", nCharNodes = 5, normalize=TRUE, width=12, height=6)
+semPlot::semPaths(bfi_cfa2, layout="tree", sizeMan=5, sizeInt = 5, style="ram", intercepts=FALSE, residuals=TRUE, rotation=1, intAtSide = FALSE, whatLabels = "est", nCharNodes = 5, normalize=TRUE, width=12, height=6)
 ```
 
 ## Modification indices
@@ -369,7 +388,7 @@ lavaan::modificationIndices(bfi_cfa2, minumum.value = 10, order=TRUE)
 General SEM models can be estimated with the `lavaan:sem()` function. As in the `lavaan::cfa()` function, this allows you to specify latent variables via the `=~` operator. You can also specify further path regressions, linking observed variables to other observed variables and/or to factors. As an example, we will analyse data from the speed dating experiment, which is available in the `sdamr` package as "speeddate".
 
 ```{r}
-data("speeddate")
+data("speeddate", package="sdamr")
 
 speed_mod_spec <- '
   # define latent variables
@@ -407,4 +426,30 @@ speed_mod2_spec <- '
   d_serious~~ 0*o_frivolous + 0*o_serious
 '
 speed_mod2 <- lavaan::sem(speed_mod2_spec, data=speeddate)
+```
+
+```{r}
+speed_mod3_spec <- '
+  # define latent variables
+  d_frivolous =~ date_attr + date_fun
+  d_serious =~ date_sinc + date_intel + date_amb
+  d_overall =~ d_frivolous + d_serious
+
+  o_frivolous =~ other_attr + other_fun
+  o_serious =~ other_sinc + other_intel + other_amb
+  o_overall =~ o_frivolous + o_serious
+  
+  # regressions
+  date_like ~ d_overall
+  other_like ~ o_overall
+  
+  # covariances
+  date_like ~~ 0*other_like
+'
+speed_mod3 <- lavaan::sem(speed_mod3_spec, data=speeddate)
+```
+
+
+```{r}
+semPlot::semPaths(speed_mod3, layout="tree2", sizeMan=7, residuals=TRUE, rotation=1, intAtSide = FALSE, whatLabels = "est", nCharNodes = 12, normalize=TRUE, width=12, height=6)
 ```
