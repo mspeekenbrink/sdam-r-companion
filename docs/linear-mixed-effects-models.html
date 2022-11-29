@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-11-20" />
+<meta name="date" content="2022-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -313,6 +313,14 @@ div.csl-indent {
 <li class="chapter" data-level="11.3.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#mediation-models"><i class="fa fa-check"></i><b>11.3.2</b> Mediation models</a></li>
 <li class="chapter" data-level="11.3.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model"><i class="fa fa-check"></i><b>11.3.3</b> A more complex path model</a></li>
 </ul></li>
+<li class="chapter" data-level="11.4" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package"><i class="fa fa-check"></i><b>11.4</b> Exploratory factor analysis with the <code>psych</code> package</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis"><i class="fa fa-check"></i><b>11.4.1</b> Determining the number of factors with Parallel Analysis</a></li>
+<li class="chapter" data-level="11.4.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions"><i class="fa fa-check"></i><b>11.4.2</b> Estimating and rotating EFA solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#confirmatory-factor-analysis"><i class="fa fa-check"></i><b>11.5</b> Confirmatory factor analysis</a></li>
+<li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.6</b> Modification indices</a></li>
+<li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.7</b> General SEM models</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
 <li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
@@ -898,27 +906,27 @@ div.csl-indent {
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.6285 -0.5182  0.0161  0.5374  4.0147 
+## -4.6290 -0.5186  0.0161  0.5376  4.0149 
 ## 
 ## Random effects:
 ##  Groups   Name                       Variance  Std.Dev. Corr             
-##  iid      (Intercept)                0.0787745 0.28067                   
-##           other_attr_c               0.0234085 0.15300  -0.54            
-##           other_intel_c              0.0230445 0.15180   0.50 -0.89      
-##           other_attr_c:other_intel_c 0.0008858 0.02976  -0.43 -0.27  0.54
-##  pid      (Intercept)                0.2848115 0.53368                   
-##           other_attr_c               0.0423056 0.20568  -0.47            
-##           other_intel_c              0.0489423 0.22123   0.11 -0.63      
-##           other_attr_c:other_intel_c 0.0019882 0.04459  -0.36  0.27 -0.16
-##  Residual                            0.9630700 0.98136                   
+##  iid      (Intercept)                0.0788426 0.28079                   
+##           other_attr_c               0.0233939 0.15295  -0.54            
+##           other_intel_c              0.0230372 0.15178   0.50 -0.89      
+##           other_attr_c:other_intel_c 0.0008877 0.02979  -0.43 -0.27  0.54
+##  pid      (Intercept)                0.2850681 0.53392                   
+##           other_attr_c               0.0423249 0.20573  -0.47            
+##           other_intel_c              0.0489192 0.22118   0.11 -0.63      
+##           other_attr_c:other_intel_c 0.0019893 0.04460  -0.36  0.27 -0.16
+##  Residual                            0.9629969 0.98132                   
 ## Number of obs: 1509, groups:  iid, 102; pid, 102
 ## 
 ## Fixed effects:
 ##                              Estimate Std. Error         df t value Pr(&gt;|t|)
-## (Intercept)                  6.224027   0.069972 112.566265  88.950  &lt; 2e-16
-## other_attr_c                 0.555403   0.033642 119.387075  16.509  &lt; 2e-16
-## other_intel_c                0.374503   0.039240  89.115616   9.544 2.78e-15
-## other_attr_c:other_intel_c  -0.009401   0.013144  43.430420  -0.715    0.478
+## (Intercept)                  6.223998   0.069994 112.518367  88.922  &lt; 2e-16
+## other_attr_c                 0.555404   0.033644 119.371541  16.508  &lt; 2e-16
+## other_intel_c                0.374487   0.039237  89.133031   9.544 2.77e-15
+## other_attr_c:other_intel_c  -0.009388   0.013146  43.438244  -0.714    0.479
 ##                               
 ## (Intercept)                ***
 ## other_attr_c               ***
@@ -930,8 +938,8 @@ div.csl-indent {
 ## Correlation of Fixed Effects:
 ##             (Intr) othr_t_ othr_n_
 ## other_ttr_c -0.365                
-## other_ntl_c  0.118 -0.557         
-## othr_tt_:__ -0.261  0.011   0.079 
+## other_ntl_c  0.119 -0.557         
+## othr_tt_:__ -0.262  0.012   0.079 
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <p>In this case, none of the variances are estimated as 0, and none of the correlations are estimated as 1 or -1. But the estimated variances of the random <code>other_attr_c:other_intel_c</code> interactions are quite low, and close to 0. As such, it might make sense to remove these effects.</p>
@@ -940,7 +948,7 @@ div.csl-indent {
 <pre><code>## Numerical variables NOT centered on 0: other_attr_c, other_intel_c
 ## If in interactions, interpretation of lower order (e.g., main) effects difficult.</code></pre>
 <pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<pre><code>## Warning: Model failed to converge with 1 negative eigenvalue: -2.2e+03</code></pre>
+<pre><code>## Warning: Model failed to converge with 1 negative eigenvalue: -2.3e+03</code></pre>
 <p>This does not resolve the issue, as we still get the <code>boundary (singular) fit</code> warning. Moreover, we now get another warning: <code>Model failed to converge with 1 negative eigenvalue</code>. Checking the parameter estimates:</p>
 <div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="linear-mixed-effects-models.html#cb475-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(crmod2)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
@@ -953,25 +961,25 @@ div.csl-indent {
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.4392 -0.5571  0.0336  0.5380  3.9036 
+## -4.4392 -0.5570  0.0336  0.5378  3.9035 
 ## 
 ## Random effects:
 ##  Groups   Name          Variance Std.Dev. Corr       
 ##  iid      (Intercept)   0.06644  0.2578              
-##           other_attr_c  0.02636  0.1624   -0.60      
-##           other_intel_c 0.02023  0.1422    0.75 -0.98
-##  pid      (Intercept)   0.30244  0.5499              
+##           other_attr_c  0.02636  0.1623   -0.60      
+##           other_intel_c 0.02021  0.1422    0.75 -0.98
+##  pid      (Intercept)   0.30243  0.5499              
 ##           other_attr_c  0.01746  0.1321   -1.00      
-##           other_intel_c 0.03484  0.1867    0.28 -0.28
-##  Residual               1.05820  1.0287              
+##           other_intel_c 0.03483  0.1866    0.28 -0.28
+##  Residual               1.05823  1.0287              
 ## Number of obs: 1509, groups:  iid, 102; pid, 102
 ## 
 ## Fixed effects:
 ##                             Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)                  6.20784    0.07028 117.29792  88.331   &lt;2e-16 ***
-## other_attr_c                 0.53693    0.02948 118.54368  18.211   &lt;2e-16 ***
-## other_intel_c                0.37939    0.03634  92.46214  10.441   &lt;2e-16 ***
-## other_attr_c:other_intel_c  -0.01269    0.01056 136.72908  -1.202    0.231    
+## (Intercept)                  6.20783    0.07028 117.29576  88.333   &lt;2e-16 ***
+## other_attr_c                 0.53693    0.02948 118.38813  18.212   &lt;2e-16 ***
+## other_intel_c                0.37939    0.03633  92.16741  10.442   &lt;2e-16 ***
+## other_attr_c:other_intel_c  -0.01269    0.01056 136.40192  -1.202    0.231    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -1038,10 +1046,10 @@ div.csl-indent {
 ## Model:     pid)
 ## Data: dat
 ##                       Effect        df           F p.value
-## 1                (Intercept) 1, 122.81 7783.26 ***   &lt;.001
-## 2               other_attr_c 1, 120.32  263.45 ***   &lt;.001
-## 3              other_intel_c 1, 100.35   86.97 ***   &lt;.001
-## 4 other_attr_c:other_intel_c  1, 48.28        0.42    .521
+## 1                (Intercept) 1, 122.83 7778.39 ***   &lt;.001
+## 2               other_attr_c 1, 120.32  263.42 ***   &lt;.001
+## 3              other_intel_c 1, 100.34   86.98 ***   &lt;.001
+## 4 other_attr_c:other_intel_c  1, 48.29        0.42    .522
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
 <div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="linear-mixed-effects-models.html#cb485-1" aria-hidden="true" tabindex="-1"></a>crmod3</span></code></pre></div>
@@ -1135,48 +1143,11 @@ div.csl-indent {
 ##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
 ##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
 ##     other_attr_c | iid)</code></pre>
-<pre><code>## Updating formula: other_like ~ 1 + other_attr_c + other_intel_c +
-##     other_attr_c:other_intel_c + (1 + other_attr_c + other_intel_c +
-##     other_attr_c:other_intel_c | pid) + (1 + other_attr_c | iid)</code></pre>
-<pre><code>## Currently evaluating LRT for: other_intel_c | iid</code></pre>
-<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
-##     other_attr_c + other_intel_c | iid)</code></pre>
-<pre><code>## Updating formula: other_like ~ 1 + other_attr_c + other_intel_c +
-##     other_attr_c:other_intel_c + (1 + other_attr_c + other_intel_c +
-##     other_attr_c:other_intel_c | pid) + (1 + other_attr_c +
-##     other_intel_c | iid)</code></pre>
-<pre><code>## Currently evaluating LRT for: other_attr_c:other_intel_c | iid</code></pre>
-<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
-##     other_attr_c + other_intel_c + other_attr_c:other_intel_c | iid)</code></pre>
-<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <pre><code>## Ending the ordering procedure due to having reached the maximal
 ##     feasible model - all higher models failed to converge. The types of
-##     convergence failure are: Singular fit</code></pre>
+##     convergence failure are: Singular fit lme4 reports not having
+##     converged (-1)</code></pre>
 <pre><code>## Fitting ML and REML reference models</code></pre>
-<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
-##     other_attr_c + other_intel_c | iid)</code></pre>
-<pre><code>## Fitting via lmer, with ML: other_like ~ 1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
-##     other_attr_c + other_intel_c | iid)</code></pre>
-<pre><code>## Convergence failure. Reducing terms and retrying... The failures were:
-##     lme4 reports not having converged (-1)</code></pre>
-<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
-##     other_attr_c | iid)</code></pre>
-<pre><code>## Fitting via lmer, with ML: other_like ~ 1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
-##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
-##     other_attr_c | iid)</code></pre>
-<pre><code>## Convergence failure. Reducing terms and retrying... The failures were:
-##     lme4 reports not having converged (-1)</code></pre>
 <pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
 ##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
 ##     other_intel_c | pid) + (1 + other_attr_c | iid)</code></pre>
@@ -1218,11 +1189,11 @@ div.csl-indent {
 ## 9            NA
 ## 10 2.507495e-17
 ## 5  1.218785e-09
-## 11 3.924500e-06</code></pre>
+## 11 3.924499e-06</code></pre>
 <pre><code>## All terms are significant</code></pre>
 <pre><code>## Finalizing by converting the model to lmerTest</code></pre>
 <p>The final model contains random intercepts and slopes for <code>other_attr_c</code> and <code>other_intel_c</code> for <code>pid</code>. For the <code>iid</code> groupings, only random intercepts are included:</p>
-<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="linear-mixed-effects-models.html#cb545-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(max_mod)</span></code></pre></div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="linear-mixed-effects-models.html#cb532-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(max_mod)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -1234,23 +1205,23 @@ div.csl-indent {
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.5087 -0.5416  0.0032  0.5416  3.8371 
+## -4.5087 -0.5416  0.0033  0.5416  3.8371 
 ## 
 ## Random effects:
 ##  Groups   Name          Variance Std.Dev. Corr       
-##  pid      (Intercept)   0.25953  0.5094              
-##           other_attr_c  0.04888  0.2211   -0.46      
-##           other_intel_c 0.05387  0.2321    0.08 -0.60
-##  iid      (Intercept)   0.08821  0.2970              
-##  Residual               1.04247  1.0210              
+##  pid      (Intercept)   0.25954  0.5095              
+##           other_attr_c  0.04889  0.2211   -0.46      
+##           other_intel_c 0.05388  0.2321    0.08 -0.60
+##  iid      (Intercept)   0.08820  0.2970              
+##  Residual               1.04246  1.0210              
 ## Number of obs: 1509, groups:  pid, 102; iid, 102
 ## 
 ## Fixed effects:
 ##                              Estimate Std. Error         df t value Pr(&gt;|t|)
-## (Intercept)                  6.212115   0.068184 116.886154  91.107  &lt; 2e-16
-## other_attr_c                 0.556152   0.031065 105.468067  17.903  &lt; 2e-16
-## other_intel_c                0.362421   0.036769  80.839156   9.857 1.66e-15
-## other_attr_c:other_intel_c  -0.007367   0.010784 466.324439  -0.683    0.495
+## (Intercept)                  6.212116   0.068186 116.878803  91.106  &lt; 2e-16
+## other_attr_c                 0.556153   0.031065 105.465103  17.903  &lt; 2e-16
+## other_intel_c                0.362421   0.036770  80.840242   9.856 1.66e-15
+## other_attr_c:other_intel_c  -0.007367   0.010784 466.352041  -0.683    0.495
 ##                               
 ## (Intercept)                ***
 ## other_attr_c               ***

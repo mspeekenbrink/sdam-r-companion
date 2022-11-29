@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-11-20" />
+<meta name="date" content="2022-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -313,6 +313,14 @@ div.csl-indent {
 <li class="chapter" data-level="11.3.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#mediation-models"><i class="fa fa-check"></i><b>11.3.2</b> Mediation models</a></li>
 <li class="chapter" data-level="11.3.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model"><i class="fa fa-check"></i><b>11.3.3</b> A more complex path model</a></li>
 </ul></li>
+<li class="chapter" data-level="11.4" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package"><i class="fa fa-check"></i><b>11.4</b> Exploratory factor analysis with the <code>psych</code> package</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis"><i class="fa fa-check"></i><b>11.4.1</b> Determining the number of factors with Parallel Analysis</a></li>
+<li class="chapter" data-level="11.4.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions"><i class="fa fa-check"></i><b>11.4.2</b> Estimating and rotating EFA solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#confirmatory-factor-analysis"><i class="fa fa-check"></i><b>11.5</b> Confirmatory factor analysis</a></li>
+<li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.6</b> Modification indices</a></li>
+<li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.7</b> General SEM models</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
 <li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
@@ -376,7 +384,7 @@ div.csl-indent {
 <p>The name “lavaan” stands for “<code>la</code>tent <code>va</code>riable <code>an</code>alysis”. It is a package which can estimate a wide-variety of SEM models, including path models without latent variables. It has a convenient and intuitive syntax to define SEM models and it is actively developed. That is why it has perhaps become the go-to <code>R</code> package for SEM analysis. Although the help files in the <code>R</code> package are not overly comprehensive, the <a href="https://www.lavaan.ugent.be/">lavaan website</a> has a useful tutorial, and I suggest you check this out.</p>
 <div id="the-lavaan-model-syntax" class="section level3 hasAnchor" number="11.1.1">
 <h3><span class="header-section-number">11.1.1</span> The lavaan model syntax<a href="structural-equation-modelling-with-lavaan.html#the-lavaan-model-syntax" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In <code>lavaan</code>, SEM models can be specified via a formulation similar to the usual syntax for models in <code>lm()</code> and <code>glm()</code>. However, there are some new relational symbols used to define (residual) covariances, and latent variables.</p>
+<p>In <code>lavaan</code>, SEM models can be specified via model formula’s similar to those used in the <code>lm()</code> and <code>glm()</code> functions. However, there are some new operators (relational symbols) used to define (residual) covariances, and latent variables. The table below lists some common expressions in the lavaan syntax.</p>
 <table>
 <colgroup>
 <col width="32%" />
@@ -442,7 +450,7 @@ div.csl-indent {
 </div>
 <div id="model-estimation" class="section level3 hasAnchor" number="11.1.2">
 <h3><span class="header-section-number">11.1.2</span> Model estimation<a href="structural-equation-modelling-with-lavaan.html#model-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Under the hood, there is really only a single function used to define and estimate SEM models in the <code>lavaan</code> package, namely the <code>lavaan::lavaan()</code> function. But the <code>lavaan</code> package offers several wrappers around this function to make estimation of common SEM models more convenient. Amongst these are the <code>lavaan::sem()</code> function, and the <code>lavaan::cfa()</code> function.</p>
+<p>Under the hood, there is really only a single function used to define and estimate SEM models in the <code>lavaan</code> package, namely the <code>lavaan::lavaan()</code> function. But the <code>lavaan</code> package offers several wrappers around this function to make estimation of common SEM models more convenient. These wrappers set defaults for arguments in the <code>lavaan::lavaan()</code> function that are geared towards particular analyses. Amongst these are the <code>lavaan::sem()</code> function, and the <code>lavaan::cfa()</code> function.</p>
 </div>
 <div id="extracting-results" class="section level3 hasAnchor" number="11.1.3">
 <h3><span class="header-section-number">11.1.3</span> Extracting results<a href="structural-equation-modelling-with-lavaan.html#extracting-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -478,19 +486,19 @@ div.csl-indent {
 <div id="regression-models" class="section level3 hasAnchor" number="11.3.1">
 <h3><span class="header-section-number">11.3.1</span> Regression models<a href="structural-equation-modelling-with-lavaan.html#regression-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A simple regression model can be estimated as follows:</p>
-<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb626-1"><a href="structural-equation-modelling-with-lavaan.html#cb626-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
-<span id="cb626-2"><a href="structural-equation-modelling-with-lavaan.html#cb626-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
-<span id="cb626-3"><a href="structural-equation-modelling-with-lavaan.html#cb626-3" aria-hidden="true" tabindex="-1"></a><span class="co"># exclude the outlying Columbia state</span></span>
-<span id="cb626-4"><a href="structural-equation-modelling-with-lavaan.html#cb626-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
-<span id="cb626-5"><a href="structural-equation-modelling-with-lavaan.html#cb626-5" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model in lavaan syntax</span></span>
-<span id="cb626-6"><a href="structural-equation-modelling-with-lavaan.html#cb626-6" aria-hidden="true" tabindex="-1"></a>mod_spec <span class="ot">&lt;-</span> <span class="st">&#39;percent_Trump_votes ~ 1 + hate_groups_per_million&#39;</span></span>
-<span id="cb626-7"><a href="structural-equation-modelling-with-lavaan.html#cb626-7" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
-<span id="cb626-8"><a href="structural-equation-modelling-with-lavaan.html#cb626-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;lavaan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb613-1"><a href="structural-equation-modelling-with-lavaan.html#cb613-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb613-2"><a href="structural-equation-modelling-with-lavaan.html#cb613-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb613-3"><a href="structural-equation-modelling-with-lavaan.html#cb613-3" aria-hidden="true" tabindex="-1"></a><span class="co"># exclude the outlying Columbia state</span></span>
+<span id="cb613-4"><a href="structural-equation-modelling-with-lavaan.html#cb613-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
+<span id="cb613-5"><a href="structural-equation-modelling-with-lavaan.html#cb613-5" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model in lavaan syntax</span></span>
+<span id="cb613-6"><a href="structural-equation-modelling-with-lavaan.html#cb613-6" aria-hidden="true" tabindex="-1"></a>mod_spec <span class="ot">&lt;-</span> <span class="st">&#39;percent_Trump_votes ~ 1 + hate_groups_per_million&#39;</span></span>
+<span id="cb613-7"><a href="structural-equation-modelling-with-lavaan.html#cb613-7" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
+<span id="cb613-8"><a href="structural-equation-modelling-with-lavaan.html#cb613-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;lavaan&quot;</span>)</span></code></pre></div>
 <pre><code>## This is lavaan 0.6-12
 ## lavaan is FREE software! Please report any bugs.</code></pre>
-<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb628-1"><a href="structural-equation-modelling-with-lavaan.html#cb628-1" aria-hidden="true" tabindex="-1"></a>fmod <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_spec, <span class="at">data=</span>dat)</span></code></pre></div>
+<div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb615-1"><a href="structural-equation-modelling-with-lavaan.html#cb615-1" aria-hidden="true" tabindex="-1"></a>fmod <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_spec, <span class="at">data=</span>dat)</span></code></pre></div>
 <p>We can then see the estimates and tests via the <code>summary()</code> function:</p>
-<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="structural-equation-modelling-with-lavaan.html#cb629-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod)</span></code></pre></div>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="structural-equation-modelling-with-lavaan.html#cb616-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod)</span></code></pre></div>
 <pre><code>## lavaan 0.6-12 ended normally after 11 iterations
 ## 
 ##   Estimator                                         ML
@@ -524,34 +532,34 @@ div.csl-indent {
 ##    .prcnt_Trmp_vts   80.228   16.046    5.000    0.000</code></pre>
 <p>The output of the <code>summary()</code> function first provides information about the way the model was estimated (by maximum likelihood or <code>"ML"</code> by default). Next, under <code>"Model Test User Model"</code> you will find the results of a likelihood-ratio test comparing the model to a saturated model. This test was referred to as the “overall model fit” test in the SDAM book. After this come the parameter estimates, standard errors, and Wald tests. These are displayed in the following order: causal regression effects (<code>"Regressions"</code>), intercepts (<code>"Intercepts"</code>), and (residual) variances (“<code>Variances"</code>).</p>
 <p>If you want to plot the model, you can use the <code>semPaths()</code> function from the <code>semPlot</code> package:</p>
-<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="structural-equation-modelling-with-lavaan.html#cb631-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
-<span id="cb631-2"><a href="structural-equation-modelling-with-lavaan.html#cb631-2" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod)</span></code></pre></div>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="structural-equation-modelling-with-lavaan.html#cb618-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb618-2"><a href="structural-equation-modelling-with-lavaan.html#cb618-2" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod)</span></code></pre></div>
 <p><img src="10-SEM_files/figure-html/simple-regression-semPlot-1.png" width="672" /></p>
 <p>The default plot is quite basic and does not look so nice. In the following code, I set the arguments <code>layout = tree2</code> and <code>rotation = 2</code> to make the plot go from left to right, disable the automatic shortening of variable names by setting <code>nCharNodes = 0</code>, increase the size of the observed (or “manifest”) variables by setting <code>sizeMan=7</code> and a relatively smaller size for the constant intercepts by setting <code>sizeInt = 4</code>. To display the estimated values as part of the arrows, I also set <code>whatLabels = "est"</code>. There are many other tweaks possible, and it pays to play around with the <code>semPaths()</code> function to get the result you want. You should look at the <code>?semPaths</code> help file to see all the options available. Note that it is useful to rename your variables before calling <code>lavaan::sem()</code> to get better names of the variables in <code>semPlot()</code>, as I will do in the next example.</p>
-<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="structural-equation-modelling-with-lavaan.html#cb632-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, </span>
-<span id="cb632-2"><a href="structural-equation-modelling-with-lavaan.html#cb632-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels=</span><span class="st">&quot;est&quot;</span>, <span class="at">width=</span><span class="dv">4</span>, <span class="at">height=</span><span class="dv">1</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb619-1"><a href="structural-equation-modelling-with-lavaan.html#cb619-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, </span>
+<span id="cb619-2"><a href="structural-equation-modelling-with-lavaan.html#cb619-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels=</span><span class="st">&quot;est&quot;</span>, <span class="at">width=</span><span class="dv">4</span>, <span class="at">height=</span><span class="dv">1</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>)</span></code></pre></div>
 <p><img src="10-SEM_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The multiple regression model discussed in the SDAM book is defined in <code>lavaan</code> syntax as</p>
 <p><code>like ~ 1 + attr + sinc + intel + fun + amb</code></p>
 <p>This specifies that <code>like</code> is predicted by (observed) variables <code>attr</code>, <code>sinc</code>, <code>intel</code>, <code>fun</code>, and <code>amb</code>. We also include and intercept via the <code>1</code> term in the formula. The model can be specified and estimated as follows:</p>
-<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb633-1"><a href="structural-equation-modelling-with-lavaan.html#cb633-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
-<span id="cb633-2"><a href="structural-equation-modelling-with-lavaan.html#cb633-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
-<span id="cb633-3"><a href="structural-equation-modelling-with-lavaan.html#cb633-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> speeddate</span>
-<span id="cb633-4"><a href="structural-equation-modelling-with-lavaan.html#cb633-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the following lines are just to get shorter names for the variables</span></span>
-<span id="cb633-5"><a href="structural-equation-modelling-with-lavaan.html#cb633-5" aria-hidden="true" tabindex="-1"></a><span class="co"># this is usefull for semPlot. There are better ways to do this though.</span></span>
-<span id="cb633-6"><a href="structural-equation-modelling-with-lavaan.html#cb633-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>like <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_like</span>
-<span id="cb633-7"><a href="structural-equation-modelling-with-lavaan.html#cb633-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>attr <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_attr</span>
-<span id="cb633-8"><a href="structural-equation-modelling-with-lavaan.html#cb633-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>sinc <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_sinc</span>
-<span id="cb633-9"><a href="structural-equation-modelling-with-lavaan.html#cb633-9" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intel <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_intel</span>
-<span id="cb633-10"><a href="structural-equation-modelling-with-lavaan.html#cb633-10" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fun <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_fun</span>
-<span id="cb633-11"><a href="structural-equation-modelling-with-lavaan.html#cb633-11" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>amb <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_amb</span>
-<span id="cb633-12"><a href="structural-equation-modelling-with-lavaan.html#cb633-12" aria-hidden="true" tabindex="-1"></a><span class="co"># the lavaan model specification</span></span>
-<span id="cb633-13"><a href="structural-equation-modelling-with-lavaan.html#cb633-13" aria-hidden="true" tabindex="-1"></a>mod_spec <span class="ot">&lt;-</span>   <span class="st">&#39;like ~ 1 + attr + sinc + intel + fun + amb&#39;</span></span>
-<span id="cb633-14"><a href="structural-equation-modelling-with-lavaan.html#cb633-14" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
-<span id="cb633-15"><a href="structural-equation-modelling-with-lavaan.html#cb633-15" aria-hidden="true" tabindex="-1"></a>fmod <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_spec, <span class="at">data=</span>dat)</span></code></pre></div>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="structural-equation-modelling-with-lavaan.html#cb620-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb620-2"><a href="structural-equation-modelling-with-lavaan.html#cb620-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb620-3"><a href="structural-equation-modelling-with-lavaan.html#cb620-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> speeddate</span>
+<span id="cb620-4"><a href="structural-equation-modelling-with-lavaan.html#cb620-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the following lines are just to get shorter names for the variables</span></span>
+<span id="cb620-5"><a href="structural-equation-modelling-with-lavaan.html#cb620-5" aria-hidden="true" tabindex="-1"></a><span class="co"># this is usefull for semPlot. There are better ways to do this though.</span></span>
+<span id="cb620-6"><a href="structural-equation-modelling-with-lavaan.html#cb620-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>like <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_like</span>
+<span id="cb620-7"><a href="structural-equation-modelling-with-lavaan.html#cb620-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>attr <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_attr</span>
+<span id="cb620-8"><a href="structural-equation-modelling-with-lavaan.html#cb620-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>sinc <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_sinc</span>
+<span id="cb620-9"><a href="structural-equation-modelling-with-lavaan.html#cb620-9" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intel <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_intel</span>
+<span id="cb620-10"><a href="structural-equation-modelling-with-lavaan.html#cb620-10" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fun <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_fun</span>
+<span id="cb620-11"><a href="structural-equation-modelling-with-lavaan.html#cb620-11" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>amb <span class="ot">&lt;-</span> dat<span class="sc">$</span>other_amb</span>
+<span id="cb620-12"><a href="structural-equation-modelling-with-lavaan.html#cb620-12" aria-hidden="true" tabindex="-1"></a><span class="co"># the lavaan model specification</span></span>
+<span id="cb620-13"><a href="structural-equation-modelling-with-lavaan.html#cb620-13" aria-hidden="true" tabindex="-1"></a>mod_spec <span class="ot">&lt;-</span>   <span class="st">&#39;like ~ 1 + attr + sinc + intel + fun + amb&#39;</span></span>
+<span id="cb620-14"><a href="structural-equation-modelling-with-lavaan.html#cb620-14" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
+<span id="cb620-15"><a href="structural-equation-modelling-with-lavaan.html#cb620-15" aria-hidden="true" tabindex="-1"></a>fmod <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_spec, <span class="at">data=</span>dat)</span></code></pre></div>
 <p>The results can again be obtained with the <code>summary()</code> function. Here we will supply the additional <code>"fit.measures = TRUE"</code> argument to get additional measures of model fit:</p>
-<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="structural-equation-modelling-with-lavaan.html#cb634-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the results</span></span>
-<span id="cb634-2"><a href="structural-equation-modelling-with-lavaan.html#cb634-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb621-1"><a href="structural-equation-modelling-with-lavaan.html#cb621-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the results</span></span>
+<span id="cb621-2"><a href="structural-equation-modelling-with-lavaan.html#cb621-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## lavaan 0.6-12 ended normally after 17 iterations
 ## 
 ##   Estimator                                         ML
@@ -621,26 +629,26 @@ div.csl-indent {
 ##    .like              1.274    0.048   26.353    0.000</code></pre>
 <p>Compared to the usual output, we now also get a likelihood-ratio test against a baseline model (<code>"Model Test Baseline Model"</code>), two fit indices (the CFI and TLI, the latter of which was discussed in the SDAM book), then the AIC and BIC measures, and then two other measures of model fit (the RMSEA and SRMR).</p>
 <p>As before, we can get a graphical depiction of the model by using the <code>semPaths()</code> function from the <code>semPlot</code> package. In the code below, I’m additionally setting the argument <code>curvature=3</code> to make the arrows for the covariances between the exogenous predictors more spread out and easier to see:</p>
-<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="structural-equation-modelling-with-lavaan.html#cb636-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
-<span id="cb636-2"><a href="structural-equation-modelling-with-lavaan.html#cb636-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">1</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb636-3"><a href="structural-equation-modelling-with-lavaan.html#cb636-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">curvature=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="structural-equation-modelling-with-lavaan.html#cb623-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb623-2"><a href="structural-equation-modelling-with-lavaan.html#cb623-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">1</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb623-3"><a href="structural-equation-modelling-with-lavaan.html#cb623-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">curvature=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="10-SEM_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="mediation-models" class="section level3 hasAnchor" number="11.3.2">
 <h3><span class="header-section-number">11.3.2</span> Mediation models<a href="structural-equation-modelling-with-lavaan.html#mediation-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The mediation models concerned the <code>legacy2015</code> data in the <code>sdamr</code> package, which we should load first:</p>
-<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb637-1"><a href="structural-equation-modelling-with-lavaan.html#cb637-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;legacy2015&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
-<span id="cb637-2"><a href="structural-equation-modelling-with-lavaan.html#cb637-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> legacy2015 </span></code></pre></div>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="structural-equation-modelling-with-lavaan.html#cb624-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;legacy2015&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb624-2"><a href="structural-equation-modelling-with-lavaan.html#cb624-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> legacy2015 </span></code></pre></div>
 <p>The Full Mediation model for the relation between legacy motive, intention, and donation, is specified through separate formulas for <code>intention</code> and <code>donation</code>, which are on separate lines of the string that will be supplied to <code>lavaan</code>. We can also explicitly label the regression parameters, which will allow us to compute the indirect effect of <code>legacy</code> on <code>donation</code></p>
-<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="structural-equation-modelling-with-lavaan.html#cb638-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
-<span id="cb638-2"><a href="structural-equation-modelling-with-lavaan.html#cb638-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + a*legacy</span></span>
-<span id="cb638-3"><a href="structural-equation-modelling-with-lavaan.html#cb638-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + b*intention</span></span>
-<span id="cb638-4"><a href="structural-equation-modelling-with-lavaan.html#cb638-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ab := a*b # indirect effect of legacy on donation</span></span>
-<span id="cb638-5"><a href="structural-equation-modelling-with-lavaan.html#cb638-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="structural-equation-modelling-with-lavaan.html#cb625-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb625-2"><a href="structural-equation-modelling-with-lavaan.html#cb625-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + a*legacy</span></span>
+<span id="cb625-3"><a href="structural-equation-modelling-with-lavaan.html#cb625-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + b*intention</span></span>
+<span id="cb625-4"><a href="structural-equation-modelling-with-lavaan.html#cb625-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ab := a*b # indirect effect of legacy on donation</span></span>
+<span id="cb625-5"><a href="structural-equation-modelling-with-lavaan.html#cb625-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
 <p>Here, we have specified that <code>intention</code> is caused by <code>legacy</code>, and <code>donation</code> by <code>intention</code>. We have also included an intercept for both endogenous variables. The model can be estimated as usual:</p>
-<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb639-1"><a href="structural-equation-modelling-with-lavaan.html#cb639-1" aria-hidden="true" tabindex="-1"></a>fmod1 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod1, <span class="at">data=</span>dat)</span></code></pre></div>
+<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb626-1"><a href="structural-equation-modelling-with-lavaan.html#cb626-1" aria-hidden="true" tabindex="-1"></a>fmod1 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod1, <span class="at">data=</span>dat)</span></code></pre></div>
 <p>The results are:</p>
-<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="structural-equation-modelling-with-lavaan.html#cb640-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod1, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb627-1"><a href="structural-equation-modelling-with-lavaan.html#cb627-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod1, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## lavaan 0.6-12 ended normally after 20 iterations
 ## 
 ##   Estimator                                         ML
@@ -714,7 +722,7 @@ div.csl-indent {
 ##     ab                0.285    0.083    3.433    0.001</code></pre>
 <p>As we have defined a new parameter for the indirect effect of <code>legacy</code> on <code>donation</code>, the results also show the estimate of this new parameter under <code>"Defined Parameters"</code>, named <code>ab</code>. We even get a Wald test for the null-hypothesis that the indirect effect is equal to 0 (i.e. no mediation), which is rejected.</p>
 <p>A longer list of fit indices can also be obtained via</p>
-<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="structural-equation-modelling-with-lavaan.html#cb642-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fmod1)</span></code></pre></div>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="structural-equation-modelling-with-lavaan.html#cb629-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fmod1)</span></code></pre></div>
 <pre><code>##                npar                fmin               chisq                  df 
 ##               6.000               0.013               5.989               1.000 
 ##              pvalue      baseline.chisq         baseline.df     baseline.pvalue 
@@ -739,19 +747,19 @@ div.csl-indent {
 ##               0.990               0.076</code></pre>
 <p>although this is not as nicely presented as in <code>summary(..., fit.measures=TRUE)</code>.</p>
 <p>A graphical depiction of the model is obtained as:</p>
-<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="structural-equation-modelling-with-lavaan.html#cb644-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod1, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
-<span id="cb644-2"><a href="structural-equation-modelling-with-lavaan.html#cb644-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb644-3"><a href="structural-equation-modelling-with-lavaan.html#cb644-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="structural-equation-modelling-with-lavaan.html#cb631-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod1, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">4</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb631-2"><a href="structural-equation-modelling-with-lavaan.html#cb631-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb631-3"><a href="structural-equation-modelling-with-lavaan.html#cb631-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="10-SEM_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 Note I am setting the argument <code>"intAtSide = FALSE"</code> to create a better looking plot. You can compare the result with setting <code>"intAtSide = TRUE"</code> to see the effect of this setting.</p>
 <p>The Partial Mediation model is specified again by separate formulas for <code>intention</code> and <code>donation</code>, but now we include two predictors for <code>donation</code>:</p>
-<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb645-1"><a href="structural-equation-modelling-with-lavaan.html#cb645-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
-<span id="cb645-2"><a href="structural-equation-modelling-with-lavaan.html#cb645-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + a*legacy</span></span>
-<span id="cb645-3"><a href="structural-equation-modelling-with-lavaan.html#cb645-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + b*intention + c*legacy</span></span>
-<span id="cb645-4"><a href="structural-equation-modelling-with-lavaan.html#cb645-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ab := a*b</span></span>
-<span id="cb645-5"><a href="structural-equation-modelling-with-lavaan.html#cb645-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb645-6"><a href="structural-equation-modelling-with-lavaan.html#cb645-6" aria-hidden="true" tabindex="-1"></a>fmod2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod2, <span class="at">data=</span>dat)</span>
-<span id="cb645-7"><a href="structural-equation-modelling-with-lavaan.html#cb645-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod2, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="structural-equation-modelling-with-lavaan.html#cb632-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb632-2"><a href="structural-equation-modelling-with-lavaan.html#cb632-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + a*legacy</span></span>
+<span id="cb632-3"><a href="structural-equation-modelling-with-lavaan.html#cb632-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + b*intention + c*legacy</span></span>
+<span id="cb632-4"><a href="structural-equation-modelling-with-lavaan.html#cb632-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ab := a*b</span></span>
+<span id="cb632-5"><a href="structural-equation-modelling-with-lavaan.html#cb632-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb632-6"><a href="structural-equation-modelling-with-lavaan.html#cb632-6" aria-hidden="true" tabindex="-1"></a>fmod2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod2, <span class="at">data=</span>dat)</span>
+<span id="cb632-7"><a href="structural-equation-modelling-with-lavaan.html#cb632-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod2, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## lavaan 0.6-12 ended normally after 24 iterations
 ## 
 ##   Estimator                                         ML
@@ -823,18 +831,18 @@ Note I am setting the argument <code>"intAtSide = FALSE"</code> to create a bett
 ## Defined Parameters:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
 ##     ab                0.245    0.078    3.147    0.002</code></pre>
-<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb647-1"><a href="structural-equation-modelling-with-lavaan.html#cb647-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod2, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
-<span id="cb647-2"><a href="structural-equation-modelling-with-lavaan.html#cb647-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, </span>
-<span id="cb647-3"><a href="structural-equation-modelling-with-lavaan.html#cb647-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="structural-equation-modelling-with-lavaan.html#cb634-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod2, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb634-2"><a href="structural-equation-modelling-with-lavaan.html#cb634-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, </span>
+<span id="cb634-3"><a href="structural-equation-modelling-with-lavaan.html#cb634-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="10-SEM_files/figure-html/unnamed-chunk-12-1.png" width="672" />
 Finally, the Common Cause model can be specified by three formulas. The first two lines concern the regression equations. The third line (<code>donation ~~ 0*intention</code>) specifies that the (residual) covariance between <code>donation</code> and <code>intention</code> should be fixed to 0.</p>
-<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="structural-equation-modelling-with-lavaan.html#cb648-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
-<span id="cb648-2"><a href="structural-equation-modelling-with-lavaan.html#cb648-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + legacy</span></span>
-<span id="cb648-3"><a href="structural-equation-modelling-with-lavaan.html#cb648-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + legacy</span></span>
-<span id="cb648-4"><a href="structural-equation-modelling-with-lavaan.html#cb648-4" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~~ 0*intention</span></span>
-<span id="cb648-5"><a href="structural-equation-modelling-with-lavaan.html#cb648-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb648-6"><a href="structural-equation-modelling-with-lavaan.html#cb648-6" aria-hidden="true" tabindex="-1"></a>fmod3 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod3, <span class="at">data=</span>dat)</span>
-<span id="cb648-7"><a href="structural-equation-modelling-with-lavaan.html#cb648-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod3, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb635"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb635-1"><a href="structural-equation-modelling-with-lavaan.html#cb635-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb635-2"><a href="structural-equation-modelling-with-lavaan.html#cb635-2" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + legacy</span></span>
+<span id="cb635-3"><a href="structural-equation-modelling-with-lavaan.html#cb635-3" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + legacy</span></span>
+<span id="cb635-4"><a href="structural-equation-modelling-with-lavaan.html#cb635-4" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~~ 0*intention</span></span>
+<span id="cb635-5"><a href="structural-equation-modelling-with-lavaan.html#cb635-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb635-6"><a href="structural-equation-modelling-with-lavaan.html#cb635-6" aria-hidden="true" tabindex="-1"></a>fmod3 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod3, <span class="at">data=</span>dat)</span>
+<span id="cb635-7"><a href="structural-equation-modelling-with-lavaan.html#cb635-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod3, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## lavaan 0.6-12 ended normally after 20 iterations
 ## 
 ##   Estimator                                         ML
@@ -907,12 +915,12 @@ Finally, the Common Cause model can be specified by three formulas. The first tw
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
 ##    .intention         0.739    0.068   10.886    0.000
 ##    .donation          8.467    0.778   10.886    0.000</code></pre>
-<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="structural-equation-modelling-with-lavaan.html#cb650-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod3, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
-<span id="cb650-2"><a href="structural-equation-modelling-with-lavaan.html#cb650-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb650-3"><a href="structural-equation-modelling-with-lavaan.html#cb650-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb637-1"><a href="structural-equation-modelling-with-lavaan.html#cb637-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod3, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, </span>
+<span id="cb637-2"><a href="structural-equation-modelling-with-lavaan.html#cb637-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb637-3"><a href="structural-equation-modelling-with-lavaan.html#cb637-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="10-SEM_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 We can obtain likelihood-ratio tests for nested models with the <code>anova()</code> function. For sample, we can compare the Full Mediation model to the Partial Mediation model with:</p>
-<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb651-1"><a href="structural-equation-modelling-with-lavaan.html#cb651-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fmod1, fmod2)</span></code></pre></div>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="structural-equation-modelling-with-lavaan.html#cb638-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fmod1, fmod2)</span></code></pre></div>
 <pre><code>## Chi-Squared Difference Test
 ## 
 ##       Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)  
@@ -921,7 +929,7 @@ We can obtain likelihood-ratio tests for nested models with the <code>anova()</c
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>And we can compare the Common Cause model to the Partial Mediation model with:</p>
-<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="structural-equation-modelling-with-lavaan.html#cb653-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fmod3, fmod2)</span></code></pre></div>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="structural-equation-modelling-with-lavaan.html#cb640-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fmod3, fmod2)</span></code></pre></div>
 <pre><code>## Chi-Squared Difference Test
 ## 
 ##       Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)    
@@ -934,15 +942,15 @@ We can obtain likelihood-ratio tests for nested models with the <code>anova()</c
 <div id="a-more-complex-path-model" class="section level3 hasAnchor" number="11.3.3">
 <h3><span class="header-section-number">11.3.3</span> A more complex path model<a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>More complex path models can be estimated by including more formula’s in the model specification. For example:</p>
-<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="structural-equation-modelling-with-lavaan.html#cb655-1" aria-hidden="true" tabindex="-1"></a>mod_complex <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
-<span id="cb655-2"><a href="structural-equation-modelling-with-lavaan.html#cb655-2" aria-hidden="true" tabindex="-1"></a><span class="st">    belief ~ 1 + education</span></span>
-<span id="cb655-3"><a href="structural-equation-modelling-with-lavaan.html#cb655-3" aria-hidden="true" tabindex="-1"></a><span class="st">    legacy ~ 1 + age</span></span>
-<span id="cb655-4"><a href="structural-equation-modelling-with-lavaan.html#cb655-4" aria-hidden="true" tabindex="-1"></a><span class="st">    income ~ 1 + age + education</span></span>
-<span id="cb655-5"><a href="structural-equation-modelling-with-lavaan.html#cb655-5" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + belief + legacy + income</span></span>
-<span id="cb655-6"><a href="structural-equation-modelling-with-lavaan.html#cb655-6" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + intention + income</span></span>
-<span id="cb655-7"><a href="structural-equation-modelling-with-lavaan.html#cb655-7" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb655-8"><a href="structural-equation-modelling-with-lavaan.html#cb655-8" aria-hidden="true" tabindex="-1"></a>fmod_complex <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_complex, <span class="at">data=</span>legacy2015)</span>
-<span id="cb655-9"><a href="structural-equation-modelling-with-lavaan.html#cb655-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod_complex)</span></code></pre></div>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="structural-equation-modelling-with-lavaan.html#cb642-1" aria-hidden="true" tabindex="-1"></a>mod_complex <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb642-2"><a href="structural-equation-modelling-with-lavaan.html#cb642-2" aria-hidden="true" tabindex="-1"></a><span class="st">    belief ~ 1 + education</span></span>
+<span id="cb642-3"><a href="structural-equation-modelling-with-lavaan.html#cb642-3" aria-hidden="true" tabindex="-1"></a><span class="st">    legacy ~ 1 + age</span></span>
+<span id="cb642-4"><a href="structural-equation-modelling-with-lavaan.html#cb642-4" aria-hidden="true" tabindex="-1"></a><span class="st">    income ~ 1 + age + education</span></span>
+<span id="cb642-5"><a href="structural-equation-modelling-with-lavaan.html#cb642-5" aria-hidden="true" tabindex="-1"></a><span class="st">    intention ~ 1 + belief + legacy + income</span></span>
+<span id="cb642-6"><a href="structural-equation-modelling-with-lavaan.html#cb642-6" aria-hidden="true" tabindex="-1"></a><span class="st">    donation ~ 1 + intention + income</span></span>
+<span id="cb642-7"><a href="structural-equation-modelling-with-lavaan.html#cb642-7" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb642-8"><a href="structural-equation-modelling-with-lavaan.html#cb642-8" aria-hidden="true" tabindex="-1"></a>fmod_complex <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(mod_complex, <span class="at">data=</span>legacy2015)</span>
+<span id="cb642-9"><a href="structural-equation-modelling-with-lavaan.html#cb642-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fmod_complex)</span></code></pre></div>
 <pre><code>## lavaan 0.6-12 ended normally after 43 iterations
 ## 
 ##   Estimator                                         ML
@@ -997,13 +1005,1334 @@ We can obtain likelihood-ratio tests for nested models with the <code>anova()</c
 ##    .intention         0.485    0.046   10.583    0.000
 ##    .donation          8.039    0.760   10.583    0.000</code></pre>
 <p>To plot complex models like this, it may be useful to hide the constant (intercept) terms, which is achieved by setting <code>"intercepts" = FALSE</code> in the call to <code>semPlot::semPaths()</code>:</p>
-<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="structural-equation-modelling-with-lavaan.html#cb657-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod_complex, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, </span>
-<span id="cb657-2"><a href="structural-equation-modelling-with-lavaan.html#cb657-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, <span class="at">intercepts=</span><span class="cn">FALSE</span>, <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, </span>
-<span id="cb657-3"><a href="structural-equation-modelling-with-lavaan.html#cb657-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, </span>
-<span id="cb657-4"><a href="structural-equation-modelling-with-lavaan.html#cb657-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="structural-equation-modelling-with-lavaan.html#cb644-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fmod_complex, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, </span>
+<span id="cb644-2"><a href="structural-equation-modelling-with-lavaan.html#cb644-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, <span class="at">intercepts=</span><span class="cn">FALSE</span>, <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">2</span>, </span>
+<span id="cb644-3"><a href="structural-equation-modelling-with-lavaan.html#cb644-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">0</span>, </span>
+<span id="cb644-4"><a href="structural-equation-modelling-with-lavaan.html#cb644-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">normalize=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="10-SEM_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<!--
+## Latent variables
 
+Latent variables are defined in `lavaan` by the `=~` operator. 
+-->
 </div>
+</div>
+<div id="exploratory-factor-analysis-with-the-psych-package" class="section level2 hasAnchor" number="11.4">
+<h2><span class="header-section-number">11.4</span> Exploratory factor analysis with the <code>psych</code> package<a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will just cover the very basics of Exploratory Factor Analysis (EFA) here. In EFA, each “factor” (which is a latent variable in the model) is related to all observed variables (sometimes also called the “manifest” variables).</p>
+<p>EFA is implemented in the <code>factanal()</code> function from the <code>stats</code> package (base R), and the <code>fa()</code> function in the <code>psych</code> package. We will focus on the latter function here. The <code>psych</code> package comes with various additional tools useful for EFA, and adheres to the conventions for EFA in psychology.</p>
+<div id="determining-the-number-of-factors-with-parallel-analysis" class="section level3 hasAnchor" number="11.4.1">
+<h3><span class="header-section-number">11.4.1</span> Determining the number of factors with Parallel Analysis<a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A first useful function implements so-called “parallel analysis” to determine the optimal number of underlying factors for a given set of observed variables. This method, whilst somewhat “hacky”, tends to work reasonably well in practice.</p>
+<p>We will use the <code>bfi</code> data from the <code>psychTools</code> package as an example.</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb645-1"><a href="structural-equation-modelling-with-lavaan.html#cb645-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(bfi, <span class="at">package=</span><span class="st">&quot;psychTools&quot;</span>)</span>
+<span id="cb645-2"><a href="structural-equation-modelling-with-lavaan.html#cb645-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bfi)</span></code></pre></div>
+<pre><code>##       A1 A2 A3 A4 A5 C1 C2 C3 C4 C5 E1 E2 E3 E4 E5 N1 N2 N3 N4 N5 O1 O2 O3 O4
+## 61617  2  4  3  4  4  2  3  3  4  4  3  3  3  4  4  3  4  2  2  3  3  6  3  4
+## 61618  2  4  5  2  5  5  4  4  3  4  1  1  6  4  3  3  3  3  5  5  4  2  4  3
+## 61620  5  4  5  4  4  4  5  4  2  5  2  4  4  4  5  4  5  4  2  3  4  2  5  5
+## 61621  4  4  6  5  5  4  4  3  5  5  5  3  4  4  4  2  5  2  4  1  3  3  4  3
+## 61622  2  3  3  4  5  4  4  5  3  2  2  2  5  4  5  2  3  4  4  3  3  3  4  3
+## 61623  6  6  5  6  5  6  6  6  1  3  2  1  6  5  6  3  5  2  2  3  4  3  5  6
+##       O5 gender education age
+## 61617  3      1        NA  16
+## 61618  3      2        NA  18
+## 61620  2      2        NA  17
+## 61621  5      2        NA  17
+## 61622  3      1        NA  17
+## 61623  1      2         3  21</code></pre>
+<p>Parallel analysis <span class="citation">(see e.g. <a href="#ref-hayton2004factor" role="doc-biblioref">Hayton, Allen, and Scarpello 2004</a>)</span> focuses on the common variance “explained” by each factor. It uses so-called eigenvalues as the measure of common variance accounted for by the factors. An eigenvalue larger than 1 indicates that a factor accounts for more variance than that of a single variable (i.e. it accounts for shared variation between the variables). However, eigenvalues can be larger than 1 due to sampling error, even though a factor in reality does not account for substantial shared variation. Parallel analysis aims to compare the eigenvalues for factors to those of random data (where there is no shared variation). According to parallel analysis, the optimal number of factors is the number of factors that have larger eigenvalues than would be obtained for random data.</p>
+<p>A parallel analysis can be conducted via the <code>fa.parallel()</code> function from the <code>psych()</code> package. The first argument to this function, called <code>x</code>, can be either a <code>data.frame</code> containing just the variables you want to include in the EFA, or a correlation matrix. In a second argument, called <code>fa</code>, you can specify that you want to use EFA (<code>fa="fa"</code>), a principal components analysis (<code>fa="pc"</code>), or both (<code>fa="both"</code>). Here, we will just ask for a factor analysis. On the first line of the code below, we first exclude the last three columns (<code>gender</code>, <code>education</code>, and <code>age</code>) from the data, and then ask for a parallel analysis:</p>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb647-1"><a href="structural-equation-modelling-with-lavaan.html#cb647-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> bfi[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">26</span><span class="sc">:</span><span class="dv">28</span>)]</span>
+<span id="cb647-2"><a href="structural-equation-modelling-with-lavaan.html#cb647-2" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa.parallel</span>(dat, <span class="at">fa=</span><span class="st">&quot;fa&quot;</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre><code>## Parallel analysis suggests that the number of factors =  6  and the number of components =  NA</code></pre>
+<p>The plot shows the eigenvalues for the different factors (ordered in magnitude) as blue triangles, and eigenvalues for random data as red lines. There is also a message indicating the optimal number of factors according to the analysis, which is 6, as there are six blue triangles above the red line.</p>
+<p>We could obtain the same result via a correlation matrix, which can be computed with the <code>cor()</code> function. Note that if there are missing values in the data, by default this would return a missing value in the correlation matrix. We can avoid this by explicitly stating how we want to deal with missing variables (in this case, for each pair of variables, use the complete cases).</p>
+<div class="sourceCode" id="cb649"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb649-1"><a href="structural-equation-modelling-with-lavaan.html#cb649-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute correlation matrix from pairwise complete cases</span></span>
+<span id="cb649-2"><a href="structural-equation-modelling-with-lavaan.html#cb649-2" aria-hidden="true" tabindex="-1"></a>bfi_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(bfi[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">26</span><span class="sc">:</span><span class="dv">28</span>)], <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>)</span></code></pre></div>
+<p>If you use a correlation matrix, you should also specify the number of observations used to compute the correlation. A lower bound on this can be computed via the <code>complete.cases()</code> function, which returns a logical vector with each element equaling <code>TRUE</code> when all variables in a row of the data are not missing. By summing up these logical values (<code>TRUE</code> has value 1, and <code>FALSE</code> value 0), you get the number of complete cases.</p>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="structural-equation-modelling-with-lavaan.html#cb650-1" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">complete.cases</span>(bfi[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">26</span><span class="sc">:</span><span class="dv">28</span>)]))</span></code></pre></div>
+<p>We can now finally perform the analysis:</p>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb651-1"><a href="structural-equation-modelling-with-lavaan.html#cb651-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa.parallel</span>(bfi_cor, <span class="at">n.obs=</span>n_obs, <span class="at">fa=</span><span class="st">&quot;fa&quot;</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre><code>## Parallel analysis suggests that the number of factors =  6  and the number of components =  NA</code></pre>
+<p>Note that there is nothing to be gained from using a correlation matrix rather than the “raw” data. However, it is instructive to see that EFA only needs a correlation matrix.</p>
+</div>
+<div id="estimating-and-rotating-efa-solutions" class="section level3 hasAnchor" number="11.4.2">
+<h3><span class="header-section-number">11.4.2</span> Estimating and rotating EFA solutions<a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>EFA can be performed via the <code>fa()</code> function from the <code>psych</code> package. Like the <code>psych::fa.parallel()</code> function, the first argument, now called <code>r</code>, can be a <code>data.frame</code> or a correlation or covariance matrix. The second argument, called <code>nfactors</code>, is used to set how many factors you want to include in the model. A further argument, called <code>rotate</code>, is used to set the rotation method. By default, this is <em>Oblimin</em> rotation, a form of <em>oblique</em> rotation. There are many other options (see the help file <code>?psych::fa</code>), including <code>"none"</code> (no rotation), <code>"varimax"</code> (a popular form of orthogonal rotation), and <code>"promax"</code> (a popular form of oblique rotation). The argument <code>fm</code> is used to specify the estimation method, for which we will use <code>fm="ml"</code> to obtain maximum likelihood estimation.</p>
+<p>Here is an example without rotation:</p>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="structural-equation-modelling-with-lavaan.html#cb653-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa</span>(bfi[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">26</span><span class="sc">:</span><span class="dv">28</span>)], <span class="at">nfactors =</span> <span class="dv">6</span>, <span class="at">rotate=</span><span class="st">&quot;none&quot;</span>, <span class="at">fm=</span><span class="st">&quot;ml&quot;</span>)</span></code></pre></div>
+<pre><code>## Factor Analysis using method =  ml
+## Call: psych::fa(r = bfi[, -c(26:28)], nfactors = 6, rotate = &quot;none&quot;, 
+##     fm = &quot;ml&quot;)
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##      ML1   ML2   ML3   ML4   ML5   ML6   h2   u2 com
+## A1  0.24 -0.03  0.09  0.01 -0.37  0.36 0.33 0.67 2.9
+## A2 -0.40  0.35 -0.11  0.10  0.38 -0.21 0.50 0.50 3.8
+## A3 -0.46  0.39 -0.19  0.09  0.31 -0.06 0.51 0.49 3.3
+## A4 -0.37  0.20 -0.04  0.25  0.21  0.02 0.28 0.72 3.1
+## A5 -0.54  0.29 -0.23  0.05  0.20  0.08 0.48 0.52 2.4
+## C1 -0.28  0.18  0.46  0.03  0.00  0.16 0.35 0.65 2.3
+## C2 -0.27  0.25  0.53  0.17  0.08  0.22 0.50 0.50 2.8
+## C3 -0.27  0.13  0.39  0.23  0.07  0.05 0.31 0.69 2.9
+## C4  0.45 -0.01 -0.52 -0.16  0.06  0.23 0.55 0.45 2.6
+## C5  0.49  0.01 -0.34 -0.24  0.12  0.05 0.43 0.57 2.5
+## E1  0.36 -0.30  0.26  0.05  0.27  0.15 0.39 0.61 4.2
+## E2  0.58 -0.22  0.22 -0.02  0.33  0.09 0.55 0.45 2.3
+## E3 -0.46  0.43 -0.15 -0.18 -0.05  0.18 0.48 0.52 2.9
+## E4 -0.54  0.33 -0.29  0.15 -0.15  0.15 0.56 0.44 2.9
+## E5 -0.42  0.42  0.11 -0.04 -0.20 -0.02 0.40 0.60 2.6
+## N1  0.59  0.56  0.04  0.08 -0.17 -0.08 0.71 0.29 2.2
+## N2  0.58  0.56  0.08  0.03 -0.13 -0.14 0.69 0.31 2.3
+## N3  0.52  0.49  0.02  0.01  0.08  0.05 0.52 0.48 2.1
+## N4  0.58  0.23  0.04 -0.10  0.27  0.08 0.48 0.52 1.9
+## N5  0.41  0.31 -0.01  0.15  0.22  0.10 0.34 0.66 2.9
+## O1 -0.28  0.24  0.14 -0.41 -0.01  0.15 0.34 0.66 3.1
+## O2  0.20  0.05 -0.25  0.39  0.05  0.18 0.29 0.71 2.9
+## O3 -0.34  0.33  0.09 -0.49  0.01  0.11 0.48 0.52 2.9
+## O4  0.10  0.18  0.14 -0.31  0.30  0.05 0.25 0.75 3.4
+## O5  0.19 -0.06 -0.22  0.47 -0.05  0.24 0.37 0.63 2.5
+## 
+##                        ML1  ML2  ML3  ML4  ML5  ML6
+## SS loadings           4.40 2.35 1.54 1.22 0.99 0.57
+## Proportion Var        0.18 0.09 0.06 0.05 0.04 0.02
+## Cumulative Var        0.18 0.27 0.33 0.38 0.42 0.44
+## Proportion Explained  0.40 0.21 0.14 0.11 0.09 0.05
+## Cumulative Proportion 0.40 0.61 0.75 0.86 0.95 1.00
+## 
+## Mean item complexity =  2.8
+## Test of the hypothesis that 6 factors are sufficient.
+## 
+## The degrees of freedom for the null model are  300  and the objective function was  7.23 with Chi Square of  20163.79
+## The degrees of freedom for the model are 165  and the objective function was  0.36 
+## 
+## The root mean square of the residuals (RMSR) is  0.02 
+## The df corrected root mean square of the residuals is  0.03 
+## 
+## The harmonic number of observations is  2762 with the empirical chi square  661.28  with prob &lt;  1.4e-60 
+## The total number of observations was  2800  with Likelihood Chi Square =  1013.79  with prob &lt;  4.6e-122 
+## 
+## Tucker Lewis Index of factoring reliability =  0.922
+## RMSEA index =  0.043  and the 90 % confidence intervals are  0.04 0.045
+## BIC =  -295.88
+## Fit based upon off diagonal values = 0.99
+## Measures of factor score adequacy             
+##                                                    ML1  ML2  ML3  ML4  ML5  ML6
+## Correlation of (regression) scores with factors   0.95 0.92 0.86 0.82 0.81 0.71
+## Multiple R square of scores with factors          0.90 0.84 0.74 0.67 0.65 0.51
+## Minimum correlation of possible factor scores     0.81 0.68 0.48 0.34 0.30 0.02</code></pre>
+<p>The output is rather extensive. A key table is the first one, with standardized factor loadings in the columns labelled <code>ML</code>.</p>
+<p>You can just check the factor loadings via the <code>stat::loadings()</code> function. This allows you to not print loadings below a certain value (e.g. .10), by setting the <code>cutoff</code> argument. Below we will show the loadings obtained after <em>Varimax</em> rotation:</p>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="structural-equation-modelling-with-lavaan.html#cb655-1" aria-hidden="true" tabindex="-1"></a>bfi_fa <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">fa</span>(bfi[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">26</span><span class="sc">:</span><span class="dv">28</span>)], <span class="at">nfactors =</span> <span class="dv">6</span>, <span class="at">rotate=</span><span class="st">&quot;varimax&quot;</span>, <span class="at">fm=</span><span class="st">&quot;ml&quot;</span>)</span>
+<span id="cb655-2"><a href="structural-equation-modelling-with-lavaan.html#cb655-2" aria-hidden="true" tabindex="-1"></a><span class="fu">loadings</span>(bfi_fa, <span class="at">cutoff=</span>.<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## 
+## Loadings:
+##    ML2    ML1    ML3    ML5    ML4    ML6   
+## A1  0.110               -0.526 -0.119  0.153
+## A2         0.233  0.135  0.646              
+## A3         0.361  0.118  0.590         0.134
+## A4         0.208  0.243  0.386 -0.127       
+## A5 -0.136  0.435  0.109  0.456         0.220
+## C1                0.549         0.170       
+## C2                0.677                0.158
+## C3                0.541  0.115              
+## C4  0.227        -0.608 -0.113 -0.149  0.308
+## C5  0.282 -0.177 -0.534                0.159
+## E1        -0.584        -0.114         0.145
+## E2  0.236 -0.677        -0.104         0.134
+## E3         0.570  0.102  0.174  0.222  0.248
+## E4 -0.126  0.669  0.114  0.212 -0.126  0.143
+## E5         0.503  0.306         0.198       
+## N1  0.807               -0.164        -0.128
+## N2  0.803               -0.126        -0.166
+## N3  0.711                                   
+## N4  0.555 -0.331 -0.154                0.181
+## N5  0.513 -0.156               -0.160  0.156
+## O1         0.243  0.137         0.467  0.217
+## O2  0.163                      -0.485  0.142
+## O3         0.333  0.102         0.556  0.223
+## O4  0.213 -0.159         0.129  0.348  0.207
+## O5                             -0.583  0.132
+## 
+##                  ML2   ML1   ML3   ML5   ML4   ML6
+## SS loadings    2.698 2.623 2.010 1.618 1.462 0.661
+## Proportion Var 0.108 0.105 0.080 0.065 0.058 0.026
+## Cumulative Var 0.108 0.213 0.293 0.358 0.416 0.443</code></pre>
+<p>Note that the factors are ordered according to how much variance they explain. In this case, the second factor <code>ML2</code> accounts for the most variance. A different solution is obtained with <em>Promax</em> rotation:</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="structural-equation-modelling-with-lavaan.html#cb657-1" aria-hidden="true" tabindex="-1"></a>bfi_fa <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">fa</span>(bfi[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">26</span><span class="sc">:</span><span class="dv">28</span>)], <span class="at">nfactors =</span> <span class="dv">6</span>, <span class="at">rotate=</span><span class="st">&quot;promax&quot;</span>, <span class="at">fm=</span><span class="st">&quot;ml&quot;</span>)</span></code></pre></div>
+<pre><code>## Loading required namespace: GPArotation</code></pre>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb659-1"><a href="structural-equation-modelling-with-lavaan.html#cb659-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loadings</span>(bfi_fa, <span class="at">cutoff=</span>.<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## 
+## Loadings:
+##    ML1    ML2    ML3    ML5    ML4    ML6   
+## A1  0.103         0.119 -0.616  0.149  0.152
+## A2  0.147  0.103         0.645              
+## A3  0.274                0.525         0.141
+## A4  0.113         0.202  0.322  0.174       
+## A5  0.346 -0.148         0.337         0.237
+## C1                0.590 -0.109 -0.107       
+## C2 -0.108         0.748                     
+## C3                0.590               -0.105
+## C4               -0.631 -0.132  0.143  0.417
+## C5         0.141 -0.539                0.274
+## E1 -0.678 -0.127  0.196                     
+## E2 -0.733                              0.112
+## E3  0.547                      -0.145  0.342
+## E4  0.669                       0.197  0.142
+## E5  0.510  0.179  0.229        -0.150       
+## N1  0.232  0.902                      -0.112
+## N2  0.186  0.911                      -0.142
+## N3         0.686                       0.122
+## N4 -0.308  0.428                       0.232
+## N5 -0.140  0.440                0.176  0.137
+## O1  0.191               -0.110 -0.413  0.343
+## O2         0.100                0.504       
+## O3  0.288                      -0.499  0.382
+## O4 -0.224  0.104         0.121 -0.330  0.301
+## O5                      -0.121  0.603       
+## 
+##                  ML1   ML2   ML3   ML5   ML4   ML6
+## SS loadings    2.647 2.636 2.115 1.403 1.365 1.004
+## Proportion Var 0.106 0.105 0.085 0.056 0.055 0.040
+## Cumulative Var 0.106 0.211 0.296 0.352 0.407 0.447</code></pre>
+</div>
+</div>
+<div id="confirmatory-factor-analysis" class="section level2 hasAnchor" number="11.5">
+<h2><span class="header-section-number">11.5</span> Confirmatory factor analysis<a href="structural-equation-modelling-with-lavaan.html#confirmatory-factor-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Confirmatory Factor Analysis (CFA) can be performed via the <code>cfa()</code> function in the <code>lavaan</code> package. This function is very much like the <code>sem()</code> function, but uses different defaults. A main thing to supply is a specification of the model in the lavaan syntax.</p>
+<p>Factors can be specified with the <code>=~</code> operator. On the right-hand side of this operator, you can specify a name for the factor, and on the left hand side you can specify which observed variables load onto the factor (i.e. which observed variables are partially caused by the factor), separated by a “+” sign. For instance, the line</p>
+<pre><code>agreeableness =~ A1 + A2 + A3 + A4 + A5</code></pre>
+<p>specifies that a latent factor called “agreeableness” accounts for shared variation in observed variables <code>A1</code>, <code>A2</code>, <code>A3</code>, <code>A4</code>, and <code>A5</code>.</p>
+<p>The following code specifies a CFA with a simple structure, in the sense that each observed variable only loads onto one factor:</p>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="structural-equation-modelling-with-lavaan.html#cb662-1" aria-hidden="true" tabindex="-1"></a>bfi_cfa_spec <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb662-2"><a href="structural-equation-modelling-with-lavaan.html#cb662-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # factor specification</span></span>
+<span id="cb662-3"><a href="structural-equation-modelling-with-lavaan.html#cb662-3" aria-hidden="true" tabindex="-1"></a><span class="st">    agreeableness =~ A1 + A2 + A3 + A4 + A5</span></span>
+<span id="cb662-4"><a href="structural-equation-modelling-with-lavaan.html#cb662-4" aria-hidden="true" tabindex="-1"></a><span class="st">    conscientiousness =~  C1 + C2 + C3 + C4 + C5</span></span>
+<span id="cb662-5"><a href="structural-equation-modelling-with-lavaan.html#cb662-5" aria-hidden="true" tabindex="-1"></a><span class="st">    extraversion =~  E1 + E2 + E3 + E4 + E5</span></span>
+<span id="cb662-6"><a href="structural-equation-modelling-with-lavaan.html#cb662-6" aria-hidden="true" tabindex="-1"></a><span class="st">    neuroticism =~ N1 + N2 + N3 + N4 + N5</span></span>
+<span id="cb662-7"><a href="structural-equation-modelling-with-lavaan.html#cb662-7" aria-hidden="true" tabindex="-1"></a><span class="st">    openness =~ O1 + O2 + O3 + O4 + O5</span></span>
+<span id="cb662-8"><a href="structural-equation-modelling-with-lavaan.html#cb662-8" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>Using this lavaan model specification, the model can be estimated with the <code>lavaan::cfa()</code> function:</p>
+<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb663-1"><a href="structural-equation-modelling-with-lavaan.html#cb663-1" aria-hidden="true" tabindex="-1"></a>bfi_cfa <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(bfi_cfa_spec, <span class="at">data=</span>bfi)</span></code></pre></div>
+<p>Having estimated the model, we can obtain parameter estimates and tests via the <code>summary</code> function:</p>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="structural-equation-modelling-with-lavaan.html#cb664-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bfi_cfa, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 55 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                        60
+## 
+##                                                   Used       Total
+##   Number of observations                          2436        2800
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                              4165.467
+##   Degrees of freedom                               265
+##   P-value (Chi-square)                           0.000
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                             18222.116
+##   Degrees of freedom                               300
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.782
+##   Tucker-Lewis Index (TLI)                       0.754
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)             -99840.238
+##   Loglikelihood unrestricted model (H1)     -97757.504
+##                                                       
+##   Akaike (AIC)                              199800.476
+##   Bayesian (BIC)                            200148.363
+##   Sample-size adjusted Bayesian (BIC)       199957.729
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.078
+##   90 Percent confidence interval - lower         0.076
+##   90 Percent confidence interval - upper         0.080
+##   P-value RMSEA &lt;= 0.05                          0.000
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.075
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Latent Variables:
+##                        Estimate  Std.Err  z-value  P(&gt;|z|)
+##   agreeableness =~                                        
+##     A1                    1.000                           
+##     A2                   -1.579    0.108  -14.650    0.000
+##     A3                   -2.030    0.134  -15.093    0.000
+##     A4                   -1.564    0.115  -13.616    0.000
+##     A5                   -1.804    0.121  -14.852    0.000
+##   conscientiousness =~                                    
+##     C1                    1.000                           
+##     C2                    1.148    0.057   20.152    0.000
+##     C3                    1.036    0.054   19.172    0.000
+##     C4                   -1.421    0.065  -21.924    0.000
+##     C5                   -1.489    0.072  -20.694    0.000
+##   extraversion =~                                         
+##     E1                    1.000                           
+##     E2                    1.226    0.051   23.899    0.000
+##     E3                   -0.921    0.041  -22.431    0.000
+##     E4                   -1.121    0.047  -23.977    0.000
+##     E5                   -0.808    0.039  -20.648    0.000
+##   neuroticism =~                                          
+##     N1                    1.000                           
+##     N2                    0.947    0.024   39.899    0.000
+##     N3                    0.884    0.025   35.919    0.000
+##     N4                    0.692    0.025   27.753    0.000
+##     N5                    0.628    0.026   24.027    0.000
+##   openness =~                                             
+##     O1                    1.000                           
+##     O2                   -1.020    0.068  -14.962    0.000
+##     O3                    1.373    0.072   18.942    0.000
+##     O4                    0.437    0.048    9.160    0.000
+##     O5                   -0.960    0.060  -16.056    0.000
+## 
+## Covariances:
+##                        Estimate  Std.Err  z-value  P(&gt;|z|)
+##   agreeableness ~~                                        
+##     conscientisnss       -0.110    0.012   -9.254    0.000
+##     extraversion          0.304    0.025   12.293    0.000
+##     neuroticism           0.141    0.018    7.712    0.000
+##     openness             -0.093    0.011   -8.446    0.000
+##   conscientiousness ~~                                    
+##     extraversion         -0.224    0.020  -11.121    0.000
+##     neuroticism          -0.250    0.025  -10.117    0.000
+##     openness              0.130    0.014    9.190    0.000
+##   extraversion ~~                                         
+##     neuroticism           0.292    0.032    9.131    0.000
+##     openness             -0.265    0.021  -12.347    0.000
+##   neuroticism ~~                                          
+##     openness             -0.093    0.022   -4.138    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .A1                1.745    0.052   33.725    0.000
+##    .A2                0.807    0.028   28.396    0.000
+##    .A3                0.754    0.032   23.339    0.000
+##    .A4                1.632    0.051   31.796    0.000
+##    .A5                0.852    0.032   26.800    0.000
+##    .C1                1.063    0.035   30.073    0.000
+##    .C2                1.130    0.039   28.890    0.000
+##    .C3                1.170    0.039   30.194    0.000
+##    .C4                0.960    0.040   24.016    0.000
+##    .C5                1.640    0.059   27.907    0.000
+##    .E1                1.814    0.058   31.047    0.000
+##    .E2                1.332    0.049   26.928    0.000
+##    .E3                1.108    0.038   29.522    0.000
+##    .E4                1.088    0.041   26.732    0.000
+##    .E5                1.251    0.040   31.258    0.000
+##    .N1                0.793    0.037   21.575    0.000
+##    .N2                0.836    0.036   23.458    0.000
+##    .N3                1.222    0.043   28.271    0.000
+##    .N4                1.654    0.052   31.977    0.000
+##    .N5                1.969    0.060   32.889    0.000
+##    .O1                0.865    0.032   27.216    0.000
+##    .O2                1.990    0.063   31.618    0.000
+##    .O3                0.691    0.039   17.717    0.000
+##    .O4                1.346    0.040   34.036    0.000
+##    .O5                1.380    0.045   30.662    0.000
+##     agreeableness     0.234    0.030    7.839    0.000
+##     conscientisnss    0.463    0.036   12.810    0.000
+##     extraversion      0.846    0.062   13.693    0.000
+##     neuroticism       1.689    0.073   23.034    0.000
+##     openness          0.404    0.033   12.156    0.000</code></pre>
+<p>Note that for the <code>summary()</code> function to work, you need to have loaded the <code>lavaan</code> package with <code>library(lavaan)</code>.</p>
+<p>A plot can again be obtained with the <code>semPlot::semPaths()</code> function</p>
+<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb666-1"><a href="structural-equation-modelling-with-lavaan.html#cb666-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(bfi_cfa, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">3</span>, <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">1</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">5</span>, <span class="at">normalize=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">12</span>, <span class="at">height=</span><span class="dv">6</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-29-1.png" width="1152" /></p>
+<p>Note that by default, factors are allowed to correlate. If you want to obtain a solution for uncorrelated factors, you need to explicitly fix the covariances between the factors to 0. This can be done via the <code>~~</code> operator, and multiplying the factors on the right-hand side of this operator to 0. For example, the line</p>
+<pre><code>agreeableness ~~ 0*conscientiousness + 0*extraversion + 0*neuroticism + 0*openness</code></pre>
+<p>specifies that the covariance between factor <code>agreeableness</code> and <code>conscientiousness</code> is 0 (<code>agreeableness ~~ 0*conscientiousness</code>), as well as the covariance between factor <code>agreeableness</code> and <code>extraversion</code>, <code>neuroticism</code>, and <code>openness</code>. You should only fix a covariance once, so you should not also have a line which states e.g.</p>
+<pre><code>conscientiousness ~~ 0*agreeableness</code></pre>
+<p>as this would lead to an error. The model specification below fixes the covariance for all pairs of factors to 0:</p>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb669-1"><a href="structural-equation-modelling-with-lavaan.html#cb669-1" aria-hidden="true" tabindex="-1"></a>bfi_cfa2_spec <span class="ot">&lt;-</span>   <span class="st">&#39;</span></span>
+<span id="cb669-2"><a href="structural-equation-modelling-with-lavaan.html#cb669-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # factor specification</span></span>
+<span id="cb669-3"><a href="structural-equation-modelling-with-lavaan.html#cb669-3" aria-hidden="true" tabindex="-1"></a><span class="st">    agreeableness =~ A1 + A2 + A3 + A4 + A5</span></span>
+<span id="cb669-4"><a href="structural-equation-modelling-with-lavaan.html#cb669-4" aria-hidden="true" tabindex="-1"></a><span class="st">    conscientiousness =~  C1 + C2 + C3 + C4 + C5</span></span>
+<span id="cb669-5"><a href="structural-equation-modelling-with-lavaan.html#cb669-5" aria-hidden="true" tabindex="-1"></a><span class="st">    extraversion =~  E1 + E2 + E3 + E4 + E5</span></span>
+<span id="cb669-6"><a href="structural-equation-modelling-with-lavaan.html#cb669-6" aria-hidden="true" tabindex="-1"></a><span class="st">    neuroticism =~ N1 + N2 + N3 + N4 + N5</span></span>
+<span id="cb669-7"><a href="structural-equation-modelling-with-lavaan.html#cb669-7" aria-hidden="true" tabindex="-1"></a><span class="st">    openness =~ O1 + O2 + O3 + O4 + O5</span></span>
+<span id="cb669-8"><a href="structural-equation-modelling-with-lavaan.html#cb669-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # fix factor covariances to 0</span></span>
+<span id="cb669-9"><a href="structural-equation-modelling-with-lavaan.html#cb669-9" aria-hidden="true" tabindex="-1"></a><span class="st">    agreeableness ~~ 0*conscientiousness + 0*extraversion + 0*neuroticism + 0*openness</span></span>
+<span id="cb669-10"><a href="structural-equation-modelling-with-lavaan.html#cb669-10" aria-hidden="true" tabindex="-1"></a><span class="st">    conscientiousness ~~ 0*extraversion + 0*neuroticism + 0*openness</span></span>
+<span id="cb669-11"><a href="structural-equation-modelling-with-lavaan.html#cb669-11" aria-hidden="true" tabindex="-1"></a><span class="st">    extraversion ~~ 0*neuroticism + 0*openness</span></span>
+<span id="cb669-12"><a href="structural-equation-modelling-with-lavaan.html#cb669-12" aria-hidden="true" tabindex="-1"></a><span class="st">    neuroticism ~~ 0*openness</span></span>
+<span id="cb669-13"><a href="structural-equation-modelling-with-lavaan.html#cb669-13" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>Using this specification, the results are:</p>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="structural-equation-modelling-with-lavaan.html#cb670-1" aria-hidden="true" tabindex="-1"></a>bfi_cfa2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(bfi_cfa2_spec, <span class="at">data=</span>bfi)</span>
+<span id="cb670-2"><a href="structural-equation-modelling-with-lavaan.html#cb670-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bfi_cfa2, <span class="at">fit.measures=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 53 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                        50
+## 
+##                                                   Used       Total
+##   Number of observations                          2436        2800
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                              5639.709
+##   Degrees of freedom                               275
+##   P-value (Chi-square)                           0.000
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                             18222.116
+##   Degrees of freedom                               300
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.701
+##   Tucker-Lewis Index (TLI)                       0.673
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)            -100577.359
+##   Loglikelihood unrestricted model (H1)     -97757.504
+##                                                       
+##   Akaike (AIC)                              201254.718
+##   Bayesian (BIC)                            201544.623
+##   Sample-size adjusted Bayesian (BIC)       201385.762
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.089
+##   90 Percent confidence interval - lower         0.087
+##   90 Percent confidence interval - upper         0.092
+##   P-value RMSEA &lt;= 0.05                          0.000
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.138
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Latent Variables:
+##                        Estimate  Std.Err  z-value  P(&gt;|z|)
+##   agreeableness =~                                        
+##     A1                    1.000                           
+##     A2                   -1.468    0.092  -15.885    0.000
+##     A3                   -1.887    0.116  -16.273    0.000
+##     A4                   -1.394    0.097  -14.400    0.000
+##     A5                   -1.502    0.096  -15.658    0.000
+##   conscientiousness =~                                    
+##     C1                    1.000                           
+##     C2                    1.172    0.057   20.409    0.000
+##     C3                    1.047    0.054   19.347    0.000
+##     C4                   -1.377    0.064  -21.526    0.000
+##     C5                   -1.403    0.070  -20.029    0.000
+##   extraversion =~                                         
+##     E1                    1.000                           
+##     E2                    1.205    0.048   25.012    0.000
+##     E3                   -0.785    0.036  -21.573    0.000
+##     E4                   -1.034    0.042  -24.402    0.000
+##     E5                   -0.713    0.035  -20.195    0.000
+##   neuroticism =~                                          
+##     N1                    1.000                           
+##     N2                    0.947    0.024   40.245    0.000
+##     N3                    0.873    0.024   35.898    0.000
+##     N4                    0.665    0.025   26.891    0.000
+##     N5                    0.616    0.026   23.814    0.000
+##   openness =~                                             
+##     O1                    1.000                           
+##     O2                   -1.165    0.077  -15.042    0.000
+##     O3                    1.248    0.074   16.878    0.000
+##     O4                    0.551    0.052   10.515    0.000
+##     O5                   -1.106    0.069  -15.970    0.000
+## 
+## Covariances:
+##                        Estimate  Std.Err  z-value  P(&gt;|z|)
+##   agreeableness ~~                                        
+##     conscientisnss        0.000                           
+##     extraversion          0.000                           
+##     neuroticism           0.000                           
+##     openness              0.000                           
+##   conscientiousness ~~                                    
+##     extraversion          0.000                           
+##     neuroticism           0.000                           
+##     openness              0.000                           
+##   extraversion ~~                                         
+##     neuroticism           0.000                           
+##     openness              0.000                           
+##   neuroticism ~~                                          
+##     openness              0.000                           
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .A1                1.691    0.051   33.160    0.000
+##    .A2                0.770    0.030   26.076    0.000
+##    .A3                0.694    0.036   19.186    0.000
+##    .A4                1.645    0.052   31.366    0.000
+##    .A5                0.965    0.035   27.652    0.000
+##    .C1                1.048    0.036   29.420    0.000
+##    .C2                1.084    0.039   27.560    0.000
+##    .C3                1.143    0.039   29.393    0.000
+##    .C4                0.990    0.042   23.804    0.000
+##    .C5                1.726    0.061   28.320    0.000
+##    .E1                1.682    0.058   29.081    0.000
+##    .E2                1.182    0.052   22.716    0.000
+##    .E3                1.224    0.041   30.002    0.000
+##    .E4                1.106    0.044   25.256    0.000
+##    .E5                1.306    0.042   31.131    0.000
+##    .N1                0.766    0.037   20.793    0.000
+##    .N2                0.812    0.036   22.814    0.000
+##    .N3                1.234    0.043   28.397    0.000
+##    .N4                1.703    0.053   32.241    0.000
+##    .N5                1.982    0.060   32.950    0.000
+##    .O1                0.881    0.034   26.289    0.000
+##    .O2                1.884    0.064   29.555    0.000
+##    .O3                0.849    0.040   21.122    0.000
+##    .O4                1.305    0.039   33.218    0.000
+##    .O5                1.278    0.046   27.702    0.000
+##     agreeableness     0.288    0.033    8.601    0.000
+##     conscientisnss    0.477    0.037   12.866    0.000
+##     extraversion      0.978    0.067   14.564    0.000
+##     neuroticism       1.716    0.074   23.242    0.000
+##     openness          0.388    0.034   11.331    0.000</code></pre>
+<p>The model plot indicates the fixed covariances with dotted lines:</p>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="structural-equation-modelling-with-lavaan.html#cb672-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(bfi_cfa2, <span class="at">layout=</span><span class="st">&quot;tree&quot;</span>, <span class="at">sizeMan=</span><span class="dv">5</span>, <span class="at">sizeInt =</span> <span class="dv">5</span>, <span class="at">style=</span><span class="st">&quot;ram&quot;</span>, <span class="at">intercepts=</span><span class="cn">FALSE</span>, <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">rotation=</span><span class="dv">1</span>, <span class="at">intAtSide =</span> <span class="cn">FALSE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">5</span>, <span class="at">normalize=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">12</span>, <span class="at">height=</span><span class="dv">6</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+</div>
+<div id="modification-indices" class="section level2 hasAnchor" number="11.6">
+<h2><span class="header-section-number">11.6</span> Modification indices<a href="structural-equation-modelling-with-lavaan.html#modification-indices" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Modification indices can be obtained with the <code>modificationIndices()</code> from the <code>lavaan</code> package. Modification indices estimated the (positive) change in overall model fit when estimating, rather than fixing a parameter to a specific value. This change is provided in terms of the Chi-squared statistic (<span class="math inline">\(X^2\)</span>), which under the null-hypothesis is distributed with <span class="math inline">\(\text{df}=1\)</span>.</p>
+<p>For a given model, there are generally a lot of these indices, as many parameters might be fixed. By default, the <code>lavaan::modificationIndices()</code> functions also displays the expected change in the parameter value, including various standardized measures of such change. By setting the argument <code>standardized = FALSE</code>, these values are excluded, providing slightly more succinct output. An example providing <em>all</em> modification indices for the CFA model with uncorrelated factors is given in the code below. Be ready for lots of output!</p>
+<div class="sourceCode" id="cb673"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb673-1"><a href="structural-equation-modelling-with-lavaan.html#cb673-1" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">modificationIndices</span>(bfi_cfa2, <span class="at">standardized =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+<pre><code>##                   lhs op               rhs      mi    epc
+## 26      agreeableness ~~ conscientiousness 153.382 -0.122
+## 27      agreeableness ~~      extraversion 626.628  0.345
+## 28      agreeableness ~~       neuroticism  72.105  0.148
+## 29      agreeableness ~~          openness  93.642 -0.092
+## 30  conscientiousness ~~      extraversion 168.789 -0.235
+## 31  conscientiousness ~~       neuroticism 112.876 -0.243
+## 32  conscientiousness ~~          openness 116.891  0.135
+## 33       extraversion ~~       neuroticism 100.738  0.322
+## 34       extraversion ~~          openness 191.600 -0.241
+## 35        neuroticism ~~          openness  19.352 -0.097
+## 66      agreeableness =~                C1   1.104 -0.049
+## 67      agreeableness =~                C2  10.010 -0.153
+## 68      agreeableness =~                C3  14.269 -0.184
+## 69      agreeableness =~                C4   5.531  0.114
+## 70      agreeableness =~                C5  24.700  0.301
+## 71      agreeableness =~                E1   0.010  0.006
+## 72      agreeableness =~                E2   3.576  0.103
+## 73      agreeableness =~                E3 102.185 -0.507
+## 74      agreeableness =~                E4 151.750 -0.623
+## 75      agreeableness =~                E5  24.333 -0.252
+## 76      agreeableness =~                N1  10.058  0.144
+## 77      agreeableness =~                N2   7.452  0.124
+## 78      agreeableness =~                N3   2.936 -0.089
+## 79      agreeableness =~                N4  31.979  0.327
+## 80      agreeableness =~                N5   5.298 -0.142
+## 81      agreeableness =~                O1  24.408 -0.216
+## 82      agreeableness =~                O2  21.361 -0.286
+## 83      agreeableness =~                O3 111.649 -0.480
+## 84      agreeableness =~                O4   0.000  0.000
+## 85      agreeableness =~                O5   1.143 -0.055
+## 86  conscientiousness =~                A1   3.066  0.079
+## 87  conscientiousness =~                A2  11.942  0.114
+## 88  conscientiousness =~                A3   2.486  0.054
+## 89  conscientiousness =~                A4  69.577  0.377
+## 90  conscientiousness =~                A5  11.521  0.123
+## 91  conscientiousness =~                E1  28.809  0.253
+## 92  conscientiousness =~                E2  15.936 -0.171
+## 93  conscientiousness =~                E3   6.509  0.101
+## 94  conscientiousness =~                E4   5.826  0.097
+## 95  conscientiousness =~                E5 172.955  0.532
+## 96  conscientiousness =~                N1   3.178 -0.064
+## 97  conscientiousness =~                N2   0.642  0.029
+## 98  conscientiousness =~                N3   3.025 -0.071
+## 99  conscientiousness =~                N4  87.897 -0.429
+## 100 conscientiousness =~                N5   2.403 -0.076
+## 101 conscientiousness =~                O1  20.896  0.158
+## 102 conscientiousness =~                O2  24.292 -0.241
+## 103 conscientiousness =~                O3  15.629  0.142
+## 104 conscientiousness =~                O4  12.472 -0.139
+## 105 conscientiousness =~                O5   8.167 -0.117
+## 106      extraversion =~                A1  15.749 -0.122
+## 107      extraversion =~                A2  16.863 -0.092
+## 108      extraversion =~                A3  52.192 -0.170
+## 109      extraversion =~                A4  17.121 -0.128
+## 110      extraversion =~                A5 204.782 -0.353
+## 111      extraversion =~                C1   9.854 -0.079
+## 112      extraversion =~                C2   0.130 -0.009
+## 113      extraversion =~                C3   0.000  0.000
+## 114      extraversion =~                C4  12.839  0.094
+## 115      extraversion =~                C5  76.422  0.286
+## 116      extraversion =~                N1  11.191 -0.082
+## 117      extraversion =~                N2   0.718 -0.021
+## 118      extraversion =~                N3   0.745  0.024
+## 119      extraversion =~                N4 256.519  0.500
+## 120      extraversion =~                N5  33.462  0.193
+## 121      extraversion =~                O1  69.212 -0.196
+## 122      extraversion =~                O2   8.167 -0.096
+## 123      extraversion =~                O3 247.488 -0.386
+## 124      extraversion =~                O4  87.200  0.251
+## 125      extraversion =~                O5   4.509 -0.060
+## 126       neuroticism =~                A1  24.650  0.110
+## 127       neuroticism =~                A2   3.572  0.031
+## 128       neuroticism =~                A3   3.518  0.032
+## 129       neuroticism =~                A4  14.637 -0.085
+## 130       neuroticism =~                A5  79.191 -0.159
+## 131       neuroticism =~                C1   5.564  0.043
+## 132       neuroticism =~                C2  50.282  0.134
+## 133       neuroticism =~                C3   0.545  0.014
+## 134       neuroticism =~                C4  85.884  0.176
+## 135       neuroticism =~                C5 152.591  0.292
+## 136       neuroticism =~                E1  10.245 -0.074
+## 137       neuroticism =~                E2 123.282  0.235
+## 138       neuroticism =~                E3   4.124  0.040
+## 139       neuroticism =~                E4  26.500 -0.101
+## 140       neuroticism =~                E5  16.730  0.082
+## 141       neuroticism =~                O1   2.707 -0.028
+## 142       neuroticism =~                O2  47.655  0.167
+## 143       neuroticism =~                O3   0.057 -0.004
+## 144       neuroticism =~                O4  86.839  0.181
+## 145       neuroticism =~                O5   8.562  0.059
+## 146          openness =~                A1   1.375 -0.063
+## 147          openness =~                A2   7.539  0.107
+## 148          openness =~                A3  14.279  0.155
+## 149          openness =~                A4  12.216 -0.188
+## 150          openness =~                A5  28.295  0.228
+## 151          openness =~                C1  71.850  0.371
+## 152          openness =~                C2  23.012  0.218
+## 153          openness =~                C3   5.627 -0.108
+## 154          openness =~                C4  11.697 -0.156
+## 155          openness =~                C5   1.443  0.068
+## 156          openness =~                E1   0.939 -0.054
+## 157          openness =~                E2   0.169 -0.021
+## 158          openness =~                E3 204.756  0.674
+## 159          openness =~                E4  25.307 -0.239
+## 160          openness =~                E5 104.519  0.491
+## 161          openness =~                N1   6.550 -0.109
+## 162          openness =~                N2   3.243  0.077
+## 163          openness =~                N3   0.676  0.040
+## 164          openness =~                N4   0.002 -0.002
+## 165          openness =~                N5  45.606 -0.392
+## 166                A1 ~~                A2  70.821 -0.237
+## 167                A1 ~~                A3   6.593  0.083
+## 168                A1 ~~                A4   5.731  0.089
+## 169                A1 ~~                A5  16.047  0.122
+## 170                A1 ~~                C1  10.088  0.093
+## 171                A1 ~~                C2  17.762  0.128
+## 172                A1 ~~                C3   2.984  0.053
+## 173                A1 ~~                C4  40.034  0.193
+## 174                A1 ~~                C5   1.007 -0.038
+## 175                A1 ~~                E1  15.859  0.148
+## 176                A1 ~~                E2   2.472  0.053
+## 177                A1 ~~                E3  14.365  0.119
+## 178                A1 ~~                E4  14.019  0.119
+## 179                A1 ~~                E5  12.297  0.112
+## 180                A1 ~~                N1  27.068  0.149
+## 181                A1 ~~                N2   4.219  0.058
+## 182                A1 ~~                N3   0.006  0.003
+## 183                A1 ~~                N4  19.608 -0.160
+## 184                A1 ~~                N5   6.671 -0.100
+## 185                A1 ~~                O1  25.136  0.137
+## 186                A1 ~~                O2  14.894  0.150
+## 187                A1 ~~                O3   5.870  0.069
+## 188                A1 ~~                O4  16.393 -0.126
+## 189                A1 ~~                O5  21.672  0.151
+## 190                A2 ~~                A3  10.819 -0.120
+## 191                A2 ~~                A4   2.084  0.043
+## 192                A2 ~~                A5  13.743 -0.106
+## 193                A2 ~~                C1   0.010 -0.002
+## 194                A2 ~~                C2   0.018 -0.003
+## 195                A2 ~~                C3  31.076  0.124
+## 196                A2 ~~                C4   1.933 -0.031
+## 197                A2 ~~                C5   5.199  0.063
+## 198                A2 ~~                E1   9.468 -0.084
+## 199                A2 ~~                E2   0.048  0.005
+## 200                A2 ~~                E3   3.014 -0.040
+## 201                A2 ~~                E4   3.134 -0.041
+## 202                A2 ~~                E5  53.688  0.172
+## 203                A2 ~~                N1   8.533 -0.061
+## 204                A2 ~~                N2  10.673  0.068
+## 205                A2 ~~                N3   0.153 -0.009
+## 206                A2 ~~                N4   0.331  0.015
+## 207                A2 ~~                N5   7.293  0.076
+## 208                A2 ~~                O1   1.330  0.023
+## 209                A2 ~~                O2   4.918  0.063
+## 210                A2 ~~                O3   0.047  0.004
+## 211                A2 ~~                O4  13.309  0.083
+## 212                A2 ~~                O5   6.004 -0.058
+## 213                A3 ~~                A4   0.374 -0.022
+## 214                A3 ~~                A5  33.473  0.213
+## 215                A3 ~~                C1   2.237  0.034
+## 216                A3 ~~                C2   4.017  0.047
+## 217                A3 ~~                C3   0.056 -0.006
+## 218                A3 ~~                C4   2.903  0.040
+## 219                A3 ~~                C5   0.666 -0.024
+## 220                A3 ~~                E1   4.456  0.060
+## 221                A3 ~~                E2   0.063 -0.007
+## 222                A3 ~~                E3  56.785  0.182
+## 223                A3 ~~                E4   8.322  0.070
+## 224                A3 ~~                E5   0.077  0.007
+## 225                A3 ~~                N1   5.776  0.053
+## 226                A3 ~~                N2   0.022 -0.003
+## 227                A3 ~~                N3   2.302  0.038
+## 228                A3 ~~                N4   2.890 -0.047
+## 229                A3 ~~                N5   6.200 -0.074
+## 230                A3 ~~                O1   6.381  0.053
+## 231                A3 ~~                O2   4.379  0.062
+## 232                A3 ~~                O3  31.678  0.123
+## 233                A3 ~~                O4   0.674 -0.020
+## 234                A3 ~~                O5   5.331  0.058
+## 235                A4 ~~                A5   0.321  0.018
+## 236                A4 ~~                C1   6.851 -0.077
+## 237                A4 ~~                C2  34.773  0.180
+## 238                A4 ~~                C3   1.379 -0.036
+## 239                A4 ~~                C4   0.622 -0.024
+## 240                A4 ~~                C5  47.864 -0.265
+## 241                A4 ~~                E1   4.048  0.075
+## 242                A4 ~~                E2   0.591 -0.026
+## 243                A4 ~~                E3   1.452 -0.038
+## 244                A4 ~~                E4  38.115  0.197
+## 245                A4 ~~                E5   0.095 -0.010
+## 246                A4 ~~                N1   3.646  0.055
+## 247                A4 ~~                N2  19.872 -0.127
+## 248                A4 ~~                N3   0.797  0.029
+## 249                A4 ~~                N4  18.352 -0.156
+## 250                A4 ~~                N5   5.093  0.088
+## 251                A4 ~~                O1   0.644  0.022
+## 252                A4 ~~                O2   0.913  0.037
+## 253                A4 ~~                O3   0.373 -0.018
+## 254                A4 ~~                O4  12.670 -0.112
+## 255                A4 ~~                O5   5.526  0.077
+## 256                A5 ~~                C1   9.043  0.071
+## 257                A5 ~~                C2   0.847 -0.022
+## 258                A5 ~~                C3   0.266  0.013
+## 259                A5 ~~                C4   0.236  0.012
+## 260                A5 ~~                C5   6.640 -0.079
+## 261                A5 ~~                E1   1.119  0.032
+## 262                A5 ~~                E2   0.486 -0.019
+## 263                A5 ~~                E3  44.344  0.168
+## 264                A5 ~~                E4  97.822  0.252
+## 265                A5 ~~                E5   0.151 -0.010
+## 266                A5 ~~                N1   5.505 -0.054
+## 267                A5 ~~                N2   4.391 -0.048
+## 268                A5 ~~                N3   0.039 -0.005
+## 269                A5 ~~                N4  17.355 -0.121
+## 270                A5 ~~                N5   0.000  0.000
+## 271                A5 ~~                O1  10.780  0.072
+## 272                A5 ~~                O2   2.580  0.050
+## 273                A5 ~~                O3  41.337  0.147
+## 274                A5 ~~                O4   5.566 -0.059
+## 275                A5 ~~                O5   2.537  0.042
+## 276                C1 ~~                C2  92.192  0.278
+## 277                C1 ~~                C3   0.126  0.010
+## 278                C1 ~~                C4   9.090  0.095
+## 279                C1 ~~                C5  47.138  0.245
+## 280                C1 ~~                E1   4.646  0.066
+## 281                C1 ~~                E2  11.878  0.096
+## 282                C1 ~~                E3   4.351  0.054
+## 283                C1 ~~                E4   8.205  0.074
+## 284                C1 ~~                E5  39.077  0.164
+## 285                C1 ~~                N1   2.983 -0.040
+## 286                C1 ~~                N2   1.007  0.023
+## 287                C1 ~~                N3   8.669  0.078
+## 288                C1 ~~                N4   0.655  0.024
+## 289                C1 ~~                N5   0.103 -0.010
+## 290                C1 ~~                O1   9.603  0.070
+## 291                C1 ~~                O2   0.024  0.005
+## 292                C1 ~~                O3  18.986  0.102
+## 293                C1 ~~                O4  26.709  0.132
+## 294                C1 ~~                O5   0.321 -0.015
+## 295                C2 ~~                C3   3.665  0.058
+## 296                C2 ~~                C4  16.644  0.144
+## 297                C2 ~~                C5  43.522  0.256
+## 298                C2 ~~                E1  22.541  0.151
+## 299                C2 ~~                E2  27.217  0.151
+## 300                C2 ~~                E3  25.908  0.137
+## 301                C2 ~~                E4   3.186  0.048
+## 302                C2 ~~                E5  39.127  0.171
+## 303                C2 ~~                N1   0.278 -0.013
+## 304                C2 ~~                N2   0.114 -0.008
+## 305                C2 ~~                N3   5.309  0.064
+## 306                C2 ~~                N4  12.515  0.109
+## 307                C2 ~~                N5  31.425  0.185
+## 308                C2 ~~                O1  12.342  0.082
+## 309                C2 ~~                O2  21.894  0.155
+## 310                C2 ~~                O3  46.887  0.166
+## 311                C2 ~~                O4   8.197  0.076
+## 312                C2 ~~                O5   9.735  0.087
+## 313                C3 ~~                C4  13.623  0.122
+## 314                C3 ~~                C5   3.185 -0.067
+## 315                C3 ~~                E1   2.939  0.055
+## 316                C3 ~~                E2   3.348  0.053
+## 317                C3 ~~                E3   0.480  0.019
+## 318                C3 ~~                E4   0.332  0.016
+## 319                C3 ~~                E5  11.190  0.092
+## 320                C3 ~~                N1   0.001  0.001
+## 321                C3 ~~                N2   0.033 -0.004
+## 322                C3 ~~                N3   0.238 -0.014
+## 323                C3 ~~                N4   0.001 -0.001
+## 324                C3 ~~                N5   5.752  0.080
+## 325                C3 ~~                O1   4.596  0.050
+## 326                C3 ~~                O2   7.797  0.093
+## 327                C3 ~~                O3   0.068 -0.006
+## 328                C3 ~~                O4   3.556  0.050
+## 329                C3 ~~                O5  14.843  0.107
+## 330                C4 ~~                C5 113.021  0.456
+## 331                C4 ~~                E1  15.554  0.126
+## 332                C4 ~~                E2  39.627  0.183
+## 333                C4 ~~                E3  18.416  0.115
+## 334                C4 ~~                E4  14.781  0.104
+## 335                C4 ~~                E5   1.045 -0.028
+## 336                C4 ~~                N1   6.748  0.063
+## 337                C4 ~~                N2  11.984 -0.084
+## 338                C4 ~~                N3   8.396  0.080
+## 339                C4 ~~                N4  25.191  0.156
+## 340                C4 ~~                N5  37.951  0.204
+## 341                C4 ~~                O1   7.549  0.064
+## 342                C4 ~~                O2  72.231  0.282
+## 343                C4 ~~                O3  21.904  0.114
+## 344                C4 ~~                O4  19.411  0.117
+## 345                C4 ~~                O5  74.293  0.240
+## 346                C5 ~~                E1   9.319 -0.121
+## 347                C5 ~~                E2  58.980  0.278
+## 348                C5 ~~                E3   0.334 -0.019
+## 349                C5 ~~                E4   7.280 -0.091
+## 350                C5 ~~                E5   0.007  0.003
+## 351                C5 ~~                N1   9.301 -0.093
+## 352                C5 ~~                N2  13.199  0.110
+## 353                C5 ~~                N3  11.107  0.115
+## 354                C5 ~~                N4 102.140  0.391
+## 355                C5 ~~                N5   4.860  0.091
+## 356                C5 ~~                O1   0.361 -0.018
+## 357                C5 ~~                O2  11.875  0.143
+## 358                C5 ~~                O3   0.054  0.007
+## 359                C5 ~~                O4  73.926  0.286
+## 360                C5 ~~                O5   0.395 -0.022
+## 361                E1 ~~                E2  10.198  0.150
+## 362                E1 ~~                E3   5.978  0.089
+## 363                E1 ~~                E4   0.157  0.016
+## 364                E1 ~~                E5   0.983  0.036
+## 365                E1 ~~                N1   4.960 -0.067
+## 366                E1 ~~                N2   7.573 -0.082
+## 367                E1 ~~                N3   0.736  0.029
+## 368                E1 ~~                N4  27.647  0.199
+## 369                E1 ~~                N5   4.561 -0.087
+## 370                E1 ~~                O1  11.189  0.096
+## 371                E1 ~~                O2   1.071  0.042
+## 372                E1 ~~                O3   3.091 -0.052
+## 373                E1 ~~                O4   6.814  0.085
+## 374                E1 ~~                O5   9.911  0.107
+## 375                E2 ~~                E3  29.119  0.205
+## 376                E2 ~~                E4   6.213 -0.117
+## 377                E2 ~~                E5   0.344  0.022
+## 378                E2 ~~                N1   1.292 -0.031
+## 379                E2 ~~                N2   6.545  0.069
+## 380                E2 ~~                N3   2.302  0.047
+## 381                E2 ~~                N4  23.065  0.166
+## 382                E2 ~~                N5  54.405  0.273
+## 383                E2 ~~                O1   1.277  0.030
+## 384                E2 ~~                O2  16.523  0.150
+## 385                E2 ~~                O3   0.031 -0.005
+## 386                E2 ~~                O4  80.266  0.267
+## 387                E2 ~~                O5   6.952  0.082
+## 388                E3 ~~                E4   4.093  0.068
+## 389                E3 ~~                E5  55.914  0.227
+## 390                E3 ~~                N1   1.074 -0.026
+## 391                E3 ~~                N2   1.874 -0.034
+## 392                E3 ~~                N3  13.155  0.104
+## 393                E3 ~~                N4   3.264  0.058
+## 394                E3 ~~                N5   0.081  0.010
+## 395                E3 ~~                O1  67.000  0.198
+## 396                E3 ~~                O2   9.212  0.104
+## 397                E3 ~~                O3 106.960  0.260
+## 398                E3 ~~                O4  15.413  0.108
+## 399                E3 ~~                O5   1.241  0.032
+## 400                E4 ~~                E5  21.987 -0.155
+## 401                E4 ~~                N1   6.276 -0.064
+## 402                E4 ~~                N2   4.442 -0.053
+## 403                E4 ~~                N3   2.011  0.041
+## 404                E4 ~~                N4  20.136 -0.145
+## 405                E4 ~~                N5  17.713  0.145
+## 406                E4 ~~                O1   0.967  0.024
+## 407                E4 ~~                O2  31.122  0.193
+## 408                E4 ~~                O3  11.022  0.084
+## 409                E4 ~~                O4   1.405 -0.033
+## 410                E4 ~~                O5  48.136  0.201
+## 411                E5 ~~                N1  28.572  0.137
+## 412                E5 ~~                N2  44.274  0.170
+## 413                E5 ~~                N3  15.878 -0.116
+## 414                E5 ~~                N4  29.386 -0.177
+## 415                E5 ~~                N5  35.579 -0.208
+## 416                E5 ~~                O1  58.748  0.189
+## 417                E5 ~~                O2   0.177  0.015
+## 418                E5 ~~                O3  21.887  0.120
+## 419                E5 ~~                O4   0.623  0.022
+## 420                E5 ~~                O5   0.061 -0.007
+## 421                N1 ~~                N2 371.649  0.862
+## 422                N1 ~~                N3  55.206 -0.294
+## 423                N1 ~~                N4  67.582 -0.281
+## 424                N1 ~~                N5  23.030 -0.169
+## 425                N1 ~~                O1   1.854  0.030
+## 426                N1 ~~                O2   1.611  0.039
+## 427                N1 ~~                O3   3.428  0.042
+## 428                N1 ~~                O4  17.624 -0.105
+## 429                N1 ~~                O5  17.480  0.109
+## 430                N2 ~~                N3  44.980 -0.251
+## 431                N2 ~~                N4  58.678 -0.254
+## 432                N2 ~~                N5  44.758 -0.230
+## 433                N2 ~~                O1   0.081 -0.006
+## 434                N2 ~~                O2   1.581  0.039
+## 435                N2 ~~                O3   0.085 -0.007
+## 436                N2 ~~                O4   0.869  0.023
+## 437                N2 ~~                O5  14.954 -0.100
+## 438                N3 ~~                N4 161.206  0.445
+## 439                N3 ~~                N5  49.421  0.260
+## 440                N3 ~~                O1   0.011 -0.003
+## 441                N3 ~~                O2   0.521  0.025
+## 442                N3 ~~                O3   0.009 -0.002
+## 443                N3 ~~                O4  23.075  0.136
+## 444                N3 ~~                O5   0.209  0.014
+## 445                N4 ~~                N5  87.456  0.376
+## 446                N4 ~~                O1   1.389 -0.033
+## 447                N4 ~~                O2   0.085 -0.011
+## 448                N4 ~~                O3  11.683 -0.099
+## 449                N4 ~~                O4  82.382  0.288
+## 450                N4 ~~                O5   0.393 -0.021
+## 451                N5 ~~                O1  12.860 -0.107
+## 452                N5 ~~                O2  25.930  0.215
+## 453                N5 ~~                O3   0.060  0.008
+## 454                N5 ~~                O4  16.663  0.138
+## 455                N5 ~~                O5  13.627  0.131
+## 456                O1 ~~                O2   6.977  0.098
+## 457                O1 ~~                O3  36.469  0.225
+## 458                O1 ~~                O4   1.792  0.035
+## 459                O1 ~~                O5  19.875  0.150
+## 460                O2 ~~                O3   4.922  0.098
+## 461                O2 ~~                O4  15.471  0.141
+## 462                O2 ~~                O5  55.060  0.313
+## 463                O3 ~~                O4   0.021 -0.004
+## 464                O3 ~~                O5  14.012  0.154
+## 465                O4 ~~                O5   5.294 -0.071</code></pre>
+<p>The argument <code>minimum.value</code> can be used to exclude modification indices below a certain value. For example, we might only be interested in modification indices above 20. In addition, it can be useful to order the output by the magnitude of the modification index, showing the most promising parameters first, This can be obtained by setting the argument <code>sort.</code> to <code>TRUE</code>. Below, we do both to get some idea of possible parameters which might be useful to allow to be estimated. This still provides many modification indices, but at least a few less.</p>
+<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb675-1"><a href="structural-equation-modelling-with-lavaan.html#cb675-1" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">modificationIndices</span>(bfi_cfa2, <span class="at">minimum.value =</span> <span class="dv">20</span>, <span class="at">sort.=</span><span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+<pre><code>##                   lhs op               rhs      mi    epc
+## 27      agreeableness ~~      extraversion 626.628  0.345
+## 421                N1 ~~                N2 371.649  0.862
+## 119      extraversion =~                N4 256.519  0.500
+## 123      extraversion =~                O3 247.488 -0.386
+## 110      extraversion =~                A5 204.782 -0.353
+## 158          openness =~                E3 204.756  0.674
+## 34       extraversion ~~          openness 191.600 -0.241
+## 95  conscientiousness =~                E5 172.955  0.532
+## 30  conscientiousness ~~      extraversion 168.789 -0.235
+## 438                N3 ~~                N4 161.206  0.445
+## 26      agreeableness ~~ conscientiousness 153.382 -0.122
+## 135       neuroticism =~                C5 152.591  0.292
+## 74      agreeableness =~                E4 151.750 -0.623
+## 137       neuroticism =~                E2 123.282  0.235
+## 32  conscientiousness ~~          openness 116.891  0.135
+## 330                C4 ~~                C5 113.021  0.456
+## 31  conscientiousness ~~       neuroticism 112.876 -0.243
+## 83      agreeableness =~                O3 111.649 -0.480
+## 397                E3 ~~                O3 106.960  0.260
+## 160          openness =~                E5 104.519  0.491
+## 73      agreeableness =~                E3 102.185 -0.507
+## 354                C5 ~~                N4 102.140  0.391
+## 33       extraversion ~~       neuroticism 100.738  0.322
+## 264                A5 ~~                E4  97.822  0.252
+## 29      agreeableness ~~          openness  93.642 -0.092
+## 276                C1 ~~                C2  92.192  0.278
+## 99  conscientiousness =~                N4  87.897 -0.429
+## 445                N4 ~~                N5  87.456  0.376
+## 124      extraversion =~                O4  87.200  0.251
+## 144       neuroticism =~                O4  86.839  0.181
+## 134       neuroticism =~                C4  85.884  0.176
+## 449                N4 ~~                O4  82.382  0.288
+## 386                E2 ~~                O4  80.266  0.267
+## 130       neuroticism =~                A5  79.191 -0.159
+## 115      extraversion =~                C5  76.422  0.286
+## 345                C4 ~~                O5  74.293  0.240
+## 359                C5 ~~                O4  73.926  0.286
+## 342                C4 ~~                O2  72.231  0.282
+## 28      agreeableness ~~       neuroticism  72.105  0.148
+## 151          openness =~                C1  71.850  0.371
+## 166                A1 ~~                A2  70.821 -0.237
+## 89  conscientiousness =~                A4  69.577  0.377
+## 121      extraversion =~                O1  69.212 -0.196
+## 423                N1 ~~                N4  67.582 -0.281
+## 395                E3 ~~                O1  67.000  0.198
+## 347                C5 ~~                E2  58.980  0.278
+## 416                E5 ~~                O1  58.748  0.189
+## 431                N2 ~~                N4  58.678 -0.254
+## 222                A3 ~~                E3  56.785  0.182
+## 389                E3 ~~                E5  55.914  0.227
+## 422                N1 ~~                N3  55.206 -0.294
+## 462                O2 ~~                O5  55.060  0.313
+## 382                E2 ~~                N5  54.405  0.273
+## 202                A2 ~~                E5  53.688  0.172
+## 108      extraversion =~                A3  52.192 -0.170
+## 132       neuroticism =~                C2  50.282  0.134
+## 439                N3 ~~                N5  49.421  0.260
+## 410                E4 ~~                O5  48.136  0.201
+## 240                A4 ~~                C5  47.864 -0.265
+## 142       neuroticism =~                O2  47.655  0.167
+## 279                C1 ~~                C5  47.138  0.245
+## 310                C2 ~~                O3  46.887  0.166
+## 165          openness =~                N5  45.606 -0.392
+## 430                N2 ~~                N3  44.980 -0.251
+## 432                N2 ~~                N5  44.758 -0.230
+## 263                A5 ~~                E3  44.344  0.168
+## 412                E5 ~~                N2  44.274  0.170
+## 297                C2 ~~                C5  43.522  0.256
+## 273                A5 ~~                O3  41.337  0.147
+## 173                A1 ~~                C4  40.034  0.193
+## 332                C4 ~~                E2  39.627  0.183
+## 302                C2 ~~                E5  39.127  0.171
+## 284                C1 ~~                E5  39.077  0.164
+## 244                A4 ~~                E4  38.115  0.197
+## 340                C4 ~~                N5  37.951  0.204
+## 457                O1 ~~                O3  36.469  0.225
+## 415                E5 ~~                N5  35.579 -0.208
+## 237                A4 ~~                C2  34.773  0.180
+## 214                A3 ~~                A5  33.473  0.213
+## 120      extraversion =~                N5  33.462  0.193
+## 79      agreeableness =~                N4  31.979  0.327
+## 232                A3 ~~                O3  31.678  0.123
+## 307                C2 ~~                N5  31.425  0.185
+## 407                E4 ~~                O2  31.122  0.193
+## 195                A2 ~~                C3  31.076  0.124
+## 414                E5 ~~                N4  29.386 -0.177
+## 375                E2 ~~                E3  29.119  0.205
+## 91  conscientiousness =~                E1  28.809  0.253
+## 411                E5 ~~                N1  28.572  0.137
+## 150          openness =~                A5  28.295  0.228
+## 368                E1 ~~                N4  27.647  0.199
+## 299                C2 ~~                E2  27.217  0.151
+## 180                A1 ~~                N1  27.068  0.149
+## 293                C1 ~~                O4  26.709  0.132
+## 139       neuroticism =~                E4  26.500 -0.101
+## 452                N5 ~~                O2  25.930  0.215
+## 300                C2 ~~                E3  25.908  0.137
+## 159          openness =~                E4  25.307 -0.239
+## 339                C4 ~~                N4  25.191  0.156
+## 185                A1 ~~                O1  25.136  0.137
+## 70      agreeableness =~                C5  24.700  0.301
+## 126       neuroticism =~                A1  24.650  0.110
+## 81      agreeableness =~                O1  24.408 -0.216
+## 75      agreeableness =~                E5  24.333 -0.252
+## 102 conscientiousness =~                O2  24.292 -0.241
+## 443                N3 ~~                O4  23.075  0.136
+## 381                E2 ~~                N4  23.065  0.166
+## 424                N1 ~~                N5  23.030 -0.169
+## 152          openness =~                C2  23.012  0.218
+## 298                C2 ~~                E1  22.541  0.151
+## 400                E4 ~~                E5  21.987 -0.155
+## 343                C4 ~~                O3  21.904  0.114
+## 309                C2 ~~                O2  21.894  0.155
+## 418                E5 ~~                O3  21.887  0.120
+## 189                A1 ~~                O5  21.672  0.151
+## 82      agreeableness =~                O2  21.361 -0.286
+## 101 conscientiousness =~                O1  20.896  0.158
+## 404                E4 ~~                N4  20.136 -0.145</code></pre>
+<p>An important thing to remember when inspecting these modification indices is that each indicates what would happen to the model if a single parameter is estimated rather than fixed. If you would include e.g. a residual covariance between <code>agreableness</code> and <code>extraversion</code>, as suggested by the highest modification index, then the model would change and therefore the resulting modification indices of that modified model would be different from those of the current model. Hence, it does not necessarily make sense to change all fixed variables according to the modification indices. If you are willing to change a model in an exploratory way, this should be a sequential procedure, adding one estimated parameter and then inspecting the modification indices again. It is also important to keep in mind that such sequential procedures don’t necessarily lead to the best possible model.</p>
+</div>
+<div id="general-sem-models" class="section level2 hasAnchor" number="11.7">
+<h2><span class="header-section-number">11.7</span> General SEM models<a href="structural-equation-modelling-with-lavaan.html#general-sem-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>General SEM models can be estimated with the <code>lavaan:sem()</code> function. As in the <code>lavaan::cfa()</code> function, this allows you to specify latent variables via the <code>=~</code> operator. You can also specify further path regressions, linking observed variables to other observed variables and/or to factors. As an example, we will analyse data from the speed dating experiment, which is available in the <code>sdamr</code> package as <code>speeddate</code>.</p>
+<p>In this example, we will focus on ratings by participants on how physically attractive (<code>date_attr</code>), fun (<code>date_fun</code>), sincere (<code>date_sinc</code>), intelligent (<code>date_intel</code>), and ambitious (<code>date_amb</code>) they find them, as well as a rating of their overall liking of their date (<code>date_like</code>). The dating partner also provided the same ratings for the participants (same variables, but with <code>other_</code> prepended).</p>
+<p>In this first model, we will assume that more “frivolous” aspects of a potential partner (e.g. physical attractiveness and fun) are treated as distinct from more serious aspects of a potential partner (e.g., intelligence, ambition, and sincerity). This can be formalized in a SEM model by assuming different latent variables for each. By formulating these as latent variables, we can also determine the weight of each of the observed variables in determining the latent variables (via the factor loadings).</p>
+<p>In the model below, we assume whether a person likes their date also depends on the reciprocal liking by their date of them. This is implemented by assuming that e.g. <code>date_like</code> is causally linked to the four latent variables <code>d_frivolous</code>, <code>d_serious</code>, <code>o_frivolous</code>, and <code>o_serious</code>. A similar assumption is made for <code>other_like</code>.</p>
+<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="structural-equation-modelling-with-lavaan.html#cb677-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb677-2"><a href="structural-equation-modelling-with-lavaan.html#cb677-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb677-3"><a href="structural-equation-modelling-with-lavaan.html#cb677-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-4"><a href="structural-equation-modelling-with-lavaan.html#cb677-4" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model</span></span>
+<span id="cb677-5"><a href="structural-equation-modelling-with-lavaan.html#cb677-5" aria-hidden="true" tabindex="-1"></a>speed_mod_spec <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb677-6"><a href="structural-equation-modelling-with-lavaan.html#cb677-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # define latent variables</span></span>
+<span id="cb677-7"><a href="structural-equation-modelling-with-lavaan.html#cb677-7" aria-hidden="true" tabindex="-1"></a><span class="st">  d_frivolous =~ date_attr + date_fun</span></span>
+<span id="cb677-8"><a href="structural-equation-modelling-with-lavaan.html#cb677-8" aria-hidden="true" tabindex="-1"></a><span class="st">  d_serious =~ date_sinc + date_intel + date_amb</span></span>
+<span id="cb677-9"><a href="structural-equation-modelling-with-lavaan.html#cb677-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-10"><a href="structural-equation-modelling-with-lavaan.html#cb677-10" aria-hidden="true" tabindex="-1"></a><span class="st">  o_frivolous =~ other_attr + other_fun</span></span>
+<span id="cb677-11"><a href="structural-equation-modelling-with-lavaan.html#cb677-11" aria-hidden="true" tabindex="-1"></a><span class="st">  o_serious =~ other_sinc + other_intel + other_amb</span></span>
+<span id="cb677-12"><a href="structural-equation-modelling-with-lavaan.html#cb677-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-13"><a href="structural-equation-modelling-with-lavaan.html#cb677-13" aria-hidden="true" tabindex="-1"></a><span class="st">  # regressions</span></span>
+<span id="cb677-14"><a href="structural-equation-modelling-with-lavaan.html#cb677-14" aria-hidden="true" tabindex="-1"></a><span class="st">  date_like ~ d_frivolous + d_serious + o_frivolous + o_serious</span></span>
+<span id="cb677-15"><a href="structural-equation-modelling-with-lavaan.html#cb677-15" aria-hidden="true" tabindex="-1"></a><span class="st">  other_like ~ o_frivolous + o_serious + d_frivolous + d_serious</span></span>
+<span id="cb677-16"><a href="structural-equation-modelling-with-lavaan.html#cb677-16" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb677-17"><a href="structural-equation-modelling-with-lavaan.html#cb677-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-18"><a href="structural-equation-modelling-with-lavaan.html#cb677-18" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
+<span id="cb677-19"><a href="structural-equation-modelling-with-lavaan.html#cb677-19" aria-hidden="true" tabindex="-1"></a>speed_mod <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(speed_mod_spec, <span class="at">data=</span>speeddate)</span></code></pre></div>
+<p>The structural relations can be depicted with the code below. Note that we set various arguments in the <code>semPlot::semPaths()</code> function. To get a nice looking plot for your own data, it will pay to try different values of this. The <code>semPaths()</code> function is very flexible, but doesn’t generally provide the best looking plots by default. You <strong>should</strong> have a look at the help file to see all the possible options to make the plot look better (i.e. by typing <code>?semPlot::semPaths</code>).</p>
+<div class="sourceCode" id="cb678"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb678-1"><a href="structural-equation-modelling-with-lavaan.html#cb678-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(speed_mod, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">12</span>, <span class="at">normalize=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">12</span>, <span class="at">height=</span><span class="dv">6</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>The parameter estimates and tests, as well as additional fit measures for the model, are obtained as:</p>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="structural-equation-modelling-with-lavaan.html#cb679-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(speed_mod, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 46 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                        37
+## 
+##                                                   Used       Total
+##   Number of observations                          1238        1562
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                               259.333
+##   Degrees of freedom                                41
+##   P-value (Chi-square)                           0.000
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                              7562.059
+##   Degrees of freedom                                66
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.971
+##   Tucker-Lewis Index (TLI)                       0.953
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)             -25604.915
+##   Loglikelihood unrestricted model (H1)     -25475.248
+##                                                       
+##   Akaike (AIC)                               51283.830
+##   Bayesian (BIC)                             51473.316
+##   Sample-size adjusted Bayesian (BIC)        51355.788
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.066
+##   90 Percent confidence interval - lower         0.058
+##   90 Percent confidence interval - upper         0.073
+##   P-value RMSEA &lt;= 0.05                          0.000
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.036
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   d_frivolous =~                                      
+##     date_attr         1.000                           
+##     date_fun          1.003    0.037   26.962    0.000
+##   d_serious =~                                        
+##     date_sinc         1.000                           
+##     date_intel        1.036    0.035   29.722    0.000
+##     date_amb          0.972    0.039   24.959    0.000
+##   o_frivolous =~                                      
+##     other_attr        1.000                           
+##     other_fun         1.003    0.037   26.962    0.000
+##   o_serious =~                                        
+##     other_sinc        1.000                           
+##     other_intel       1.036    0.035   29.722    0.000
+##     other_amb         0.972    0.039   24.959    0.000
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   date_like ~                                         
+##     d_frivolous       1.051    0.059   17.933    0.000
+##     d_serious         0.113    0.056    2.011    0.044
+##     o_frivolous       0.019    0.045    0.433    0.665
+##     o_serious        -0.008    0.051   -0.153    0.878
+##   other_like ~                                        
+##     o_frivolous       1.051    0.059   17.933    0.000
+##     o_serious         0.113    0.056    2.011    0.044
+##     d_frivolous       0.019    0.045    0.433    0.665
+##     d_serious        -0.008    0.051   -0.153    0.878
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   d_frivolous ~~                                      
+##     d_serious         1.196    0.082   14.566    0.000
+##     o_frivolous       0.156    0.081    1.934    0.053
+##     o_serious         0.263    0.066    3.974    0.000
+##   d_serious ~~                                        
+##     o_frivolous       0.263    0.066    3.974    0.000
+##     o_serious         0.006    0.053    0.119    0.905
+##   o_frivolous ~~                                      
+##     o_serious         1.196    0.082   14.566    0.000
+##  .date_like ~~                                        
+##    .other_like       -0.038    0.044   -0.872    0.383
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .date_attr         1.649    0.086   19.262    0.000
+##    .date_fun          1.231    0.074   16.708    0.000
+##    .date_sinc         0.914    0.053   17.385    0.000
+##    .date_intel        0.546    0.045   12.258    0.000
+##    .date_amb          1.510    0.072   20.869    0.000
+##    .other_attr        1.649    0.086   19.262    0.000
+##    .other_fun         1.231    0.074   16.708    0.000
+##    .other_sinc        0.914    0.053   17.385    0.000
+##    .other_intel       0.546    0.045   12.258    0.000
+##    .other_amb         1.510    0.072   20.869    0.000
+##    .date_like         0.765    0.070   10.928    0.000
+##    .other_like        0.765    0.070   10.928    0.000
+##     d_frivolous       2.132    0.147   14.494    0.000
+##     d_serious         1.584    0.101   15.726    0.000
+##     o_frivolous       2.132    0.147   14.494    0.000
+##     o_serious         1.584    0.101   15.726    0.000</code></pre>
+<p>These results indicate that there is potentially little covariance between the latent variables for the participants (<code>d_frivolous</code> and <code>d_serious</code>) and for their dates (<code>other_frivolous</code> and <code>other_serious</code>). However, the “frivolous” and “serious” aspects of participants do appear correlated, and similarly for their dates.</p>
+<p>These correlations can be captured by assuming residual covariances between factors are non-zero, but also by assuming a <strong>hierarchical factor</strong> structure, where a latent variable higher up in the structure determines the values of the latent variables below in the structure. The lavaan syntax allows you to specify such higher-order latent variables with the same <code>=~</code> operator, by naming the higher-order latent variable on the left-hand side, and the latent variables that load onto this higher-order latent variable on the right-hand side. In the model below, we assume that it is these higher-order latent variables which “cause” the overall liking of each person by their dating partner (<code>date_like</code> and <code>other_like</code>).</p>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="structural-equation-modelling-with-lavaan.html#cb681-1" aria-hidden="true" tabindex="-1"></a>speed_mod2_spec <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb681-2"><a href="structural-equation-modelling-with-lavaan.html#cb681-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # define latent variables</span></span>
+<span id="cb681-3"><a href="structural-equation-modelling-with-lavaan.html#cb681-3" aria-hidden="true" tabindex="-1"></a><span class="st">  d_frivolous =~ date_attr + date_fun</span></span>
+<span id="cb681-4"><a href="structural-equation-modelling-with-lavaan.html#cb681-4" aria-hidden="true" tabindex="-1"></a><span class="st">  d_serious =~ date_sinc + date_intel + date_amb</span></span>
+<span id="cb681-5"><a href="structural-equation-modelling-with-lavaan.html#cb681-5" aria-hidden="true" tabindex="-1"></a><span class="st">  d_overall =~ d_frivolous + d_serious</span></span>
+<span id="cb681-6"><a href="structural-equation-modelling-with-lavaan.html#cb681-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb681-7"><a href="structural-equation-modelling-with-lavaan.html#cb681-7" aria-hidden="true" tabindex="-1"></a><span class="st">  o_frivolous =~ other_attr + other_fun</span></span>
+<span id="cb681-8"><a href="structural-equation-modelling-with-lavaan.html#cb681-8" aria-hidden="true" tabindex="-1"></a><span class="st">  o_serious =~ other_sinc + other_intel + other_amb</span></span>
+<span id="cb681-9"><a href="structural-equation-modelling-with-lavaan.html#cb681-9" aria-hidden="true" tabindex="-1"></a><span class="st">  o_overall =~ o_frivolous + o_serious</span></span>
+<span id="cb681-10"><a href="structural-equation-modelling-with-lavaan.html#cb681-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb681-11"><a href="structural-equation-modelling-with-lavaan.html#cb681-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # regressions</span></span>
+<span id="cb681-12"><a href="structural-equation-modelling-with-lavaan.html#cb681-12" aria-hidden="true" tabindex="-1"></a><span class="st">  date_like ~ d_overall</span></span>
+<span id="cb681-13"><a href="structural-equation-modelling-with-lavaan.html#cb681-13" aria-hidden="true" tabindex="-1"></a><span class="st">  other_like ~ o_overall</span></span>
+<span id="cb681-14"><a href="structural-equation-modelling-with-lavaan.html#cb681-14" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb681-15"><a href="structural-equation-modelling-with-lavaan.html#cb681-15" aria-hidden="true" tabindex="-1"></a><span class="st">  # covariances</span></span>
+<span id="cb681-16"><a href="structural-equation-modelling-with-lavaan.html#cb681-16" aria-hidden="true" tabindex="-1"></a><span class="st">  date_like ~~ 0*other_like</span></span>
+<span id="cb681-17"><a href="structural-equation-modelling-with-lavaan.html#cb681-17" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb681-18"><a href="structural-equation-modelling-with-lavaan.html#cb681-18" aria-hidden="true" tabindex="-1"></a>speed_mod2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(speed_mod2_spec, <span class="at">data=</span>speeddate)</span></code></pre></div>
+<p>A plot of the model is obtained via:</p>
+<div class="sourceCode" id="cb682"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb682-1"><a href="structural-equation-modelling-with-lavaan.html#cb682-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(speed_mod2, <span class="at">layout=</span><span class="st">&quot;tree2&quot;</span>, <span class="at">sizeMan=</span><span class="dv">7</span>, <span class="at">residuals=</span><span class="cn">TRUE</span>, <span class="at">whatLabels =</span> <span class="st">&quot;est&quot;</span>, <span class="at">nCharNodes =</span> <span class="dv">12</span>, <span class="at">normalize=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">12</span>, <span class="at">height=</span><span class="dv">6</span>)</span></code></pre></div>
+<p><img src="10-SEM_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>The parameter estimates and tests, as well as additional fit measures for the model, are obtained as:</p>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="structural-equation-modelling-with-lavaan.html#cb683-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(speed_mod2, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6-12 ended normally after 38 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                        29
+## 
+##                                                   Used       Total
+##   Number of observations                          1238        1562
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                               313.884
+##   Degrees of freedom                                49
+##   P-value (Chi-square)                           0.000
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                              7562.059
+##   Degrees of freedom                                66
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.965
+##   Tucker-Lewis Index (TLI)                       0.952
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)             -25632.190
+##   Loglikelihood unrestricted model (H1)     -25475.248
+##                                                       
+##   Akaike (AIC)                               51322.380
+##   Bayesian (BIC)                             51470.897
+##   Sample-size adjusted Bayesian (BIC)        51378.780
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.066
+##   90 Percent confidence interval - lower         0.059
+##   90 Percent confidence interval - upper         0.073
+##   P-value RMSEA &lt;= 0.05                          0.000
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.042
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   d_frivolous =~                                      
+##     date_attr         1.000                           
+##     date_fun          1.012    0.038   26.873    0.000
+##   d_serious =~                                        
+##     date_sinc         1.000                           
+##     date_intel        1.039    0.035   29.354    0.000
+##     date_amb          0.981    0.039   24.979    0.000
+##   d_overall =~                                        
+##     d_frivolous       1.000                           
+##     d_serious         0.608    0.033   18.604    0.000
+##   o_frivolous =~                                      
+##     other_attr        1.000                           
+##     other_fun         1.012    0.038   26.873    0.000
+##   o_serious =~                                        
+##     other_sinc        1.000                           
+##     other_intel       1.039    0.035   29.354    0.000
+##     other_amb         0.981    0.039   24.979    0.000
+##   o_overall =~                                        
+##     o_frivolous       1.000                           
+##     o_serious         0.608    0.033   18.604    0.000
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   date_like ~                                         
+##     d_overall         1.206    0.051   23.817    0.000
+##   other_like ~                                        
+##     o_overall         1.206    0.051   23.817    0.000
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##  .date_like ~~                                        
+##    .other_like        0.000                           
+##   d_overall ~~                                        
+##     o_overall         0.215    0.064    3.370    0.001
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .date_attr         1.667    0.086   19.368    0.000
+##    .date_fun          1.213    0.074   16.455    0.000
+##    .date_sinc         0.925    0.053   17.373    0.000
+##    .date_intel        0.548    0.045   12.098    0.000
+##    .date_amb          1.494    0.072   20.692    0.000
+##    .other_attr        1.667    0.086   19.368    0.000
+##    .other_fun         1.213    0.074   16.455    0.000
+##    .other_sinc        0.925    0.053   17.373    0.000
+##    .other_intel       0.548    0.045   12.098    0.000
+##    .other_amb         1.494    0.072   20.692    0.000
+##    .date_like         0.576    0.086    6.693    0.000
+##    .other_like        0.576    0.086    6.693    0.000
+##    .d_frivolous       0.155    0.073    2.125    0.034
+##    .d_serious         0.849    0.062   13.732    0.000
+##     d_overall         1.960    0.149   13.185    0.000
+##    .o_frivolous       0.155    0.073    2.125    0.034
+##    .o_serious         0.849    0.062   13.732    0.000
+##     o_overall         1.960    0.149   13.185    0.000</code></pre>
+
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1013,6 +2342,9 @@ Boker, Steven M., Michael C. Neale, Hermine H. Maes, Michael Spiegel, Timothy R.
 </div>
 <div id="ref-R-sem" class="csl-entry">
 Fox, John, Zhenghua Nie, and Jarrett Byrnes. 2022. <em>Sem: Structural Equation Models</em>. <a href="https://CRAN.R-project.org/package=sem">https://CRAN.R-project.org/package=sem</a>.
+</div>
+<div id="ref-hayton2004factor" class="csl-entry">
+Hayton, James C, David G Allen, and Vida Scarpello. 2004. <span>“Factor Retention Decisions in Exploratory Factor Analysis: A Tutorial on Parallel Analysis.”</span> <em>Organizational Research Methods</em> 7 (2): 191–205.
 </div>
 <div id="ref-R-lavaan" class="csl-entry">
 Rosseel, Yves, Terrence D. Jorgensen, and Nicholas Rockwood. 2022. <em>Lavaan: Latent Variable Analysis</em>. <a href="https://lavaan.ugent.be">https://lavaan.ugent.be</a>.

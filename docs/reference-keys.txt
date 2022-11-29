@@ -105,6 +105,12 @@ path-models
 regression-models
 mediation-models
 a-more-complex-path-model
+exploratory-factor-analysis-with-the-psych-package
+determining-the-number-of-factors-with-parallel-analysis
+estimating-and-rotating-efa-solutions
+confirmatory-factor-analysis
+modification-indices
+general-sem-models
 bayesian-estimation
 bayesian-hypothesis-testing-with-bayes-factors
 the-bayesfactor-package

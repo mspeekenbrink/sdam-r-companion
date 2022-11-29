@@ -8,7 +8,7 @@ The name "lavaan" stands for "`la`tent `va`riable `an`alysis". It is a package w
 
 ### The lavaan model syntax
 
-In `lavaan`, SEM models can be specified via a formulation similar to the usual syntax for models in `lm()` and `glm()`. However, there are some new relational symbols used to define (residual) covariances, and latent variables.
+In `lavaan`, SEM models can be specified via model formula's similar to those used in the `lm()` and `glm()` functions. However, there are some new operators (relational symbols) used to define (residual) covariances, and latent variables. The table below lists some common expressions in the lavaan syntax.
 
 Formula   | Description 
 -----------------------------------|------------------------------------------------------------------------
@@ -27,7 +27,7 @@ Formula   | Description
 
 ### Model estimation
 
-Under the hood, there is really only a single function used to define and estimate SEM models in the `lavaan` package, namely the `lavaan::lavaan()` function. But the `lavaan` package offers several wrappers around this function to make estimation of common SEM models more convenient. Amongst these are the `lavaan::sem()` function, and the `lavaan::cfa()` function.
+Under the hood, there is really only a single function used to define and estimate SEM models in the `lavaan` package, namely the `lavaan::lavaan()` function. But the `lavaan` package offers several wrappers around this function to make estimation of common SEM models more convenient. These wrappers set defaults for arguments in the `lavaan::lavaan()` function that are geared towards particular analyses. Amongst these are the `lavaan::sem()` function, and the `lavaan::cfa()` function.
 
 ### Extracting results
 
@@ -224,10 +224,11 @@ semPlot::semPaths(fmod_complex, layout="tree2", sizeMan=7, sizeInt = 5,
                   normalize=FALSE)
 ```
 
+<!--
 ## Latent variables
 
 Latent variables are defined in `lavaan` by the `=~` operator. 
-
+-->
 
 ## Exploratory factor analysis with the `psych` package
 
@@ -319,7 +320,7 @@ bfi_cfa <- lavaan::cfa(bfi_cfa_spec, data=bfi)
 
 Having estimated the model, we can obtain parameter estimates and tests via the `summary` function:
 ```{r}
-summary(bfi_cfa)
+summary(bfi_cfa, fit.measures=TRUE)
 ```
 Note that for the `summary()` function to work, you need to have loaded the `lavaan` package with `library(lavaan)`.
 
@@ -355,7 +356,7 @@ bfi_cfa2_spec <-   '
 Using this specification, the results are:
 ```{r}
 bfi_cfa2 <- lavaan::cfa(bfi_cfa2_spec, data=bfi)
-summary(bfi_cfa2)
+summary(bfi_cfa2, fit.measures=TRUE)
 ```
 
 The model plot indicates the fixed covariances with dotted lines:
@@ -365,31 +366,35 @@ semPlot::semPaths(bfi_cfa2, layout="tree", sizeMan=5, sizeInt = 5, style="ram", 
 
 ## Modification indices
 
-`lavaan::modificationIndices()`
+Modification indices can be obtained with the `modificationIndices()` from the `lavaan` package. Modification indices estimated the (positive) change in overall model fit when estimating, rather than fixing a parameter to a specific value. This change is provided in terms of the Chi-squared statistic ($X^2$), which under the null-hypothesis is distributed with $\text{df}=1$. 
 
+For a given model, there are generally a lot of these indices, as many parameters might be fixed. By default, the `lavaan::modificationIndices()` functions also displays the expected change in the parameter value, including various standardized measures of such change. By setting the argument `standardized = FALSE`, these values are excluded, providing slightly more succinct output. An example providing *all* modification indices for the CFA model with uncorrelated factors is given in the code below. Be ready for lots of output!
 ```{r}
-lavaan::modificationIndices(bfi_cfa2) 
+lavaan::modificationIndices(bfi_cfa2, standardized = FALSE) 
 ```
 
-`lavaan::modificationIndices(, minumum.value = 10)`
-
+The argument `minimum.value` can be used to exclude modification indices below a certain value. For example, we might only be interested in modification indices above 20. In addition, it can be useful to order the output by the magnitude of the modification index, showing the most promising parameters first, This can be obtained by setting the argument `sort.` to `TRUE`.  Below, we do both to get some idea of possible parameters which might be useful to allow to be estimated. This still provides many modification indices, but at least a few less.
 ```{r}
-lavaan::modificationIndices(bfi_cfa2, minumum.value = 10) 
+lavaan::modificationIndices(bfi_cfa2, minimum.value = 20, sort.=TRUE, standardized = FALSE) 
 ```
 
-`lavaan::modificationIndices(, minumum.value = 10, order = TRUE)`
-
-```{r}
-lavaan::modificationIndices(bfi_cfa2, minumum.value = 10, order=TRUE) 
-```
+An important thing to remember when inspecting these modification indices is that each indicates what would happen to the model if a single parameter is estimated rather than fixed. If you would include e.g. a residual covariance between `agreableness` and `extraversion`, as suggested by the highest modification index, then the model would change and therefore the resulting modification indices of that modified model would be different from those of the current model. Hence, it does not necessarily make sense to change all fixed variables according to the modification indices. If you are willing to change a model in an exploratory way, this should be a sequential procedure, adding one estimated parameter and then inspecting the modification indices again. It is also important to keep in mind that such sequential procedures don't necessarily lead to the best possible model. 
 
 ## General SEM models
 
-General SEM models can be estimated with the `lavaan:sem()` function. As in the `lavaan::cfa()` function, this allows you to specify latent variables via the `=~` operator. You can also specify further path regressions, linking observed variables to other observed variables and/or to factors. As an example, we will analyse data from the speed dating experiment, which is available in the `sdamr` package as "speeddate".
+General SEM models can be estimated with the `lavaan:sem()` function. As in the `lavaan::cfa()` function, this allows you to specify latent variables via the `=~` operator. You can also specify further path regressions, linking observed variables to other observed variables and/or to factors. As an example, we will analyse data from the speed dating experiment, which is available in the `sdamr` package as `speeddate`.
+
+In this example, we will focus on ratings by participants on how physically attractive (`date_attr`), fun (`date_fun`), sincere (`date_sinc`), intelligent (`date_intel`), and ambitious (`date_amb`) they find them, as well as a rating of their overall liking of their date (`date_like`). The dating partner also provided the same ratings for the participants (same variables, but with `other_` prepended). 
+
+In this first model, we will assume that more "frivolous" aspects of a potential partner (e.g. physical attractiveness and fun) are treated as distinct from more serious aspects of a potential partner (e.g., intelligence, ambition, and sincerity). This can be formalized in a SEM model by assuming different latent variables for each. By formulating these as latent variables, we can also determine the weight of each of the observed variables in determining the latent variables (via the factor loadings).
+
+In the model below, we assume whether a person likes their date also depends on the reciprocal liking by their date of them. This is implemented by assuming that e.g. `date_like` is causally linked to the four latent variables `d_frivolous`, `d_serious`, `o_frivolous`, and `o_serious`. A similar assumption is made for `other_like`.
 
 ```{r}
+# load the data
 data("speeddate", package="sdamr")
 
+# specify the model
 speed_mod_spec <- '
   # define latent variables
   d_frivolous =~ date_attr + date_fun
@@ -403,33 +408,48 @@ speed_mod_spec <- '
   other_like ~ o_frivolous + o_serious + d_frivolous + d_serious
 '
 
+# estimate the model
 speed_mod <- lavaan::sem(speed_mod_spec, data=speeddate)
 ```
 
+The structural relations can be depicted with the code below. Note that we set various arguments in the `semPlot::semPaths()` function. To get a nice looking plot for your own data, it will pay to try different values of this. The `semPaths()` function is very flexible, but doesn't generally provide the best looking plots by default. You **should** have a look at the help file to see all the possible options to make the plot look better (i.e. by typing `?semPlot::semPaths`).
 
 ```{r}
-speed_mod2_spec <- '
-  # define latent variables
-  d_frivolous =~ date_attr + date_fun
-  d_serious =~ date_sinc + date_intel + date_amb
-  
-  o_frivolous =~ other_attr + other_fun
-  o_serious =~ other_sinc + other_intel + other_amb
+semPlot::semPaths(speed_mod, layout="tree2", sizeMan=7, residuals=TRUE, whatLabels = "est", nCharNodes = 12, normalize=TRUE, width=12, height=6)
+```
 
-  # regressions
-  date_like ~ d_frivolous + d_serious 
-  other_like ~ o_frivolous + o_serious
+The parameter estimates and tests, as well as additional fit measures for the model, are obtained as:
+```{r}
+summary(speed_mod, fit.measures = TRUE)
+```
 
-  # fix covariances to 0
-  date_like ~~ 0*other_like
-  d_frivolous~~ 0*o_frivolous + 0*o_serious
-  d_serious~~ 0*o_frivolous + 0*o_serious
-'
-speed_mod2 <- lavaan::sem(speed_mod2_spec, data=speeddate)
+These results indicate that there is potentially little covariance between the latent variables for the participants (`d_frivolous` and `d_serious`) and for their dates (`other_frivolous` and `other_serious`). However, the "frivolous" and "serious" aspects of participants do appear correlated, and similarly for their dates. 
+
+These correlations can be captured by assuming residual covariances between factors are non-zero, but also by assuming a **hierarchical factor** structure, where a latent variable higher up in the structure determines the values of the latent variables below in the structure. The lavaan syntax allows you to specify such higher-order latent variables with the same `=~` operator, by naming the higher-order latent variable on the left-hand side, and the latent variables that load onto this higher-order latent variable on the right-hand side. In the model below, we assume that it is these higher-order latent variables which "cause" the overall liking of each person by their dating partner (`date_like` and `other_like`).
+
+```{r, echo=FALSE}
+# speed_mod2_spec <- '
+#   # define latent variables
+#   d_frivolous =~ date_attr + date_fun
+#   d_serious =~ date_sinc + date_intel + date_amb
+#   
+#   o_frivolous =~ other_attr + other_fun
+#   o_serious =~ other_sinc + other_intel + other_amb
+# 
+#   # regressions
+#   date_like ~ d_frivolous + d_serious 
+#   other_like ~ o_frivolous + o_serious
+# 
+#   # fix covariances to 0
+#   date_like ~~ 0*other_like
+#   d_frivolous~~ 0*o_frivolous + 0*o_serious
+#   d_serious~~ 0*o_frivolous + 0*o_serious
+# '
+# speed_mod2 <- lavaan::sem(speed_mod2_spec, data=speeddate)
 ```
 
 ```{r}
-speed_mod3_spec <- '
+speed_mod2_spec <- '
   # define latent variables
   d_frivolous =~ date_attr + date_fun
   d_serious =~ date_sinc + date_intel + date_amb
@@ -446,10 +466,16 @@ speed_mod3_spec <- '
   # covariances
   date_like ~~ 0*other_like
 '
-speed_mod3 <- lavaan::sem(speed_mod3_spec, data=speeddate)
+speed_mod2 <- lavaan::sem(speed_mod2_spec, data=speeddate)
 ```
 
-
+A plot of the model is obtained via:
 ```{r}
-semPlot::semPaths(speed_mod3, layout="tree2", sizeMan=7, residuals=TRUE, rotation=1, intAtSide = FALSE, whatLabels = "est", nCharNodes = 12, normalize=TRUE, width=12, height=6)
+semPlot::semPaths(speed_mod2, layout="tree2", sizeMan=7, residuals=TRUE, whatLabels = "est", nCharNodes = 12, normalize=TRUE, width=12, height=6)
 ```
+
+The parameter estimates and tests, as well as additional fit measures for the model, are obtained as:
+```{r}
+summary(speed_mod2, fit.measures = TRUE)
+```
+
