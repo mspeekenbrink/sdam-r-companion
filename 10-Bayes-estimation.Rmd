@@ -1,1 +1,28 @@
-# Bayesian estimation 
+# Bayesian estimation with brms
+
+<!-- https://www.barelysignificant.com/phd_thesis/appendix-brms.html -->
+<!-- https://www.rensvandeschoot.com/tutorials/generalised-linear-models-with-brms/ -->
+<!-- https://psyc573-2022spring.netlify.app/mcmc.html?panelset=poor-mixing -->
+
+## The brms package
+
+`brms` stands for Bayesian Regression Models using Stan. (https://mc-stan.org/)[Stan] is general software for Bayesian model specification and estimation, implementing Hamiltonian Monte Carlo as the main MCMC algorithm. Due to its efficiency and flexibility, it has quickly become one of the most popular software packages for Bayesian modelling. Stan uses its own language to define Bayesian models, which may pose a learning curve. The `brms` package provides an easy-to-use interface to Stan for estimating generalized linear mixed-effects models. As this covers a large part of the models used for data analysis in psychology, 
+
+### Model definition
+
+Defining models in `brms` is relatively straightforward, as the package relies on a similar
+formula interface as `lm`, `glm`, and `lme4`.
+
+### Priors
+
+### Posterior samples
+
+Default priors are generally fine. But if you want to define your own priors, this is possible with the `prior` argument.
+
+## Useful plots for MCMC samples
+
+`plot()`
+
+`brms::mcmc_plot(object, type, variable)`
+
+## Using shinystan
