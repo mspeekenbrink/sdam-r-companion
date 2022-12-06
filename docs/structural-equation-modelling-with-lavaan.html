@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-11-29" />
+<meta name="date" content="2022-12-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="generalized-linear-models.html"/>
-<link rel="next" href="bayesian-estimation.html"/>
+<link rel="next" href="bayesian-estimation-with-brms.html"/>
 <script src="book_assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -322,7 +322,16 @@ div.csl-indent {
 <li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.6</b> Modification indices</a></li>
 <li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.7</b> General SEM models</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="bayesian-estimation.html"><a href="bayesian-estimation.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation</a></li>
+<li class="chapter" data-level="12" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation with brms</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#the-brms-package"><i class="fa fa-check"></i><b>12.1</b> The brms package</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#model-definition"><i class="fa fa-check"></i><b>12.1.1</b> Model definition</a></li>
+<li class="chapter" data-level="12.1.2" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#priors"><i class="fa fa-check"></i><b>12.1.2</b> Priors</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#useful-plots-for-mcmc-samples"><i class="fa fa-check"></i><b>12.2</b> Useful plots for MCMC samples</a></li>
+<li class="chapter" data-level="12.3" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#an-example-of-a-poisson-mixed-effects-regression-model"><i class="fa fa-check"></i><b>12.3</b> An example of a Poisson mixed-effects regression model</a></li>
+</ul></li>
 <li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
 <ul>
 <li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a>
@@ -464,7 +473,7 @@ div.csl-indent {
 </div>
 <div id="plotting-sem-models-with-the-semplot-package" class="section level2 hasAnchor" number="11.2">
 <h2><span class="header-section-number">11.2</span> Plotting SEM models with the <code>semPlot</code> package<a href="structural-equation-modelling-with-lavaan.html#plotting-sem-models-with-the-semplot-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The <code>semPlot</code> package <span class="citation">(<a href="#ref-R-semPlot" role="doc-biblioref"><strong>R-semPlot?</strong></a>)</span> package provides a convenient way to plot SEM models fitted by <code>lavaan</code>. In principle, all that is needed to plot a <code>lavaan</code>-estimated object <code>mod</code> is a call to <code>semPlot::semPaths(mod)</code>. However, the default settings don’t necessarily provide the best looking plots. But the <code>semPlot</code> package is very flexible, and by setting several arguments, it is possible to produce agreeable plots, although it will often require multiple attempts. Important arguments to the <code>semPlot::semPaths()</code> function are</p>
+<p>The <code>semPlot</code> package <span class="citation">(<a href="#ref-R-semPlot" role="doc-biblioref">Epskamp 2022</a>)</span> package provides a convenient way to plot SEM models fitted by <code>lavaan</code>. In principle, all that is needed to plot a <code>lavaan</code>-estimated object <code>mod</code> is a call to <code>semPlot::semPaths(mod)</code>. However, the default settings don’t necessarily provide the best looking plots. But the <code>semPlot</code> package is very flexible, and by setting several arguments, it is possible to produce agreeable plots, although it will often require multiple attempts. Important arguments to the <code>semPlot::semPaths()</code> function are</p>
 <ul>
 <li><code>object</code>: for our purposes, this is the object returned by <code>lavaan</code></li>
 <li><code>what</code>: this allows you to change the appearance of the arrows based on the parameter estimates. The default (<code>"path"</code>) just displays the arrows, but by setting this argument to <code>"est"</code> the linewidth of the arrows reflects the magnitude of the links. For more options, see <code>?semPlot::semPath</code>.</li>
@@ -2340,6 +2349,9 @@ Latent variables are defined in `lavaan` by the `=~` operator.
 <div id="ref-R-OpenMx" class="csl-entry">
 Boker, Steven M., Michael C. Neale, Hermine H. Maes, Michael Spiegel, Timothy R. Brick, Ryne Estabrook, Timothy C. Bates, et al. 2022. <em>OpenMx: Extended Structural Equation Modelling</em>. <a href="https://CRAN.R-project.org/package=OpenMx">https://CRAN.R-project.org/package=OpenMx</a>.
 </div>
+<div id="ref-R-semPlot" class="csl-entry">
+Epskamp, Sacha. 2022. <em>semPlot: Path Diagrams and Visual Analysis of Various SEM Packages’ Output</em>. <a href="https://github.com/SachaEpskamp/semPlot">https://github.com/SachaEpskamp/semPlot</a>.
+</div>
 <div id="ref-R-sem" class="csl-entry">
 Fox, John, Zhenghua Nie, and Jarrett Byrnes. 2022. <em>Sem: Structural Equation Models</em>. <a href="https://CRAN.R-project.org/package=sem">https://CRAN.R-project.org/package=sem</a>.
 </div>
@@ -2356,7 +2368,7 @@ Rosseel, Yves, Terrence D. Jorgensen, and Nicholas Rockwood. 2022. <em>Lavaan: L
         </div>
       </div>
 <a href="generalized-linear-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bayesian-estimation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bayesian-estimation-with-brms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>

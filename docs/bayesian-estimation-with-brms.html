@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 12 Bayesian estimation with brms | An R companion to Statistics: data analysis and modelling</title>
+  <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 12 Bayesian estimation with brms | An R companion to Statistics: data analysis and modelling" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  <meta name="github-repo" content="mspeekenbrink/sdam-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 12 Bayesian estimation with brms | An R companion to Statistics: data analysis and modelling" />
+  
+  <meta name="twitter:description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
+  
+
+<meta name="author" content="Maarten Speekenbrink" />
+
+
+<meta name="date" content="2022-12-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="structural-equation-modelling-with-lavaan.html"/>
+<link rel="next" href="bayesian-hypothesis-testing-with-bayes-factors.html"/>
+<script src="book_assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="book_assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="book_assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="book_assets/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.1</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i><b>1.2</b> Getting started</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#download-r"><i class="fa fa-check"></i><b>1.2.1</b> Download R</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction.html"><a href="introduction.html#download-r-studio"><i class="fa fa-check"></i><b>1.2.2</b> Download R Studio</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#working-with-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working with RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#installing-packages"><i class="fa fa-check"></i><b>1.4</b> Installing packages</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction.html"><a href="introduction.html#installing-the-sdamr-package"><i class="fa fa-check"></i><b>1.4.1</b> Installing the <code>sdamr</code> package</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction.html"><a href="introduction.html#loading-packages"><i class="fa fa-check"></i><b>1.4.2</b> Loading packages</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#getting-help"><i class="fa fa-check"></i><b>1.5</b> Getting help</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#first-steps-r-as-a-calculator"><i class="fa fa-check"></i><b>1.6</b> First steps: R as a calculator</a></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#data"><i class="fa fa-check"></i><b>1.7</b> Data</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#data-types"><i class="fa fa-check"></i><b>1.7.1</b> Data types</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#objects"><i class="fa fa-check"></i><b>1.7.2</b> Objects</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#importing-data"><i class="fa fa-check"></i><b>1.7.3</b> Importing data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="introduction.html"><a href="introduction.html#exploring-data-descriptive-statistics"><i class="fa fa-check"></i><b>1.8</b> Exploring data: Descriptive statistics</a></li>
+<li class="chapter" data-level="1.9" data-path="introduction.html"><a href="introduction.html#exploring-data-creating-plots"><i class="fa fa-check"></i><b>1.9</b> Exploring data: Creating plots</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="introduction.html"><a href="introduction.html#histogram"><i class="fa fa-check"></i><b>1.9.1</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.2" data-path="introduction.html"><a href="introduction.html#boxplot"><i class="fa fa-check"></i><b>1.9.2</b> Boxplot</a></li>
+<li class="chapter" data-level="1.9.3" data-path="introduction.html"><a href="introduction.html#scatterplot"><i class="fa fa-check"></i><b>1.9.3</b> Scatterplot</a></li>
+<li class="chapter" data-level="1.9.4" data-path="introduction.html"><a href="introduction.html#raincloud-plot"><i class="fa fa-check"></i><b>1.9.4</b> Raincloud plot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="introduction.html"><a href="introduction.html#a-note-about-namespaces-and-loading-packages"><i class="fa fa-check"></i><b>1.10</b> A note about namespaces and loading packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-modelling.html"><a href="statistical-modelling.html"><i class="fa fa-check"></i><b>2</b> Statistical modelling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#distributions"><i class="fa fa-check"></i><b>2.1</b> Distributions</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#generating-random-data"><i class="fa fa-check"></i><b>2.1.1</b> Generating random data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#estimation"><i class="fa fa-check"></i><b>2.2</b> Estimation</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-modelling.html"><a href="statistical-modelling.html#the-likelihood-function"><i class="fa fa-check"></i><b>2.2.1</b> The likelihood function</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-modelling.html"><a href="statistical-modelling.html#calculating-the-likelihood-ratio"><i class="fa fa-check"></i><b>2.2.2</b> Calculating the likelihood ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="statistical-modelling.html"><a href="statistical-modelling.html#hypothesis-testing-directly-with-the-binomial-distribution"><i class="fa fa-check"></i><b>2.3</b> Hypothesis testing directly with the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html"><i class="fa fa-check"></i><b>3</b> The one-sample t-test</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#missing-values"><i class="fa fa-check"></i><b>3.1</b> Missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#selecting-subsets-of-data"><i class="fa fa-check"></i><b>3.2</b> Selecting subsets of data</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#indexing-variables"><i class="fa fa-check"></i><b>3.2.1</b> Indexing variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#the-subset-function"><i class="fa fa-check"></i><b>3.2.2</b> The <code>subset</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.3</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.4" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#effect-size"><i class="fa fa-check"></i><b>3.4</b> Effect size</a></li>
+<li class="chapter" data-level="3.5" data-path="the-one-sample-t-test.html"><a href="the-one-sample-t-test.html#nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.5</b> Nonparametric bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regression.html"><a href="regression.html#estimating-an-testing-a-simple-regression-model"><i class="fa fa-check"></i><b>4.1</b> Estimating an testing a simple regression model</a></li>
+<li class="chapter" data-level="4.2" data-path="regression.html"><a href="regression.html#model-comparisons"><i class="fa fa-check"></i><b>4.2</b> Model comparisons</a></li>
+<li class="chapter" data-level="4.3" data-path="regression.html"><a href="regression.html#estimating-and-testing-a-multiple-regression-model"><i class="fa fa-check"></i><b>4.3</b> Estimating and testing a multiple regression model</a></li>
+<li class="chapter" data-level="4.4" data-path="regression.html"><a href="regression.html#residuals-and-predicted-values"><i class="fa fa-check"></i><b>4.4</b> Residuals and predicted values</a></li>
+<li class="chapter" data-level="4.5" data-path="regression.html"><a href="regression.html#plotting-pairwise-scatterplots-for-many-variables"><i class="fa fa-check"></i><b>4.5</b> Plotting pairwise scatterplots for many variables</a></li>
+<li class="chapter" data-level="4.6" data-path="regression.html"><a href="regression.html#multicollinearity-and-outlier-detection"><i class="fa fa-check"></i><b>4.6</b> Multicollinearity and outlier detection</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html"><i class="fa fa-check"></i><b>5</b> Moderation and mediation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#moderation-in-linear-models"><i class="fa fa-check"></i><b>5.1</b> Moderation in linear models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#a-reminder-about-namespaces"><i class="fa fa-check"></i><b>5.1.1</b> A reminder about namespaces</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#centering"><i class="fa fa-check"></i><b>5.2</b> Centering</a></li>
+<li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
+<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#computing-contrast-coded-predictors"><i class="fa fa-check"></i><b>6.1</b> Computing contrast-coded predictors</a></li>
+<li class="chapter" data-level="6.2" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#assigning-contrasts-to-factors"><i class="fa fa-check"></i><b>6.2</b> Assigning contrasts to factors</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html#default-coding-schemes"><i class="fa fa-check"></i><b>6.2.1</b> Default coding schemes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="factorial-anova.html"><a href="factorial-anova.html"><i class="fa fa-check"></i><b>7</b> Factorial ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="factorial-anova.html"><a href="factorial-anova.html#rainclouds-for-factorial-designs"><i class="fa fa-check"></i><b>7.1</b> Rainclouds for factorial designs</a></li>
+<li class="chapter" data-level="7.2" data-path="factorial-anova.html"><a href="factorial-anova.html#formulating-estimating-and-testing-a-factorial-anova"><i class="fa fa-check"></i><b>7.2</b> Formulating, estimating, and testing a factorial ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="factorial-anova.html"><a href="factorial-anova.html#a-threeway-anova"><i class="fa fa-check"></i><b>7.2.1</b> A threeway ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="factorial-anova.html"><a href="factorial-anova.html#type-1-2-and-3-sums-of-squares"><i class="fa fa-check"></i><b>7.3</b> Type 1, 2, and 3 Sums of Squares</a></li>
+<li class="chapter" data-level="7.4" data-path="factorial-anova.html"><a href="factorial-anova.html#planned-comparisons-and-post-hoc-tests-with-emmeans"><i class="fa fa-check"></i><b>7.4</b> Planned comparisons and post-hoc tests with <code>emmeans</code></a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="factorial-anova.html"><a href="factorial-anova.html#adjusted-p-values"><i class="fa fa-check"></i><b>7.4.1</b> Adjusted p-values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="factorial-anova.html"><a href="factorial-anova.html#testing-general-contrasts-with-emmeans"><i class="fa fa-check"></i><b>7.5</b> Testing general contrasts with <code>emmeans</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html"><i class="fa fa-check"></i><b>8</b> Repeated-measures ANOVA</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#long-and-wide-data"><i class="fa fa-check"></i><b>8.1</b> Long and wide data</a></li>
+<li class="chapter" data-level="8.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-separate-glms"><i class="fa fa-check"></i><b>8.2</b> Repeated-measures ANOVA with separate GLMs</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#computing-within-subjects-composite-scores"><i class="fa fa-check"></i><b>8.2.1</b> Computing within-subjects composite scores</a></li>
+<li class="chapter" data-level="8.2.2" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#performing-a-repeated-measures-anova-with-separate-models"><i class="fa fa-check"></i><b>8.2.2</b> Performing a repeated-measures ANOVA with separate models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-car-package"><i class="fa fa-check"></i><b>8.3</b> Repeated-measures ANOVA with the <code>car</code> package</a></li>
+<li class="chapter" data-level="8.4" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#repeated-measures-anova-with-the-afex-package"><i class="fa fa-check"></i><b>8.4</b> Repeated-measures ANOVA with the <code>afex</code> package</a></li>
+<li class="chapter" data-level="8.5" data-path="repeated-measures-anova.html"><a href="repeated-measures-anova.html#contrasts-with-the-emmeans-package"><i class="fa fa-check"></i><b>8.5</b> Contrasts with the <code>emmeans</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Linear mixed-effects models</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4"><i class="fa fa-check"></i><b>9.1</b> Formulating and estimating linear mixed-effects models with <code>lme4</code></a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-model"><i class="fa fa-check"></i><b>9.1.1</b> Random intercepts model</a></li>
+<li class="chapter" data-level="9.1.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions"><i class="fa fa-check"></i><b>9.1.2</b> Visually assessing model assumptions</a></li>
+<li class="chapter" data-level="9.1.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>9.1.3</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="9.1.4" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#likelihood-ratio-test-with-the-anova-function"><i class="fa fa-check"></i><b>9.1.4</b> Likelihood ratio test with the <code>anova</code> function</a></li>
+<li class="chapter" data-level="9.1.5" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#confidence-intervals"><i class="fa fa-check"></i><b>9.1.5</b> Confidence intervals</a></li>
+<li class="chapter" data-level="9.1.6" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#plotting-model-predictions"><i class="fa fa-check"></i><b>9.1.6</b> Plotting model predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed"><i class="fa fa-check"></i><b>9.2</b> Obtaining p-values with <code>afex::mixed</code></a></li>
+<li class="chapter" data-level="9.3" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#crossed-random-effects"><i class="fa fa-check"></i><b>9.3</b> Crossed random effects</a></li>
+<li class="chapter" data-level="9.4" data-path="linear-mixed-effects-models.html"><a href="linear-mixed-effects-models.html#automatically-finding-optimal-random-effects-structures-with-the-buildmer-package"><i class="fa fa-check"></i><b>9.4</b> Automatically finding optimal random effects structures with the <code>buildmer</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>10</b> Generalized linear models</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-estimation-and-inference"><i class="fa fa-check"></i><b>10.1</b> Model estimation and inference</a></li>
+<li class="chapter" data-level="10.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#confidence-intervals-1"><i class="fa fa-check"></i><b>10.2</b> Confidence intervals</a></li>
+<li class="chapter" data-level="10.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-predictions"><i class="fa fa-check"></i><b>10.3</b> Model predictions</a></li>
+<li class="chapter" data-level="10.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#alternative-link-functions-for-logistic-regression"><i class="fa fa-check"></i><b>10.4</b> Alternative link functions for logistic regression</a></li>
+<li class="chapter" data-level="10.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-poisson-regression"><i class="fa fa-check"></i><b>10.5</b> Quasi-Poisson regression</a></li>
+<li class="chapter" data-level="10.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#log-linear-models"><i class="fa fa-check"></i><b>10.6</b> Log-linear models</a></li>
+<li class="chapter" data-level="10.7" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#multinomial-regression"><i class="fa fa-check"></i><b>10.7</b> Multinomial regression</a></li>
+<li class="chapter" data-level="10.8" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#generalized-linear-mixed-effects-models"><i class="fa fa-check"></i><b>10.8</b> Generalized linear mixed effects models</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html"><i class="fa fa-check"></i><b>11</b> Structural Equation modelling with lavaan</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#lavaan"><i class="fa fa-check"></i><b>11.1</b> Lavaan</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#the-lavaan-model-syntax"><i class="fa fa-check"></i><b>11.1.1</b> The lavaan model syntax</a></li>
+<li class="chapter" data-level="11.1.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#model-estimation"><i class="fa fa-check"></i><b>11.1.2</b> Model estimation</a></li>
+<li class="chapter" data-level="11.1.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#extracting-results"><i class="fa fa-check"></i><b>11.1.3</b> Extracting results</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#plotting-sem-models-with-the-semplot-package"><i class="fa fa-check"></i><b>11.2</b> Plotting SEM models with the <code>semPlot</code> package</a></li>
+<li class="chapter" data-level="11.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#path-models"><i class="fa fa-check"></i><b>11.3</b> Path models</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#regression-models"><i class="fa fa-check"></i><b>11.3.1</b> Regression models</a></li>
+<li class="chapter" data-level="11.3.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#mediation-models"><i class="fa fa-check"></i><b>11.3.2</b> Mediation models</a></li>
+<li class="chapter" data-level="11.3.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model"><i class="fa fa-check"></i><b>11.3.3</b> A more complex path model</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package"><i class="fa fa-check"></i><b>11.4</b> Exploratory factor analysis with the <code>psych</code> package</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis"><i class="fa fa-check"></i><b>11.4.1</b> Determining the number of factors with Parallel Analysis</a></li>
+<li class="chapter" data-level="11.4.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions"><i class="fa fa-check"></i><b>11.4.2</b> Estimating and rotating EFA solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#confirmatory-factor-analysis"><i class="fa fa-check"></i><b>11.5</b> Confirmatory factor analysis</a></li>
+<li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.6</b> Modification indices</a></li>
+<li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.7</b> General SEM models</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation with brms</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#the-brms-package"><i class="fa fa-check"></i><b>12.1</b> The brms package</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#model-definition"><i class="fa fa-check"></i><b>12.1.1</b> Model definition</a></li>
+<li class="chapter" data-level="12.1.2" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#priors"><i class="fa fa-check"></i><b>12.1.2</b> Priors</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#useful-plots-for-mcmc-samples"><i class="fa fa-check"></i><b>12.2</b> Useful plots for MCMC samples</a></li>
+<li class="chapter" data-level="12.3" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html#an-example-of-a-poisson-mixed-effects-regression-model"><i class="fa fa-check"></i><b>12.3</b> An example of a Poisson mixed-effects regression model</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html"><i class="fa fa-check"></i><b>13</b> Bayesian hypothesis testing with Bayes Factors</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#the-bayesfactor-package"><i class="fa fa-check"></i><b>13.1</b> The <code>BayesFactor</code> package</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test"><i class="fa fa-check"></i><b>13.1.1</b> A Bayesian one-sample t-test</a></li>
+<li class="chapter" data-level="13.1.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test"><i class="fa fa-check"></i><b>13.1.2</b> A Bayesian two-sample t-test</a></li>
+<li class="chapter" data-level="13.1.3" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-anova"><i class="fa fa-check"></i><b>13.1.3</b> A Bayesian ANOVA</a></li>
+<li class="chapter" data-level="13.1.4" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-regression-and-ancova"><i class="fa fa-check"></i><b>13.1.4</b> Bayesian regression and ANCOVA</a></li>
+<li class="chapter" data-level="13.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>13.1.5</b> Bayesian repeated-measures ANOVA</a></li>
+<li class="chapter" data-level="13.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>13.1.6</b> Parameter estimates</a></li>
+<li class="chapter" data-level="13.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>13.1.7</b> Highest-density interval</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#yaml-headers"><i class="fa fa-check"></i><b>14.1</b> YAML headers</a></li>
+<li class="chapter" data-level="14.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#markdown-syntax"><i class="fa fa-check"></i><b>14.2</b> Markdown syntax</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#inline-formatting"><i class="fa fa-check"></i><b>14.2.1</b> Inline formatting</a></li>
+<li class="chapter" data-level="14.2.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#block-level-elements"><i class="fa fa-check"></i><b>14.2.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="14.2.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#math-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Math expressions</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#r-code"><i class="fa fa-check"></i><b>14.3</b> R code chunks and inline R code</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#figures"><i class="fa fa-check"></i><b>14.3.1</b> Figures</a></li>
+<li class="chapter" data-level="14.3.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#tables"><i class="fa fa-check"></i><b>14.3.2</b> Tables</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#apa-documents-with-papaja"><i class="fa fa-check"></i><b>14.4</b> APA documents with <code>papaja</code></a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#installation"><i class="fa fa-check"></i><b>14.4.1</b> Installation</a></li>
+<li class="chapter" data-level="14.4.2" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja"><i class="fa fa-check"></i><b>14.4.2</b> How to use papaja</a></li>
+<li class="chapter" data-level="14.4.3" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#getting-help-1"><i class="fa fa-check"></i><b>14.4.3</b> Getting help</a></li>
+<li class="chapter" data-level="14.4.4" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html#other-related-r-packages"><i class="fa fa-check"></i><b>14.4.4</b> Other related R packages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R companion to Statistics: data analysis and modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bayesian-estimation-with-brms" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">Chapter 12</span> Bayesian estimation with brms<a href="bayesian-estimation-with-brms.html#bayesian-estimation-with-brms" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<!-- https://www.barelysignificant.com/phd_thesis/appendix-brms.html -->
+<!-- https://www.rensvandeschoot.com/tutorials/generalised-linear-models-with-brms/ -->
+<!-- https://psyc573-2022spring.netlify.app/mcmc.html?panelset=poor-mixing -->
+<div id="the-brms-package" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> The brms package<a href="bayesian-estimation-with-brms.html#the-brms-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>brms</code> <span class="citation">(<a href="#ref-R-brms" role="doc-biblioref">Bürkner 2022</a>)</span> stands for Bayesian Regression Models using Stan. (<a href="https://mc-stan.org/" class="uri">https://mc-stan.org/</a>)[Stan] is general software for Bayesian model specification and estimation, implementing Hamiltonian Monte Carlo as the main MCMC algorithm. Due to its efficiency and flexibility, it has quickly become one of the most popular software packages for Bayesian modelling. Stan uses its own language to define Bayesian models, which may pose a learning curve. The <code>brms</code> package provides an easy-to-use interface to Stan for estimating generalized linear mixed-effects models. As this covers a large part of the models used for data analysis in psychology,</p>
+<div id="model-definition" class="section level3 hasAnchor" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Model definition<a href="bayesian-estimation-with-brms.html#model-definition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Defining models in <code>brms</code> is relatively straightforward, as the package relies on a similar
+formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. The main workhorse is the <code>brms::brm()</code> function. Main arguments for <code>brms::brm()</code> are:</p>
+<ul>
+<li><code>formula</code>: a model formula, using the <code>lme4</code> syntax. Table <a href="bayesian-estimation-with-brms.html#tab:brms-fixed-effects-formula-examples">12.1</a> contains a reminder of this syntax.</li>
+<li><code>data</code>: the <code>data.frame</code> containing the variables used in the model formula.</li>
+<li><code>family</code>: similar to that used in <code>glm()</code>, a description of the response distribution (likelihood). By default, this is a Normal distribution.</li>
+<li><code>prior</code>: definition of the prior distributions. If not specified, default priors are used for all parameters.</li>
+<li><code>sample_prior</code>: logical, to indicate whether you also want to obtain draws from the prior distributions.</li>
+<li><code>chains</code>: number of parallel MCMC chains to run (defaults to 4).</li>
+<li><code>iter</code>: total number of MCMC iterations per chain (defaults to 2000).</li>
+<li><code>warmup</code>: number of samples to discard as a warmup or <em>burn-in</em> sample (defaults to <code>iter/2</code>).</li>
+<li><code>thin</code>: the so-called thinning rate, which can be used to only keep every <span class="math inline">\(k\)</span>th sample.</li>
+<li><code>seed</code>: may be used to set the random seed for replication of results.</li>
+<li><code>cores</code>: specify the number of cores of the CPU to be used to run the chains in parallel. This defaults to 1 (each chain is run after the other). If you have a multicore CPU, it is better to set this higher (e.g. to 4) to speed-up computation time.</li>
+</ul>
+<table>
+<caption><span id="tab:brms-fixed-effects-formula-examples">Table 12.1: </span> Examples of formula notation for fixed and random effects.</caption>
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formula</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a + b</code></td>
+<td>main effects of <code>a</code> and <code>b</code> (and no interaction)</td>
+</tr>
+<tr class="even">
+<td><code>a:b</code></td>
+<td>only interaction of <code>a</code> and <code>b</code> (and no main effects)</td>
+</tr>
+<tr class="odd">
+<td><code>a * b</code></td>
+<td>main effects and interaction of <code>a</code> and <code>b</code> (expands to: <code>a + b + a:b</code>)</td>
+</tr>
+<tr class="even">
+<td><code>(a+b+c)^2</code></td>
+<td>main effects and two-way interactions, but no three-way interaction (expands to: <code>a + b + c + a:b + b:c + a:c</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>(a+b)*c</code></td>
+<td>all main effects and pairwise interactions between <code>c</code> and <code>a</code> or <code>b</code> (expands to: <code>a + b + c + a:c + b:c</code>)</td>
+</tr>
+<tr class="even">
+<td><code>0 + a</code></td>
+<td><code>0</code> suppresses the intercept resulting in a model that has one parameter per level of <code>a</code> (identical to: <code>a - 1</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>(1|s)</code></td>
+<td>random intercepts for unique level of the factor <code>s</code></td>
+</tr>
+<tr class="even">
+<td><code>(1|s) + (1|i)</code></td>
+<td>random intercepts for each unique level of <code>s</code> and for each unique level of <code>i</code></td>
+</tr>
+<tr class="odd">
+<td><code>(1|s/i)</code></td>
+<td>random intercepts for factor <code>s</code> and <code>i</code>, where the random effects for <code>i</code> are <em>nested</em> in <code>s</code>. This expands to <code>(1|s) + (1|s:i)</code>, i.e. a random intercept for each level of <code>s</code>, and each unique combination of the levels of <code>s</code> and <code>i</code>. Nested random effects are used in so-called multilevel models. For example, <code>s</code> might refer to schools, and <code>i</code> to classrooms within those schools.</td>
+</tr>
+<tr class="even">
+<td><code>(a|s)</code></td>
+<td>random intercepts and random slopes for <code>a</code>, for each level of <code>s</code>. Correlations between the intercept and slope effects are also estimated. (identical to <code>(a*b|s)</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>(a*b|s)</code></td>
+<td>random intercepts and slopes for <code>a</code>, <code>b</code>, and the <code>a:b</code> interaction, for each level of <code>s</code>. Correlations between all the random effects are estimated.</td>
+</tr>
+<tr class="even">
+<td><code>(0+a|s)</code></td>
+<td>random slopes for <code>a</code> for each level of <code>s</code>, but no random intercepts</td>
+</tr>
+<tr class="odd">
+<td><code>(a||s)</code></td>
+<td>random intercepts and random slopes for <code>a</code>, for each level of <code>s</code>, but no correlations between the random effects (i.e. they are set to 0). This expands to: <code>(0+a|s) + (1|s)</code>)</td>
+</tr>
+</tbody>
+</table>
+<div id="brms-family" class="section level4 hasAnchor" number="12.1.1.1">
+<h4><span class="header-section-number">12.1.1.1</span> Brms family<a href="bayesian-estimation-with-brms.html#brms-family" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <code>family</code> argument in <code>brms::brm()</code> is used to define the random part of the model. The <code>brms</code> package extends the options of the <code>family</code> argument in the <code>glm()</code> function to allow for a much wider class of likelihoods. You can see the help file (<code>help("brmsfamily", package="brms")</code>) for a full list of the current options. Some examples of available options are:</p>
+<ul>
+<li>Normal distribution, for linear regression and the GLM: <code>gaussian(link = "identity")</code></li>
+<li>Generalized Student <span class="math inline">\(t\)</span>-distribution, useful for robust linear regression less influenced by outliers: <code>student(link = "identity", link_sigma = "log", link_nu = "logm1")</code></li>
+<li>Bernoulli distribution, for logistic regression: <code>bernoulli(link = "logit")</code></li>
+<li>Poisson distribution, useful for unbounded count data: <code>poisson(link = "log")</code></li>
+<li>Categorical distribution, for multinomial logistic regression: <code>categorical(link = "logit", refcat = NULL)</code></li>
+<li>Beta-distribution, for regression of a dependent variable bounded between 0 and 1 (e.g. proportions): <code>Beta(link = "logit", link_phi = "log")</code></li>
+<li>Ex-Gaussian distribution, popular for modelling reaction times: <code>exgaussian(link = "identity", link_sigma = "log", link_beta = "log")</code></li>
+</ul>
+<p>And there are many more options. There is even a so-called Wiener diffusion distribution implemented, which can be used to estimate the drift-diffusion model (<code>wiener(link = "identity", link_bs = "log", link_ndt = "log", link_bias = "logit")</code>).</p>
+<p>Note that many of the <code>brmsfamily</code> objects have multiple link functions, one for each parameter of the distribution. For example, in <code>student(link = "identity", link_sigma = "log", link_nu = "logm1")</code>, there is one link function for the mean (<code>link</code>), one for the standard deviation (<code>link_sigma</code>), and one for the degrees of freedom (<code>link_nu</code>). This family implements a generalized <span class="math inline">\(t\)</span>-distribution, which, in contrast to the standard <span class="math inline">\(t\)</span>-distribution, has a location and scale parameter like the Normal distribution. But the degrees of freedom allow this distribution to have wider tails than the Normal distribution, which can make it more robust against outliers.</p>
+<p>As an example of estimating a model with <code>brms</code>, we can estimate a linear regression model as follows:</p>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="bayesian-estimation-with-brms.html#cb685-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
+<pre><code>## Loading required package: Rcpp</code></pre>
+<pre><code>## Loading &#39;brms&#39; package (version 2.18.0). Useful instructions
+## can be found by typing help(&#39;brms&#39;). A more detailed introduction
+## to the package is available through vignette(&#39;brms_overview&#39;).</code></pre>
+<pre><code>## 
+## Attaching package: &#39;brms&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     ar</code></pre>
+<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="bayesian-estimation-with-brms.html#cb690-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb690-2"><a href="bayesian-estimation-with-brms.html#cb690-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
+<span id="cb690-3"><a href="bayesian-estimation-with-brms.html#cb690-3" aria-hidden="true" tabindex="-1"></a>mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span></span>
+<span id="cb690-4"><a href="bayesian-estimation-with-brms.html#cb690-4" aria-hidden="true" tabindex="-1"></a>                           percent_bachelors_degree_or_higher, </span>
+<span id="cb690-5"><a href="bayesian-estimation-with-brms.html#cb690-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family=</span><span class="fu">gaussian</span>(), <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">112</span>)</span></code></pre></div>
+<pre><code>## Compiling Stan program...</code></pre>
+<pre><code>## Trying to compile a simple C file</code></pre>
+<pre><code>## Running /usr/lib/R/bin/R CMD SHLIB foo.c
+## gcc -I&quot;/usr/share/R/include&quot; -DNDEBUG   -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/Rcpp/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/unsupported&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/BH/include&quot; -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/src/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppParallel/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/rstan/include&quot; -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include &#39;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp&#39;  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-a3XuZ5/r-base-4.2.2.20221110=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2  -c foo.c -o foo.o
+## In file included from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Core:88,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Dense:1,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+##                  from &lt;command-line&gt;:
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name ‘namespace’
+##   628 | namespace Eigen {
+##       | ^~~~~~~~~
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:17: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+##   628 | namespace Eigen {
+##       |                 ^
+## In file included from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Dense:1,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+##                  from &lt;command-line&gt;:
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Core:96:10: fatal error: complex: No such file or directory
+##    96 | #include &lt;complex&gt;
+##       |          ^~~~~~~~~
+## compilation terminated.
+## make: *** [/usr/lib/R/etc/Makeconf:169: foo.o] Error 1</code></pre>
+<pre><code>## Start sampling</code></pre>
+<pre><code>## 
+## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 1).
+## Chain 1: 
+## Chain 1: Gradient evaluation took 2.6e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
+## Chain 1: Adjust your expectations accordingly!
+## Chain 1: 
+## Chain 1: 
+## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 1: 
+## Chain 1:  Elapsed Time: 0.041686 seconds (Warm-up)
+## Chain 1:                0.03601 seconds (Sampling)
+## Chain 1:                0.077696 seconds (Total)
+## Chain 1: 
+## 
+## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 2).
+## Chain 2: 
+## Chain 2: Gradient evaluation took 7e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+## Chain 2: Adjust your expectations accordingly!
+## Chain 2: 
+## Chain 2: 
+## Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 2: 
+## Chain 2:  Elapsed Time: 0.0421 seconds (Warm-up)
+## Chain 2:                0.034246 seconds (Sampling)
+## Chain 2:                0.076346 seconds (Total)
+## Chain 2: 
+## 
+## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 3).
+## Chain 3: 
+## Chain 3: Gradient evaluation took 9e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+## Chain 3: Adjust your expectations accordingly!
+## Chain 3: 
+## Chain 3: 
+## Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 3: 
+## Chain 3:  Elapsed Time: 0.040264 seconds (Warm-up)
+## Chain 3:                0.035901 seconds (Sampling)
+## Chain 3:                0.076165 seconds (Total)
+## Chain 3: 
+## 
+## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 4).
+## Chain 4: 
+## Chain 4: Gradient evaluation took 7e-06 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+## Chain 4: Adjust your expectations accordingly!
+## Chain 4: 
+## Chain 4: 
+## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 4: 
+## Chain 4:  Elapsed Time: 0.040161 seconds (Warm-up)
+## Chain 4:                0.032601 seconds (Sampling)
+## Chain 4:                0.072762 seconds (Total)
+## Chain 4:</code></pre>
+<p>Because estimation with <code>brms</code> involves random sampling via <code>stan</code>, we use the <code>seed</code> argument to be able to reproduce the results.</p>
+<p>You can obtain a summary of the model via the <code>summary()</code> function:</p>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="bayesian-estimation-with-brms.html#cb696-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher 
+##    Data: dat (Number of observations: 50) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##                                    Estimate Est.Error l-95% CI u-95% CI Rhat
+## Intercept                             81.91      6.37    69.15    94.33 1.00
+## hate_groups_per_million                1.31      0.54     0.24     2.37 1.00
+## percent_bachelors_degree_or_higher    -1.22      0.19    -1.59    -0.84 1.00
+##                                    Bulk_ESS Tail_ESS
+## Intercept                              3489     2712
+## hate_groups_per_million                3888     3113
+## percent_bachelors_degree_or_higher     3702     2964
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     6.80      0.72     5.57     8.35 1.00     3376     3026
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>The output first shows details of the model (e.g. family and model formula), and MCMC estimation (e.g. number of chains and iterations). Under <code>Population-Level Effects:</code> you will find a summary of the approximate posterior distribution for the main parameters of interest (<code>Intercept</code>, and slopes for <code>hate_groups_per_million</code> and <code>percent_bachelors_degree_or_higher</code>). The <code>Estimate</code> is the posterior mean, the <code>Est.Error</code> is the posterior standard deviation, the <code>l-95% CI</code> and <code>u-95% CI</code> provide respectively the lower and upper bound of the 95% Highest Density Interval. The width of the latter interval can be changed by supplying a <code>prob</code> argument to the summary function. For example, <code>summary(mod, prob=.9)</code> would return the 90% HDI.</p>
+<p>The <code>Rhat</code> the <span class="math inline">\(\hat{R}\)</span> values, and <code>Bulk_ESS</code> an estimate of the Effective Sample Size (ESS). The <code>Tail_ESS</code> provides somewhat of a lower bound on the ESS estimate <span class="citation">(see <a href="#ref-vehtari2019rank" role="doc-biblioref">Vehtari et al. 2019</a>)</span>. Under <code>Family Specific Parameters:</code>, you will find the same information for the non-regression parameters (i.e. <span class="math inline">\(\sigma_\epsilon\)</span> for a linear regression model).</p>
+<p>You can obtain a quick plot showing a nonparametric density estimate for each parameter, and a plot of the sampled values per iteration and chain, via the <code>plot()</code> function:</p>
+<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb698-1"><a href="bayesian-estimation-with-brms.html#cb698-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod_regression)</span></code></pre></div>
+<p><img src="10-Bayes-estimation_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>If you want to create your own plots, there are several functions to extract the posterior samples of the parameters. Perhaps the most convenient is <code>brms::as_draws_df()</code>, which returns a <code>data.frame</code> with the posterior samples.</p>
+<div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb699-1"><a href="bayesian-estimation-with-brms.html#cb699-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as_draws_df</span>(mod_regression))</span></code></pre></div>
+<pre><code>## # A draws_df: 6 iterations, 1 chains, and 6 variables
+##   b_Intercept b_hate_groups_per_million b_percent_bachelors_degree_or_higher
+## 1          79                      1.75                                 -1.2
+## 2          82                      2.12                                 -1.3
+## 3          90                      0.78                                 -1.4
+## 4          80                      1.42                                 -1.2
+## 5          86                      1.02                                 -1.3
+## 6          93                      0.46                                 -1.5
+##   sigma lprior lp__
+## 1   7.1   -6.5 -171
+## 2   6.8   -6.5 -170
+## 3   7.2   -6.5 -171
+## 4   6.4   -6.4 -169
+## 5   6.5   -6.5 -169
+## 6   6.1   -6.4 -172
+## # ... hidden reserved variables {&#39;.chain&#39;, &#39;.iteration&#39;, &#39;.draw&#39;}</code></pre>
+</div>
+</div>
+<div id="priors" class="section level3 hasAnchor" number="12.1.2">
+<h3><span class="header-section-number">12.1.2</span> Priors<a href="bayesian-estimation-with-brms.html#priors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the example above, we did not specify prior distributions. The <code>brms::brm</code> function uses default values for prior distributions if these are not explicitly set. You can view some detauls of these prior distributions via the <code>prior_summary()</code> function:</p>
+<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb701-1"><a href="bayesian-estimation-with-brms.html#cb701-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(mod_regression)</span></code></pre></div>
+<pre><code>##                     prior     class                               coef group
+##                    (flat)         b                                         
+##                    (flat)         b            hate_groups_per_million      
+##                    (flat)         b percent_bachelors_degree_or_higher      
+##  student_t(3, 49.3, 11.9) Intercept                                         
+##     student_t(3, 0, 11.9)     sigma                                         
+##  resp dpar nlpar lb ub       source
+##                             default
+##                        (vectorized)
+##                        (vectorized)
+##                             default
+##                   0         default</code></pre>
+<p>The output indicates that “flat” priors are used for the slopes of <code>hate_groups_per_million</code> and <code>percent_bachelors_degree_or_higher</code>. The “flat” priors are so-called <em>improper priors</em>, which indicate that any possible value is equally likely. These priors are therefore also <em>uninformative priors</em>. The prior for <span class="math inline">\(\sigma_\epsilon\)</span>, the error SD (<code>sigma</code>), the prior is a (half) <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(\text{df}=3\)</span>, mean 0, and standard deviation 11.9. The SD is close to the SD of the dependent variable (<code>percent_Trump_votes</code>). This is reasonable in providing a weakly informative prior, as the error SD should be smaller than the SD of the dependent variable.</p>
+<p>For the intercept, a <span class="math inline">\(t\)</span>-distribution is used, with <span class="math inline">\(\text{df}=3\)</span>, a mean of 49.3, and an SD of 11.9. The mean and SD of the prior are close to the mean and SD of <code>percent_Trump_votes</code>. So the prior for the intercept is based on characteristics of the dependent variable, which allows it to automatically have a reasonable scale. Note that the intercept in a <code>brms::brm()</code> model is computed separately, using centered predictors. It then corrects the sampled intercepts again after estimation, to provide an intercept for non-centered predictors. For more details, you can see the <code>brms</code> manual (<code>help("brmsformula", package="brms")</code>). If you need to define a prior on the scale of the usual intercept, this behaviour needs to be turned off first.</p>
+<p>Default priors are generally fine. But if you want to define your own priors, this is possible with the <code>prior</code> argument. The <code>prior</code> argument expects a vector with prior specifications for each parameter for which you want to set a different prior than default. Each element in this vector needs to be an object of the <code>brmsprior</code> class. The easiest way to obtain such objects is by calling the <code>brms::prior()</code> function. This function has as important arguments:
+* <code>prior</code>: a specification of a distribution in the Stan language. There are many such distributions available (see the <a href="https://mc-stan.org/docs/functions-reference/index.html">Stan Functions Reference</a> for the full list). Common examples are <code>normal(mean, sd)</code>, <code>student(df, mean, sd)</code>. <code>cauchy(mean, sd)</code>, <code>beta(alpha, beta)</code>, where the values between the parentheses indicate so-called hyper-parameters (i.e. the parameters defining the distribution). I have used <code>df</code>, <code>mean</code>, and <code>sd</code> here, but the Stan manual uses <code>nu</code>, <code>mu</code>, and <code>sigma</code> for these.
+* <code>class</code>: the class of the parameter. This can for example be <code>b</code> for a regression coefficient (slope), <code>sigma</code> for an error SD, and <code>Intercept</code> for the intercept. This is what you will find under the <code>class</code> column in the output of <code>brms::prior_summary()</code>. Depending on the class, the prior may be restricted to respect the bounds for the parameter. For example, for a prior with <code>class=sigma</code>, the prior will always be truncated at 0, without you having to specify.
+* <code>coef</code>: the name of the coefficient in the parameter class. This is what you will find under the <code>coef</code> column in the output of <code>brms::prior_summary()</code>.
+* <code>group</code>: A grouping factor for group-level (random) effects.</p>
+<p>For example, we can set Normal priors with a mean of 0 and a standard deviation depending on the parameters as follows. We use the <code>c()</code> function to create the vector with <code>brmsprior</code> objects. We need to define four such objects, each via a call to the <code>prior()</code> function. We assign the result to ab object called <code>mod_priors</code>, so that we can then use it in a call to <code>brms::brm()</code>:</p>
+<div class="sourceCode" id="cb703"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb703-1"><a href="bayesian-estimation-with-brms.html#cb703-1" aria-hidden="true" tabindex="-1"></a>mod_priors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="co"># intercept</span></span>
+<span id="cb703-2"><a href="bayesian-estimation-with-brms.html#cb703-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">class =</span> Intercept), </span>
+<span id="cb703-3"><a href="bayesian-estimation-with-brms.html#cb703-3" aria-hidden="true" tabindex="-1"></a>                <span class="co"># slopes</span></span>
+<span id="cb703-4"><a href="bayesian-estimation-with-brms.html#cb703-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;hate_groups_per_million&quot;</span>),</span>
+<span id="cb703-5"><a href="bayesian-estimation-with-brms.html#cb703-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;percent_bachelors_degree_or_higher&quot;</span>),</span>
+<span id="cb703-6"><a href="bayesian-estimation-with-brms.html#cb703-6" aria-hidden="true" tabindex="-1"></a>                <span class="co"># error SD</span></span>
+<span id="cb703-7"><a href="bayesian-estimation-with-brms.html#cb703-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> sigma))</span></code></pre></div>
+<p>We can now use our <code>mod_priors</code> object as the argument to <code>prior</code>, to estimate a regression model with non-default priors:</p>
+<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb704-1"><a href="bayesian-estimation-with-brms.html#cb704-1" aria-hidden="true" tabindex="-1"></a>mod_regression_2 <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
+<span id="cb704-2"><a href="bayesian-estimation-with-brms.html#cb704-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">101</span>, <span class="at">sample_prior =</span> <span class="cn">TRUE</span>, <span class="at">prior =</span> mod_priors)</span></code></pre></div>
+<pre><code>## Compiling Stan program...</code></pre>
+<pre><code>## Trying to compile a simple C file</code></pre>
+<pre><code>## Running /usr/lib/R/bin/R CMD SHLIB foo.c
+## gcc -I&quot;/usr/share/R/include&quot; -DNDEBUG   -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/Rcpp/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/unsupported&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/BH/include&quot; -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/src/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppParallel/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/rstan/include&quot; -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include &#39;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp&#39;  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-a3XuZ5/r-base-4.2.2.20221110=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2  -c foo.c -o foo.o
+## In file included from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Core:88,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Dense:1,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+##                  from &lt;command-line&gt;:
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name ‘namespace’
+##   628 | namespace Eigen {
+##       | ^~~~~~~~~
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:17: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+##   628 | namespace Eigen {
+##       |                 ^
+## In file included from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Dense:1,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+##                  from &lt;command-line&gt;:
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Core:96:10: fatal error: complex: No such file or directory
+##    96 | #include &lt;complex&gt;
+##       |          ^~~~~~~~~
+## compilation terminated.
+## make: *** [/usr/lib/R/etc/Makeconf:169: foo.o] Error 1</code></pre>
+<pre><code>## Start sampling</code></pre>
+<pre><code>## 
+## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 1).
+## Chain 1: 
+## Chain 1: Gradient evaluation took 2.7e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.
+## Chain 1: Adjust your expectations accordingly!
+## Chain 1: 
+## Chain 1: 
+## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 1: 
+## Chain 1:  Elapsed Time: 0.036684 seconds (Warm-up)
+## Chain 1:                0.031998 seconds (Sampling)
+## Chain 1:                0.068682 seconds (Total)
+## Chain 1: 
+## 
+## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 2).
+## Chain 2: 
+## Chain 2: Gradient evaluation took 6e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
+## Chain 2: Adjust your expectations accordingly!
+## Chain 2: 
+## Chain 2: 
+## Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 2: 
+## Chain 2:  Elapsed Time: 0.037322 seconds (Warm-up)
+## Chain 2:                0.031972 seconds (Sampling)
+## Chain 2:                0.069294 seconds (Total)
+## Chain 2: 
+## 
+## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 3).
+## Chain 3: 
+## Chain 3: Gradient evaluation took 7e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+## Chain 3: Adjust your expectations accordingly!
+## Chain 3: 
+## Chain 3: 
+## Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 3: 
+## Chain 3:  Elapsed Time: 0.034579 seconds (Warm-up)
+## Chain 3:                0.032564 seconds (Sampling)
+## Chain 3:                0.067143 seconds (Total)
+## Chain 3: 
+## 
+## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 4).
+## Chain 4: 
+## Chain 4: Gradient evaluation took 6e-06 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
+## Chain 4: Adjust your expectations accordingly!
+## Chain 4: 
+## Chain 4: 
+## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 4: 
+## Chain 4:  Elapsed Time: 0.035444 seconds (Warm-up)
+## Chain 4:                0.029439 seconds (Sampling)
+## Chain 4:                0.064883 seconds (Total)
+## Chain 4:</code></pre>
+<p>I have set <code>sample_prior = TRUE</code> so that we also get samples from the prior distributions. For example, we can get a histogram of the prior for <span class="math inline">\(\sigma_epsilon\)</span> as:</p>
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb710-1"><a href="bayesian-estimation-with-brms.html#cb710-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb710-2"><a href="bayesian-estimation-with-brms.html#cb710-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as_draws_df</span>(mod_regression_2), <span class="fu">aes</span>(<span class="at">x=</span>prior_sigma)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">100</span>)</span></code></pre></div>
+<p><img src="10-Bayes-estimation_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+The overall summary for this model is:</p>
+<div class="sourceCode" id="cb711"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb711-1"><a href="bayesian-estimation-with-brms.html#cb711-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression_2)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher 
+##    Data: dat (Number of observations: 50) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##                                    Estimate Est.Error l-95% CI u-95% CI Rhat
+## Intercept                             81.98      6.30    69.29    94.30 1.00
+## hate_groups_per_million                1.30      0.52     0.26     2.33 1.00
+## percent_bachelors_degree_or_higher    -1.22      0.19    -1.59    -0.83 1.00
+##                                    Bulk_ESS Tail_ESS
+## Intercept                              3473     2923
+## hate_groups_per_million                4029     3263
+## percent_bachelors_degree_or_higher     3641     2774
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     6.79      0.71     5.58     8.42 1.00     3841     2819
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+</div>
+<div id="useful-plots-for-mcmc-samples" class="section level2 hasAnchor" number="12.2">
+<h2><span class="header-section-number">12.2</span> Useful plots for MCMC samples<a href="bayesian-estimation-with-brms.html#useful-plots-for-mcmc-samples" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Besides the default <code>plot()</code> function, the <code>brms::mcmc_plot()</code> function can be used to obtain plots. Important arguments to this function are:</p>
+<ul>
+<li><code>object</code>: a fitted <code>brms::brm()</code> model</li>
+<li><code>type</code>: A specification of the type of plot. For example, <code>hist</code> (histogram), <code>hist_by_chain</code> (separate histograms for each MCMC chain), <code>dens</code> (nonparametric density plot), <code>dens_overlay</code> (overlaid density plots for each chain), <code>violin</code> (violin plots per chain), <code>intervals</code> (HDI intervals for each parameter in the same plot), <code>areas</code> (densities for each parameter in the same plot, and <code>trace</code> (sampled parameters per iteration). For full details of all the options, see <code>help("MCMC-overview", package="bayesplot")</code>.</li>
+<li><code>variable</code>: Names of the variables (parameters) to plot, as e.g. a character vector. The names of the variables correspond to those provided as the column names in <code>brms::as_draws_df(mod)</code>.</li>
+</ul>
+<p>For example, we can get histograms of the posterior for each parameter as</p>
+<div class="sourceCode" id="cb713"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb713-1"><a href="bayesian-estimation-with-brms.html#cb713-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(mod_regression_2, <span class="at">type=</span><span class="st">&quot;hist&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>, <span class="st">&quot;b_hate_groups_per_million&quot;</span>, <span class="st">&quot;b_percent_bachelors_degree_or_higher&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="10-Bayes-estimation_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+and density plots for the prior distributions as</p>
+<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb715-1"><a href="bayesian-estimation-with-brms.html#cb715-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(mod_regression_2, <span class="at">type=</span><span class="st">&quot;dens&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;prior_Intercept&quot;</span>, <span class="st">&quot;prior_b_hate_groups_per_million&quot;</span>, <span class="st">&quot;prior_b_percent_bachelors_degree_or_higher&quot;</span>, <span class="st">&quot;prior_sigma&quot;</span>))</span></code></pre></div>
+<p><img src="10-Bayes-estimation_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="an-example-of-a-poisson-mixed-effects-regression-model" class="section level2 hasAnchor" number="12.3">
+<h2><span class="header-section-number">12.3</span> An example of a Poisson mixed-effects regression model<a href="bayesian-estimation-with-brms.html#an-example-of-a-poisson-mixed-effects-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As an example of estimating a more complex model, we will use the <code>brms</code> package to estimate a Poisson mixed-effects model. We will use the <code>gestures</code> data of the <code>sdamr</code> package for this example. We first load the data, set contrasts, and define an offset variable:</p>
+<div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb716-1"><a href="bayesian-estimation-with-brms.html#cb716-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;gestures&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb716-2"><a href="bayesian-estimation-with-brms.html#cb716-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> gestures</span>
+<span id="cb716-3"><a href="bayesian-estimation-with-brms.html#cb716-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>context) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb716-4"><a href="bayesian-estimation-with-brms.html#cb716-4" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>language) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb716-5"><a href="bayesian-estimation-with-brms.html#cb716-5" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>gender) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb716-6"><a href="bayesian-estimation-with-brms.html#cb716-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>log_d <span class="ot">&lt;-</span> <span class="fu">log</span>(dat<span class="sc">$</span>dur)</span></code></pre></div>
+<p>We now define the model in <code>brms</code>, using a random effects specification to indicate we want random intercepts for each participant (<code>(1|ID)</code>), and an addition term <code>offset(log_d)</code> which sets the offset (unlike in <code>glm</code> and <code>glmer</code>, in <code>brms</code> the offset needs to be part of the model formula).</p>
+<div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb717-1"><a href="bayesian-estimation-with-brms.html#cb717-1" aria-hidden="true" tabindex="-1"></a>mod_poiss_glmer <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(gestures <span class="sc">~</span> context<span class="sc">*</span>language<span class="sc">*</span>gender <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID) <span class="sc">+</span> <span class="fu">offset</span>(log_d), <span class="at">data=</span>dat, <span class="at">family=</span><span class="fu">poisson</span>(), <span class="at">cores=</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## Compiling Stan program...</code></pre>
+<pre><code>## Trying to compile a simple C file</code></pre>
+<pre><code>## Running /usr/lib/R/bin/R CMD SHLIB foo.c
+## gcc -I&quot;/usr/share/R/include&quot; -DNDEBUG   -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/Rcpp/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/unsupported&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/BH/include&quot; -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/src/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppParallel/include/&quot;  -I&quot;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/rstan/include&quot; -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include &#39;/home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp&#39;  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-a3XuZ5/r-base-4.2.2.20221110=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2  -c foo.c -o foo.o
+## In file included from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Core:88,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Dense:1,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+##                  from &lt;command-line&gt;:
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name ‘namespace’
+##   628 | namespace Eigen {
+##       | ^~~~~~~~~
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:17: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+##   628 | namespace Eigen {
+##       |                 ^
+## In file included from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Dense:1,
+##                  from /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+##                  from &lt;command-line&gt;:
+## /home/maarten/R/x86_64-pc-linux-gnu-library/4.2/RcppEigen/include/Eigen/Core:96:10: fatal error: complex: No such file or directory
+##    96 | #include &lt;complex&gt;
+##       |          ^~~~~~~~~
+## compilation terminated.
+## make: *** [/usr/lib/R/etc/Makeconf:169: foo.o] Error 1</code></pre>
+<pre><code>## Start sampling</code></pre>
+<p>Note that I’m specifying to use <code>cores=4</code> CPU cores here. This will speed up the computation, but requires you to have sufficient cores.</p>
+<p>We have relied on the default priors, which are the usual flat priors for the regression coefficients, a <span class="math inline">\(t\)</span>-distribution for the Intercept, and half-<span class="math inline">\(t\)</span> distributions for the random effects and errors:</p>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="bayesian-estimation-with-brms.html#cb722-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prior_summary</span>(mod_poiss_glmer)</span></code></pre></div>
+<pre><code>##                                  prior     class                       coef
+##                                 (flat)         b                           
+##                                 (flat)         b                   context1
+##                                 (flat)         b           context1:gender1
+##                                 (flat)         b         context1:language1
+##                                 (flat)         b context1:language1:gender1
+##                                 (flat)         b                    gender1
+##                                 (flat)         b                  language1
+##                                 (flat)         b          language1:gender1
+##  student_t(3, -0.918456414821893, 2.5) Intercept                           
+##                   student_t(3, 0, 2.5)        sd                           
+##                   student_t(3, 0, 2.5)        sd                           
+##                   student_t(3, 0, 2.5)        sd                  Intercept
+##  group resp dpar nlpar lb ub       source
+##                                   default
+##                              (vectorized)
+##                              (vectorized)
+##                              (vectorized)
+##                              (vectorized)
+##                              (vectorized)
+##                              (vectorized)
+##                              (vectorized)
+##                                   default
+##                         0         default
+##     ID                  0    (vectorized)
+##     ID                  0    (vectorized)</code></pre>
+<p>The summary of the approximate posterior is:</p>
+<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb724-1"><a href="bayesian-estimation-with-brms.html#cb724-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_poiss_glmer)</span></code></pre></div>
+<pre><code>##  Family: poisson 
+##   Links: mu = log 
+## Formula: gestures ~ context * language * gender + (1 | ID) + offset(log_d) 
+##    Data: dat (Number of observations: 54) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Group-Level Effects: 
+## ~ID (Number of levels: 27) 
+##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sd(Intercept)     0.40      0.07     0.29     0.56 1.00      995     1679
+## 
+## Population-Level Effects: 
+##                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+## Intercept                     -1.04      0.08    -1.20    -0.88 1.00     1290
+## context1                       0.05      0.02     0.01     0.09 1.00     3748
+## language1                      0.04      0.08    -0.11     0.19 1.00     1192
+## gender1                        0.06      0.08    -0.10     0.22 1.01     1249
+## context1:language1            -0.04      0.02    -0.08     0.00 1.00     3828
+## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3452
+## language1:gender1             -0.01      0.08    -0.17     0.14 1.01     1017
+## context1:language1:gender1     0.03      0.02    -0.00     0.07 1.00     3323
+##                            Tail_ESS
+## Intercept                      1862
+## context1                       3069
+## language1                      1865
+## gender1                        2076
+## context1:language1             2802
+## context1:gender1               2599
+## language1:gender1              1851
+## context1:language1:gender1     2690
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>Whilst the <span class="math inline">\(\hat{R}\)</span> values look OK, the effective sample size is rather low for the <code>Intercept</code>, <code>language1</code>, <code>gender</code>, and <code>language1:gender1</code> effects. We first inspect the autocorrelation for these parameters:</p>
+<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb726-1"><a href="bayesian-estimation-with-brms.html#cb726-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_plot</span>(mod_poiss_glmer, <span class="at">type=</span><span class="st">&quot;acf&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>, <span class="st">&quot;b_language1&quot;</span>, <span class="st">&quot;b_gender1&quot;</span>,<span class="st">&quot;b_language1:gender1&quot;</span>))</span></code></pre></div>
+<p><img src="10-Bayes-estimation_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+This shows reasonably high autocorrelation. For the other parameters, the autocorrelation is much less pronounced:</p>
+<div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb727-1"><a href="bayesian-estimation-with-brms.html#cb727-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_plot</span>(mod_poiss_glmer, <span class="at">type=</span><span class="st">&quot;acf&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_context1&quot;</span>, <span class="st">&quot;b_context1:language1&quot;</span>, <span class="st">&quot;b_context1:gender1&quot;</span>,<span class="st">&quot;b_context1:language1:gender1&quot;</span>))</span></code></pre></div>
+<p><img src="10-Bayes-estimation_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Thinning may improve the issues with autocorrelation. We rerun the model with different settings for the number of iterations and thinning via the <code>brms::update()</code> function, providing the estimated model as the first argument, and then specifying the number of iterations and thinning required. For example, we can rerun the model again using 1000 iterations as warmup, but now running for an additional 4000 iterations, leading to a total <code>iter=5000</code>. We furthermore set the thinning to <code>thin=4</code> to only keep each fourth iteration, which should reduce the autocorrelation:</p>
+<div class="sourceCode" id="cb728"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb728-1"><a href="bayesian-estimation-with-brms.html#cb728-1" aria-hidden="true" tabindex="-1"></a>mod_poiss_glmer_2 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod_poiss_glmer, <span class="at">iter =</span> <span class="dv">5000</span>, <span class="at">thin=</span><span class="dv">4</span>, <span class="at">warmup=</span><span class="dv">1000</span>, <span class="at">cores=</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## Start sampling</code></pre>
+<p>Checking the model summary shows that this had the desired effect:</p>
+<div class="sourceCode" id="cb730"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb730-1"><a href="bayesian-estimation-with-brms.html#cb730-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_poiss_glmer_2)</span></code></pre></div>
+<pre><code>##  Family: poisson 
+##   Links: mu = log 
+## Formula: gestures ~ context * language * gender + (1 | ID) + offset(log_d) 
+##    Data: dat (Number of observations: 54) 
+##   Draws: 4 chains, each with iter = 5000; warmup = 1000; thin = 4;
+##          total post-warmup draws = 4000
+## 
+## Group-Level Effects: 
+## ~ID (Number of levels: 27) 
+##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sd(Intercept)     0.40      0.07     0.29     0.56 1.00     2946     3726
+## 
+## Population-Level Effects: 
+##                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+## Intercept                     -1.03      0.08    -1.20    -0.88 1.00     3335
+## context1                       0.05      0.02     0.02     0.09 1.00     3592
+## language1                      0.04      0.08    -0.12     0.20 1.00     3339
+## gender1                        0.06      0.08    -0.10     0.22 1.00     3687
+## context1:language1            -0.04      0.02    -0.08     0.00 1.00     3890
+## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3965
+## language1:gender1             -0.02      0.08    -0.18     0.15 1.00     3566
+## context1:language1:gender1     0.03      0.02    -0.01     0.07 1.00     3818
+##                            Tail_ESS
+## Intercept                      3629
+## context1                       3866
+## language1                      3625
+## gender1                        3616
+## context1:language1             3437
+## context1:gender1               3917
+## language1:gender1              3360
+## context1:language1:gender1     3587
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-brms" class="csl-entry">
+Bürkner, Paul-Christian. 2022. <em>Brms: Bayesian Regression Models Using Stan</em>. <a href="https://CRAN.R-project.org/package=brms">https://CRAN.R-project.org/package=brms</a>.
+</div>
+<div id="ref-vehtari2019rank" class="csl-entry">
+Vehtari, Aki, Andrew Gelman, Daniel Simpson, Bob Carpenter, and Paul-Christian Bürkner. 2019. <em>arXiv Preprint arXiv:1903.08008</em>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="structural-equation-modelling-with-lavaan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bayesian-hypothesis-testing-with-bayes-factors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"source": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

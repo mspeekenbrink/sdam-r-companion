@@ -1,6 +1,7 @@
 fig:rstudio-interface-image
 tab:tetris-orthogonal-cotrast-codes
 tab:lmer-fixed-effects-formula-examples
+tab:brms-fixed-effects-formula-examples
 fig:hold-position
 tab:unnamed-chunk-6
 acknowledgements
@@ -111,7 +112,13 @@ estimating-and-rotating-efa-solutions
 confirmatory-factor-analysis
 modification-indices
 general-sem-models
-bayesian-estimation
+bayesian-estimation-with-brms
+the-brms-package
+model-definition
+brms-family
+priors
+useful-plots-for-mcmc-samples
+an-example-of-a-poisson-mixed-effects-regression-model
 bayesian-hypothesis-testing-with-bayes-factors
 the-bayesfactor-package
 a-bayesian-one-sample-t-test
