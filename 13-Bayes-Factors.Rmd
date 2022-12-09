@@ -291,3 +291,5 @@ The output shows the lower and upper bound for each HDI. We see that the 95% HDI
 ## Bayes Factors via marginal likelihoods with bridge sampling
 
 
+
+
