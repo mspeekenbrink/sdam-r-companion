@@ -288,8 +288,80 @@ The output shows the lower and upper bound for each HDI. We see that the 95% HDI
 ## Estimating Bayesian models with the `brms` package
 -->
 
-## Bayes Factors via marginal likelihoods with bridge sampling
+## Bayes Factors for `brms` models
+
+The `BayesFactor` package computes Bayes Factors for a number of standard analyses, using the default priors set in the package. We may want to compute Bayes Factors to test hypotheses for more complex models. In general, we can compare any models by first computing the marginal likelihood for each model, and then computing the Bayes Factor as the ratio of these marginal likelihoods. Computing marginal likelihoods is not always straightforward, but a general procedure that often works reasonably well is called "bridge sampling", and has been implemented in the `bridgesampling` package. Before discussing how to use this, we will first discuss a simpler way to compute Bayes Factors for particular comparisons within the context of a `brms` model.
+
+### Testing simple point and directional hypotheses for parameters of `brms` models
+
+The `brms::hypothesis()` function can be used to test hypotheses about single parameters of `brms` models. This function has the following important arguments:
+
+* `x`: a model of class `brmsfit` as fitted by `brms::brm()`. It can also be a `data.frame` with posterior draws (in rows) of parameters (in columns).
+* `hypothesis`: a character vector describing hypotheses to be tested.
+* `class`:
+* `group`: 
+* `alpha`: used to specify the width of the HDI (e.g. `alpha = .05` for a 95% HDI)
+
+The specification of the `hypothesis` argument is rather flexible. 
+
+```{r brms-multiple-regression-nondefault-prior, cache=TRUE, error=FALSE}
+library(brms)
+data("trump2016", package="sdamr")
+dat <- subset(trump2016,state != "District of Columbia")
+
+mod_priors <- c(# intercept
+                prior(normal(0, 100), class = Intercept), 
+                # slopes
+                prior(normal(0, 5), class = b, coef = "hate_groups_per_million"),
+                prior(normal(0, 5), class = b, coef = "percent_bachelors_degree_or_higher"),
+                # error SD
+                prior(normal(0, 10), class = sigma))
+
+mod_regression <- brms::brm(formula = percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, 
+                 data=dat, seed=101, sample_prior = TRUE, prior = mod_priors)
+```
+
+```{r}
+brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million = 0")
+```
+
+```{r}
+brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million > 0")
+```
+
+```{r}
+brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million < 0")
+```
+
+```{r}
+brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million < percent_bachelors_degree_or_higher")
+```
 
 
+### Using bridge sampling to obtain marginal likelihoods
+
+```{r brms-multiple-regression-nondefault-prior-2, cache=TRUE, error=FALSE}
+mod_regression <- brms::brm(formula = percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, 
+                 data=dat, seed=101, sample_prior = TRUE, prior = mod_priors,
+                 save_pars = save_pars(all = TRUE))
+```
+
+```{r}
+brms::bridge_sampler(mod_regression)
+```
+
+```{r}
+mod_priors_alt <- c(# intercept
+                prior(normal(0, 100), class = Intercept), 
+                # slopes
+                prior(normal(0, .0000001), class = b, coef = "hate_groups_per_million"),
+                prior(normal(0, 5), class = b, coef = "percent_bachelors_degree_or_higher"),
+                # error SD
+                prior(normal(0, 10), class = sigma))
+
+mod_regression_alt <- brms::brm(formula = percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, 
+                 data=dat, seed=101, sample_prior = TRUE, prior = mod_priors)
+
+```
 
 
