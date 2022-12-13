@@ -403,17 +403,17 @@ div.csl-indent {
 \end{align}\]</span>
 you can compute many other Bayes Factors which might not be immediately provided by the package, by simply dividing the Bayes factors that the package does provide. This makes the procedure of model comparison very flexible.</p>
 <p>If you haven’t installed the <code>BayesFactor</code> package yet, you need to do so first. Then you can load it as usual by:</p>
-<div class="sourceCode" id="cb739"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb739-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb739-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span></code></pre></div>
+<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb726-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb726-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span></code></pre></div>
 <div id="a-bayesian-one-sample-t-test" class="section level3 hasAnchor" number="13.1.1">
 <h3><span class="header-section-number">13.1.1</span> A Bayesian one-sample t-test<a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-one-sample-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A Bayesian alternative to a <span class="math inline">\(t\)</span>-test is provided via the <code>ttestBF</code> function. Similar to the base R <code>t.test</code> function of the <code>stats</code> package, this function allows computation of a Bayes factor for a one-sample t-test or a two-sample t-tests (as well as a paired t-test, which we haven’t covered in the course). Let’s re-analyse the data we considered before, concerning participants’ judgements of the height of Mount Everest. The one-sample t-test we computed before, comparing the judgements to an assumed mean of <span class="math inline">\(\mu = 8848\)</span>, was:</p>
-<div class="sourceCode" id="cb740"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb740-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
-<span id="cb740-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
-<span id="cb740-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;anchoring&quot;</span>)</span>
-<span id="cb740-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-4" aria-hidden="true" tabindex="-1"></a><span class="co"># select the subset we analysed in Chapter 3</span></span>
-<span id="cb740-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring,(referrer <span class="sc">==</span> <span class="st">&quot;swps&quot;</span> <span class="sc">|</span> referrer <span class="sc">==</span> <span class="st">&quot;swpson&quot;</span>) <span class="sc">&amp;</span> anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span>)</span>
-<span id="cb740-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-6" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the Frequentist one-sample t-test</span></span>
-<span id="cb740-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb727-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb727-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb727-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb727-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb727-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb727-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;anchoring&quot;</span>)</span>
+<span id="cb727-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb727-4" aria-hidden="true" tabindex="-1"></a><span class="co"># select the subset we analysed in Chapter 3</span></span>
+<span id="cb727-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb727-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(anchoring,(referrer <span class="sc">==</span> <span class="st">&quot;swps&quot;</span> <span class="sc">|</span> referrer <span class="sc">==</span> <span class="st">&quot;swpson&quot;</span>) <span class="sc">&amp;</span> anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span>)</span>
+<span id="cb727-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb727-6" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the Frequentist one-sample t-test</span></span>
+<span id="cb727-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb727-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -426,14 +426,14 @@ you can compute many other Bayes Factors which might not be immediately provided
 ## mean of x 
 ##  6312.193</code></pre>
 <p>The syntax for the Bayesian alternative is <em>very</em> similar, namely:</p>
-<div class="sourceCode" id="cb742"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb742-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb742-1" aria-hidden="true" tabindex="-1"></a>bf_anchor <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb729-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb729-1" aria-hidden="true" tabindex="-1"></a>bf_anchor <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>)</span></code></pre></div>
 <p>This code provides a test of the following models:</p>
 <p><span class="math display">\[\begin{align}
 H_0\!&amp;: \mu = 8848 \\
 H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 \end{align}\]</span></p>
 <p>After computing the Bayes factor and storing it in an object <code>bf_anchor</code>, we just see the print-out of the result by typing in the name of the object:</p>
-<div class="sourceCode" id="cb743"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb743-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb743-1" aria-hidden="true" tabindex="-1"></a>bf_anchor</span></code></pre></div>
+<div class="sourceCode" id="cb730"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb730-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb730-1" aria-hidden="true" tabindex="-1"></a>bf_anchor</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Alt., r=0.707 : 46902934288 ±0%
@@ -444,35 +444,35 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## Bayes factor type: BFoneSample, JZS</code></pre>
 <p>This output is quite sparse, which is by no means a bad thing. It shows a few important things. Under <code>Alt.</code> (which stands for the alternative hypothesis), we first see the scaling factor <span class="math inline">\(r\)</span> used for the JZS prior distribution on the effect size. We then see the value of the Bayes Factor, which is “extreme” (&gt;100), showing that the data increases the posterior odds ratio for the alternative model over the null model by a factor of 46,902,934,288. Quite clearly, the average judgements differed from the true height of Mount Everest! After the computed value of the Bayes factor, you will find a proportional error for the estimate of the Bayes factor. In general, the marginal likelihoods that constitute the numerator (“top model”) and denominator (“bottom model”) of the Bayes factor cannot be computed exactly, and have to be approximated by numerical integration routines or simulation. This results in some (hopefully small) error in computation, and the error estimate indicates the extend to which the true Bayes factor might differ from the computed one. In this case, the error is (proportionally) very small, and hence we can be assured that our conclusion is unlikely to be affected by error in the approximation.</p>
 <p>As we didn’t set the scaling factor explicitly, the default value is used, which is the “medium” scale <span class="math inline">\(r = \frac{\sqrt{2}}{2} = 0.707\)</span>. Note that this is actually different from the default value of <span class="math inline">\(r=1\)</span> proposed in <span class="citation">Rouder et al. (<a href="#ref-rouder2009bayesian" role="doc-biblioref">2009</a>)</span>, which first introduced this version of the Bayesian <span class="math inline">\(t\)</span>-test to a psychological audience, and the one used to illustrate the method in the SDAM book. Whilst reducing the default value to <span class="math inline">\(r=0.707\)</span> is probably reasonable given the effect sizes generally encountered in psychological studies, a change in the default prior highlights the subjective nature of the prior distribution in the Bayesian model comparison procedure. You should also realise that different analyses, such as t-tests, ANOVA, and regression models, use different default values for the scaling factor. As shown in the SDAM book, the value of the Bayes factor depends on the choice for the scaling factor. Although the default value may be deemed reasonable, the choice should really be based on a consideration of the magnitude of the effect sizes you (yes, you!) expect in a particular study. This is not always easy, but you should pick one (the default value, for instance, if you can’t think of a better one) <em>before</em> conducting the analysis. If you feel that makes the test too subjective, you may may want to check the robustness of the result for different choices of the scaling factor. You can do this by computing the Bayes factor for a range of choices of the scaling factor, and then inspecting whether the strength of the evidence is in line with your choice for a reasonable range of values around your choice. The code below provides an example of this:</p>
-<div class="sourceCode" id="cb745"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb745-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector with different values for the scaling factor r</span></span>
-<span id="cb745-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-2" aria-hidden="true" tabindex="-1"></a>rscale <span class="ot">&lt;-</span> <span class="fu">seq</span>(.<span class="dv">001</span>, <span class="dv">3</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
-<span id="cb745-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb745-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty vector to store the resulting Bayes factors</span></span>
-<span id="cb745-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-5" aria-hidden="true" tabindex="-1"></a>BFs <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
-<span id="cb745-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb745-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the Bayes factor for each value of r</span></span>
-<span id="cb745-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
-<span id="cb745-9"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-9" aria-hidden="true" tabindex="-1"></a>  temp_bf <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>, <span class="at">r =</span> rscale[i])</span>
-<span id="cb745-10"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the object returned by the ttestBF function is a so-called S4 object</span></span>
-<span id="cb745-11"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this has &quot;slots&quot; which can be accessed through the &quot;@&quot; operator.</span></span>
-<span id="cb745-12"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The actual value of the BF is extracted by @bayesFactor$bf</span></span>
-<span id="cb745-13"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># which is stored in a logarithmic scale, so we need to use &quot;exp&quot;</span></span>
-<span id="cb745-14"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to obtain the value of the actual Bayes factor:</span></span>
-<span id="cb745-15"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-15" aria-hidden="true" tabindex="-1"></a>  BFs[i] <span class="ot">&lt;-</span> <span class="fu">exp</span>(temp_bf<span class="sc">@</span>bayesFactor<span class="sc">$</span>bf)</span>
-<span id="cb745-16"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb745-17"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-17" aria-hidden="true" tabindex="-1"></a><span class="co"># use ggplot to plot the values of the Bayes factor against the choice of r</span></span>
-<span id="cb745-18"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb745-19"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb745-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">r=</span>rscale,<span class="at">BF=</span>BFs),<span class="fu">aes</span>(<span class="at">x=</span>r,<span class="at">y=</span>BF)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb732"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb732-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector with different values for the scaling factor r</span></span>
+<span id="cb732-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-2" aria-hidden="true" tabindex="-1"></a>rscale <span class="ot">&lt;-</span> <span class="fu">seq</span>(.<span class="dv">001</span>, <span class="dv">3</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
+<span id="cb732-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb732-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty vector to store the resulting Bayes factors</span></span>
+<span id="cb732-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-5" aria-hidden="true" tabindex="-1"></a>BFs <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
+<span id="cb732-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb732-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the Bayes factor for each value of r</span></span>
+<span id="cb732-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb732-9"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-9" aria-hidden="true" tabindex="-1"></a>  temp_bf <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(dat<span class="sc">$</span>everest_meters, <span class="at">mu=</span><span class="dv">8848</span>, <span class="at">r =</span> rscale[i])</span>
+<span id="cb732-10"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the object returned by the ttestBF function is a so-called S4 object</span></span>
+<span id="cb732-11"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this has &quot;slots&quot; which can be accessed through the &quot;@&quot; operator.</span></span>
+<span id="cb732-12"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The actual value of the BF is extracted by @bayesFactor$bf</span></span>
+<span id="cb732-13"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># which is stored in a logarithmic scale, so we need to use &quot;exp&quot;</span></span>
+<span id="cb732-14"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to obtain the value of the actual Bayes factor:</span></span>
+<span id="cb732-15"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-15" aria-hidden="true" tabindex="-1"></a>  BFs[i] <span class="ot">&lt;-</span> <span class="fu">exp</span>(temp_bf<span class="sc">@</span>bayesFactor<span class="sc">$</span>bf)</span>
+<span id="cb732-16"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb732-17"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-17" aria-hidden="true" tabindex="-1"></a><span class="co"># use ggplot to plot the values of the Bayes factor against the choice of r</span></span>
+<span id="cb732-18"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb732-19"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb732-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">r=</span>rscale,<span class="at">BF=</span>BFs),<span class="fu">aes</span>(<span class="at">x=</span>r,<span class="at">y=</span>BF)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="13-Bayes-Factors_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Given the scale of the <span class="math inline">\(y\)</span>-axis (e.g., the first tick mark is at <code>1e+10</code> = 10,000,000,000), there is overwhelming evidence against the null-hypothesis for most choices of the scaling factor. Hence, the results seem rather robust to the exact choice of prior.</p>
 </div>
 <div id="a-bayesian-two-sample-t-test" class="section level3 hasAnchor" number="13.1.2">
 <h3><span class="header-section-number">13.1.2</span> A Bayesian two-sample t-test<a href="bayesian-hypothesis-testing-with-bayes-factors.html#a-bayesian-two-sample-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To compare the means of two groups, we can revisit the Tetris study, where we considered whether the number of memory intrusions is reduced after playing Tetris in combination with memory reactivation, compared to just memory reactivation by itself. The <code>ttestBF</code> function allows us to provide the data for one group as the <code>x</code> argument, and the data for the other group as the <code>y</code> argument, so we can perform our model comparison, by subsetting the dependent variable appropriately, as follows:</p>
-<div class="sourceCode" id="cb746"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb746-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb746-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tetris2015&quot;</span>, <span class="at">message=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb733"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb733-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb733-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tetris2015&quot;</span>, <span class="at">message=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## Warning in data(&quot;tetris2015&quot;, message = FALSE): data set &#39;FALSE&#39; not found</code></pre>
-<div class="sourceCode" id="cb748"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb748-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb748-1" aria-hidden="true" tabindex="-1"></a>bf_tetr <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(<span class="at">x=</span><span class="fu">subset</span>(tetris2015, Condition <span class="sc">==</span> <span class="st">&quot;Reactivation&quot;</span>)<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions, <span class="at">y =</span> <span class="fu">subset</span>(tetris2015, Condition <span class="sc">==</span> <span class="st">&quot;Tetris_Reactivation&quot;</span>)<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions)</span>
-<span id="cb748-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb748-2" aria-hidden="true" tabindex="-1"></a>bf_tetr</span></code></pre></div>
+<div class="sourceCode" id="cb735"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb735-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb735-1" aria-hidden="true" tabindex="-1"></a>bf_tetr <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(<span class="at">x=</span><span class="fu">subset</span>(tetris2015, Condition <span class="sc">==</span> <span class="st">&quot;Reactivation&quot;</span>)<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions, <span class="at">y =</span> <span class="fu">subset</span>(tetris2015, Condition <span class="sc">==</span> <span class="st">&quot;Tetris_Reactivation&quot;</span>)<span class="sc">$</span>Days_One_to_Seven_Number_of_Intrusions)</span>
+<span id="cb735-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb735-2" aria-hidden="true" tabindex="-1"></a>bf_tetr</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Alt., r=0.707 : 16.78482 ±0%
@@ -483,12 +483,12 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## Bayes factor type: BFindepSample, JZS</code></pre>
 <p>Which shows strong evidence for the alternative hypothesis over the null hypothesis that the means are identical (i.e. that the difference between the means is zero, <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>), as the alternative model is 2.82 times more likely than the null model, which sets the difference between the means to exactly <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>, rather than allowing different values of this difference through the prior distribution.</p>
 <p>A two-sample t-test should really be identical to a two-group ANOVA model, as both concern the same General Linear Model (a model with a single contrast-coding predictor, with e.q. values of <span class="math inline">\(-\tfrac{1}{2}\)</span> and <span class="math inline">\(\tfrac{1}{2}\)</span>). Before fully discussing the way to perform an ANOVA-type analysis with the <code>BayesFactor</code> package, let’s just double-check this is indeed the case:</p>
-<div class="sourceCode" id="cb750"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb750-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb750-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(tetris2015, Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Tetris_Reactivation&quot;</span>,<span class="st">&quot;Reactivation&quot;</span>))</span>
-<span id="cb750-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb750-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remove levels of Condition that are no longer needed due to subsetting</span></span>
-<span id="cb750-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb750-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Condition <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(dat<span class="sc">$</span>Condition)</span>
-<span id="cb750-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb750-4" aria-hidden="true" tabindex="-1"></a><span class="co"># use the anovaBF function</span></span>
-<span id="cb750-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb750-5" aria-hidden="true" tabindex="-1"></a>bf2_tetr <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(Days_One_to_Seven_Number_of_Intrusions <span class="sc">~</span> Condition, <span class="at">data =</span> dat)</span>
-<span id="cb750-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb750-6" aria-hidden="true" tabindex="-1"></a>bf2_tetr</span></code></pre></div>
+<div class="sourceCode" id="cb737"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb737-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb737-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(tetris2015, Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Tetris_Reactivation&quot;</span>,<span class="st">&quot;Reactivation&quot;</span>))</span>
+<span id="cb737-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb737-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remove levels of Condition that are no longer needed due to subsetting</span></span>
+<span id="cb737-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb737-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Condition <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(dat<span class="sc">$</span>Condition)</span>
+<span id="cb737-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb737-4" aria-hidden="true" tabindex="-1"></a><span class="co"># use the anovaBF function</span></span>
+<span id="cb737-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb737-5" aria-hidden="true" tabindex="-1"></a>bf2_tetr <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(Days_One_to_Seven_Number_of_Intrusions <span class="sc">~</span> Condition, <span class="at">data =</span> dat)</span>
+<span id="cb737-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb737-6" aria-hidden="true" tabindex="-1"></a>bf2_tetr</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Condition : 16.78482 ±0%
@@ -513,16 +513,16 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 </ul>
 <p>The <code>anovaBF</code> function will (as far as I can gather) <strong>always use <code>contr.sum()</code> contrasts for the factors</strong>. So setting your own contrasts will have no effect on the results. The exact contrast should not really matter for omnibus tests, and sum-to-zero are a reasonable choice in general (<code>contr.sum</code> implements what we called effect-coding before).<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> While the <code>anovaBF</code> function always uses the JZS prior for any effects, it allows you to specify exactly which scaling factor to use for every effect, if so desired. One perhaps confusing thing is that effect-sizes for ANOVA designs (as far as I can gather) are based on standardized treatment-effects, whilst those for the t-test designs are based on Cohens-<span class="math inline">\(d\)</span> effect sizes. Hence, the values of the scaling factor <span class="math inline">\(r\)</span> for “medium”, “wide”, and “ultrawide” are different for the Bayesian <span class="math inline">\(t\)</span>-test and ANOVA models (whilst they provide the same results for models with two conditions).</p>
 <p>Let’s see what happens when we use a Bayesian ANOVA-type analysis for the data on experimenter beliefs in social priming. First, let’s load the data, and turn the variables reflecting the experimental manipulations into factors:</p>
-<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb752-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;expBelief&quot;</span>)</span>
-<span id="cb752-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> expBelief</span>
-<span id="cb752-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>primeCond <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>primeCond)</span>
-<span id="cb752-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>experimenterBelief <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>experimenterBelief)</span></code></pre></div>
+<div class="sourceCode" id="cb739"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb739-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb739-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;expBelief&quot;</span>)</span>
+<span id="cb739-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb739-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> expBelief</span>
+<span id="cb739-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb739-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>primeCond <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>primeCond)</span>
+<span id="cb739-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb739-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>experimenterBelief <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>experimenterBelief)</span></code></pre></div>
 <p>We can now use the <code>anovaBF</code> function to compute the Bayes factors:</p>
-<div class="sourceCode" id="cb753"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb753-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this uses a sampling based approach</span></span>
-<span id="cb753-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set the seed to make it reproducible</span></span>
-<span id="cb753-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
-<span id="cb753-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-4" aria-hidden="true" tabindex="-1"></a>bf_expB <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat)</span>
-<span id="cb753-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-5" aria-hidden="true" tabindex="-1"></a>bf_expB</span></code></pre></div>
+<div class="sourceCode" id="cb740"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb740-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this uses a sampling based approach</span></span>
+<span id="cb740-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set the seed to make it reproducible</span></span>
+<span id="cb740-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
+<span id="cb740-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-4" aria-hidden="true" tabindex="-1"></a>bf_expB <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat)</span>
+<span id="cb740-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb740-5" aria-hidden="true" tabindex="-1"></a>bf_expB</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief                                            : 537.3879  ±0%
@@ -535,9 +535,9 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## ---
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>A main thing to note here is that the comparisons of different versions of MODEL G are against the same MODEL R, which is an intercept-only model. We can see that all models which include <code>experimenterBelief</code> receive strong evidence against the intercept-only model, apart from the model which only includes <code>primeCond</code>, which has less evidence than the intercept-only model. Although this indicates that the <code>primeCond</code> effect might be ignorable, the comparisons are different from comparing reduced models to the general MODEL G with all effects included. We can obtain these Type 3 comparisons by setting the <code>whichModels</code> argument to `top``:</p>
-<div class="sourceCode" id="cb755"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb755-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb755-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
-<span id="cb755-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb755-2" aria-hidden="true" tabindex="-1"></a>bf_expB2 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;top&quot;</span>)</span>
-<span id="cb755-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb755-3" aria-hidden="true" tabindex="-1"></a>bf_expB2</span></code></pre></div>
+<div class="sourceCode" id="cb742"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb742-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb742-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
+<span id="cb742-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb742-2" aria-hidden="true" tabindex="-1"></a>bf_expB2 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;top&quot;</span>)</span>
+<span id="cb742-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb742-3" aria-hidden="true" tabindex="-1"></a>bf_expB2</span></code></pre></div>
 <pre><code>## Bayes factor top-down analysis
 ## --------------
 ## When effect is omitted from experimenterBelief + primeCond + experimenterBelief:primeCond , BF is...
@@ -551,7 +551,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>It is very important to realise that the output now concerns the comparison of the reduced model (in the numerator, i.e. the “top model”) against the full model (in the denominator, i.e. the “bottom model”), as is stated in the <code>Against denimonator</code> part of the output. So these are <span class="math inline">\(\text{BF}_{0,1}\)</span> values, rather than <span class="math inline">\(\text{BF}_{1,0}\)</span> values. That means that low values of the Bayes factor now indicate evidence for the alternative hypothesis that an effect is different from 0. As we find a very low <span class="math inline">\(\text{BF}_{0,1}\)</span> value for the <code>experimenterBelief</code> effect, this thus shows strong evidence that this effect is different than 0. The <span class="math inline">\(\text{BF}_{0,1}\)</span> values for the other effects are larger than 1, which indicate more support for the null hypothesis than for the alternative hypothesis.</p>
 <p>We can change the output from a <span class="math inline">\(\text{BF}_{0,1}\)</span> value to a <span class="math inline">\(\text{BF}_{1,0}\)</span> value by simply inverting the Bayes factors, as follows:</p>
-<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb757-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb757-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>bf_expB2</span></code></pre></div>
+<div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb744-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb744-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>bf_expB2</span></code></pre></div>
 <pre><code>##                                                                denominator
 ## numerator                                                       experimenterBelief + primeCond
 ##   experimenterBelief + primeCond + experimenterBelief:primeCond                      0.2125972
@@ -563,7 +563,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ##   experimenterBelief + primeCond + experimenterBelief:primeCond                                  530.994</code></pre>
 <p>As we noted before, we again see strong evidence for the effect of <code>experimenterBelief</code> when we remove it from the full model, but not for the other effects.</p>
 <p>The transitivity of the Bayes factor means that we can also obtain some of these results through a ratio of the Bayes factors obtained earlier. For instance, a Type 3 test of the effect of <code>experimenterBelief:primeCond</code> interaction can be obtained by comparing a model with all effects included to a model without this interaction. In the analysis stored in <code>bf_expB</code>, we compared a number of the possible models to an intercept-only model. By comparing the Bayes factors of the model which excludes the interaction to a model which includes it, we can obtain the same Bayes factor of that interaction as follows. In the output of <code>bf_expB</code>, the fourth element compared the full model to the intercept-only model, whilst in the third element, a model with only the main effects of <code>experimenterBelief</code> and <code>primeCond</code> are compared to an intercept-only model. The Type 3 test of the interaction can then be obtained through the ratio of these two Bayes factors:</p>
-<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb759-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb759-1" aria-hidden="true" tabindex="-1"></a>bf_expB[<span class="dv">4</span>]<span class="sc">/</span>bf_expB[<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb746"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb746-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb746-1" aria-hidden="true" tabindex="-1"></a>bf_expB[<span class="dv">4</span>]<span class="sc">/</span>bf_expB[<span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief + primeCond + experimenterBelief:primeCond : 0.2235591 ±5.68%
@@ -573,9 +573,9 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## ---
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>which indicates evidence for the null hypothesis that there is no moderation of the effect of <code>experimenterbelief</code> by <code>primeCond</code>, as the Bayes factor is well below 1. We cannot replicate all Type 3 analyses with the results obtained earlier, unless we ask the function to compare every possible model against the intercept-only model, by specifying <code>whichModels = "all"</code>:</p>
-<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb761-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb761-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
-<span id="cb761-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb761-2" aria-hidden="true" tabindex="-1"></a>bf_expB3 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;all&quot;</span>)</span>
-<span id="cb761-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb761-3" aria-hidden="true" tabindex="-1"></a>bf_expB3</span></code></pre></div>
+<div class="sourceCode" id="cb748"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb748-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb748-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
+<span id="cb748-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb748-2" aria-hidden="true" tabindex="-1"></a>bf_expB3 <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat, <span class="at">whichModels =</span> <span class="st">&quot;all&quot;</span>)</span>
+<span id="cb748-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb748-3" aria-hidden="true" tabindex="-1"></a>bf_expB3</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief                                            : 537.3879   ±0%
@@ -591,7 +591,7 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 ## ---
 ## Bayes factor type: BFlinearModel, JZS</code></pre>
 <p>For instance, we can now obtain a Type 3 test for <code>experimenterBelief</code> by comparing the full model (the 7th element in the output) to a model which just excludes this effect (i.e. the 6th element):</p>
-<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb763-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb763-1" aria-hidden="true" tabindex="-1"></a>bf_expB3[<span class="dv">7</span>]<span class="sc">/</span>bf_expB3[<span class="dv">6</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb750"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb750-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb750-1" aria-hidden="true" tabindex="-1"></a>bf_expB3[<span class="dv">7</span>]<span class="sc">/</span>bf_expB3[<span class="dv">6</span>]</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] experimenterBelief + primeCond + experimenterBelief:primeCond : 530.994 ±1.79%
@@ -609,14 +609,14 @@ H_1\!&amp;: \frac{\mu - 8848}{\sigma_\epsilon} \sim \textbf{Cauchy}(r)
 <div id="bayesian-repeated-measures-anova" class="section level3 hasAnchor" number="13.1.5">
 <h3><span class="header-section-number">13.1.5</span> Bayesian repeated-measures ANOVA<a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>An analysis similar to a repeated-measures ANOVA can also be obtained. Just like the <code>afex</code> package, the <code>BayesFactor</code> package requires data in the long format. Let’s first prepare the data of the Cheerleader-effect experiment:</p>
-<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;cheerleader&quot;</span>)</span>
-<span id="cb765-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> cheerleader</span>
-<span id="cb765-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-3" aria-hidden="true" tabindex="-1"></a><span class="co"># remove participants which should be excluded</span></span>
-<span id="cb765-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, Excluded <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb765-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get rid of unused factor levels in Item by </span></span>
-<span id="cb765-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Item <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>Item)</span>
-<span id="cb765-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Presentation <span class="ot">&lt;-</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(dat<span class="sc">$</span>Item, <span class="at">Different =</span> <span class="st">&quot;Control_Group&quot;</span>, <span class="at">Similar =</span> <span class="st">&quot;Distractor_Manipulation&quot;</span>)</span>
-<span id="cb765-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Version <span class="ot">&lt;-</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(dat<span class="sc">$</span>Task, <span class="at">Identical =</span> <span class="st">&quot;Identical-Distractors&quot;</span>, <span class="at">Variant =</span> <span class="st">&quot;Self-Distractors&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb752-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;cheerleader&quot;</span>)</span>
+<span id="cb752-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> cheerleader</span>
+<span id="cb752-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-3" aria-hidden="true" tabindex="-1"></a><span class="co"># remove participants which should be excluded</span></span>
+<span id="cb752-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, Excluded <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb752-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get rid of unused factor levels in Item by </span></span>
+<span id="cb752-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Item <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>Item)</span>
+<span id="cb752-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Presentation <span class="ot">&lt;-</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(dat<span class="sc">$</span>Item, <span class="at">Different =</span> <span class="st">&quot;Control_Group&quot;</span>, <span class="at">Similar =</span> <span class="st">&quot;Distractor_Manipulation&quot;</span>)</span>
+<span id="cb752-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb752-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Version <span class="ot">&lt;-</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(dat<span class="sc">$</span>Task, <span class="at">Identical =</span> <span class="st">&quot;Identical-Distractors&quot;</span>, <span class="at">Variant =</span> <span class="st">&quot;Self-Distractors&quot;</span>)</span></code></pre></div>
 <p>The way the <code>BayesFactor</code> package deals with repeated-measures designs is a little different
 from how we treated repeated-measures ANOVA. Rather than computing within-subjects
 composite variables, the package effectively deals with individual differences
@@ -624,9 +624,9 @@ by adding random intercepts (like in a linear mixed-effects model). To do this,
 we add <code>Participant</code> as an additive effect, and then classify it as a random
 effect through the <code>whichRandom</code> argument. To obtain Type-3 comparisons,
 we again set <code>whichModels</code> to <code>top</code>:</p>
-<div class="sourceCode" id="cb766"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb766-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb766-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
-<span id="cb766-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb766-2" aria-hidden="true" tabindex="-1"></a>bf_rmanova <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(Response <span class="sc">~</span> Task<span class="sc">*</span>Item <span class="sc">+</span> Participant, <span class="at">whichRandom =</span> <span class="st">&quot;Participant&quot;</span>, <span class="at">data=</span>dat, <span class="at">whichModels =</span> <span class="st">&quot;top&quot;</span>)</span>
-<span id="cb766-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb766-3" aria-hidden="true" tabindex="-1"></a>bf_rmanova</span></code></pre></div>
+<div class="sourceCode" id="cb753"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb753-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
+<span id="cb753-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-2" aria-hidden="true" tabindex="-1"></a>bf_rmanova <span class="ot">&lt;-</span> <span class="fu">anovaBF</span>(Response <span class="sc">~</span> Task<span class="sc">*</span>Item <span class="sc">+</span> Participant, <span class="at">whichRandom =</span> <span class="st">&quot;Participant&quot;</span>, <span class="at">data=</span>dat, <span class="at">whichModels =</span> <span class="st">&quot;top&quot;</span>)</span>
+<span id="cb753-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb753-3" aria-hidden="true" tabindex="-1"></a>bf_rmanova</span></code></pre></div>
 <pre><code>## Bayes factor top-down analysis
 ## --------------
 ## When effect is omitted from Task + Item + Task:Item + Participant , BF is...
@@ -644,9 +644,9 @@ the estimation of the Bayes factor is done with a sampling-based approximation).
 We can do this, without the need to respecify the model, with the <code>recompute</code>
 function, where we can increase the number of sampling iterations from the default
 (10,000 iterations) to something higher:</p>
-<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb768-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb768-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb768-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb768-2" aria-hidden="true" tabindex="-1"></a>bf_rmanova2 <span class="ot">&lt;-</span> <span class="fu">recompute</span>(bf_rmanova, <span class="at">iterations=</span><span class="dv">100000</span>)</span>
-<span id="cb768-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb768-3" aria-hidden="true" tabindex="-1"></a>bf_rmanova2</span></code></pre></div>
+<div class="sourceCode" id="cb755"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb755-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb755-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb755-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb755-2" aria-hidden="true" tabindex="-1"></a>bf_rmanova2 <span class="ot">&lt;-</span> <span class="fu">recompute</span>(bf_rmanova, <span class="at">iterations=</span><span class="dv">100000</span>)</span>
+<span id="cb755-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb755-3" aria-hidden="true" tabindex="-1"></a>bf_rmanova2</span></code></pre></div>
 <pre><code>## Bayes factor top-down analysis
 ## --------------
 ## When effect is omitted from Task + Item + Task:Item + Participant , BF is...
@@ -662,7 +662,7 @@ function, where we can increase the number of sampling iterations from the defau
 the number of iterations even more.</p>
 <p>As before, the Bayes Factors are for the reduced model compared to the full model
 and we can get more easily interpretable results by computing the inverse value</p>
-<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb770-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb770-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>bf_rmanova2</span></code></pre></div>
+<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb757-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb757-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>bf_rmanova2</span></code></pre></div>
 <pre><code>##                                        denominator
 ## numerator                               Task + Item + Participant
 ##   Task + Item + Task:Item + Participant                  0.812367
@@ -683,22 +683,22 @@ first estimate the general MODEL G with the <code>lmBF</code> function. This fun
 is meant to compute a specific General Linear Model (rather than a set of such
 models). For example, for the Social Priming example, we can estimate the
 ANOVA model with <code>lmBF</code> as:</p>
-<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb772-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb772-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> expBelief</span>
-<span id="cb772-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb772-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>primeCond <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>primeCond)</span>
-<span id="cb772-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb772-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>experimenterBelief <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>experimenterBelief)</span>
-<span id="cb772-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb772-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
-<span id="cb772-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb772-5" aria-hidden="true" tabindex="-1"></a>bflm_expB <span class="ot">&lt;-</span> <span class="fu">lmBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat)</span></code></pre></div>
+<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb759-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb759-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> expBelief</span>
+<span id="cb759-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb759-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>primeCond <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>primeCond)</span>
+<span id="cb759-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb759-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>experimenterBelief <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>experimenterBelief)</span>
+<span id="cb759-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb759-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202111208</span>) </span>
+<span id="cb759-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb759-5" aria-hidden="true" tabindex="-1"></a>bflm_expB <span class="ot">&lt;-</span> <span class="fu">lmBF</span>(ApproachAdvantage <span class="sc">~</span> primeCond<span class="sc">*</span>experimenterBelief, <span class="at">data =</span> dat)</span></code></pre></div>
 <p>We can then use this estimated model to obtain samples from the posterior
 distribution over the model parameters. This is done with the <code>posterior</code>
 function of the <code>Bayesfactor</code> package. We can determine the number
 of samples through the <code>iterations</code> argument. This should generally
 be a high number, to get more reliable estimates:</p>
-<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb773-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb773-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb773-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb773-2" aria-hidden="true" tabindex="-1"></a>post_samples <span class="ot">&lt;-</span> <span class="fu">posterior</span>(bflm_expB, <span class="at">iterations=</span><span class="dv">100000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb760-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb760-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb760-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb760-2" aria-hidden="true" tabindex="-1"></a>post_samples <span class="ot">&lt;-</span> <span class="fu">posterior</span>(bflm_expB, <span class="at">iterations=</span><span class="dv">100000</span>)</span></code></pre></div>
 <p>The <code>post_samples</code> object can be effectively treated as a matrix, with columns
 corresponding to the different parameters, and in the rows the samples. So
 we can obtain posterior means as the column-wise averages:</p>
-<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb774-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(post_samples)</span></code></pre></div>
+<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb761-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb761-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(post_samples)</span></code></pre></div>
 <pre><code>##                                   mu                        primeCond-HPP 
 ##                            21.440783                             5.836911 
 ##                        primeCond-LPP                 experimenterBelief-H 
@@ -731,10 +731,10 @@ we will ignore for now.</p>
 distribution. For instance, we can plot the (approximate) posterior
 distributions as well. For example, we can plot the posterior distribution
 of the high-power prime treatment effect as:</p>
-<div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb776-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb776-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">as.numeric</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;primeCond-HPP&quot;</span>)])), <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb763-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb763-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">as.numeric</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;primeCond-HPP&quot;</span>)])), <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
 <p><img src="13-Bayes-Factors_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 and for the experimenter-belief-high treatment effect as</p>
-<div class="sourceCode" id="cb777"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb777-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb777-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">as.numeric</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;experimenterBelief-H&quot;</span>)])), <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb764"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb764-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb764-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">as.numeric</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;experimenterBelief-H&quot;</span>)])), <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
 <p><img src="13-Bayes-Factors_files/figure-html/unnamed-chunk-23-1.png" width="672" />
 The first plot indicates that the posterior probability is quite high at the value of 0. In the second plot, the mass of the posterior distribution is clearly quite far removed from 0. This is in line with earlier results from the Bayes Factors, which showed little evidence for the main effect of power prime, but strong evidence for the effect of experimenter belief.</p>
 </div>
@@ -745,14 +745,14 @@ a variety of objects, including those returned by the <code>BayesFactor::posteri
 to the object, one more argument called <code>credMass</code>, which specifies the
 width of the credible interval (<code>credMass = .95</code> is the default). For example,
 the 95% HDI interval for the two parameters that we plotted above are obtained as follows:</p>
-<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb778-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb778-1" aria-hidden="true" tabindex="-1"></a>HDInterval<span class="sc">::</span><span class="fu">hdi</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;primeCond-HPP&quot;</span>)], <span class="at">credMass=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb765-1" aria-hidden="true" tabindex="-1"></a>HDInterval<span class="sc">::</span><span class="fu">hdi</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;primeCond-HPP&quot;</span>)], <span class="at">credMass=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##            var1
 ## lower -14.74079
 ## upper  26.47933
 ## attr(,&quot;credMass&quot;)
 ## [1] 0.95</code></pre>
-<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb780-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (don&#39;t have to specify credMass, as we want the default value)</span></span>
-<span id="cb780-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb780-2" aria-hidden="true" tabindex="-1"></a>HDInterval<span class="sc">::</span><span class="fu">hdi</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;experimenterBelief-H&quot;</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb767"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb767-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb767-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (don&#39;t have to specify credMass, as we want the default value)</span></span>
+<span id="cb767-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb767-2" aria-hidden="true" tabindex="-1"></a>HDInterval<span class="sc">::</span><span class="fu">hdi</span>(post_samples[,<span class="fu">c</span>(<span class="st">&quot;experimenterBelief-H&quot;</span>)])</span></code></pre></div>
 <pre><code>##           var1
 ## lower 23.57900
 ## upper 65.49569
@@ -768,8 +768,8 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 <h2><span class="header-section-number">13.2</span> Bayes Factors for <code>brms</code> models<a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayes-factors-for-brms-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <code>BayesFactor</code> package computes Bayes Factors for a number of standard analyses, using the default priors set in the package. We may want to compute Bayes Factors to test hypotheses for more complex models. In general, we can compare any models by first computing the marginal likelihood for each model, and then computing the Bayes Factor as the ratio of these marginal likelihoods. Computing marginal likelihoods is not always straightforward, but a general procedure that often works reasonably well is called “bridge sampling” <span class="citation">(<a href="#ref-gronau2017tutorial" role="doc-biblioref">Quentin F. Gronau et al. 2017</a>)</span>, and has been implemented in the <code>bridgesampling</code> <span class="citation">(<a href="#ref-R-bridgesampling" role="doc-biblioref">Quentin F. Gronau and Singmann 2021</a>)</span> package. Before discussing how to use this, we will first discuss a simpler way to compute Bayes Factors for particular comparisons within the context of a <code>brms</code> model.</p>
 <p>For the following examples, we will start with the multiple regression model for the <code>trump2016</code> data that we also estimated in the previous chapter, but now setting the prior distributions to more informative ones, as is advisable when computing Bayes Factors:</p>
-<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb782-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
-<span id="cb782-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb782-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
+<div class="sourceCode" id="cb769"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb769-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb769-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb769-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb769-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
 <pre><code>## Loading required package: Rcpp</code></pre>
 <pre><code>## Loading &#39;brms&#39; package (version 2.18.0). Useful instructions
 ## can be found by typing help(&#39;brms&#39;). A more detailed introduction
@@ -779,28 +779,28 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 <pre><code>## The following object is masked from &#39;package:stats&#39;:
 ## 
 ##     ar</code></pre>
-<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb787-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
-<span id="cb787-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
-<span id="cb787-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb787-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define the prior distributions</span></span>
-<span id="cb787-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-5" aria-hidden="true" tabindex="-1"></a>mod_priors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="co"># intercept</span></span>
-<span id="cb787-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">80</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept), </span>
-<span id="cb787-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-7" aria-hidden="true" tabindex="-1"></a>                <span class="co"># slopes</span></span>
-<span id="cb787-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-8" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;hate_groups_per_million&quot;</span>),</span>
-<span id="cb787-9"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;percent_bachelors_degree_or_higher&quot;</span>),</span>
-<span id="cb787-10"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-10" aria-hidden="true" tabindex="-1"></a>                <span class="co"># error SD</span></span>
-<span id="cb787-11"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-11" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">class =</span> sigma))</span>
-<span id="cb787-12"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb787-13"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-13" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
-<span id="cb787-14"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-14" aria-hidden="true" tabindex="-1"></a>mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
-<span id="cb787-15"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb787-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">20221213</span>, <span class="at">prior =</span> mod_priors, <span class="at">sample_prior=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb774-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb774-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
+<span id="cb774-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb774-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define the prior distributions</span></span>
+<span id="cb774-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-5" aria-hidden="true" tabindex="-1"></a>mod_priors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="co"># intercept</span></span>
+<span id="cb774-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">80</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept), </span>
+<span id="cb774-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-7" aria-hidden="true" tabindex="-1"></a>                <span class="co"># slopes</span></span>
+<span id="cb774-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-8" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;hate_groups_per_million&quot;</span>),</span>
+<span id="cb774-9"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;percent_bachelors_degree_or_higher&quot;</span>),</span>
+<span id="cb774-10"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-10" aria-hidden="true" tabindex="-1"></a>                <span class="co"># error SD</span></span>
+<span id="cb774-11"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-11" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">class =</span> sigma))</span>
+<span id="cb774-12"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb774-13"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-13" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the model</span></span>
+<span id="cb774-14"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-14" aria-hidden="true" tabindex="-1"></a>mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
+<span id="cb774-15"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb774-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">20221213</span>, <span class="at">prior =</span> mod_priors, <span class="at">sample_prior=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Compiling Stan program...</code></pre>
 <pre><code>## Start sampling</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL &#39;36206ed09edea00846c43eb03130fb64&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 2.2e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.22 seconds.
+## Chain 1: Gradient evaluation took 1.9e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -817,9 +817,9 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.039259 seconds (Warm-up)
-## Chain 1:                0.034384 seconds (Sampling)
-## Chain 1:                0.073643 seconds (Total)
+## Chain 1:  Elapsed Time: 0.036239 seconds (Warm-up)
+## Chain 1:                0.032097 seconds (Sampling)
+## Chain 1:                0.068336 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;36206ed09edea00846c43eb03130fb64&#39; NOW (CHAIN 2).
@@ -842,15 +842,15 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.040574 seconds (Warm-up)
-## Chain 2:                0.033689 seconds (Sampling)
-## Chain 2:                0.074263 seconds (Total)
+## Chain 2:  Elapsed Time: 0.038451 seconds (Warm-up)
+## Chain 2:                0.031033 seconds (Sampling)
+## Chain 2:                0.069484 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;36206ed09edea00846c43eb03130fb64&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 8e-06 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 3: Gradient evaluation took 7e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -867,15 +867,15 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.039238 seconds (Warm-up)
-## Chain 3:                0.031335 seconds (Sampling)
-## Chain 3:                0.070573 seconds (Total)
+## Chain 3:  Elapsed Time: 0.036579 seconds (Warm-up)
+## Chain 3:                0.029281 seconds (Sampling)
+## Chain 3:                0.06586 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;36206ed09edea00846c43eb03130fb64&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 8e-06 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 4: Gradient evaluation took 6e-06 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -892,12 +892,12 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.039155 seconds (Warm-up)
-## Chain 4:                0.03163 seconds (Sampling)
-## Chain 4:                0.070785 seconds (Total)
+## Chain 4:  Elapsed Time: 0.037121 seconds (Warm-up)
+## Chain 4:                0.029683 seconds (Sampling)
+## Chain 4:                0.066804 seconds (Total)
 ## Chain 4:</code></pre>
-<p>The results of this model were</p>
-<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb791-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb791-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression)</span></code></pre></div>
+<p>The results of this model are</p>
+<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb778-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb778-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression)</span></code></pre></div>
 <pre><code>##  Family: gaussian 
 ##   Links: mu = identity; sigma = identity 
 ## Formula: percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher 
@@ -934,7 +934,7 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 <li><code>seed</code>: seed for the random number generator to make the results reproducible.</li>
 </ul>
 <p>The specification of the <code>hypothesis</code> argument is rather flexible. For example, we can test the (null) hypothesis that the slope of <code>hate_groups_per_million</code> equals 0 by specifying the hypothesis as <code>"hate_groups_per_million = 0"</code>:</p>
-<div class="sourceCode" id="cb793"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb793-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb793-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">hypothesis</span>(mod_regression, <span class="at">hypothesis=</span><span class="st">&quot;hate_groups_per_million = 0&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb780-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">hypothesis</span>(mod_regression, <span class="at">hypothesis=</span><span class="st">&quot;hate_groups_per_million = 0&quot;</span>)</span></code></pre></div>
 <pre><code>## Hypothesis Tests for class b:
 ##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
 ## 1 (hate_groups_per_... = 0     1.08      0.43      0.2     1.93       0.14
@@ -945,9 +945,9 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<p>This compares <code>mod_regression</code> to an alternative model where the prior for the slope of <code>hate_groups_per_million</code> is set to a point-prior at 0 (i.e. only the value 0 is allowed). The output of the function repeats some values that are also provided in the output of the <code>summary()</code> function (the posterior mean, standard deviation, and lower- and upper-bound of the 95% HDI). In addition, we find values of <code>Evid.Ratio</code> and <code>Post.Prob</code>. The <strong>Evidence Ratio</strong> (<code>Evid.Ratio</code>) is the value of the Bayes Factor <span class="math inline">\(\text{BF}_{01}\)</span> comparing the model specified in the hypothesis (MODEl R) to the less restrictive MODEL G (<code>mod_regression</code>). So values larger than 1 indicate that the data provides evidence for the tested hypothesis (MODEL R) to MODEL G. Conversely, values smaller than 1 indicate evidence for MODEL G over MODEL R. The value found here (<span class="math inline">\(\text{BF}_{01} = 0.1395201\)</span>) can be considered “anecdotal” evidence for MODEL G which allows <code>hate_groups_per_million</code> to have an effect, compared to MODEL R which fixes the effect to 0. Note that the priors of MODEL G are somewhat “wide”, which is good for estimation, but assumes very large effects of the predictors are plausible, and probably more plausible than they should be. The Bayes Factor in this procedure is calculated via the so-called Savage-Dickey density ratio <span class="citation">(<a href="#ref-wagenmakers2010bayesian" role="doc-biblioref">Wagenmakers et al. 2010</a>)</span>. The <strong>Posterior Probability</strong> is the posterior probability that the hypothesis is true. For this point-hypothesis, this is the posterior probability of the model with the point-prior (MODEL R), assuming equal prior probabilities for this model and MODEL G.</p>
+<p>This compares <code>mod_regression</code> to an alternative model where the prior for the slope of <code>hate_groups_per_million</code> is set to a point-prior at 0 (i.e. only the value 0 is allowed). The output of the function repeats some values that are also provided in the output of the <code>summary()</code> function (the posterior mean, standard deviation, and lower- and upper-bound of the 95% HDI). In addition, we find values of <code>Evid.Ratio</code> and <code>Post.Prob</code>. The <strong>Evidence Ratio</strong> (<code>Evid.Ratio</code>) is the value of the Bayes Factor <span class="math inline">\(\text{BF}_{01}\)</span> comparing the model specified in the hypothesis (MODEl R) to the less restrictive MODEL G (<code>mod_regression</code>). So values larger than 1 indicate that the data provides evidence for the tested hypothesis (MODEL R) to MODEL G. Conversely, values smaller than 1 indicate evidence for MODEL G over MODEL R. The value found here (<span class="math inline">\(\text{BF}_{01} = 0.1395201\)</span>) can be considered “moderate” evidence for MODEL G which allows <code>hate_groups_per_million</code> to have an effect, compared to MODEL R which fixes the effect to 0. The Bayes Factor in this procedure is calculated via the so-called Savage-Dickey density ratio <span class="citation">(<a href="#ref-wagenmakers2010bayesian" role="doc-biblioref">Wagenmakers et al. 2010</a>)</span>. The <strong>Posterior Probability</strong> is the posterior probability that the hypothesis is true. For this point-hypothesis, this is the posterior probability of the model with the point-prior (MODEL R), assuming equal prior probabilities for this model and MODEL G.</p>
 <p>Directional hypotheses can also be tested. For example, we can test the hypothesis that the slope of <code>hate_groups_per_million</code> is larger than 0 by specifying the hypothesis as <code>"hate_groups_per_million &gt; 0"</code>:</p>
-<div class="sourceCode" id="cb795"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb795-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb795-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">hypothesis</span>(mod_regression, <span class="at">hypothesis=</span><span class="st">&quot;hate_groups_per_million &gt; 0&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb782-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">hypothesis</span>(mod_regression, <span class="at">hypothesis=</span><span class="st">&quot;hate_groups_per_million &gt; 0&quot;</span>)</span></code></pre></div>
 <pre><code>## Hypothesis Tests for class b:
 ##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
 ## 1 (hate_groups_per_... &gt; 0     1.08      0.43     0.38     1.77     113.29
@@ -961,7 +961,7 @@ the 95% HDI interval for the two parameters that we plotted above are obtained a
 <p>Whilst the output is similar as before, for these directional tests, a different procedure is used to compute the “evidence ratio”. Here, the evidence ratio is the posterior probability that the parameter is larger than 0, divided by the posterior probability that the parameter value is smaller than 0, e.g.:
 <span class="math display">\[\text{Evidence ratio} = \frac{p(\beta &gt; 0|\text{data})}{p(\beta &lt; 0|\text{data})}\]</span>
 which is estimated simply by the proportion of posterior samples that are larger than 0 (which is also stated under <code>Post.Prob</code>), divided by the proportion of posterior samples smaller than 0 (which equals <span class="math inline">\(1-\)</span><code>Post.Prob</code>). You can also use the procedure to test some “wacky” hypotheses, such as that the slope of <code>hate_groups_per_million</code> is smaller than the slope of <code>percent_bachelors_degree_or_higher</code>:</p>
-<div class="sourceCode" id="cb797"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb797-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb797-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">hypothesis</span>(mod_regression, <span class="at">hypothesis=</span><span class="st">&quot;hate_groups_per_million &lt; percent_bachelors_degree_or_higher&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb784-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">hypothesis</span>(mod_regression, <span class="at">hypothesis=</span><span class="st">&quot;hate_groups_per_million &lt; percent_bachelors_degree_or_higher&quot;</span>)</span></code></pre></div>
 <pre><code>## Hypothesis Tests for class b:
 ##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
 ## 1 (hate_groups_per_... &lt; 0     2.29      0.43     1.59     2.98          0
@@ -978,16 +978,16 @@ which is estimated simply by the proportion of posterior samples that are larger
 <h3><span class="header-section-number">13.2.2</span> Using bridge sampling to obtain marginal likelihoods<a href="bayesian-hypothesis-testing-with-bayes-factors.html#using-bridge-sampling-to-obtain-marginal-likelihoods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Bridge sampling <span class="citation">(<a href="#ref-bennett1976efficient" role="doc-biblioref">Bennett 1976</a>; <a href="#ref-meng1996simulating" role="doc-biblioref">Meng and Wong 1996</a>; <a href="#ref-gronau2017tutorial" role="doc-biblioref">Quentin F. Gronau et al. 2017</a>)</span> provides a general method to estimate the marginal likelihood from MCMC samples. We won’t go into the details of this algorithm here <span class="citation">(<a href="#ref-gronau2017tutorial" role="doc-biblioref">Quentin F. Gronau et al. 2017</a> provide a relatively readable introduction to this)</span>, but note that it is a sampling-based approximation, and the accuracy of the method will depend on how many samples are used (and whether the MCMC algorithm has converged to sampling from the posterior distribution).</p>
 <p>The implementation of bridge sampling in the <code>bridgesampling</code>, for which the <code>brms::bridge_sampler()</code> function provides a simple wrapper, requires that all parameters of the model are sampled at each step. This can be requested by setting the option <code>save_pars = save_pars(all = TRUE)</code> in the call to <code>brms::brm()</code>. We did not do this before, so to be able to use the <code>brms::bridge_sampler()</code> function, we should first re-estimate the model with:</p>
-<div class="sourceCode" id="cb799"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb799-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb799-1" aria-hidden="true" tabindex="-1"></a>mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
-<span id="cb799-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb799-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">20221213</span>, <span class="at">prior =</span> mod_priors, </span>
-<span id="cb799-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb799-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">save_pars =</span> <span class="fu">save_pars</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb786"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb786-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb786-1" aria-hidden="true" tabindex="-1"></a>mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
+<span id="cb786-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb786-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">20221213</span>, <span class="at">prior =</span> mod_priors, </span>
+<span id="cb786-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb786-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">save_pars =</span> <span class="fu">save_pars</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## Compiling Stan program...</code></pre>
 <pre><code>## Start sampling</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL &#39;0e4562ed5f8d2bb1ab126a4b4b0a48f3&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 3.8e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.38 seconds.
+## Chain 1: Gradient evaluation took 3.6e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -1004,9 +1004,9 @@ which is estimated simply by the proportion of posterior samples that are larger
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.04079 seconds (Warm-up)
-## Chain 1:                0.031567 seconds (Sampling)
-## Chain 1:                0.072357 seconds (Total)
+## Chain 1:  Elapsed Time: 0.03695 seconds (Warm-up)
+## Chain 1:                0.028981 seconds (Sampling)
+## Chain 1:                0.065931 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;0e4562ed5f8d2bb1ab126a4b4b0a48f3&#39; NOW (CHAIN 2).
@@ -1029,15 +1029,15 @@ which is estimated simply by the proportion of posterior samples that are larger
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.037499 seconds (Warm-up)
-## Chain 2:                0.030448 seconds (Sampling)
-## Chain 2:                0.067947 seconds (Total)
+## Chain 2:  Elapsed Time: 0.034734 seconds (Warm-up)
+## Chain 2:                0.028353 seconds (Sampling)
+## Chain 2:                0.063087 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;0e4562ed5f8d2bb1ab126a4b4b0a48f3&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 8e-06 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 3: Gradient evaluation took 7e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -1054,15 +1054,15 @@ which is estimated simply by the proportion of posterior samples that are larger
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.036921 seconds (Warm-up)
-## Chain 3:                0.033641 seconds (Sampling)
-## Chain 3:                0.070562 seconds (Total)
+## Chain 3:  Elapsed Time: 0.034665 seconds (Warm-up)
+## Chain 3:                0.0326 seconds (Sampling)
+## Chain 3:                0.067265 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;0e4562ed5f8d2bb1ab126a4b4b0a48f3&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 7e-06 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+## Chain 4: Gradient evaluation took 1.1e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.11 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -1079,43 +1079,43 @@ which is estimated simply by the proportion of posterior samples that are larger
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.036506 seconds (Warm-up)
-## Chain 4:                0.02943 seconds (Sampling)
-## Chain 4:                0.065936 seconds (Total)
+## Chain 4:  Elapsed Time: 0.033917 seconds (Warm-up)
+## Chain 4:                0.027982 seconds (Sampling)
+## Chain 4:                0.061899 seconds (Total)
 ## Chain 4:</code></pre>
 <p>Having set <code>save_pars = save_pars(all = TRUE)</code>, we can then call the <code>brms::bridge_sampler()</code> function on the estimated model as:</p>
-<div class="sourceCode" id="cb803"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb803-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb803-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute (log) marginal likelihood and store it</span></span>
-<span id="cb803-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb803-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">bridge_sampler</span>(mod_regression)</span></code></pre></div>
+<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb790-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb790-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute (log) marginal likelihood and store it</span></span>
+<span id="cb790-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb790-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">bridge_sampler</span>(mod_regression)</span></code></pre></div>
 <pre><code>## Iteration: 1
 ## Iteration: 2
 ## Iteration: 3
 ## Iteration: 4
 ## Iteration: 5</code></pre>
-<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb805-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb805-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print result</span></span>
-<span id="cb805-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb805-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression</span></code></pre></div>
+<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb792-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb792-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print result</span></span>
+<span id="cb792-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb792-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression</span></code></pre></div>
 <pre><code>## Bridge sampling estimate of the log marginal likelihood: -180.6157
 ## Estimate obtained in 5 iteration(s) via method &quot;normal&quot;.</code></pre>
 <p>This function returns the approximate (natural) logarithm of the marginal likelihood, i.e.
 <span class="math display">\[\widehat{\log p}(\text{data}|\text{MODEL})\]</span>
 To compute a Bayes Factor, we will also need the (log) marginal likelihood for an alternative model. For example, we can set the prior for the slope of <code>hate_groups_per_million</code> to be a point-prior at 0 by specifying the prior distribution for that parameter as <code>constant(0)</code>:</p>
-<div class="sourceCode" id="cb807"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb807-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-1" aria-hidden="true" tabindex="-1"></a>mod_priors_alt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="co"># intercept</span></span>
-<span id="cb807-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">80</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept), </span>
-<span id="cb807-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-3" aria-hidden="true" tabindex="-1"></a>                <span class="co"># slopes</span></span>
-<span id="cb807-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">constant</span>(<span class="dv">0</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;hate_groups_per_million&quot;</span>),</span>
-<span id="cb807-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;percent_bachelors_degree_or_higher&quot;</span>),</span>
-<span id="cb807-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-6" aria-hidden="true" tabindex="-1"></a>                <span class="co"># error SD</span></span>
-<span id="cb807-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">class =</span> sigma))</span>
-<span id="cb807-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb807-9"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-9" aria-hidden="true" tabindex="-1"></a>mod_regression_alt <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
-<span id="cb807-10"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">20221213</span>, <span class="at">prior =</span> mod_priors_alt,</span>
-<span id="cb807-11"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb807-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">save_pars =</span> <span class="fu">save_pars</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb794-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-1" aria-hidden="true" tabindex="-1"></a>mod_priors_alt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="co"># intercept</span></span>
+<span id="cb794-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">80</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept), </span>
+<span id="cb794-3"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-3" aria-hidden="true" tabindex="-1"></a>                <span class="co"># slopes</span></span>
+<span id="cb794-4"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">constant</span>(<span class="dv">0</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;hate_groups_per_million&quot;</span>),</span>
+<span id="cb794-5"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;percent_bachelors_degree_or_higher&quot;</span>),</span>
+<span id="cb794-6"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-6" aria-hidden="true" tabindex="-1"></a>                <span class="co"># error SD</span></span>
+<span id="cb794-7"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">class =</span> sigma))</span>
+<span id="cb794-8"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb794-9"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-9" aria-hidden="true" tabindex="-1"></a>mod_regression_alt <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
+<span id="cb794-10"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">20221213</span>, <span class="at">prior =</span> mod_priors_alt,</span>
+<span id="cb794-11"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb794-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">save_pars =</span> <span class="fu">save_pars</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## Compiling Stan program...</code></pre>
 <pre><code>## Start sampling</code></pre>
 <pre><code>## 
-## SAMPLING FOR MODEL &#39;f61b2652af9e4b53d15c08ccd18dcb55&#39; NOW (CHAIN 1).
+## SAMPLING FOR MODEL &#39;4212b4f69bc18d1b27608e3bb3aded55&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 2.5e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+## Chain 1: Gradient evaluation took 2.3e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -1132,15 +1132,15 @@ To compute a Bayes Factor, we will also need the (log) marginal likelihood for a
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.036572 seconds (Warm-up)
-## Chain 1:                0.031607 seconds (Sampling)
-## Chain 1:                0.068179 seconds (Total)
+## Chain 1:  Elapsed Time: 0.038719 seconds (Warm-up)
+## Chain 1:                0.028608 seconds (Sampling)
+## Chain 1:                0.067327 seconds (Total)
 ## Chain 1: 
 ## 
-## SAMPLING FOR MODEL &#39;f61b2652af9e4b53d15c08ccd18dcb55&#39; NOW (CHAIN 2).
+## SAMPLING FOR MODEL &#39;4212b4f69bc18d1b27608e3bb3aded55&#39; NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 7e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+## Chain 2: Gradient evaluation took 8e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -1157,12 +1157,12 @@ To compute a Bayes Factor, we will also need the (log) marginal likelihood for a
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.037363 seconds (Warm-up)
-## Chain 2:                0.030371 seconds (Sampling)
-## Chain 2:                0.067734 seconds (Total)
+## Chain 2:  Elapsed Time: 0.035651 seconds (Warm-up)
+## Chain 2:                0.02908 seconds (Sampling)
+## Chain 2:                0.064731 seconds (Total)
 ## Chain 2: 
 ## 
-## SAMPLING FOR MODEL &#39;f61b2652af9e4b53d15c08ccd18dcb55&#39; NOW (CHAIN 3).
+## SAMPLING FOR MODEL &#39;4212b4f69bc18d1b27608e3bb3aded55&#39; NOW (CHAIN 3).
 ## Chain 3: 
 ## Chain 3: Gradient evaluation took 8e-06 seconds
 ## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
@@ -1182,12 +1182,12 @@ To compute a Bayes Factor, we will also need the (log) marginal likelihood for a
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.034689 seconds (Warm-up)
-## Chain 3:                0.029853 seconds (Sampling)
-## Chain 3:                0.064542 seconds (Total)
+## Chain 3:  Elapsed Time: 0.032241 seconds (Warm-up)
+## Chain 3:                0.028215 seconds (Sampling)
+## Chain 3:                0.060456 seconds (Total)
 ## Chain 3: 
 ## 
-## SAMPLING FOR MODEL &#39;f61b2652af9e4b53d15c08ccd18dcb55&#39; NOW (CHAIN 4).
+## SAMPLING FOR MODEL &#39;4212b4f69bc18d1b27608e3bb3aded55&#39; NOW (CHAIN 4).
 ## Chain 4: 
 ## Chain 4: Gradient evaluation took 8e-06 seconds
 ## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
@@ -1207,21 +1207,21 @@ To compute a Bayes Factor, we will also need the (log) marginal likelihood for a
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.033864 seconds (Warm-up)
-## Chain 4:                0.030282 seconds (Sampling)
-## Chain 4:                0.064146 seconds (Total)
+## Chain 4:  Elapsed Time: 0.033155 seconds (Warm-up)
+## Chain 4:                0.024698 seconds (Sampling)
+## Chain 4:                0.057853 seconds (Total)
 ## Chain 4:</code></pre>
 <p>We can now use the <code>brms::bridge_sampler()</code> function to compute the (log) marginal likelihood for this estimated model as:</p>
-<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb811-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb811-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute (log) marginal likelihood and store it</span></span>
-<span id="cb811-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb811-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression_alt <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">bridge_sampler</span>(mod_regression_alt)</span></code></pre></div>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb798-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb798-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute (log) marginal likelihood and store it</span></span>
+<span id="cb798-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb798-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression_alt <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">bridge_sampler</span>(mod_regression_alt)</span></code></pre></div>
 <pre><code>## Iteration: 1
 ## Iteration: 2
 ## Iteration: 3
 ## Iteration: 4
 ## Iteration: 5</code></pre>
-<div class="sourceCode" id="cb813"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb813-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb813-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print result</span></span>
-<span id="cb813-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb813-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression_alt</span></code></pre></div>
-<pre><code>## Bridge sampling estimate of the log marginal likelihood: -182.9795
+<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb800-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb800-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print result</span></span>
+<span id="cb800-2"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb800-2" aria-hidden="true" tabindex="-1"></a>marg_lik_mod_regression_alt</span></code></pre></div>
+<pre><code>## Bridge sampling estimate of the log marginal likelihood: -182.9632
 ## Estimate obtained in 5 iteration(s) via method &quot;normal&quot;.</code></pre>
 <p>We now have two (log) marginal likelihoods. To compute the actual Bayes Factor, we can use the factor that:
 <span class="math display">\[\begin{aligned}
@@ -1229,12 +1229,12 @@ To compute a Bayes Factor, we will also need the (log) marginal likelihood for a
 \frac{p(\text{data}|\text{MODEL 1})}{p(\text{data}|\text{MODEL 1})} &amp;= \exp \left( \log p(\text{data}|\text{MODEL 1}) - \log p(\text{data}|\text{MODEL 2}) \right)
 \end{aligned}\]</span>
 So we can compute the Bayes factor by taking the difference between the log marginal likelihoods, and then exponentiating:</p>
-<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb815-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb815-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(marg_lik_mod_regression<span class="sc">$</span>logml <span class="sc">-</span> marg_lik_mod_regression_alt<span class="sc">$</span>logml)</span></code></pre></div>
-<pre><code>## [1] 10.63187</code></pre>
+<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb802-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb802-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(marg_lik_mod_regression<span class="sc">$</span>logml <span class="sc">-</span> marg_lik_mod_regression_alt<span class="sc">$</span>logml)</span></code></pre></div>
+<pre><code>## [1] 10.45991</code></pre>
 <p>where we have used that each object returned by the <code>brms::bridge_sampler()</code> is a list with the named element <code>logml</code> being equal to the (approximate) marginal log likelihood.</p>
 <p>Using this explicit computation can be avoided by calling the <code>bridgesampling::bf()</code> function, which will provide the actual Bayes Factor from the log marginal likelihoods:</p>
-<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb817-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb817-1" aria-hidden="true" tabindex="-1"></a>bridgesampling<span class="sc">::</span><span class="fu">bf</span>(marg_lik_mod_regression, marg_lik_mod_regression_alt)</span></code></pre></div>
-<pre><code>## Estimated Bayes factor in favor of marg_lik_mod_regression over marg_lik_mod_regression_alt: 10.63187</code></pre>
+<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb804-1"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#cb804-1" aria-hidden="true" tabindex="-1"></a>bridgesampling<span class="sc">::</span><span class="fu">bf</span>(marg_lik_mod_regression, marg_lik_mod_regression_alt)</span></code></pre></div>
+<pre><code>## Estimated Bayes factor in favor of marg_lik_mod_regression over marg_lik_mod_regression_alt: 10.45991</code></pre>
 
 </div>
 </div>

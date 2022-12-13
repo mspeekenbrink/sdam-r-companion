@@ -497,7 +497,7 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 <p>And there are many more options. There is even a so-called Wiener diffusion distribution implemented, which can be used to estimate the drift-diffusion model (<code>wiener(link = "identity", link_bs = "log", link_ndt = "log", link_bias = "logit")</code>).</p>
 <p>Note that many of the <code>brmsfamily</code> objects have multiple link functions, one for each parameter of the distribution. For example, in <code>student(link = "identity", link_sigma = "log", link_nu = "logm1")</code>, there is one link function for the mean (<code>link</code>), one for the standard deviation (<code>link_sigma</code>), and one for the degrees of freedom (<code>link_nu</code>). This family implements a generalized <span class="math inline">\(t\)</span>-distribution, which, in contrast to the standard <span class="math inline">\(t\)</span>-distribution, has a location and scale parameter like the Normal distribution. But the degrees of freedom allow this distribution to have wider tails than the Normal distribution, which can make it more robust against outliers.</p>
 <p>As an example of estimating a model with <code>brms</code>, we can estimate a linear regression model as follows:</p>
-<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb698-1"><a href="bayesian-estimation-with-brms.html#cb698-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="bayesian-estimation-with-brms.html#cb685-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
 <pre><code>## Loading required package: Rcpp</code></pre>
 <pre><code>## Loading &#39;brms&#39; package (version 2.18.0). Useful instructions
 ## can be found by typing help(&#39;brms&#39;). A more detailed introduction
@@ -507,18 +507,18 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 <pre><code>## The following object is masked from &#39;package:stats&#39;:
 ## 
 ##     ar</code></pre>
-<div class="sourceCode" id="cb703"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb703-1"><a href="bayesian-estimation-with-brms.html#cb703-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
-<span id="cb703-2"><a href="bayesian-estimation-with-brms.html#cb703-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
-<span id="cb703-3"><a href="bayesian-estimation-with-brms.html#cb703-3" aria-hidden="true" tabindex="-1"></a>mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span></span>
-<span id="cb703-4"><a href="bayesian-estimation-with-brms.html#cb703-4" aria-hidden="true" tabindex="-1"></a>                           percent_bachelors_degree_or_higher, </span>
-<span id="cb703-5"><a href="bayesian-estimation-with-brms.html#cb703-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family=</span><span class="fu">gaussian</span>(), <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">112</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="bayesian-estimation-with-brms.html#cb690-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;trump2016&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb690-2"><a href="bayesian-estimation-with-brms.html#cb690-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(trump2016,state <span class="sc">!=</span> <span class="st">&quot;District of Columbia&quot;</span>)</span>
+<span id="cb690-3"><a href="bayesian-estimation-with-brms.html#cb690-3" aria-hidden="true" tabindex="-1"></a>mod_regression <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span></span>
+<span id="cb690-4"><a href="bayesian-estimation-with-brms.html#cb690-4" aria-hidden="true" tabindex="-1"></a>                           percent_bachelors_degree_or_higher, </span>
+<span id="cb690-5"><a href="bayesian-estimation-with-brms.html#cb690-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family=</span><span class="fu">gaussian</span>(), <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">112</span>)</span></code></pre></div>
 <pre><code>## Compiling Stan program...</code></pre>
 <pre><code>## Start sampling</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 3e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
+## Chain 1: Gradient evaluation took 2.7e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -535,15 +535,15 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.040863 seconds (Warm-up)
-## Chain 1:                0.035292 seconds (Sampling)
-## Chain 1:                0.076155 seconds (Total)
+## Chain 1:  Elapsed Time: 0.041784 seconds (Warm-up)
+## Chain 1:                0.036 seconds (Sampling)
+## Chain 1:                0.077784 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 9e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+## Chain 2: Gradient evaluation took 7e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -560,9 +560,9 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.041434 seconds (Warm-up)
-## Chain 2:                0.032811 seconds (Sampling)
-## Chain 2:                0.074245 seconds (Total)
+## Chain 2:  Elapsed Time: 0.041861 seconds (Warm-up)
+## Chain 2:                0.03302 seconds (Sampling)
+## Chain 2:                0.074881 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 3).
@@ -585,9 +585,9 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.039385 seconds (Warm-up)
-## Chain 3:                0.03517 seconds (Sampling)
-## Chain 3:                0.074555 seconds (Total)
+## Chain 3:  Elapsed Time: 0.040205 seconds (Warm-up)
+## Chain 3:                0.035714 seconds (Sampling)
+## Chain 3:                0.075919 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;827c0bc9f8c7384ba846b3e6a6ef59d8&#39; NOW (CHAIN 4).
@@ -610,13 +610,13 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.039245 seconds (Warm-up)
-## Chain 4:                0.032079 seconds (Sampling)
-## Chain 4:                0.071324 seconds (Total)
+## Chain 4:  Elapsed Time: 0.040014 seconds (Warm-up)
+## Chain 4:                0.032193 seconds (Sampling)
+## Chain 4:                0.072207 seconds (Total)
 ## Chain 4:</code></pre>
 <p>Because estimation with <code>brms</code> involves random sampling via <code>stan</code>, we use the <code>seed</code> argument to be able to reproduce the results.</p>
 <p>You can obtain a summary of the model via the <code>summary()</code> function:</p>
-<div class="sourceCode" id="cb707"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb707-1"><a href="bayesian-estimation-with-brms.html#cb707-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression)</span></code></pre></div>
+<div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb694-1"><a href="bayesian-estimation-with-brms.html#cb694-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression)</span></code></pre></div>
 <pre><code>##  Family: gaussian 
 ##   Links: mu = identity; sigma = identity 
 ## Formula: percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher 
@@ -644,10 +644,10 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 <p>The output first shows details of the model (e.g. family and model formula), and MCMC estimation (e.g. number of chains and iterations). Under <code>Population-Level Effects:</code> you will find a summary of the approximate posterior distribution for the main parameters of interest (<code>Intercept</code>, and slopes for <code>hate_groups_per_million</code> and <code>percent_bachelors_degree_or_higher</code>). The <code>Estimate</code> is the posterior mean, the <code>Est.Error</code> is the posterior standard deviation, the <code>l-95% CI</code> and <code>u-95% CI</code> provide respectively the lower and upper bound of the 95% Highest Density Interval. The width of the latter interval can be changed by supplying a <code>prob</code> argument to the summary function. For example, <code>summary(mod, prob=.9)</code> would return the 90% HDI.</p>
 <p>The <code>Rhat</code> the <span class="math inline">\(\hat{R}\)</span> values, and <code>Bulk_ESS</code> an estimate of the Effective Sample Size (ESS). The <code>Tail_ESS</code> provides somewhat of a lower bound on the ESS estimate <span class="citation">(see <a href="#ref-vehtari2019rank" role="doc-biblioref">Vehtari et al. 2019</a>)</span>. Under <code>Family Specific Parameters:</code>, you will find the same information for the non-regression parameters (i.e. <span class="math inline">\(\sigma_\epsilon\)</span> for a linear regression model).</p>
 <p>You can obtain a quick plot showing a nonparametric density estimate for each parameter, and a plot of the sampled values per iteration and chain, via the <code>plot()</code> function:</p>
-<div class="sourceCode" id="cb709"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb709-1"><a href="bayesian-estimation-with-brms.html#cb709-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod_regression)</span></code></pre></div>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="bayesian-estimation-with-brms.html#cb696-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod_regression)</span></code></pre></div>
 <p><img src="12-Bayes-estimation_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>If you want to create your own plots, there are several functions to extract the posterior samples of the parameters. Perhaps the most convenient is <code>brms::as_draws_df()</code>, which returns a <code>data.frame</code> with the posterior samples.</p>
-<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb710-1"><a href="bayesian-estimation-with-brms.html#cb710-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as_draws_df</span>(mod_regression))</span></code></pre></div>
+<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb697-1"><a href="bayesian-estimation-with-brms.html#cb697-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as_draws_df</span>(mod_regression))</span></code></pre></div>
 <pre><code>## # A draws_df: 6 iterations, 1 chains, and 6 variables
 ##   b_Intercept b_hate_groups_per_million b_percent_bachelors_degree_or_higher
 ## 1          79                      1.75                                 -1.2
@@ -669,7 +669,7 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 <div id="priors" class="section level3 hasAnchor" number="12.1.2">
 <h3><span class="header-section-number">12.1.2</span> Priors<a href="bayesian-estimation-with-brms.html#priors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In the example above, we did not specify prior distributions. The <code>brms::brm</code> function uses default values for prior distributions if these are not explicitly set. You can view some detauls of these prior distributions via the <code>prior_summary()</code> function:</p>
-<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb712-1"><a href="bayesian-estimation-with-brms.html#cb712-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(mod_regression)</span></code></pre></div>
+<div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb699-1"><a href="bayesian-estimation-with-brms.html#cb699-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(mod_regression)</span></code></pre></div>
 <pre><code>##                     prior     class                               coef group
 ##                    (flat)         b                                         
 ##                    (flat)         b            hate_groups_per_million      
@@ -690,23 +690,23 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 * <code>coef</code>: the name of the coefficient in the parameter class. This is what you will find under the <code>coef</code> column in the output of <code>brms::prior_summary()</code>.
 * <code>group</code>: A grouping factor for group-level (random) effects.</p>
 <p>For example, we can set Normal priors with a mean of 0 and a standard deviation depending on the parameters as follows. We use the <code>c()</code> function to create the vector with <code>brmsprior</code> objects. We need to define four such objects, each via a call to the <code>prior()</code> function. We assign the result to ab object called <code>mod_priors</code>, so that we can then use it in a call to <code>brms::brm()</code>:</p>
-<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb714-1"><a href="bayesian-estimation-with-brms.html#cb714-1" aria-hidden="true" tabindex="-1"></a>mod_priors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="co"># intercept</span></span>
-<span id="cb714-2"><a href="bayesian-estimation-with-brms.html#cb714-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">class =</span> Intercept), </span>
-<span id="cb714-3"><a href="bayesian-estimation-with-brms.html#cb714-3" aria-hidden="true" tabindex="-1"></a>                <span class="co"># slopes</span></span>
-<span id="cb714-4"><a href="bayesian-estimation-with-brms.html#cb714-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;hate_groups_per_million&quot;</span>),</span>
-<span id="cb714-5"><a href="bayesian-estimation-with-brms.html#cb714-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;percent_bachelors_degree_or_higher&quot;</span>),</span>
-<span id="cb714-6"><a href="bayesian-estimation-with-brms.html#cb714-6" aria-hidden="true" tabindex="-1"></a>                <span class="co"># error SD</span></span>
-<span id="cb714-7"><a href="bayesian-estimation-with-brms.html#cb714-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> sigma))</span></code></pre></div>
+<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb701-1"><a href="bayesian-estimation-with-brms.html#cb701-1" aria-hidden="true" tabindex="-1"></a>mod_priors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="co"># intercept</span></span>
+<span id="cb701-2"><a href="bayesian-estimation-with-brms.html#cb701-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">class =</span> Intercept), </span>
+<span id="cb701-3"><a href="bayesian-estimation-with-brms.html#cb701-3" aria-hidden="true" tabindex="-1"></a>                <span class="co"># slopes</span></span>
+<span id="cb701-4"><a href="bayesian-estimation-with-brms.html#cb701-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;hate_groups_per_million&quot;</span>),</span>
+<span id="cb701-5"><a href="bayesian-estimation-with-brms.html#cb701-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b, <span class="at">coef =</span> <span class="st">&quot;percent_bachelors_degree_or_higher&quot;</span>),</span>
+<span id="cb701-6"><a href="bayesian-estimation-with-brms.html#cb701-6" aria-hidden="true" tabindex="-1"></a>                <span class="co"># error SD</span></span>
+<span id="cb701-7"><a href="bayesian-estimation-with-brms.html#cb701-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> sigma))</span></code></pre></div>
 <p>We can now use our <code>mod_priors</code> object as the argument to <code>prior</code>, to estimate a regression model with non-default priors:</p>
-<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb715-1"><a href="bayesian-estimation-with-brms.html#cb715-1" aria-hidden="true" tabindex="-1"></a>mod_regression_2 <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
-<span id="cb715-2"><a href="bayesian-estimation-with-brms.html#cb715-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">101</span>, <span class="at">sample_prior =</span> <span class="cn">TRUE</span>, <span class="at">prior =</span> mod_priors)</span></code></pre></div>
+<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb702-1"><a href="bayesian-estimation-with-brms.html#cb702-1" aria-hidden="true" tabindex="-1"></a>mod_regression_2 <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(<span class="at">formula =</span> percent_Trump_votes <span class="sc">~</span> hate_groups_per_million <span class="sc">+</span> percent_bachelors_degree_or_higher, </span>
+<span id="cb702-2"><a href="bayesian-estimation-with-brms.html#cb702-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">seed=</span><span class="dv">101</span>, <span class="at">sample_prior =</span> <span class="cn">TRUE</span>, <span class="at">prior =</span> mod_priors)</span></code></pre></div>
 <pre><code>## Compiling Stan program...</code></pre>
 <pre><code>## Start sampling</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 2.3e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Chain 1: Gradient evaluation took 1.7e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -723,15 +723,15 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.03635 seconds (Warm-up)
-## Chain 1:                0.031506 seconds (Sampling)
-## Chain 1:                0.067856 seconds (Total)
+## Chain 1:  Elapsed Time: 0.040125 seconds (Warm-up)
+## Chain 1:                0.035123 seconds (Sampling)
+## Chain 1:                0.075248 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 9e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+## Chain 2: Gradient evaluation took 7e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -748,15 +748,15 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.037136 seconds (Warm-up)
-## Chain 2:                0.031181 seconds (Sampling)
-## Chain 2:                0.068317 seconds (Total)
+## Chain 2:  Elapsed Time: 0.041015 seconds (Warm-up)
+## Chain 2:                0.035199 seconds (Sampling)
+## Chain 2:                0.076214 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 9e-06 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+## Chain 3: Gradient evaluation took 7e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -773,15 +773,15 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.033879 seconds (Warm-up)
-## Chain 3:                0.031882 seconds (Sampling)
-## Chain 3:                0.065761 seconds (Total)
+## Chain 3:  Elapsed Time: 0.038176 seconds (Warm-up)
+## Chain 3:                0.036903 seconds (Sampling)
+## Chain 3:                0.075079 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;c102a4e44a8ca665cf297428b489e138&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 8e-06 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 4: Gradient evaluation took 1e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -798,16 +798,16 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.034575 seconds (Warm-up)
-## Chain 4:                0.028878 seconds (Sampling)
-## Chain 4:                0.063453 seconds (Total)
+## Chain 4:  Elapsed Time: 0.0392 seconds (Warm-up)
+## Chain 4:                0.032305 seconds (Sampling)
+## Chain 4:                0.071505 seconds (Total)
 ## Chain 4:</code></pre>
 <p>I have set <code>sample_prior = TRUE</code> so that we also get samples from the prior distributions. For example, we can get a histogram of the prior for <span class="math inline">\(\sigma_epsilon\)</span> as:</p>
-<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb719-1"><a href="bayesian-estimation-with-brms.html#cb719-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb719-2"><a href="bayesian-estimation-with-brms.html#cb719-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as_draws_df</span>(mod_regression_2), <span class="fu">aes</span>(<span class="at">x=</span>prior_sigma)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb706-1"><a href="bayesian-estimation-with-brms.html#cb706-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb706-2"><a href="bayesian-estimation-with-brms.html#cb706-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as_draws_df</span>(mod_regression_2), <span class="fu">aes</span>(<span class="at">x=</span>prior_sigma)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">100</span>)</span></code></pre></div>
 <p><img src="12-Bayes-estimation_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 The overall summary for this model is:</p>
-<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb720-1"><a href="bayesian-estimation-with-brms.html#cb720-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression_2)</span></code></pre></div>
+<div class="sourceCode" id="cb707"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb707-1"><a href="bayesian-estimation-with-brms.html#cb707-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_regression_2)</span></code></pre></div>
 <pre><code>##  Family: gaussian 
 ##   Links: mu = identity; sigma = identity 
 ## Formula: percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher 
@@ -843,29 +843,29 @@ The overall summary for this model is:</p>
 <li><code>variable</code>: Names of the variables (parameters) to plot, as e.g. a character vector. The names of the variables correspond to those provided as the column names in <code>brms::as_draws_df(mod)</code>.</li>
 </ul>
 <p>For example, we can get histograms of the posterior for each parameter as</p>
-<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="bayesian-estimation-with-brms.html#cb722-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(mod_regression_2, <span class="at">type=</span><span class="st">&quot;hist&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>, <span class="st">&quot;b_hate_groups_per_million&quot;</span>, <span class="st">&quot;b_percent_bachelors_degree_or_higher&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb709"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb709-1"><a href="bayesian-estimation-with-brms.html#cb709-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(mod_regression_2, <span class="at">type=</span><span class="st">&quot;hist&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>, <span class="st">&quot;b_hate_groups_per_million&quot;</span>, <span class="st">&quot;b_percent_bachelors_degree_or_higher&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="12-Bayes-estimation_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 and density plots for the prior distributions as</p>
-<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb724-1"><a href="bayesian-estimation-with-brms.html#cb724-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(mod_regression_2, <span class="at">type=</span><span class="st">&quot;dens&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;prior_Intercept&quot;</span>, <span class="st">&quot;prior_b_hate_groups_per_million&quot;</span>, <span class="st">&quot;prior_b_percent_bachelors_degree_or_higher&quot;</span>, <span class="st">&quot;prior_sigma&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb711"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb711-1"><a href="bayesian-estimation-with-brms.html#cb711-1" aria-hidden="true" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(mod_regression_2, <span class="at">type=</span><span class="st">&quot;dens&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;prior_Intercept&quot;</span>, <span class="st">&quot;prior_b_hate_groups_per_million&quot;</span>, <span class="st">&quot;prior_b_percent_bachelors_degree_or_higher&quot;</span>, <span class="st">&quot;prior_sigma&quot;</span>))</span></code></pre></div>
 <p><img src="12-Bayes-estimation_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="an-example-of-a-poisson-mixed-effects-regression-model" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> An example of a Poisson mixed-effects regression model<a href="bayesian-estimation-with-brms.html#an-example-of-a-poisson-mixed-effects-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As an example of estimating a more complex model, we will use the <code>brms</code> package to estimate a Poisson mixed-effects model. We will use the <code>gestures</code> data of the <code>sdamr</code> package for this example. We first load the data, set contrasts, and define an offset variable:</p>
-<div class="sourceCode" id="cb725"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb725-1"><a href="bayesian-estimation-with-brms.html#cb725-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;gestures&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
-<span id="cb725-2"><a href="bayesian-estimation-with-brms.html#cb725-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> gestures</span>
-<span id="cb725-3"><a href="bayesian-estimation-with-brms.html#cb725-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>context) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb725-4"><a href="bayesian-estimation-with-brms.html#cb725-4" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>language) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb725-5"><a href="bayesian-estimation-with-brms.html#cb725-5" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>gender) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb725-6"><a href="bayesian-estimation-with-brms.html#cb725-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>log_d <span class="ot">&lt;-</span> <span class="fu">log</span>(dat<span class="sc">$</span>dur)</span></code></pre></div>
+<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb712-1"><a href="bayesian-estimation-with-brms.html#cb712-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;gestures&quot;</span>, <span class="at">package=</span><span class="st">&quot;sdamr&quot;</span>)</span>
+<span id="cb712-2"><a href="bayesian-estimation-with-brms.html#cb712-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> gestures</span>
+<span id="cb712-3"><a href="bayesian-estimation-with-brms.html#cb712-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>context) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb712-4"><a href="bayesian-estimation-with-brms.html#cb712-4" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>language) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb712-5"><a href="bayesian-estimation-with-brms.html#cb712-5" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(dat<span class="sc">$</span>gender) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb712-6"><a href="bayesian-estimation-with-brms.html#cb712-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>log_d <span class="ot">&lt;-</span> <span class="fu">log</span>(dat<span class="sc">$</span>dur)</span></code></pre></div>
 <p>We now define the model in <code>brms</code>, using a random effects specification to indicate we want random intercepts for each participant (<code>(1|ID)</code>), and an addition term <code>offset(log_d)</code> which sets the offset (unlike in <code>glm</code> and <code>glmer</code>, in <code>brms</code> the offset needs to be part of the model formula).</p>
-<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb726-1"><a href="bayesian-estimation-with-brms.html#cb726-1" aria-hidden="true" tabindex="-1"></a>mod_poiss_glmer <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(gestures <span class="sc">~</span> context<span class="sc">*</span>language<span class="sc">*</span>gender <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID) <span class="sc">+</span> <span class="fu">offset</span>(log_d), <span class="at">data=</span>dat, <span class="at">family=</span><span class="fu">poisson</span>(), <span class="at">cores=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb713"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb713-1"><a href="bayesian-estimation-with-brms.html#cb713-1" aria-hidden="true" tabindex="-1"></a>mod_poiss_glmer <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">brm</span>(gestures <span class="sc">~</span> context<span class="sc">*</span>language<span class="sc">*</span>gender <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID) <span class="sc">+</span> <span class="fu">offset</span>(log_d), <span class="at">data=</span>dat, <span class="at">family=</span><span class="fu">poisson</span>(), <span class="at">cores=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>## Compiling Stan program...</code></pre>
 <pre><code>## Start sampling</code></pre>
 <p>Note that I’m specifying to use <code>cores=4</code> CPU cores here. This will speed up the computation, but requires you to have sufficient cores.</p>
 <p>We have relied on the default priors, which are the usual flat priors for the regression coefficients, a <span class="math inline">\(t\)</span>-distribution for the Intercept, and half-<span class="math inline">\(t\)</span> distributions for the random effects and errors:</p>
-<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb729-1"><a href="bayesian-estimation-with-brms.html#cb729-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prior_summary</span>(mod_poiss_glmer)</span></code></pre></div>
+<div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb716-1"><a href="bayesian-estimation-with-brms.html#cb716-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prior_summary</span>(mod_poiss_glmer)</span></code></pre></div>
 <pre><code>##                                  prior     class                       coef
 ##                                 (flat)         b                           
 ##                                 (flat)         b                   context1
@@ -893,7 +893,7 @@ and density plots for the prior distributions as</p>
 ##     ID                  0    (vectorized)
 ##     ID                  0    (vectorized)</code></pre>
 <p>The summary of the approximate posterior is:</p>
-<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb731-1"><a href="bayesian-estimation-with-brms.html#cb731-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_poiss_glmer)</span></code></pre></div>
+<div class="sourceCode" id="cb718"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb718-1"><a href="bayesian-estimation-with-brms.html#cb718-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_poiss_glmer)</span></code></pre></div>
 <pre><code>##  Family: poisson 
 ##   Links: mu = log 
 ## Formula: gestures ~ context * language * gender + (1 | ID) + offset(log_d) 
@@ -904,42 +904,42 @@ and density plots for the prior distributions as</p>
 ## Group-Level Effects: 
 ## ~ID (Number of levels: 27) 
 ##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## sd(Intercept)     0.40      0.07     0.29     0.56 1.00     1021     1694
+## sd(Intercept)     0.40      0.07     0.28     0.56 1.00      854     2154
 ## 
 ## Population-Level Effects: 
 ##                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## Intercept                     -1.03      0.08    -1.19    -0.87 1.00     1146
-## context1                       0.05      0.02     0.02     0.09 1.00     3390
-## language1                      0.04      0.08    -0.12     0.21 1.00      990
-## gender1                        0.06      0.08    -0.10     0.22 1.00      996
-## context1:language1            -0.04      0.02    -0.08     0.00 1.00     3410
-## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3167
-## language1:gender1             -0.01      0.08    -0.17     0.15 1.00     1012
-## context1:language1:gender1     0.03      0.02    -0.01     0.07 1.00     3193
+## Intercept                     -1.04      0.08    -1.20    -0.87 1.00     1146
+## context1                       0.05      0.02     0.01     0.09 1.00     3727
+## language1                      0.04      0.08    -0.12     0.20 1.00     1203
+## gender1                        0.06      0.08    -0.10     0.22 1.00     1212
+## context1:language1            -0.04      0.02    -0.08     0.00 1.00     3307
+## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3380
+## language1:gender1             -0.02      0.08    -0.17     0.14 1.00     1090
+## context1:language1:gender1     0.03      0.02    -0.01     0.07 1.00     3648
 ##                            Tail_ESS
-## Intercept                      1428
-## context1                       2814
-## language1                      1633
-## gender1                        1340
-## context1:language1             2570
-## context1:gender1               2530
-## language1:gender1              1629
-## context1:language1:gender1     2550
+## Intercept                      1886
+## context1                       2627
+## language1                      1926
+## gender1                        1608
+## context1:language1             2880
+## context1:gender1               2703
+## language1:gender1              1832
+## context1:language1:gender1     3053
 ## 
 ## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <p>Whilst the <span class="math inline">\(\hat{R}\)</span> values look OK, the effective sample size is rather low for the <code>Intercept</code>, <code>language1</code>, <code>gender</code>, and <code>language1:gender1</code> effects. We first inspect the autocorrelation for these parameters:</p>
-<div class="sourceCode" id="cb733"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb733-1"><a href="bayesian-estimation-with-brms.html#cb733-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_plot</span>(mod_poiss_glmer, <span class="at">type=</span><span class="st">&quot;acf&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>, <span class="st">&quot;b_language1&quot;</span>, <span class="st">&quot;b_gender1&quot;</span>,<span class="st">&quot;b_language1:gender1&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb720-1"><a href="bayesian-estimation-with-brms.html#cb720-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_plot</span>(mod_poiss_glmer, <span class="at">type=</span><span class="st">&quot;acf&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>, <span class="st">&quot;b_language1&quot;</span>, <span class="st">&quot;b_gender1&quot;</span>,<span class="st">&quot;b_language1:gender1&quot;</span>))</span></code></pre></div>
 <p><img src="12-Bayes-estimation_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 This shows reasonably high autocorrelation. For the other parameters, the autocorrelation is much less pronounced:</p>
-<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb734-1"><a href="bayesian-estimation-with-brms.html#cb734-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_plot</span>(mod_poiss_glmer, <span class="at">type=</span><span class="st">&quot;acf&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_context1&quot;</span>, <span class="st">&quot;b_context1:language1&quot;</span>, <span class="st">&quot;b_context1:gender1&quot;</span>,<span class="st">&quot;b_context1:language1:gender1&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb721"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb721-1"><a href="bayesian-estimation-with-brms.html#cb721-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_plot</span>(mod_poiss_glmer, <span class="at">type=</span><span class="st">&quot;acf&quot;</span>, <span class="at">variable=</span><span class="fu">c</span>(<span class="st">&quot;b_context1&quot;</span>, <span class="st">&quot;b_context1:language1&quot;</span>, <span class="st">&quot;b_context1:gender1&quot;</span>,<span class="st">&quot;b_context1:language1:gender1&quot;</span>))</span></code></pre></div>
 <p><img src="12-Bayes-estimation_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Thinning may improve the issues with autocorrelation. We rerun the model with different settings for the number of iterations and thinning via the <code>brms::update()</code> function, providing the estimated model as the first argument, and then specifying the number of iterations and thinning required. For example, we can rerun the model again using 1000 iterations as warmup, but now running for an additional 4000 iterations, leading to a total <code>iter=5000</code>. We furthermore set the thinning to <code>thin=4</code> to only keep each fourth iteration, which should reduce the autocorrelation:</p>
-<div class="sourceCode" id="cb735"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb735-1"><a href="bayesian-estimation-with-brms.html#cb735-1" aria-hidden="true" tabindex="-1"></a>mod_poiss_glmer_2 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod_poiss_glmer, <span class="at">iter =</span> <span class="dv">5000</span>, <span class="at">thin=</span><span class="dv">4</span>, <span class="at">warmup=</span><span class="dv">1000</span>, <span class="at">cores=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="bayesian-estimation-with-brms.html#cb722-1" aria-hidden="true" tabindex="-1"></a>mod_poiss_glmer_2 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod_poiss_glmer, <span class="at">iter =</span> <span class="dv">5000</span>, <span class="at">thin=</span><span class="dv">4</span>, <span class="at">warmup=</span><span class="dv">1000</span>, <span class="at">cores=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>## Start sampling</code></pre>
 <p>Checking the model summary shows that this had the desired effect:</p>
-<div class="sourceCode" id="cb737"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb737-1"><a href="bayesian-estimation-with-brms.html#cb737-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_poiss_glmer_2)</span></code></pre></div>
+<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb724-1"><a href="bayesian-estimation-with-brms.html#cb724-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_poiss_glmer_2)</span></code></pre></div>
 <pre><code>##  Family: poisson 
 ##   Links: mu = log 
 ## Formula: gestures ~ context * language * gender + (1 | ID) + offset(log_d) 
@@ -950,27 +950,27 @@ This shows reasonably high autocorrelation. For the other parameters, the autoco
 ## Group-Level Effects: 
 ## ~ID (Number of levels: 27) 
 ##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## sd(Intercept)     0.40      0.07     0.29     0.57 1.00     2920     3425
+## sd(Intercept)     0.40      0.07     0.28     0.56 1.00     2868     3769
 ## 
 ## Population-Level Effects: 
 ##                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## Intercept                     -1.04      0.08    -1.20    -0.88 1.00     3010
-## context1                       0.05      0.02     0.01     0.09 1.00     4085
-## language1                      0.04      0.08    -0.12     0.20 1.00     2656
-## gender1                        0.06      0.08    -0.10     0.23 1.00     3353
-## context1:language1            -0.04      0.02    -0.08     0.00 1.00     4195
-## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3792
-## language1:gender1             -0.02      0.08    -0.18     0.15 1.00     3419
-## context1:language1:gender1     0.03      0.02    -0.00     0.07 1.00     3814
+## Intercept                     -1.03      0.08    -1.19    -0.87 1.00     3398
+## context1                       0.05      0.02     0.02     0.09 1.00     4253
+## language1                      0.04      0.08    -0.12     0.20 1.00     3025
+## gender1                        0.06      0.08    -0.10     0.22 1.00     3408
+## context1:language1            -0.04      0.02    -0.08     0.00 1.00     3775
+## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3965
+## language1:gender1             -0.02      0.08    -0.18     0.14 1.00     3436
+## context1:language1:gender1     0.03      0.02    -0.00     0.07 1.00     4133
 ##                            Tail_ESS
-## Intercept                      3598
-## context1                       3754
-## language1                      3593
-## gender1                        3449
-## context1:language1             3960
-## context1:gender1               3805
-## language1:gender1              3497
-## context1:language1:gender1     4014
+## Intercept                      3265
+## context1                       3812
+## language1                      3499
+## gender1                        3193
+## context1:language1             3810
+## context1:gender1               3875
+## language1:gender1              3734
+## context1:language1:gender1     4016
 ## 
 ## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential

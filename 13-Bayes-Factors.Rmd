@@ -312,7 +312,7 @@ mod_priors <- c(# intercept
 mod_regression <- brms::brm(formula = percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, 
                  data=dat, seed=20221213, prior = mod_priors, sample_prior=TRUE)
 ```
-The results of this model were 
+The results of this model are
 ```{r}
 summary(mod_regression)
 ```
@@ -333,7 +333,7 @@ The specification of the `hypothesis` argument is rather flexible. For example, 
 ```{r}
 brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million = 0")
 ```
-This compares `mod_regression` to an alternative model where the prior for the slope of `hate_groups_per_million` is set to a point-prior at 0 (i.e. only the value 0 is allowed). The output of the function repeats some values that are also provided in the output of the `summary()` function (the posterior mean, standard deviation, and lower- and upper-bound of the 95% HDI). In addition, we find values of `Evid.Ratio` and `Post.Prob`. The **Evidence Ratio** (`Evid.Ratio`) is the value of the Bayes Factor $\text{BF}_{01}$ comparing the model specified in the hypothesis (MODEl R) to the less restrictive MODEL G (`mod_regression`). So values larger than 1 indicate that the data provides evidence for the tested hypothesis (MODEL R) to MODEL G. Conversely, values smaller than 1 indicate evidence for MODEL G over MODEL R. The value found here ($\text{BF}_{01} = `r brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million = 0")$hypothesis$Evid.Ratio`$) can be considered "anecdotal" evidence for MODEL G which allows `hate_groups_per_million` to have an effect, compared to MODEL R which fixes the effect to 0. Note that the priors of MODEL G are somewhat "wide", which is good for estimation, but assumes very large effects of the predictors are plausible, and probably more plausible than they should be. The Bayes Factor in this procedure is calculated via the so-called Savage-Dickey density ratio [@wagenmakers2010bayesian]. The **Posterior Probability** is the posterior probability that the hypothesis is true. For this point-hypothesis, this is the posterior probability of the model with the point-prior (MODEL R), assuming equal prior probabilities for this model and MODEL G. 
+This compares `mod_regression` to an alternative model where the prior for the slope of `hate_groups_per_million` is set to a point-prior at 0 (i.e. only the value 0 is allowed). The output of the function repeats some values that are also provided in the output of the `summary()` function (the posterior mean, standard deviation, and lower- and upper-bound of the 95% HDI). In addition, we find values of `Evid.Ratio` and `Post.Prob`. The **Evidence Ratio** (`Evid.Ratio`) is the value of the Bayes Factor $\text{BF}_{01}$ comparing the model specified in the hypothesis (MODEl R) to the less restrictive MODEL G (`mod_regression`). So values larger than 1 indicate that the data provides evidence for the tested hypothesis (MODEL R) to MODEL G. Conversely, values smaller than 1 indicate evidence for MODEL G over MODEL R. The value found here ($\text{BF}_{01} = `r brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million = 0")$hypothesis$Evid.Ratio`$) can be considered "moderate" evidence for MODEL G which allows `hate_groups_per_million` to have an effect, compared to MODEL R which fixes the effect to 0. The Bayes Factor in this procedure is calculated via the so-called Savage-Dickey density ratio [@wagenmakers2010bayesian]. The **Posterior Probability** is the posterior probability that the hypothesis is true. For this point-hypothesis, this is the posterior probability of the model with the point-prior (MODEL R), assuming equal prior probabilities for this model and MODEL G. 
 
 Directional hypotheses can also be tested. For example, we can test the hypothesis that the slope of `hate_groups_per_million` is larger than 0 by specifying the hypothesis as `"hate_groups_per_million > 0"`:
 ```{r}
@@ -372,7 +372,7 @@ mod_priors_alt <- c(# intercept
                 prior(normal(80, 10), class = Intercept), 
                 # slopes
                 prior(constant(0), class = b, coef = "hate_groups_per_million"),
-                prior(normal(0, 2), class = b, coef = "percent_bachelors_degree_or_higher"),
+                prior(normal(0, 1), class = b, coef = "percent_bachelors_degree_or_higher"),
                 # error SD
                 prior(normal(0, 2), class = sigma))
 
