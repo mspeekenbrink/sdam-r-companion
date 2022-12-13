@@ -290,78 +290,116 @@ The output shows the lower and upper bound for each HDI. We see that the 95% HDI
 
 ## Bayes Factors for `brms` models
 
-The `BayesFactor` package computes Bayes Factors for a number of standard analyses, using the default priors set in the package. We may want to compute Bayes Factors to test hypotheses for more complex models. In general, we can compare any models by first computing the marginal likelihood for each model, and then computing the Bayes Factor as the ratio of these marginal likelihoods. Computing marginal likelihoods is not always straightforward, but a general procedure that often works reasonably well is called "bridge sampling", and has been implemented in the `bridgesampling` package. Before discussing how to use this, we will first discuss a simpler way to compute Bayes Factors for particular comparisons within the context of a `brms` model.
+The `BayesFactor` package computes Bayes Factors for a number of standard analyses, using the default priors set in the package. We may want to compute Bayes Factors to test hypotheses for more complex models. In general, we can compare any models by first computing the marginal likelihood for each model, and then computing the Bayes Factor as the ratio of these marginal likelihoods. Computing marginal likelihoods is not always straightforward, but a general procedure that often works reasonably well is called "bridge sampling" [@gronau2017tutorial], and has been implemented in the `bridgesampling` [@R-bridgesampling] package. Before discussing how to use this, we will first discuss a simpler way to compute Bayes Factors for particular comparisons within the context of a `brms` model.
 
-### Testing simple point and directional hypotheses for parameters of `brms` models
-
-The `brms::hypothesis()` function can be used to test hypotheses about single parameters of `brms` models. This function has the following important arguments:
-
-* `x`: a model of class `brmsfit` as fitted by `brms::brm()`. It can also be a `data.frame` with posterior draws (in rows) of parameters (in columns).
-* `hypothesis`: a character vector describing hypotheses to be tested.
-* `class`:
-* `group`: 
-* `alpha`: used to specify the width of the HDI (e.g. `alpha = .05` for a 95% HDI)
-
-The specification of the `hypothesis` argument is rather flexible. 
-
+For the following examples, we will start with the multiple regression model for the `trump2016` data that we also estimated in the previous chapter, but now setting the prior distributions to more informative ones, as is advisable when computing Bayes Factors:
 ```{r brms-multiple-regression-nondefault-prior, cache=TRUE, error=FALSE}
+# load the data
 library(brms)
 data("trump2016", package="sdamr")
 dat <- subset(trump2016,state != "District of Columbia")
 
+# define the prior distributions
 mod_priors <- c(# intercept
-                prior(normal(0, 100), class = Intercept), 
+                prior(normal(80, 10), class = Intercept), 
                 # slopes
-                prior(normal(0, 5), class = b, coef = "hate_groups_per_million"),
-                prior(normal(0, 5), class = b, coef = "percent_bachelors_degree_or_higher"),
+                prior(normal(0, 1), class = b, coef = "hate_groups_per_million"),
+                prior(normal(0, 1), class = b, coef = "percent_bachelors_degree_or_higher"),
                 # error SD
-                prior(normal(0, 10), class = sigma))
+                prior(normal(0, 2), class = sigma))
 
+# estimate the model
 mod_regression <- brms::brm(formula = percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, 
-                 data=dat, seed=101, sample_prior = TRUE, prior = mod_priors)
+                 data=dat, seed=20221213, prior = mod_priors, sample_prior=TRUE)
+```
+The results of this model were 
+```{r}
+summary(mod_regression)
 ```
 
+
+### Testing simple point and directional hypotheses for parameters of `brms` models
+
+The `brms::hypothesis()` function can be used to test hypotheses about single parameters of `brms` models. This requires to set the argument `sample_prior=TRUE` in the `brms::brm()` function. The `brms::hypothesis()` function will **not** work properly without this. The `brms::hypothesis()` function has the following important arguments:
+
+* `x`: a model of class `brmsfit` as fitted by `brms::brm()`. It can also be a `data.frame` with posterior draws (in rows) of parameters (in columns).
+* `hypothesis`: a character vector describing hypotheses to be tested.
+* `class`: a string specifying the class of parameter(s) tested (`"b"` is common and the default, other common options are `"sd"` and `"cor"`). This argument is not necessary, but can be handy to avoid having to specify the full names of the parameters.
+* `group`: a string characterising the grouping factor to evaluate only group-level effects parameters. 
+* `alpha`: used to specify the width of the HDI (e.g. `alpha = .05` for a 95% HDI)
+* `seed`: seed for the random number generator to make the results reproducible.
+
+The specification of the `hypothesis` argument is rather flexible. For example, we can test the (null) hypothesis that the slope of `hate_groups_per_million` equals 0 by specifying the hypothesis as `"hate_groups_per_million = 0"`:
 ```{r}
 brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million = 0")
 ```
+This compares `mod_regression` to an alternative model where the prior for the slope of `hate_groups_per_million` is set to a point-prior at 0 (i.e. only the value 0 is allowed). The output of the function repeats some values that are also provided in the output of the `summary()` function (the posterior mean, standard deviation, and lower- and upper-bound of the 95% HDI). In addition, we find values of `Evid.Ratio` and `Post.Prob`. The **Evidence Ratio** (`Evid.Ratio`) is the value of the Bayes Factor $\text{BF}_{01}$ comparing the model specified in the hypothesis (MODEl R) to the less restrictive MODEL G (`mod_regression`). So values larger than 1 indicate that the data provides evidence for the tested hypothesis (MODEL R) to MODEL G. Conversely, values smaller than 1 indicate evidence for MODEL G over MODEL R. The value found here ($\text{BF}_{01} = `r brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million = 0")$hypothesis$Evid.Ratio`$) can be considered "anecdotal" evidence for MODEL G which allows `hate_groups_per_million` to have an effect, compared to MODEL R which fixes the effect to 0. Note that the priors of MODEL G are somewhat "wide", which is good for estimation, but assumes very large effects of the predictors are plausible, and probably more plausible than they should be. The Bayes Factor in this procedure is calculated via the so-called Savage-Dickey density ratio [@wagenmakers2010bayesian]. The **Posterior Probability** is the posterior probability that the hypothesis is true. For this point-hypothesis, this is the posterior probability of the model with the point-prior (MODEL R), assuming equal prior probabilities for this model and MODEL G. 
 
+Directional hypotheses can also be tested. For example, we can test the hypothesis that the slope of `hate_groups_per_million` is larger than 0 by specifying the hypothesis as `"hate_groups_per_million > 0"`:
 ```{r}
 brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million > 0")
 ```
-
-```{r}
-brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million < 0")
-```
-
+Whilst the output is similar as before, for these directional tests, a different procedure is used to compute the "evidence ratio". Here, the evidence ratio is the posterior probability that the parameter is larger than 0, divided by the posterior probability that the parameter value is smaller than 0, e.g.:
+$$\text{Evidence ratio} = \frac{p(\beta > 0|\text{data})}{p(\beta < 0|\text{data})}$$
+which is estimated simply by the proportion of posterior samples that are larger than 0 (which is also stated under `Post.Prob`), divided by the proportion of posterior samples smaller than 0 (which equals $1-$`Post.Prob`). You can also use the procedure to test some "wacky" hypotheses, such as that the slope of `hate_groups_per_million` is smaller than the slope of `percent_bachelors_degree_or_higher`:
 ```{r}
 brms::hypothesis(mod_regression, hypothesis="hate_groups_per_million < percent_bachelors_degree_or_higher")
 ```
-
+As the scales of `hate_groups_per_million` and `percent_bachelors_degree_or_higher` are quite different, this hypotheses does not necessarily make too much sense from a scientific viewpoint. The example was mainly meant to show the flexibility of the procedure.
 
 ### Using bridge sampling to obtain marginal likelihoods
 
+Bridge sampling [@bennett1976efficient; @meng1996simulating; @gronau2017tutorial] provides a general method to estimate the marginal likelihood from MCMC samples. We won't go into the details of this algorithm here [@gronau2017tutorial provide a relatively readable introduction to this], but note that it is a sampling-based approximation, and the accuracy of the method will depend on how many samples are used (and whether the MCMC algorithm has converged to sampling from the posterior distribution).
+
+The implementation of bridge sampling in the `bridgesampling`, for which the `brms::bridge_sampler()` function provides a simple wrapper, requires that all parameters of the model are sampled at each step. This can be requested by setting the option `save_pars = save_pars(all = TRUE)` in the call to `brms::brm()`. We did not do this before, so to be able to use the `brms::bridge_sampler()` function, we should first re-estimate the model with:
 ```{r brms-multiple-regression-nondefault-prior-2, cache=TRUE, error=FALSE}
 mod_regression <- brms::brm(formula = percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, 
-                 data=dat, seed=101, sample_prior = TRUE, prior = mod_priors,
+                 data=dat, seed=20221213, prior = mod_priors, 
                  save_pars = save_pars(all = TRUE))
 ```
-
+Having set `save_pars = save_pars(all = TRUE)`, we can then call the `brms::bridge_sampler()` function on the estimated model as:
 ```{r}
-brms::bridge_sampler(mod_regression)
+# compute (log) marginal likelihood and store it
+marg_lik_mod_regression <- brms::bridge_sampler(mod_regression)
+# print result
+marg_lik_mod_regression
 ```
-
+This function returns the approximate (natural) logarithm of the marginal likelihood, i.e.
+$$\widehat{\log p}(\text{data}|\text{MODEL})$$
+To compute a Bayes Factor, we will also need the (log) marginal likelihood for an alternative model. For example, we can set the prior for the slope of `hate_groups_per_million` to be a point-prior at 0 by specifying the prior distribution for that parameter as `constant(0)`:
 ```{r}
 mod_priors_alt <- c(# intercept
-                prior(normal(0, 100), class = Intercept), 
+                prior(normal(80, 10), class = Intercept), 
                 # slopes
-                prior(normal(0, .0000001), class = b, coef = "hate_groups_per_million"),
-                prior(normal(0, 5), class = b, coef = "percent_bachelors_degree_or_higher"),
+                prior(constant(0), class = b, coef = "hate_groups_per_million"),
+                prior(normal(0, 2), class = b, coef = "percent_bachelors_degree_or_higher"),
                 # error SD
-                prior(normal(0, 10), class = sigma))
+                prior(normal(0, 2), class = sigma))
 
 mod_regression_alt <- brms::brm(formula = percent_Trump_votes ~ hate_groups_per_million + percent_bachelors_degree_or_higher, 
-                 data=dat, seed=101, sample_prior = TRUE, prior = mod_priors)
+                 data=dat, seed=20221213, prior = mod_priors_alt,
+                 save_pars = save_pars(all = TRUE))
 
 ```
+We can now use the `brms::bridge_sampler()` function to compute the (log) marginal likelihood for this estimated model as:
+```{r}
+# compute (log) marginal likelihood and store it
+marg_lik_mod_regression_alt <- brms::bridge_sampler(mod_regression_alt)
+# print result
+marg_lik_mod_regression_alt
+```
+We now have two (log) marginal likelihoods. To compute the actual Bayes Factor, we can use the factor that:
+$$\begin{aligned}
+\log \left( \frac{p(\text{data}|\text{MODEL 1})}{p(\text{data}|\text{MODEL 1})} \right) &= \log p(\text{data}|\text{MODEL 1}) - \log p(\text{data}|\text{MODEL 2}) \\
+\frac{p(\text{data}|\text{MODEL 1})}{p(\text{data}|\text{MODEL 1})} &= \exp \left( \log p(\text{data}|\text{MODEL 1}) - \log p(\text{data}|\text{MODEL 2}) \right)
+\end{aligned}$$
+So we can compute the Bayes factor by taking the difference between the log marginal likelihoods, and then exponentiating:
+```{r}
+exp(marg_lik_mod_regression$logml - marg_lik_mod_regression_alt$logml)
+```
+where we have used that each object returned by the `brms::bridge_sampler()` is a list with the named element `logml` being equal to the (approximate) marginal log likelihood.
 
-
+Using this explicit computation can be avoided by calling the `bridgesampling::bf()` function, which will provide the actual Bayes Factor from the log marginal likelihoods:
+```{r}
+bridgesampling::bf(marg_lik_mod_regression, marg_lik_mod_regression_alt)
+```

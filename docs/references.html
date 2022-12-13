@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-12-06" />
+<meta name="date" content="2022-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -344,6 +344,11 @@ div.csl-indent {
 <li class="chapter" data-level="13.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>13.1.6</b> Parameter estimates</a></li>
 <li class="chapter" data-level="13.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>13.1.7</b> Highest-density interval</a></li>
 </ul></li>
+<li class="chapter" data-level="13.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayes-factors-for-brms-models"><i class="fa fa-check"></i><b>13.2</b> Bayes Factors for <code>brms</code> models</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#testing-simple-point-and-directional-hypotheses-for-parameters-of-brms-models"><i class="fa fa-check"></i><b>13.2.1</b> Testing simple point and directional hypotheses for parameters of <code>brms</code> models</a></li>
+<li class="chapter" data-level="13.2.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#using-bridge-sampling-to-obtain-marginal-likelihoods"><i class="fa fa-check"></i><b>13.2.2</b> Using bridge sampling to obtain marginal likelihoods</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a>
 <ul>
@@ -393,6 +398,9 @@ div.csl-indent {
 Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2022. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
 </div>
 <div class="csl-entry">
+Bennett, Charles H. 1976. <span>“Efficient Estimation of Free Energy Differences from <span>M</span>onte <span>C</span>arlo Data.”</span> <em>Journal of Computational Physics</em> 22 (2): 245–68.
+</div>
+<div class="csl-entry">
 Ben-Shachar, Mattan S., Dominique Makowski, Daniel Lüdecke, Indrajeet Patil, and Brenton M. Wiernik. 2022. <em>Effectsize: Indices of Effect Size</em>. <a href="https://easystats.github.io/effectsize/">https://easystats.github.io/effectsize/</a>.
 </div>
 <div class="csl-entry">
@@ -414,6 +422,12 @@ Fox, John, Zhenghua Nie, and Jarrett Byrnes. 2022. <em>Sem: Structural Equation 
 Fox, John, Sanford Weisberg, and Brad Price. 2022. <em>Car: Companion to Applied Regression</em>. <a href="https://CRAN.R-project.org/package=car">https://CRAN.R-project.org/package=car</a>.
 </div>
 <div class="csl-entry">
+Gronau, Quentin F, Alexandra Sarafoglou, Dora Matzke, Alexander Ly, Udo Boehm, Maarten Marsman, David S Leslie, Jonathan J Forster, Eric-Jan Wagenmakers, and Helen Steingroever. 2017. <span>“A Tutorial on Bridge Sampling.”</span> <em>Journal of Mathematical Psychology</em> 81: 80–97.
+</div>
+<div class="csl-entry">
+Gronau, Quentin F., and Henrik Singmann. 2021. <em>Bridgesampling: Bridge Sampling for Marginal Likelihoods and Bayes Factors</em>. <a href="https://github.com/quentingronau/bridgesampling">https://github.com/quentingronau/bridgesampling</a>.
+</div>
+<div class="csl-entry">
 Hayton, James C, David G Allen, and Vida Scarpello. 2004. <span>“Factor Retention Decisions in Exploratory Factor Analysis: A Tutorial on Parallel Analysis.”</span> <em>Organizational Research Methods</em> 7 (2): 191–205.
 </div>
 <div class="csl-entry">
@@ -427,6 +441,9 @@ Lenth, Russell V. 2022. <em>Emmeans: Estimated Marginal Means, Aka Least-Squares
 </div>
 <div class="csl-entry">
 Matuschek, Hannes, Reinhold Kliegl, Shravan Vasishth, Harald Baayen, and Douglas Bates. 2017. <span>“Balancing Type i Error and Power in Linear Mixed Models.”</span> <em>Journal of Memory and Language</em> 94: 305–15. <a href="https://doi.org/10.1016/j.jml.2017.01.001">https://doi.org/10.1016/j.jml.2017.01.001</a>.
+</div>
+<div class="csl-entry">
+Meng, Xiao-Li, and Wing Hung Wong. 1996. <span>“Simulating Ratios of Normalizing Constants via a Simple Identity: A Theoretical Exploration.”</span> <em>Statistica Sinica</em>, 831–60.
 </div>
 <div class="csl-entry">
 Meredith, Mike, and John Kruschke. 2020. <em>HDInterval: Highest (Posterior) Density Intervals</em>. <a href="https://CRAN.R-project.org/package=HDInterval">https://CRAN.R-project.org/package=HDInterval</a>.
@@ -460,6 +477,9 @@ Vehtari, Aki, Andrew Gelman, Daniel Simpson, Bob Carpenter, and Paul-Christian B
 </div>
 <div class="csl-entry">
 Venables, Bill. 2022. <em>codingMatrices: Alternative Factor Coding Matrices for Linear Model Formulae</em>. <a href="https://CRAN.R-project.org/package=codingMatrices">https://CRAN.R-project.org/package=codingMatrices</a>.
+</div>
+<div class="csl-entry">
+Wagenmakers, Eric-Jan, Tom Lodewyckx, Himanshu Kuriyal, and Raoul Grasman. 2010. <span>“Bayesian Hypothesis Testing for Psychologists: A Tutorial on the <span>S</span>avage–<span>D</span>ickey Method.”</span> <em>Cognitive Psychology</em> 60 (3): 158–89.
 </div>
 <div class="csl-entry">
 Wickham, Hadley. 2022. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>.

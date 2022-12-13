@@ -128,6 +128,9 @@ bayesian-regression-and-ancova
 bayesian-repeated-measures-anova
 parameter-estimates
 highest-density-interval
+bayes-factors-for-brms-models
+testing-simple-point-and-directional-hypotheses-for-parameters-of-brms-models
+using-bridge-sampling-to-obtain-marginal-likelihoods
 reproducible-reports-with-rmarkdown
 yaml-headers
 markdown-syntax

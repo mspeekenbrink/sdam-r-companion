@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-12-06" />
+<meta name="date" content="2022-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,6 +343,11 @@ div.csl-indent {
 <li class="chapter" data-level="13.1.5" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayesian-repeated-measures-anova"><i class="fa fa-check"></i><b>13.1.5</b> Bayesian repeated-measures ANOVA</a></li>
 <li class="chapter" data-level="13.1.6" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#parameter-estimates"><i class="fa fa-check"></i><b>13.1.6</b> Parameter estimates</a></li>
 <li class="chapter" data-level="13.1.7" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#highest-density-interval"><i class="fa fa-check"></i><b>13.1.7</b> Highest-density interval</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#bayes-factors-for-brms-models"><i class="fa fa-check"></i><b>13.2</b> Bayes Factors for <code>brms</code> models</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#testing-simple-point-and-directional-hypotheses-for-parameters-of-brms-models"><i class="fa fa-check"></i><b>13.2.1</b> Testing simple point and directional hypotheses for parameters of <code>brms</code> models</a></li>
+<li class="chapter" data-level="13.2.2" data-path="bayesian-hypothesis-testing-with-bayes-factors.html"><a href="bayesian-hypothesis-testing-with-bayes-factors.html#using-bridge-sampling-to-obtain-marginal-likelihoods"><i class="fa fa-check"></i><b>13.2.2</b> Using bridge sampling to obtain marginal likelihoods</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="reproducible-reports-with-rmarkdown.html"><a href="reproducible-reports-with-rmarkdown.html"><i class="fa fa-check"></i><b>14</b> Reproducible reports with RMarkdown</a>
@@ -1152,11 +1157,48 @@ div.csl-indent {
 ##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
 ##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
 ##     other_attr_c | iid)</code></pre>
+<pre><code>## Updating formula: other_like ~ 1 + other_attr_c + other_intel_c +
+##     other_attr_c:other_intel_c + (1 + other_attr_c + other_intel_c +
+##     other_attr_c:other_intel_c | pid) + (1 + other_attr_c | iid)</code></pre>
+<pre><code>## Currently evaluating LRT for: other_intel_c | iid</code></pre>
+<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
+##     other_attr_c + other_intel_c | iid)</code></pre>
+<pre><code>## Updating formula: other_like ~ 1 + other_attr_c + other_intel_c +
+##     other_attr_c:other_intel_c + (1 + other_attr_c + other_intel_c +
+##     other_attr_c:other_intel_c | pid) + (1 + other_attr_c +
+##     other_intel_c | iid)</code></pre>
+<pre><code>## Currently evaluating LRT for: other_attr_c:other_intel_c | iid</code></pre>
+<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
+##     other_attr_c + other_intel_c + other_attr_c:other_intel_c | iid)</code></pre>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <pre><code>## Ending the ordering procedure due to having reached the maximal
 ##     feasible model - all higher models failed to converge. The types of
-##     convergence failure are: Singular fit lme4 reports not having
-##     converged (-1)</code></pre>
+##     convergence failure are: Singular fit</code></pre>
 <pre><code>## Fitting ML and REML reference models</code></pre>
+<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
+##     other_attr_c + other_intel_c | iid)</code></pre>
+<pre><code>## Fitting via lmer, with ML: other_like ~ 1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
+##     other_attr_c + other_intel_c | iid)</code></pre>
+<pre><code>## Convergence failure. Reducing terms and retrying... The failures were:
+##     lme4 reports not having converged (-1)</code></pre>
+<pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
+##     other_attr_c | iid)</code></pre>
+<pre><code>## Fitting via lmer, with ML: other_like ~ 1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
+##     other_intel_c + other_attr_c:other_intel_c | pid) + (1 +
+##     other_attr_c | iid)</code></pre>
+<pre><code>## Convergence failure. Reducing terms and retrying... The failures were:
+##     lme4 reports not having converged (-1)</code></pre>
 <pre><code>## Fitting via lmer, with REML: other_like ~ 1 + other_attr_c +
 ##     other_intel_c + other_attr_c:other_intel_c + (1 + other_attr_c +
 ##     other_intel_c | pid) + (1 + other_attr_c | iid)</code></pre>
@@ -1198,11 +1240,11 @@ div.csl-indent {
 ## 9            NA
 ## 10 2.507495e-17
 ## 5  1.218785e-09
-## 11 3.924499e-06</code></pre>
+## 11 3.924500e-06</code></pre>
 <pre><code>## All terms are significant</code></pre>
 <pre><code>## Finalizing by converting the model to lmerTest</code></pre>
 <p>The final model contains random intercepts and slopes for <code>other_attr_c</code> and <code>other_intel_c</code> for <code>pid</code>. For the <code>iid</code> groupings, only random intercepts are included:</p>
-<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="linear-mixed-effects-models.html#cb532-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(max_mod)</span></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="linear-mixed-effects-models.html#cb545-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(max_mod)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -1214,23 +1256,23 @@ div.csl-indent {
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.5087 -0.5416  0.0033  0.5416  3.8371 
+## -4.5087 -0.5416  0.0032  0.5416  3.8371 
 ## 
 ## Random effects:
 ##  Groups   Name          Variance Std.Dev. Corr       
-##  pid      (Intercept)   0.25954  0.5095              
-##           other_attr_c  0.04889  0.2211   -0.46      
-##           other_intel_c 0.05388  0.2321    0.08 -0.60
-##  iid      (Intercept)   0.08820  0.2970              
-##  Residual               1.04246  1.0210              
+##  pid      (Intercept)   0.25953  0.5094              
+##           other_attr_c  0.04888  0.2211   -0.46      
+##           other_intel_c 0.05387  0.2321    0.08 -0.60
+##  iid      (Intercept)   0.08821  0.2970              
+##  Residual               1.04247  1.0210              
 ## Number of obs: 1509, groups:  pid, 102; iid, 102
 ## 
 ## Fixed effects:
 ##                              Estimate Std. Error         df t value Pr(&gt;|t|)
-## (Intercept)                  6.212116   0.068186 116.878803  91.106  &lt; 2e-16
-## other_attr_c                 0.556153   0.031065 105.465103  17.903  &lt; 2e-16
-## other_intel_c                0.362421   0.036770  80.840242   9.856 1.66e-15
-## other_attr_c:other_intel_c  -0.007367   0.010784 466.352041  -0.683    0.495
+## (Intercept)                  6.212115   0.068184 116.886154  91.107  &lt; 2e-16
+## other_attr_c                 0.556152   0.031065 105.468067  17.903  &lt; 2e-16
+## other_intel_c                0.362421   0.036769  80.839156   9.857 1.66e-15
+## other_attr_c:other_intel_c  -0.007367   0.010784 466.324439  -0.683    0.495
 ##                               
 ## (Intercept)                ***
 ## other_attr_c               ***
