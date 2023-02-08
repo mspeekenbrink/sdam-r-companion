@@ -106,7 +106,7 @@ data("legacy2015")
 head(legacy2015)
 ```
 
-Oops! We had overwritten ("masked") the `head` function before. We can get rid of our new definition of the `head` function by removining it from the global namespace with the `rm()` function (the name refers to _remove_):
+Oops! We had overwritten ("masked") the `head` function before. We can get rid of our new definition of the `head` function by removing it from the global namespace with the `rm()` function (the name refers to _remove_):
 ```{r}
 rm("head")
 ```
@@ -117,18 +117,18 @@ head(legacy2015)
 
 ### Causal steps
 
-The causal steps approach to assessing mediation is done through testing significance in three regression models. This can be done straightforwardly with the `lm()` function which we have used quite a bit already. For instance, to assess whether the relation between `legacy` and `donation` is mediated by `intention`, we would estimate and test the parameters of the following models: 
+The causal steps approach to assessing mediation is done through testing significance of effects in three regression models. This can be done straightforwardly with the `lm()` function which we have used quite a bit already. For instance, to assess whether the relation between `legacy` and `donation` is mediated by `intention`, we would estimate and test the parameters of the following models: 
 ```{r}
 mod1 <- lm(donation ~ legacy, data = legacy2015)
 mod2 <- lm(intention ~ legacy, data = legacy2015)
 mod3 <- lm(donation ~ intention + legacy, data = legacy2015)
 ```
 
-### Investigating the moderated (indirect) effect with a bootstrap test
+### Investigating the mediated (indirect) effect with a bootstrap test
 
-There are quite a few packages in R which will allow you to test the moderated effect of a predictor on the dependent variable "via" the mediator. I have chosen here for the `mediate` function from the `mediation` package [@R-mediation], as it is a versatile option, and doesn't require too much additional explanation. Another very good option to conduct mediation analysis is to specify the mediation model through a generalization of linear models generally called _Structural Equation Models_. These are multivariate models and not something we will cover in this course. For present purposes, this can be seen as a way to link different regression models (i.e. the dependent variable of one regression model becomes a predictor in another regression model) into what are conventionally called _path models_. The current "go-to" and most comprehensive SEM package in R is called `lavaan` and if you ever need to use this kind of analysis, that is my recommendation at the moment.
+There are quite a few packages in R which will allow you to test the mediated effect of a predictor on the dependent variable "via" the mediator. I have chosen here for the `mediate` function from the `mediation` package [@R-mediation], as it is a versatile option, and doesn't require too much additional explanation. Another very good option to conduct mediation analysis is to specify the mediation model through a generalization of linear models generally called _Structural Equation Models_. These are multivariate models and something we will cover later on. For present purposes, this can be seen as a way to link different regression models (i.e. the dependent variable of one regression model becomes a predictor in another regression model) into what are conventionally called _path models_. The current "go-to" and most comprehensive SEM package in R is called `lavaan` and we will consider that package in a later chapter.
 
-So let's focus on the `mediation` package for now. If you haven't done so already, you will need to install it with
+Let's focus on the `mediation` package for now. If you haven't done so already, you will need to install it with
 ```{r, eval=FALSE}
 install.packages("mediation")
 ```
