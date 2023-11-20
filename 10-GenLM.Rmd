@@ -125,6 +125,7 @@ The `cauchit` link function is the Cauchy cumulative probability distribution:
 $$g(y) = 0.5 + \frac{\arctan(y)}{\pi}$$
 and the `cloglog` the complementary-log-log link function:
 $$g(y) = \log\left(-\log(1 - y)\right)$$
+
 ## Poisson regression
 
 A Poisson regression model can be estimated by specifying the family as `family=poisson()`. The default link is the (canonical) log link function, and hence `family=poisson()` is the same as `family=poisson(link="log")`. Other possible link functions are `identity` ($g(y) = y$) and `sqrt` ($g(y) = \sqrt{y}$). 
@@ -187,7 +188,7 @@ plot(mod_poisson, which =3)
 ```
 -->
 
-## Quasi-Poisson regression
+### Quasi-Poisson regression
 
 Quasi-Poisson regression models can be estimated by setting the family argument to `quasipoisson`. As for the `poisson()` family, the default link function is the `log` link.
 ```{r}
