@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Linear mixed-effects models | An R companion to Statistics: data analysis and modelling</title>
   <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Linear mixed-effects models | An R companion to Statistics: data analysis and modelling" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-12-13" />
+<meta name="date" content="2023-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -235,7 +239,7 @@ div.csl-indent {
 <li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
-<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
+<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-mediated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the mediated (indirect) effect with a bootstrap test</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
@@ -293,7 +297,10 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#confidence-intervals-1"><i class="fa fa-check"></i><b>10.2</b> Confidence intervals</a></li>
 <li class="chapter" data-level="10.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-predictions"><i class="fa fa-check"></i><b>10.3</b> Model predictions</a></li>
 <li class="chapter" data-level="10.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#alternative-link-functions-for-logistic-regression"><i class="fa fa-check"></i><b>10.4</b> Alternative link functions for logistic regression</a></li>
-<li class="chapter" data-level="10.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-poisson-regression"><i class="fa fa-check"></i><b>10.5</b> Quasi-Poisson regression</a></li>
+<li class="chapter" data-level="10.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#poisson-regression"><i class="fa fa-check"></i><b>10.5</b> Poisson regression</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-poisson-regression"><i class="fa fa-check"></i><b>10.5.1</b> Quasi-Poisson regression</a></li>
+</ul></li>
 <li class="chapter" data-level="10.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#log-linear-models"><i class="fa fa-check"></i><b>10.6</b> Log-linear models</a></li>
 <li class="chapter" data-level="10.7" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#multinomial-regression"><i class="fa fa-check"></i><b>10.7</b> Multinomial regression</a></li>
 <li class="chapter" data-level="10.8" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#generalized-linear-mixed-effects-models"><i class="fa fa-check"></i><b>10.8</b> Generalized linear mixed effects models</a></li>
@@ -313,14 +320,14 @@ div.csl-indent {
 <li class="chapter" data-level="11.3.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#mediation-models"><i class="fa fa-check"></i><b>11.3.2</b> Mediation models</a></li>
 <li class="chapter" data-level="11.3.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model"><i class="fa fa-check"></i><b>11.3.3</b> A more complex path model</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package"><i class="fa fa-check"></i><b>11.4</b> Exploratory factor analysis with the <code>psych</code> package</a>
-<ul>
-<li class="chapter" data-level="11.4.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis"><i class="fa fa-check"></i><b>11.4.1</b> Determining the number of factors with Parallel Analysis</a></li>
-<li class="chapter" data-level="11.4.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions"><i class="fa fa-check"></i><b>11.4.2</b> Estimating and rotating EFA solutions</a></li>
-</ul></li>
+<li class="chapter" data-level="11.4" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.4</b> Modification indices</a></li>
 <li class="chapter" data-level="11.5" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#confirmatory-factor-analysis"><i class="fa fa-check"></i><b>11.5</b> Confirmatory factor analysis</a></li>
-<li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.6</b> Modification indices</a></li>
-<li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.7</b> General SEM models</a></li>
+<li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.6</b> General SEM models</a></li>
+<li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package"><i class="fa fa-check"></i><b>11.7</b> Exploratory factor analysis with the <code>psych</code> package</a>
+<ul>
+<li class="chapter" data-level="11.7.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis"><i class="fa fa-check"></i><b>11.7.1</b> Determining the number of factors with Parallel Analysis</a></li>
+<li class="chapter" data-level="11.7.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions"><i class="fa fa-check"></i><b>11.7.2</b> Estimating and rotating EFA solutions</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation with brms</a>
 <ul>
@@ -392,8 +399,8 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="linear-mixed-effects-models" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Linear mixed-effects models<a href="linear-mixed-effects-models.html#linear-mixed-effects-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In this Chapter, we will look at how to estimate and perform hypothesis tests for linear mixed-effects models. The main workhorse for estimating linear mixed-effects models is the <code>lme4</code> package <span class="citation">(<a href="#ref-R-lme4" role="doc-biblioref">Bates et al. 2022</a>)</span>. This package allows you to formulate a wide variety of mixed-effects and multilevel models through an extension of the R formula syntax. It is a really good package. But the main author of the package, Douglas Bates, has chosen not to provide <span class="math inline">\(p\)</span>-values for the model parameters. We will therefore also consider the <code>afex</code> package, which provides an interface to the two main approximations (Kenward-Roger and Satterthwaite) to provide the degrees of freedom to compute <span class="math inline">\(p\)</span>-values for <span class="math inline">\(F\)</span> tests. While the <code>mixed</code> function it provides is in principle all you need to estimate the models <em>and</em> get the estimates, I think it is useful to also understand the underlying <code>lme4</code> package <span class="citation">(<a href="#ref-R-lme4" role="doc-biblioref">Bates et al. 2022</a>)</span>, so we will start with a discussion of this, and then move to the <code>afex</code> package <span class="citation">(<a href="#ref-R-afex" role="doc-biblioref">Singmann et al. 2022</a>)</span>. If you install the <code>afex</code> package, it will install quite a few other packages on which it relies. So to get all the required packages for this chapter, you can just type</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="linear-mixed-effects-models.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;afex&quot;</span>)</span></code></pre></div>
+<p>In this Chapter, we will look at how to estimate and perform hypothesis tests for linear mixed-effects models. The main workhorse for estimating linear mixed-effects models is the <code>lme4</code> package <span class="citation">(<a href="#ref-R-lme4">Bates et al. 2023</a>)</span>. This package allows you to formulate a wide variety of mixed-effects and multilevel models through an extension of the R formula syntax. It is a really good package. But the main author of the package, Douglas Bates, has chosen not to provide <span class="math inline">\(p\)</span>-values for the model parameters. We will therefore also consider the <code>afex</code> package, which provides an interface to the two main approximations (Kenward-Roger and Satterthwaite) to provide the degrees of freedom to compute <span class="math inline">\(p\)</span>-values for <span class="math inline">\(F\)</span> tests. While the <code>mixed</code> function it provides is in principle all you need to estimate the models <em>and</em> get the estimates, I think it is useful to also understand the underlying <code>lme4</code> package <span class="citation">(<a href="#ref-R-lme4">Bates et al. 2023</a>)</span>, so we will start with a discussion of this, and then move to the <code>afex</code> package <span class="citation">(<a href="#ref-R-afex">Singmann et al. 2023</a>)</span>. If you install the <code>afex</code> package, it will install quite a few other packages on which it relies. So to get all the required packages for this chapter, you can just type</p>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="linear-mixed-effects-models.html#cb406-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;afex&quot;</span>)</span></code></pre></div>
 <p>in the R console, and you should have everything you need.</p>
 <div id="formulating-and-estimating-linear-mixed-effects-models-with-lme4" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Formulating and estimating linear mixed-effects models with <code>lme4</code><a href="linear-mixed-effects-models.html#formulating-and-estimating-linear-mixed-effects-models-with-lme4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -404,7 +411,7 @@ div.csl-indent {
 </li>
 <li><code>REML</code>: A logical variable whether to estimate the model with restricted maximum likelihood (<code>REML = TRUE</code>, the default) or with maximum likelihood (<code>REML = FALSE</code>).</li>
 </ul>
-<p>As correct use of the formula interface is vital, let’s first consider again how the formula interface works in general. Formulas allow you to specify a linear model succinctly (and by default, any model created with a formula will include an intercept, unless explicitly removed). Here are some examples (adapted from <span class="citation">Singmann and Kellen (<a href="#ref-Singmann2019-mixed" role="doc-biblioref">2019</a>)</span>):</p>
+<p>As correct use of the formula interface is vital, let’s first consider again how the formula interface works in general. Formulas allow you to specify a linear model succinctly (and by default, any model created with a formula will include an intercept, unless explicitly removed). Here are some examples (adapted from <span class="citation">Singmann and Kellen (<a href="#ref-Singmann2019-mixed">2019</a>)</span>):</p>
 <table>
 <caption><span id="tab:lmer-fixed-effects-formula-examples">Table 9.1: </span> Examples of R’s formula notation for fixed effects.</caption>
 <colgroup>
@@ -444,7 +451,7 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-<p>The <code>lme4</code> package extends the formula interface to specify random effects structures. Random effects are added to the formula by writing elements between parentheses <code>()</code>. Within these parentheses, you provide the specification of the random effects to be included on the left-hand side of a conditional sign <code>|</code>. On the right-hand side of this conditional sign, you specify the grouping factor, or grouping factors, on which these random effects depend. The grouping factors <strong>need to be of class <code>factor</code></strong> (i.e., they can <strong>not</strong> be numeric variables). Here are some examples of such specifications (again mostly adapted from <span class="citation">Singmann and Kellen (<a href="#ref-Singmann2019-mixed" role="doc-biblioref">2019</a>)</span>):</p>
+<p>The <code>lme4</code> package extends the formula interface to specify random effects structures. Random effects are added to the formula by writing elements between parentheses <code>()</code>. Within these parentheses, you provide the specification of the random effects to be included on the left-hand side of a conditional sign <code>|</code>. On the right-hand side of this conditional sign, you specify the grouping factor, or grouping factors, on which these random effects depend. The grouping factors <strong>need to be of class <code>factor</code></strong> (i.e., they can <strong>not</strong> be numeric variables). Here are some examples of such specifications (again mostly adapted from <span class="citation">Singmann and Kellen (<a href="#ref-Singmann2019-mixed">2019</a>)</span>):</p>
 <table>
 <caption><span id="tab:lmer-fixed-effects-formula-examples">Table 9.1: </span> Examples of lme4’s formula notation for random effects.</caption>
 <colgroup>
@@ -491,16 +498,16 @@ div.csl-indent {
 <div id="random-intercepts-model" class="section level3 hasAnchor" number="9.1.1">
 <h3><span class="header-section-number">9.1.1</span> Random intercepts model<a href="linear-mixed-effects-models.html#random-intercepts-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now let’s try to define a relatively simple linear mixed-effects model for the <code>anchoring</code> data set in the <code>sdamr</code> package. We will use the data from all the <code>referrers</code> try a few variations to get acquainted with the <code>lmer()</code> function. First, let’s load the packages and the data:</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="linear-mixed-effects-models.html#cb407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
-<span id="cb407-2"><a href="linear-mixed-effects-models.html#cb407-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="linear-mixed-effects-models.html#cb407-1" tabindex="-1"></a><span class="fu">library</span>(sdamr)</span>
+<span id="cb407-2"><a href="linear-mixed-effects-models.html#cb407-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code></pre></div>
 <pre><code>## Loading required package: Matrix</code></pre>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="linear-mixed-effects-models.html#cb409-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;anchoring&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="linear-mixed-effects-models.html#cb409-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;anchoring&quot;</span>)</span></code></pre></div>
 <p>Now let’s estimate a first linear mixed-effects model, with a fixed effect for anchor, and random intercepts, using <code>everest_feet</code> as the dependent variable. We will first ensure that <code>anchor</code> is a factor and associate a sum-to-zero contrast to it. We will also make <code>referrer</code> a factor; the contrast for this shouldn’t really matter, so we’ll leave it as a dummy code. We then set up the model, using <code>(1|referrer)</code> to specify that random intercept-effects should be included for each level of the <code>referrer</code> factor. Finally, we use the <code>summary()</code> function on the estimated model to obtain the estimates of the parameters.</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="linear-mixed-effects-models.html#cb410-1" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor <span class="ot">&lt;-</span> <span class="fu">factor</span>(anchoring<span class="sc">$</span>anchor)</span>
-<span id="cb410-2"><a href="linear-mixed-effects-models.html#cb410-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(anchoring<span class="sc">$</span>anchor) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) <span class="co"># alphabetical order, so high before low</span></span>
-<span id="cb410-3"><a href="linear-mixed-effects-models.html#cb410-3" aria-hidden="true" tabindex="-1"></a><span class="co"># define a lmer</span></span>
-<span id="cb410-4"><a href="linear-mixed-effects-models.html#cb410-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
-<span id="cb410-5"><a href="linear-mixed-effects-models.html#cb410-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="linear-mixed-effects-models.html#cb410-1" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor <span class="ot">&lt;-</span> <span class="fu">factor</span>(anchoring<span class="sc">$</span>anchor)</span>
+<span id="cb410-2"><a href="linear-mixed-effects-models.html#cb410-2" tabindex="-1"></a><span class="fu">contrasts</span>(anchoring<span class="sc">$</span>anchor) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) <span class="co"># alphabetical order, so high before low</span></span>
+<span id="cb410-3"><a href="linear-mixed-effects-models.html#cb410-3" tabindex="-1"></a><span class="co"># define a lmer</span></span>
+<span id="cb410-4"><a href="linear-mixed-effects-models.html#cb410-4" tabindex="-1"></a>mod <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
+<span id="cb410-5"><a href="linear-mixed-effects-models.html#cb410-5" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: everest_feet ~ anchor + (1 | referrer)
 ##    Data: anchoring
@@ -533,29 +540,29 @@ div.csl-indent {
 <div id="visually-assessing-model-assumptions" class="section level3 hasAnchor" number="9.1.2">
 <h3><span class="header-section-number">9.1.2</span> Visually assessing model assumptions<a href="linear-mixed-effects-models.html#visually-assessing-model-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You can use the <code>predict</code> and <code>residuals</code> function to obtain the predicted values and residuals for a linear mixed effects model. You can then plot these, using e.g. <code>ggplot2</code>, as follows:</p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="linear-mixed-effects-models.html#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb412-2"><a href="linear-mixed-effects-models.html#cb412-2" aria-hidden="true" tabindex="-1"></a>tdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">predicted=</span><span class="fu">predict</span>(mod), <span class="at">residual =</span> <span class="fu">residuals</span>(mod))</span>
-<span id="cb412-3"><a href="linear-mixed-effects-models.html#cb412-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="linear-mixed-effects-models.html#cb412-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb412-2"><a href="linear-mixed-effects-models.html#cb412-2" tabindex="-1"></a>tdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">predicted=</span><span class="fu">predict</span>(mod), <span class="at">residual =</span> <span class="fu">residuals</span>(mod))</span>
+<span id="cb412-3"><a href="linear-mixed-effects-models.html#cb412-3" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="09-LMER_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>It might be cool to colour the residuals by referrer as follows:</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="linear-mixed-effects-models.html#cb413-1" aria-hidden="true" tabindex="-1"></a>tdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">predicted=</span><span class="fu">predict</span>(mod), <span class="at">residual =</span> <span class="fu">residuals</span>(mod), <span class="at">referrer=</span>anchoring<span class="sc">$</span>referrer)</span>
-<span id="cb413-2"><a href="linear-mixed-effects-models.html#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual, <span class="at">colour=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="linear-mixed-effects-models.html#cb413-1" tabindex="-1"></a>tdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">predicted=</span><span class="fu">predict</span>(mod), <span class="at">residual =</span> <span class="fu">residuals</span>(mod), <span class="at">referrer=</span>anchoring<span class="sc">$</span>referrer)</span>
+<span id="cb413-2"><a href="linear-mixed-effects-models.html#cb413-2" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual, <span class="at">colour=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="09-LMER_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>If the legend gets in the way, you can remove it as follows:</p>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="linear-mixed-effects-models.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual, <span class="at">colour=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="linear-mixed-effects-models.html#cb414-1" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>predicted,<span class="at">y=</span>residual, <span class="at">colour=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="09-LMER_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>The <code>theme</code> function allows for lots of functionality (check <code>?theme</code>). You can also get a quick predicted vs residual plot from base R by simply calling <code>plot(mod)</code>.</p>
 <p>We can get a nice-looking histogram of the residuals, and a QQ plot, as follows:</p>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="linear-mixed-effects-models.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>residual)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="linear-mixed-effects-models.html#cb415-1" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">x=</span>residual)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
 <p><img src="09-LMER_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="linear-mixed-effects-models.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">sample=</span>residual)) <span class="sc">+</span> <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="linear-mixed-effects-models.html#cb416-1" tabindex="-1"></a><span class="fu">ggplot</span>(tdat,<span class="fu">aes</span>(<span class="at">sample=</span>residual)) <span class="sc">+</span> <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div>
 <p><img src="09-LMER_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 </div>
 <div id="random-intercepts-and-slopes" class="section level3 hasAnchor" number="9.1.3">
 <h3><span class="header-section-number">9.1.3</span> Random intercepts and slopes<a href="linear-mixed-effects-models.html#random-intercepts-and-slopes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now let’s estimate a model with random intercepts and random slopes for <code>anchor</code>. To do so, we can simply add <code>anchor</code> in the mixed effects structure specification, as follows:</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="linear-mixed-effects-models.html#cb417-1" aria-hidden="true" tabindex="-1"></a>modg <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
-<span id="cb417-2"><a href="linear-mixed-effects-models.html#cb417-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="linear-mixed-effects-models.html#cb417-1" tabindex="-1"></a>modg <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span>
+<span id="cb417-2"><a href="linear-mixed-effects-models.html#cb417-2" tabindex="-1"></a><span class="fu">summary</span>(modg)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: everest_feet ~ anchor + (1 + anchor | referrer)
 ##    Data: anchoring
@@ -582,13 +589,13 @@ div.csl-indent {
 ##         (Intr)
 ## anchor1 -0.658</code></pre>
 <p>As you can see, the model now estimates a variance of the random slopes effects, as well as a correlation between the random intercept and slope effects. We could try to get a model without the correlations as follows:</p>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="linear-mixed-effects-models.html#cb419-1" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span></code></pre></div>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="linear-mixed-effects-models.html#cb419-1" tabindex="-1"></a>modr <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span></code></pre></div>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
 ## unable to evaluate scaled gradient</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
 ## Model failed to converge: degenerate Hessian with 1 negative eigenvalues</code></pre>
 <p>As you can see in the warning messages, this leads to various estimation issues. Moreover, the correlation is actually still there!</p>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="linear-mixed-effects-models.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="linear-mixed-effects-models.html#cb422-1" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: everest_feet ~ anchor + ((1 | referrer) + (0 + anchor | referrer))
 ##    Data: anchoring
@@ -619,10 +626,10 @@ div.csl-indent {
 ## unable to evaluate scaled gradient
 ## Model failed to converge: degenerate  Hessian with 1 negative eigenvalues</code></pre>
 <p>As it turns out, the <code>||</code> notation <strong>does not work well for factors</strong>!. It only works as expected with metric predictors. We can get the desired model by defining a contrast-coded predictor for <code>anchor</code> explicitly, as follows:</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="linear-mixed-effects-models.html#cb424-1" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor_contrast <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb424-2"><a href="linear-mixed-effects-models.html#cb424-2" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor_contrast[anchoring<span class="sc">$</span>anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb424-3"><a href="linear-mixed-effects-models.html#cb424-3" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor_contrast <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor_contrast<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span>
-<span id="cb424-4"><a href="linear-mixed-effects-models.html#cb424-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="linear-mixed-effects-models.html#cb424-1" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor_contrast <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb424-2"><a href="linear-mixed-effects-models.html#cb424-2" tabindex="-1"></a>anchoring<span class="sc">$</span>anchor_contrast[anchoring<span class="sc">$</span>anchor <span class="sc">==</span> <span class="st">&quot;low&quot;</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb424-3"><a href="linear-mixed-effects-models.html#cb424-3" tabindex="-1"></a>modr <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor_contrast <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor_contrast<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring)</span>
+<span id="cb424-4"><a href="linear-mixed-effects-models.html#cb424-4" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: 
 ## everest_feet ~ anchor_contrast + ((1 | referrer) + (0 + anchor_contrast |  
@@ -651,8 +658,8 @@ div.csl-indent {
 ##             (Intr)
 ## anchr_cntrs 0.011</code></pre>
 <p>That is a little cumbersome, especially if you have a factor with lots of levels, in which case you would have to specify many contrast-coded predictors. The <code>lmer_alt()</code> function in the <code>afex</code> package will automatically generate the contrast-coded predictors needed, which will be convenient. You can try this by running:</p>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="linear-mixed-effects-models.html#cb426-1" aria-hidden="true" tabindex="-1"></a>modr <span class="ot">&lt;-</span> afex<span class="sc">::</span><span class="fu">lmer_alt</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">set_data_arg =</span> <span class="cn">TRUE</span>, <span class="at">data=</span>anchoring)</span>
-<span id="cb426-2"><a href="linear-mixed-effects-models.html#cb426-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="linear-mixed-effects-models.html#cb426-1" tabindex="-1"></a>modr <span class="ot">&lt;-</span> afex<span class="sc">::</span><span class="fu">lmer_alt</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">set_data_arg =</span> <span class="cn">TRUE</span>, <span class="at">data=</span>anchoring)</span>
+<span id="cb426-2"><a href="linear-mixed-effects-models.html#cb426-2" tabindex="-1"></a><span class="fu">summary</span>(modr)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: everest_feet ~ anchor + (1 + re1.anchor1 || referrer)
@@ -686,7 +693,7 @@ div.csl-indent {
 <div id="likelihood-ratio-test-with-the-anova-function" class="section level3 hasAnchor" number="9.1.4">
 <h3><span class="header-section-number">9.1.4</span> Likelihood ratio test with the <code>anova</code> function<a href="linear-mixed-effects-models.html#likelihood-ratio-test-with-the-anova-function" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We now have two versions of our random intercepts + slopes model, one which estimates the correlation between the random intercept and slope, and one which sets this to 0. A likelihood-ratio test comparing these two models is easily obtained as:</p>
-<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="linear-mixed-effects-models.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="linear-mixed-effects-models.html#cb428-1" tabindex="-1"></a><span class="fu">anova</span>(modr,modg)</span></code></pre></div>
 <pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
 <pre><code>## Data: anchoring
 ## Models:
@@ -702,7 +709,7 @@ div.csl-indent {
 <div id="confidence-intervals" class="section level3 hasAnchor" number="9.1.5">
 <h3><span class="header-section-number">9.1.5</span> Confidence intervals<a href="linear-mixed-effects-models.html#confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>While the <code>lme4</code> package does not provide <span class="math inline">\(p\)</span>-values, it does have functionality to compute confidence intervals via the <code>confint()</code> function. The default option is to compute so-called profile likelihood confidence intervals for all (fixed and random) parameters:</p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="linear-mixed-effects-models.html#cb431-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(modg)</span></code></pre></div>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="linear-mixed-effects-models.html#cb431-1" tabindex="-1"></a><span class="fu">confint</span>(modg)</span></code></pre></div>
 <pre><code>## Computing profile confidence intervals ...</code></pre>
 <pre><code>##                    2.5 %        97.5 %
 ## .sig01       1083.558297  2187.2825617
@@ -713,44 +720,44 @@ div.csl-indent {
 ## anchor1     21298.714977 25838.8350190</code></pre>
 <p>Note that <code>.sig01</code> refers to the standard deviation of the random intercept (i.e. <span class="math inline">\(\sigma{\gamma_0}\)</span>), <code>.sig02</code> refers to the correlation between the random intercept and random slope (i.e. <span class="math inline">\(\rho_{\gamma_0,\gamma_1}\)</span>), and <code>.sig03</code> to the standard deviation of the random slope (i.e. <span class="math inline">\(\sigma_{\gamma_1}\)</span>). The value of <code>.sig</code> refers to the standard deviation of the error term (i.e. <span class="math inline">\(\sigma_\epsilon\)</span>). Unfortunately, these are not the most informative labels, so it pays to check the values reported in <code>summary(modg)</code> to match them to the output here.</p>
 <p>Parametric bootstrap confidence (via simulation) can be obtained by setting the argument <code>method = "boot"</code>. This is a very computationally intensive procedure, so you will have to wait some time for the results! Moreover, due to the random simulation involved, the results will vary (hopefully a little) every time you run the procedure:</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="linear-mixed-effects-models.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20201201</span>)</span>
-<span id="cb434-2"><a href="linear-mixed-effects-models.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(modg, <span class="at">method=</span><span class="st">&quot;boot&quot;</span>)</span></code></pre></div>
-<pre><code>## Computing bootstrap confidence intervals ...</code></pre>
-<pre><code>## 
-## 14 message(s): boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<pre><code>##                 2.5 %        97.5 %
-## .sig01       1041.469  2111.5327662
-## .sig02         -1.000    -0.5192476
-## .sig03       4369.214  7716.5436429
-## .sigma       9171.071  9573.5222532
-## (Intercept) 22138.746 23535.5279557
-## anchor1     21366.564 26111.6466861</code></pre>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="linear-mixed-effects-models.html#cb438-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(modg, <span class="at">method=</span><span class="st">&quot;boot&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="linear-mixed-effects-models.html#cb434-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20201201</span>)</span>
+<span id="cb434-2"><a href="linear-mixed-effects-models.html#cb434-2" tabindex="-1"></a><span class="fu">confint</span>(modg, <span class="at">method=</span><span class="st">&quot;boot&quot;</span>)</span></code></pre></div>
 <pre><code>## Computing bootstrap confidence intervals ...</code></pre>
 <pre><code>## 
 ## 12 message(s): boundary (singular) fit: see help(&#39;isSingular&#39;)
-## 1 warning(s): Model failed to converge with max|grad| = 0.00760288 (tol = 0.002, component 1)</code></pre>
+## 3 warning(s): Model failed to converge with max|grad| = 0.00210109 (tol = 0.002, component 1) (and others)</code></pre>
 <pre><code>##                     2.5 %        97.5 %
-## .sig01       1045.6131551  2151.4335327
-## .sig02         -0.9976517    -0.5486075
-## .sig03       4296.8794715  7695.7776431
-## .sigma       9164.6786544  9584.8451898
-## (Intercept) 22141.6525509 23504.3587997
-## anchor1     21047.7038556 25819.4349753</code></pre>
+## .sig01       1041.3068374  2111.2311163
+## .sig02         -0.9999999    -0.5192905
+## .sig03       4368.6105086  7715.5404131
+## .sigma       9171.0871725  9573.5369304
+## (Intercept) 22138.7509975 23535.5386479
+## anchor1     21366.5617109 26111.6443793</code></pre>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="linear-mixed-effects-models.html#cb438-1" tabindex="-1"></a><span class="fu">confint</span>(modg, <span class="at">method=</span><span class="st">&quot;boot&quot;</span>)</span></code></pre></div>
+<pre><code>## Computing bootstrap confidence intervals ...</code></pre>
+<pre><code>## 
+## 12 message(s): boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<pre><code>##                     2.5 %        97.5 %
+## .sig01       1045.3511312  2151.1681731
+## .sig02         -0.9976663    -0.5486441
+## .sig03       4296.3510876  7695.1088681
+## .sigma       9164.6896989  9584.8561204
+## (Intercept) 22141.6423342 23504.3614448
+## anchor1     21047.7092676 25819.4294726</code></pre>
 <p>Note the warning messages. By default, the bootstrap simulates <code>nsim=500</code> datasets and re-estimates the model for each. In some of the simulated datasets, the estimation may fail, which provides the resulting warning messages. While confidence intervals and hypothesis tests, in the case of “standard” linear models give the same results, this is not necessarily the case for mixed models, as the <span class="math inline">\(F\)</span> tests for the fixed effects involve approximation of the error degrees of freedom (<span class="math inline">\(\text{df}_2\)</span>), whilst the computation of the confidence intervals rely on other forms of approximation (e.g. simulation for the parametric bootstrap). As confidence intervals are included by default in <code>lme4</code>, it seems like the author of the package believes these are perhaps more principled than the <span class="math inline">\(F\)</span> tests for the fixed effects.</p>
 </div>
 <div id="plotting-model-predictions" class="section level3 hasAnchor" number="9.1.6">
 <h3><span class="header-section-number">9.1.6</span> Plotting model predictions<a href="linear-mixed-effects-models.html#plotting-model-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>It can be useful to plot the model predictions for each level of the random grouping factor. We can obtain such a plot by storing the model predictions with the data. By adding the <code>group =</code> and <code>colour =</code> arguments in the <code>aes()</code> function, you can then get separate results for all levels of the random effect factor (<code>referrer</code> here). For instance, we can plot the predictions for the different levels of the <code>anchor</code> factor with connecting lines as follows:</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="linear-mixed-effects-models.html#cb442-1" aria-hidden="true" tabindex="-1"></a>anchoring<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modg)</span>
-<span id="cb442-2"><a href="linear-mixed-effects-models.html#cb442-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(anchoring,<span class="fu">aes</span>(<span class="at">x=</span>anchor,<span class="at">y=</span>pred,<span class="at">colour=</span>referrer, <span class="at">group=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="linear-mixed-effects-models.html#cb442-1" tabindex="-1"></a>anchoring<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modg)</span>
+<span id="cb442-2"><a href="linear-mixed-effects-models.html#cb442-2" tabindex="-1"></a><span class="fu">ggplot</span>(anchoring,<span class="fu">aes</span>(<span class="at">x=</span>anchor,<span class="at">y=</span>pred,<span class="at">colour=</span>referrer, <span class="at">group=</span>referrer)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>)</span></code></pre></div>
 <p><img src="09-LMER_files/figure-html/unnamed-chunk-16-1.png" width="576" /></p>
 <p>This would also work if the variable of the x-axis is continuous, rather than categorical.</p>
 </div>
 </div>
 <div id="obtaining-p-values-with-afexmixed" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Obtaining p-values with <code>afex::mixed</code><a href="linear-mixed-effects-models.html#obtaining-p-values-with-afexmixed" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Despite some of the concerns about the validity of the <span class="math inline">\(p\)</span>-values for <span class="math inline">\(F\)</span>-tests of the fixed effects, they are often useful (if only to satisfy reviewers of your paper). Packages such as <code>pbkrtest</code> <span class="citation">(<a href="#ref-R-pbkrtest" role="doc-biblioref">Højsgaard 2020</a>)</span> and <code>lmerTest</code> <span class="citation">(<a href="#ref-R-lmerTest" role="doc-biblioref">Kuznetsova, Bruun Brockhoff, and Haubo Bojesen Christensen 2020</a>)</span> have been developed to provide these for mixed-effects models estimated with the <code>lmer()</code> function, using the Kenward-Roger or parametric bootstrap, and Satterthwaite approximations, respectively. The <code>afex</code> package <span class="citation">(<a href="#ref-R-afex" role="doc-biblioref">Singmann et al. 2022</a>)</span> provides a common interface to the functionality of these packages, via its <code>mixed</code> function. The <code>mixed</code> function offers some other convenient features, such as automatically using sum-to-zero contrasts (via <code>contr.sum()</code>), although I prefer setting my own contrasts and turn this off.</p>
+<p>Despite some of the concerns about the validity of the <span class="math inline">\(p\)</span>-values for <span class="math inline">\(F\)</span>-tests of the fixed effects, they are often useful (if only to satisfy reviewers of your paper). Packages such as <code>pbkrtest</code> <span class="citation">(<a href="#ref-R-pbkrtest">Højsgaard 2020</a>)</span> and <code>lmerTest</code> <span class="citation">(<a href="#ref-R-lmerTest">Kuznetsova, Bruun Brockhoff, and Haubo Bojesen Christensen 2020</a>)</span> have been developed to provide these for mixed-effects models estimated with the <code>lmer()</code> function, using the Kenward-Roger or parametric bootstrap, and Satterthwaite approximations, respectively. The <code>afex</code> package <span class="citation">(<a href="#ref-R-afex">Singmann et al. 2023</a>)</span> provides a common interface to the functionality of these packages, via its <code>mixed</code> function. The <code>mixed</code> function offers some other convenient features, such as automatically using sum-to-zero contrasts (via <code>contr.sum()</code>), although I prefer setting my own contrasts and turn this off.</p>
 <p>Some of the main arguments to the <code>mixed</code> function (see <code>?mixed</code> for the full overview) are:</p>
 <ul>
 <li><code>formula</code>: a two-sided linear formula describing both the fixed-effects and random-effects part of the model, with the response on the left of the <code>~</code> operator and predictors and random effects on the right-hand side of the <code>~</code> operator.</li>
@@ -763,15 +770,14 @@ div.csl-indent {
 <li><code>expand_re</code>: Logical variable indicating whether random effect terms should be expanded (i.e. factors transformed into contrast-coded numerical predictors) before fitting with lmer. This allows proper use of the <code>||</code> notation with factors.</li>
 </ul>
 <p>Let’s try it out! First, let’s load the package:</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="linear-mixed-effects-models.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="linear-mixed-effects-models.html#cb443-1" tabindex="-1"></a><span class="fu">library</span>(afex)</span></code></pre></div>
 <pre><code>## ************
 ## Welcome to afex. For support visit: http://afex.singmann.science/</code></pre>
 <pre><code>## - Functions for ANOVAs: aov_car(), aov_ez(), and aov_4()
 ## - Methods for calculating p-values with mixed(): &#39;S&#39;, &#39;KR&#39;, &#39;LRT&#39;, and &#39;PB&#39;
 ## - &#39;afex_aov&#39; and &#39;mixed&#39; objects can be passed to emmeans() for follow-up tests
-## - NEWS: emmeans() for ANOVA models now uses model = &#39;multivariate&#39; as default.
 ## - Get and set global package options with: afex_options()
-## - Set orthogonal sum-to-zero contrasts globally: set_sum_contrasts()
+## - Set sum-to-zero contrasts globally: set_sum_contrasts()
 ## - For example analyses see: browseVignettes(&quot;afex&quot;)
 ## ************</code></pre>
 <pre><code>## 
@@ -781,9 +787,9 @@ div.csl-indent {
 ##     lmer</code></pre>
 <p>Note that after loading the <code>afex</code> package, the <code>lmer</code> function from <code>lme4</code> will be “masked” and the corresponding function from the <code>afex</code> namespace will be used (it is actually the same as the one from the <code>lmerTest</code> namespace), which is mostly the same, but expands the class of the returned object somewhat. Afterwards, you either have to use <code>lme4::lmer</code> whenever you explicitly want the function from the <code>lme4</code> package, or avoid loading the <code>afex</code> package, and always type e.g. <code>afex::mixed</code>. Either is fine, and mostly you wouldn’t need to worry, but sometimes the overriding of function names in the global workspace can give confusion and unexpected results, so it is good to be aware if this behaviour.</p>
 <p>In the code below, I use the <code>mixed</code> function to estimate the model and compute <span class="math inline">\(p\)</span>-values for the fixed effect of <code>anchor</code> and the intercept with the <code>"KR"</code> option (note that this takes some time!):</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="linear-mixed-effects-models.html#cb448-1" aria-hidden="true" tabindex="-1"></a>afmodg <span class="ot">&lt;-</span> <span class="fu">mixed</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring, <span class="at">check_contrasts =</span> <span class="cn">FALSE</span>, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="linear-mixed-effects-models.html#cb448-1" tabindex="-1"></a>afmodg <span class="ot">&lt;-</span> <span class="fu">mixed</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring, <span class="at">check_contrasts =</span> <span class="cn">FALSE</span>, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
 <p>The class of the returned object saved as <code>afmodg</code> is different from the usual one returned by the <code>lmer</code> function. To get the <span class="math inline">\(F\)</span> tests, you can just type in the name of the object:</p>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="linear-mixed-effects-models.html#cb449-1" aria-hidden="true" tabindex="-1"></a>afmodg</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="linear-mixed-effects-models.html#cb449-1" tabindex="-1"></a>afmodg</span></code></pre></div>
 <pre><code>## Mixed Model Anova Table (Type 3 tests, KR-method)
 ## 
 ## Model: everest_feet ~ anchor + (1 + anchor | referrer)
@@ -794,7 +800,7 @@ div.csl-indent {
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>You can also use the <code>summary()</code> function to obtain the parameter estimates:</p>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="linear-mixed-effects-models.html#cb451-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(afmodg)</span></code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="linear-mixed-effects-models.html#cb451-1" tabindex="-1"></a><span class="fu">summary</span>(afmodg)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: everest_feet ~ anchor + (1 + anchor | referrer)
@@ -824,11 +830,11 @@ div.csl-indent {
 ##         (Intr)
 ## anchor1 -0.658</code></pre>
 <p>Note that we now also get <span class="math inline">\(p\)</span>-values for the effects (which are here derived from the Satterthwaite approximation to the degrees of freedom). That is, as mentioned before, because by loading the <code>afex</code> package, the <code>lme4::lmer()</code> function is masked and replaced by the <code>lmerTest::lmer()</code> function. This function uses the <code>lme4::lmer()</code> function to estimate the model, but then adds further results to compute the Satterthwaite degrees of freedom. If you like, you could force the use of the <code>lme4::lmer()</code> function, by specifying the appropriate namespace, as in e.g.</p>
-<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="linear-mixed-effects-models.html#cb453-1" aria-hidden="true" tabindex="-1"></a>lmermodg <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="linear-mixed-effects-models.html#cb453-1" tabindex="-1"></a>lmermodg <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">|</span>referrer), <span class="at">data=</span>anchoring)</span></code></pre></div>
 <p>Continuing our example, we can also estimate the model without correlation between the random effects as follows:</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="linear-mixed-effects-models.html#cb454-1" aria-hidden="true" tabindex="-1"></a>afmodr <span class="ot">&lt;-</span> <span class="fu">mixed</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring, <span class="at">check_contrasts =</span> <span class="cn">FALSE</span>, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">expand_re =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="linear-mixed-effects-models.html#cb454-1" tabindex="-1"></a>afmodr <span class="ot">&lt;-</span> <span class="fu">mixed</span>(everest_feet <span class="sc">~</span> anchor <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> anchor<span class="sc">||</span>referrer), <span class="at">data=</span>anchoring, <span class="at">check_contrasts =</span> <span class="cn">FALSE</span>, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">expand_re =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
 <p>and get the <span class="math inline">\(F\)</span> tests for this model:</p>
-<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="linear-mixed-effects-models.html#cb455-1" aria-hidden="true" tabindex="-1"></a>afmodr</span></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="linear-mixed-effects-models.html#cb455-1" tabindex="-1"></a>afmodr</span></code></pre></div>
 <pre><code>## Mixed Model Anova Table (Type 3 tests, KR-method)
 ## 
 ## Model: everest_feet ~ anchor + (1 + anchor || referrer)
@@ -839,7 +845,7 @@ div.csl-indent {
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>and parameter estimates</p>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="linear-mixed-effects-models.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(afmodr)</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="linear-mixed-effects-models.html#cb457-1" tabindex="-1"></a><span class="fu">summary</span>(afmodr)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: everest_feet ~ anchor + (1 + re1.anchor1 || referrer)
@@ -869,7 +875,7 @@ div.csl-indent {
 ##         (Intr)
 ## anchor1 0.011</code></pre>
 <p>Note that entering these two <code>mixed</code> models as is into the <code>anova</code> function <strong>will not</strong> provide the desired re-estimation of the models by maximum likelihood:</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="linear-mixed-effects-models.html#cb459-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(afmodr,afmodg)</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="linear-mixed-effects-models.html#cb459-1" tabindex="-1"></a><span class="fu">anova</span>(afmodr,afmodg)</span></code></pre></div>
 <pre><code>## Data: data
 ## Models:
 ## afmodr: everest_feet ~ anchor + (1 + re1.anchor1 || referrer)
@@ -880,7 +886,7 @@ div.csl-indent {
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>This is not clear from the output (apart from the missing <code>refitting model(s) with ML (instead of REML)</code> message). For the correct results, you will need to provide the <code>lmer</code> model, stored in the <code>afmodr</code> and <code>afmodg</code> objects under <code>$full_model</code>:</p>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="linear-mixed-effects-models.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(afmodr<span class="sc">$</span>full_model, afmodg<span class="sc">$</span>full_model)</span></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="linear-mixed-effects-models.html#cb461-1" tabindex="-1"></a><span class="fu">anova</span>(afmodr<span class="sc">$</span>full_model, afmodg<span class="sc">$</span>full_model)</span></code></pre></div>
 <pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
 <pre><code>## Data: data
 ## Models:
@@ -897,19 +903,19 @@ div.csl-indent {
 <h2><span class="header-section-number">9.3</span> Crossed random effects<a href="linear-mixed-effects-models.html#crossed-random-effects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <code>lme4::lmer()</code> function (and the <code>afex::mixed()</code> function which that is built on top of that function) allows you to specify multiple sources for random effects. In the book, we discussed an example with crossed random effects, using the <code>speeddate</code> data. In this data, participants (identified by the <code>iid</code> variable) provide ratings of various attributes of different dating partners (identified by the <code>pid</code> variable). Here, <code>iid</code> refers to the Person factor, and <code>pid</code> to the Item factor.</p>
 <p>To estimate a model with crossed random effects, you simply include two separate statements for the random effects in the model formula, one for the effects depending on <code>iid</code>, and one for the random effects depending on <code>pid</code>:</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="linear-mixed-effects-models.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>)</span>
-<span id="cb464-2"><a href="linear-mixed-effects-models.html#cb464-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> speeddate</span>
-<span id="cb464-3"><a href="linear-mixed-effects-models.html#cb464-3" aria-hidden="true" tabindex="-1"></a><span class="co"># center the predictors</span></span>
-<span id="cb464-4"><a href="linear-mixed-effects-models.html#cb464-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>other_attr_c <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>other_attr)</span>
-<span id="cb464-5"><a href="linear-mixed-effects-models.html#cb464-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>other_intel_c <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>other_intel)</span>
-<span id="cb464-6"><a href="linear-mixed-effects-models.html#cb464-6" aria-hidden="true" tabindex="-1"></a><span class="do">## estimate the model</span></span>
-<span id="cb464-7"><a href="linear-mixed-effects-models.html#cb464-7" aria-hidden="true" tabindex="-1"></a>crmod <span class="ot">&lt;-</span> <span class="fu">mixed</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>pid), <span class="at">data=</span>dat, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="linear-mixed-effects-models.html#cb464-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;speeddate&quot;</span>)</span>
+<span id="cb464-2"><a href="linear-mixed-effects-models.html#cb464-2" tabindex="-1"></a>dat <span class="ot">&lt;-</span> speeddate</span>
+<span id="cb464-3"><a href="linear-mixed-effects-models.html#cb464-3" tabindex="-1"></a><span class="co"># center the predictors</span></span>
+<span id="cb464-4"><a href="linear-mixed-effects-models.html#cb464-4" tabindex="-1"></a>dat<span class="sc">$</span>other_attr_c <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>other_attr)</span>
+<span id="cb464-5"><a href="linear-mixed-effects-models.html#cb464-5" tabindex="-1"></a>dat<span class="sc">$</span>other_intel_c <span class="ot">&lt;-</span> <span class="fu">center</span>(dat<span class="sc">$</span>other_intel)</span>
+<span id="cb464-6"><a href="linear-mixed-effects-models.html#cb464-6" tabindex="-1"></a><span class="do">## estimate the model</span></span>
+<span id="cb464-7"><a href="linear-mixed-effects-models.html#cb464-7" tabindex="-1"></a>crmod <span class="ot">&lt;-</span> <span class="fu">mixed</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>pid), <span class="at">data=</span>dat, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Due to missing values, reduced number of observations to 1509</code></pre>
 <pre><code>## Numerical variables NOT centered on 0: other_attr_c, other_intel_c
 ## If in interactions, interpretation of lower order (e.g., main) effects difficult.</code></pre>
 <pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <p>Note there are some warnings. The first states that, due to missing values, the number of observations is reduced. If a row in the dataset has a missing value on either the dependent variable to one of the predictors, it is not possible to compute an error or model prediction. Hence, such rows are removed from the dataset before fitting the model. The second warning, starting with <code>Numerical variables NOT centered on 0</code> we can ignore, as it is erroneous (we have centered the numeric predictors). The checks performed by <code>afex::mixed()</code> sometimes miss the mark. The third warning regarding boundary singular fit (<code>boundary (singular) fit: see ?isSingular</code>), is something that will require attention. It signals that the model may be too complex to estimate properly. Such issues often (but not always!) show in estimated variances of random effects of 0 (i.e., no variance) or correlations between random effects of 1 or -1. Before doing anything else, we should therefore inspect the random-effects estimates. We can view these estimates (as well as those of the fixed effects) as usual with the <code>summary()</code> function:</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="linear-mixed-effects-models.html#cb468-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(crmod)</span></code></pre></div>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="linear-mixed-effects-models.html#cb468-1" tabindex="-1"></a><span class="fu">summary</span>(crmod)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: other_like ~ other_attr_c * other_intel_c + (1 + other_attr_c *  
@@ -920,27 +926,27 @@ div.csl-indent {
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.6290 -0.5186  0.0161  0.5376  4.0149 
+## -4.6290 -0.5179  0.0162  0.5379  4.0150 
 ## 
 ## Random effects:
 ##  Groups   Name                       Variance  Std.Dev. Corr             
-##  iid      (Intercept)                0.0788426 0.28079                   
-##           other_attr_c               0.0233939 0.15295  -0.54            
-##           other_intel_c              0.0230372 0.15178   0.50 -0.89      
-##           other_attr_c:other_intel_c 0.0008877 0.02979  -0.43 -0.27  0.54
-##  pid      (Intercept)                0.2850681 0.53392                   
-##           other_attr_c               0.0423249 0.20573  -0.47            
-##           other_intel_c              0.0489192 0.22118   0.11 -0.63      
-##           other_attr_c:other_intel_c 0.0019893 0.04460  -0.36  0.27 -0.16
-##  Residual                            0.9629969 0.98132                   
+##  iid      (Intercept)                0.0788677 0.28083                   
+##           other_attr_c               0.0234048 0.15299  -0.54            
+##           other_intel_c              0.0230520 0.15183   0.50 -0.89      
+##           other_attr_c:other_intel_c 0.0008855 0.02976  -0.43 -0.27  0.54
+##  pid      (Intercept)                0.2850997 0.53395                   
+##           other_attr_c               0.0423083 0.20569  -0.47            
+##           other_intel_c              0.0489052 0.22115   0.11 -0.63      
+##           other_attr_c:other_intel_c 0.0019881 0.04459  -0.36  0.27 -0.16
+##  Residual                            0.9630141 0.98133                   
 ## Number of obs: 1509, groups:  iid, 102; pid, 102
 ## 
 ## Fixed effects:
 ##                              Estimate Std. Error         df t value Pr(&gt;|t|)
-## (Intercept)                  6.223998   0.069994 112.518367  88.922  &lt; 2e-16
-## other_attr_c                 0.555404   0.033644 119.371541  16.508  &lt; 2e-16
-## other_intel_c                0.374487   0.039237  89.133031   9.544 2.77e-15
-## other_attr_c:other_intel_c  -0.009388   0.013146  43.438244  -0.714    0.479
+## (Intercept)                  6.224008   0.069999 112.519344  88.915  &lt; 2e-16
+## other_attr_c                 0.555386   0.033643 119.388826  16.508  &lt; 2e-16
+## other_intel_c                0.374491   0.039237  89.162196   9.544 2.76e-15
+## other_attr_c:other_intel_c  -0.009393   0.013145  43.420216  -0.715    0.479
 ##                               
 ## (Intercept)                ***
 ## other_attr_c               ***
@@ -953,18 +959,18 @@ div.csl-indent {
 ##             (Intr) othr_t_ othr_n_
 ## other_ttr_c -0.365                
 ## other_ntl_c  0.119 -0.557         
-## othr_tt_:__ -0.262  0.012   0.079 
+## othr_tt_:__ -0.261  0.011   0.079 
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <p>In this case, none of the variances are estimated as 0, and none of the correlations are estimated as 1 or -1. But the estimated variances of the random <code>other_attr_c:other_intel_c</code> interactions are quite low, and close to 0. As such, it might make sense to remove these effects.</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="linear-mixed-effects-models.html#cb470-1" aria-hidden="true" tabindex="-1"></a>crmod2 <span class="ot">&lt;-</span> <span class="fu">mixed</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">|</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">|</span>pid), <span class="at">data=</span>dat, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="linear-mixed-effects-models.html#cb470-1" tabindex="-1"></a>crmod2 <span class="ot">&lt;-</span> <span class="fu">mixed</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">|</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">|</span>pid), <span class="at">data=</span>dat, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Due to missing values, reduced number of observations to 1509</code></pre>
 <pre><code>## Numerical variables NOT centered on 0: other_attr_c, other_intel_c
 ## If in interactions, interpretation of lower order (e.g., main) effects difficult.</code></pre>
 <pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <pre><code>## Warning: Model failed to converge with 1 negative eigenvalue: -2.3e+03</code></pre>
 <p>This does not resolve the issue, as we still get the <code>boundary (singular) fit</code> warning. Moreover, we now get another warning: <code>Model failed to converge with 1 negative eigenvalue</code>. Checking the parameter estimates:</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="linear-mixed-effects-models.html#cb475-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(crmod2)</span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="linear-mixed-effects-models.html#cb475-1" tabindex="-1"></a><span class="fu">summary</span>(crmod2)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: other_like ~ other_attr_c * other_intel_c + (1 + other_attr_c +  
@@ -975,25 +981,25 @@ div.csl-indent {
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.4392 -0.5570  0.0336  0.5378  3.9035 
+## -4.4393 -0.5571  0.0336  0.5378  3.9036 
 ## 
 ## Random effects:
 ##  Groups   Name          Variance Std.Dev. Corr       
-##  iid      (Intercept)   0.06644  0.2578              
-##           other_attr_c  0.02636  0.1623   -0.60      
-##           other_intel_c 0.02021  0.1422    0.75 -0.98
-##  pid      (Intercept)   0.30243  0.5499              
+##  iid      (Intercept)   0.06646  0.2578              
+##           other_attr_c  0.02636  0.1624   -0.60      
+##           other_intel_c 0.02024  0.1423    0.75 -0.98
+##  pid      (Intercept)   0.30245  0.5500              
 ##           other_attr_c  0.01746  0.1321   -1.00      
 ##           other_intel_c 0.03483  0.1866    0.28 -0.28
-##  Residual               1.05823  1.0287              
+##  Residual               1.05819  1.0287              
 ## Number of obs: 1509, groups:  iid, 102; pid, 102
 ## 
 ## Fixed effects:
 ##                             Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)                  6.20783    0.07028 117.29576  88.333   &lt;2e-16 ***
-## other_attr_c                 0.53693    0.02948 118.38813  18.212   &lt;2e-16 ***
-## other_intel_c                0.37939    0.03633  92.16741  10.442   &lt;2e-16 ***
-## other_attr_c:other_intel_c  -0.01269    0.01056 136.40192  -1.202    0.231    
+## (Intercept)                  6.20784    0.07028 117.30182  88.330   &lt;2e-16 ***
+## other_attr_c                 0.53692    0.02948 118.52702  18.211   &lt;2e-16 ***
+## other_intel_c                0.37938    0.03634  92.82361  10.441   &lt;2e-16 ***
+## other_attr_c:other_intel_c  -0.01268    0.01056 143.06822  -1.201    0.232    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -1005,12 +1011,12 @@ div.csl-indent {
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <p>shows a rather high negative correlation between the <code>iid</code>-wise random effects of <code>other_attr_c</code> and <code>other_intel_c</code>. Perhaps allowing the random effects to be correlated is too complex for this data. Hence, we can try a model with independent random effects:</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="linear-mixed-effects-models.html#cb477-1" aria-hidden="true" tabindex="-1"></a>crmod3 <span class="ot">&lt;-</span> <span class="fu">mixed</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">||</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">||</span>pid), <span class="at">data=</span>dat, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="linear-mixed-effects-models.html#cb477-1" tabindex="-1"></a>crmod3 <span class="ot">&lt;-</span> <span class="fu">mixed</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">||</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c <span class="sc">+</span> other_intel_c<span class="sc">||</span>pid), <span class="at">data=</span>dat, <span class="at">test_intercept =</span> <span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;KR&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Due to missing values, reduced number of observations to 1509</code></pre>
 <pre><code>## Numerical variables NOT centered on 0: other_attr_c, other_intel_c
 ## If in interactions, interpretation of lower order (e.g., main) effects difficult.</code></pre>
 <p>This eliminates the boundary singular fit issue. Inspecting the random-effects estimates shows no clear signs of further problems, as all the variances are well-above 0:</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="linear-mixed-effects-models.html#cb480-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(crmod3)</span></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="linear-mixed-effects-models.html#cb480-1" tabindex="-1"></a><span class="fu">summary</span>(crmod3)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: other_like ~ other_attr_c * other_intel_c + (1 + other_attr_c +  
@@ -1039,7 +1045,7 @@ div.csl-indent {
 ## (Intercept)                  6.23128    0.06724 115.11853  92.673  &lt; 2e-16 ***
 ## other_attr_c                 0.55284    0.03177 130.82879  17.399  &lt; 2e-16 ***
 ## other_intel_c                0.36684    0.03763  90.58968   9.749 8.94e-16 ***
-## other_attr_c:other_intel_c  -0.01010    0.01249 314.62283  -0.808     0.42    
+## other_attr_c:other_intel_c  -0.01010    0.01249 314.62284  -0.808     0.42    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -1048,9 +1054,9 @@ div.csl-indent {
 ## other_ttr_c -0.021                
 ## other_ntl_c -0.016 -0.153         
 ## othr_tt_:__ -0.066 -0.055   0.129</code></pre>
-<p>Although the “keep it maximal” idea is good in theory, in practice, maximal models are often difficult or impossible to estimate. Determining an appropriate random-effects structure may require reducing the complexity of the model iteratively. Some guidelines for this process are provided by <span class="citation">Matuschek et al. (<a href="#ref-matuschek_balancing_2017" role="doc-biblioref">2017</a>)</span>.</p>
+<p>Although the “keep it maximal” idea is good in theory, in practice, maximal models are often difficult or impossible to estimate. Determining an appropriate random-effects structure may require reducing the complexity of the model iteratively. Some guidelines for this process are provided by <span class="citation">Matuschek et al. (<a href="#ref-matuschek_balancing_2017">2017</a>)</span>.</p>
 <p>In this case, the results regarding the fixed effects are robust over the different random-effects structures. For instance, comparing the maximal model to the final model shows that the same effects are significant:</p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="linear-mixed-effects-models.html#cb482-1" aria-hidden="true" tabindex="-1"></a>crmod</span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="linear-mixed-effects-models.html#cb482-1" tabindex="-1"></a>crmod</span></code></pre></div>
 <pre><code>## Warning: lme4 reported (at least) the following warnings for &#39;full&#39;:
 ##   * boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <pre><code>## Mixed Model Anova Table (Type 3 tests, KR-method)
@@ -1060,13 +1066,13 @@ div.csl-indent {
 ## Model:     pid)
 ## Data: dat
 ##                       Effect        df           F p.value
-## 1                (Intercept) 1, 122.83 7778.39 ***   &lt;.001
+## 1                (Intercept) 1, 122.83 7777.33 ***   &lt;.001
 ## 2               other_attr_c 1, 120.32  263.42 ***   &lt;.001
-## 3              other_intel_c 1, 100.34   86.98 ***   &lt;.001
-## 4 other_attr_c:other_intel_c  1, 48.29        0.42    .522
+## 3              other_intel_c 1, 100.35   86.98 ***   &lt;.001
+## 4 other_attr_c:other_intel_c  1, 48.27        0.42    .522
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="linear-mixed-effects-models.html#cb485-1" aria-hidden="true" tabindex="-1"></a>crmod3</span></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="linear-mixed-effects-models.html#cb485-1" tabindex="-1"></a>crmod3</span></code></pre></div>
 <pre><code>## Mixed Model Anova Table (Type 3 tests, KR-method)
 ## 
 ## Model: other_like ~ other_attr_c * other_intel_c + (1 + other_attr_c + 
@@ -1081,13 +1087,13 @@ div.csl-indent {
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>The <span class="math inline">\(F\)</span>-values of the last model are higher, which is consistent with the increased power that generally results from simpler random-effects structures (at a potential cost of increasing Type I error). In any case, knowing that the maximal and simpler random-effects structures both would lead to the same substantive conclusions provides some reassurance that the results are robust. The <code>afex</code> package also has a useful “vignette” (a longer document describing an analysis and package functionality) on mixed-effects models, which you can view through the command:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="linear-mixed-effects-models.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;afex_mixed_example&quot;</span>, <span class="at">package=</span><span class="st">&quot;afex&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="linear-mixed-effects-models.html#cb487-1" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;afex_mixed_example&quot;</span>, <span class="at">package=</span><span class="st">&quot;afex&quot;</span>)</span></code></pre></div>
 </div>
 <div id="automatically-finding-optimal-random-effects-structures-with-the-buildmer-package" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> Automatically finding optimal random effects structures with the <code>buildmer</code> package<a href="linear-mixed-effects-models.html#automatically-finding-optimal-random-effects-structures-with-the-buildmer-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>A common issue with “maximal” linear mixed-effects models is that not all random effects can be estimated. These estimation issues are noted by warnings from <code>lme4</code> such as <code>boundary (singular) fit</code> or <code>Model failed to converge</code>. These warnings indicate that the model is too complex for the data at hand. <span class="citation">Matuschek et al. (<a href="#ref-matuschek_balancing_2017" role="doc-biblioref">2017</a>)</span> propose to search for a model with a parsimonious random effects structure. Starting with the maximal model, they propose to eliminate random effects from the model which don’t lead to a significant reduction in the likelihood ratio. This backwards search procedure is implemented by the <code>buildmer()</code> function from the <code>buildmer</code> package. By default, the <code>buildmer()</code> function will find the maximal model that can be estimated without issues, and then reduces the complexity of this model by removing random effects through model comparisons via likelihood ratio tests, removing terms in the order of their contribution to the likelihood ratio until the test is significant (i.e. until removal leads to a significantly worse fitting model). The basic usage of the <code>buildmer()</code> function is similar to the <code>lme4::lmer()</code> and <code>afex::mixed()</code> functions: you supply a model formula with the intended maximal model and a <code>data.frame</code> containing the data. The <code>buildmer()</code> function will then estimate all possible subsets of this model and perform model comparisons between them. The procedure can be fine-tuned via the <code>buildmerControl</code> argument. For example, instead of the default backwards search procedure (starting from the most complex model and eliminating terms), the direction can be changed to a forwards procedure where the starting point is the simplest model, and random effects terms are added until the increase in the likelihood ratio is not significant. It is also possible to change the criterion for elimination from a likelihood-ratio test to a model selection criterion such as the Akaike Information Criterion (AIC). In the <code>include</code> argument, you can specify which terms will always be included. By default, the <code>buildmer()</code> function will also consider removing fixed effects. This can be avoided by specifying the fixed effects in the model formula provided as the <code>include</code> argument. Other arguments are used to specify further calculations on the final model. For example, whether to calculate an ANOVA table (<code>calc.anova = TRUE</code>) and how to approximate the degrees of freedom for this (e.g. <code>ddf = "Satterthwaite"</code>). In the code below, we use the <code>buildmer()</code> function to find the parsimonious maximal model for the <code>speeddate</code> data. The (rather extensive) list of messages show all the models fitted by the <code>buildmer()</code> function, which includes models without random effects (estimated via the <code>lm</code> function) as well as models with random effects (estimated via the <code>lmer</code> function).</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="linear-mixed-effects-models.html#cb488-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(buildmer)</span>
-<span id="cb488-2"><a href="linear-mixed-effects-models.html#cb488-2" aria-hidden="true" tabindex="-1"></a>max_mod <span class="ot">&lt;-</span> <span class="fu">buildmer</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>pid), <span class="at">data=</span>dat, <span class="at">buildmerControl =</span> <span class="fu">buildmerControl</span>(<span class="at">include =</span> <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c, <span class="at">calc.anova =</span> <span class="cn">TRUE</span>, <span class="at">ddf =</span> <span class="st">&quot;Satterthwaite&quot;</span>))</span></code></pre></div>
+<p>A common issue with “maximal” linear mixed-effects models is that not all random effects can be estimated. These estimation issues are noted by warnings from <code>lme4</code> such as <code>boundary (singular) fit</code> or <code>Model failed to converge</code>. These warnings indicate that the model is too complex for the data at hand. <span class="citation">Matuschek et al. (<a href="#ref-matuschek_balancing_2017">2017</a>)</span> propose to search for a model with a parsimonious random effects structure. Starting with the maximal model, they propose to eliminate random effects from the model which don’t lead to a significant reduction in the likelihood ratio. This backwards search procedure is implemented by the <code>buildmer()</code> function from the <code>buildmer</code> package. By default, the <code>buildmer()</code> function will find the maximal model that can be estimated without issues, and then reduces the complexity of this model by removing random effects through model comparisons via likelihood ratio tests, removing terms in the order of their contribution to the likelihood ratio until the test is significant (i.e. until removal leads to a significantly worse fitting model). The basic usage of the <code>buildmer()</code> function is similar to the <code>lme4::lmer()</code> and <code>afex::mixed()</code> functions: you supply a model formula with the intended maximal model and a <code>data.frame</code> containing the data. The <code>buildmer()</code> function will then estimate all possible subsets of this model and perform model comparisons between them. The procedure can be fine-tuned via the <code>buildmerControl</code> argument. For example, instead of the default backwards search procedure (starting from the most complex model and eliminating terms), the direction can be changed to a forwards procedure where the starting point is the simplest model, and random effects terms are added until the increase in the likelihood ratio is not significant. It is also possible to change the criterion for elimination from a likelihood-ratio test to a model selection criterion such as the Akaike Information Criterion (AIC). In the <code>include</code> argument, you can specify which terms will always be included. By default, the <code>buildmer()</code> function will also consider removing fixed effects. This can be avoided by specifying the fixed effects in the model formula provided as the <code>include</code> argument. Other arguments are used to specify further calculations on the final model. For example, whether to calculate an ANOVA table (<code>calc.anova = TRUE</code>) and how to approximate the degrees of freedom for this (e.g. <code>ddf = "Satterthwaite"</code>). In the code below, we use the <code>buildmer()</code> function to find the parsimonious maximal model for the <code>speeddate</code> data. The (rather extensive) list of messages show all the models fitted by the <code>buildmer()</code> function, which includes models without random effects (estimated via the <code>lm</code> function) as well as models with random effects (estimated via the <code>lmer</code> function).</p>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="linear-mixed-effects-models.html#cb488-1" tabindex="-1"></a><span class="fu">library</span>(buildmer)</span>
+<span id="cb488-2"><a href="linear-mixed-effects-models.html#cb488-2" tabindex="-1"></a>max_mod <span class="ot">&lt;-</span> <span class="fu">buildmer</span>(other_like <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>iid) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> other_attr_c<span class="sc">*</span>other_intel_c<span class="sc">|</span>pid), <span class="at">data=</span>dat, <span class="at">buildmerControl =</span> <span class="fu">buildmerControl</span>(<span class="at">include =</span> <span class="sc">~</span> other_attr_c<span class="sc">*</span>other_intel_c, <span class="at">calc.anova =</span> <span class="cn">TRUE</span>, <span class="at">ddf =</span> <span class="st">&quot;Satterthwaite&quot;</span>))</span></code></pre></div>
 <pre><code>## Determining predictor order</code></pre>
 <pre><code>## Fitting via gam, with REML: other_like ~ 1 + other_attr_c +
 ##     other_intel_c + other_attr_c:other_intel_c</code></pre>
@@ -1207,7 +1213,7 @@ div.csl-indent {
 <pre><code>## All terms are significant</code></pre>
 <pre><code>## Finalizing by converting the model to lmerTest</code></pre>
 <p>The final model contains random intercepts and slopes for <code>other_attr_c</code> and <code>other_intel_c</code> for <code>pid</code>. For the <code>iid</code> groupings, only random intercepts are included:</p>
-<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="linear-mixed-effects-models.html#cb532-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(max_mod)</span></code></pre></div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="linear-mixed-effects-models.html#cb532-1" tabindex="-1"></a><span class="fu">summary</span>(max_mod)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -1255,7 +1261,7 @@ div.csl-indent {
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-R-lme4" class="csl-entry">
-Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2022. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
+Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2023. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
 </div>
 <div id="ref-R-pbkrtest" class="csl-entry">
 Højsgaard, Ulrich Halekoh Søren. 2020. <em>Pbkrtest: Parametric Bootstrap and Kenward Roger Based Methods for Mixed Model Comparison</em>. <a href="http://people.math.aau.dk/~sorenh/software/pbkrtest/">http://people.math.aau.dk/~sorenh/software/pbkrtest/</a>.
@@ -1267,7 +1273,7 @@ Kuznetsova, Alexandra, Per Bruun Brockhoff, and Rune Haubo Bojesen Christensen. 
 Matuschek, Hannes, Reinhold Kliegl, Shravan Vasishth, Harald Baayen, and Douglas Bates. 2017. <span>“Balancing Type i Error and Power in Linear Mixed Models.”</span> <em>Journal of Memory and Language</em> 94: 305–15. <a href="https://doi.org/10.1016/j.jml.2017.01.001">https://doi.org/10.1016/j.jml.2017.01.001</a>.
 </div>
 <div id="ref-R-afex" class="csl-entry">
-Singmann, Henrik, Ben Bolker, Jake Westfall, Frederik Aust, and Mattan S. Ben-Shachar. 2022. <em>Afex: Analysis of Factorial Experiments</em>. <a href="https://CRAN.R-project.org/package=afex">https://CRAN.R-project.org/package=afex</a>.
+Singmann, Henrik, Ben Bolker, Jake Westfall, Frederik Aust, and Mattan S. Ben-Shachar. 2023. <em>Afex: Analysis of Factorial Experiments</em>. <a href="https://afex.singmann.science/">https://afex.singmann.science/</a>.
 </div>
 <div id="ref-Singmann2019-mixed" class="csl-entry">
 Singmann, Henrik, and David Kellen. 2019. <span>“An Introduction to Linear Mixed Modeling in Experimental Psychology.”</span> In <em>New Methods in Cognitive Psychology</em>, 4–31. Psychology Press. <a href="http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf, preprint">http://singmann.org/download/publications/singmann_kellen-introduction-mixed-models.pdf, preprint</a>.

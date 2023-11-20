@@ -55,7 +55,7 @@ a-reminder-about-namespaces
 centering
 mediation-analysis
 causal-steps
-investigating-the-moderated-indirect-effect-with-a-bootstrap-test
+investigating-the-mediated-indirect-effect-with-a-bootstrap-test
 contrast-coding-and-oneway-anova
 computing-contrast-coded-predictors
 assigning-contrasts-to-factors
@@ -92,6 +92,7 @@ model-estimation-and-inference
 confidence-intervals-1
 model-predictions
 alternative-link-functions-for-logistic-regression
+poisson-regression
 quasi-poisson-regression
 log-linear-models
 multinomial-regression
@@ -106,12 +107,12 @@ path-models
 regression-models
 mediation-models
 a-more-complex-path-model
+modification-indices
+confirmatory-factor-analysis
+general-sem-models
 exploratory-factor-analysis-with-the-psych-package
 determining-the-number-of-factors-with-parallel-analysis
 estimating-and-rotating-efa-solutions
-confirmatory-factor-analysis
-modification-indices
-general-sem-models
 bayesian-estimation-with-brms
 the-brms-package
 model-definition

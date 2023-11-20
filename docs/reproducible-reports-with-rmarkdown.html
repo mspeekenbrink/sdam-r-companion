@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Reproducible reports with RMarkdown | An R companion to Statistics: data analysis and modelling</title>
   <meta name="description" content="A book about how to use R related to the book Statistics: Data analysis and modelling." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Reproducible reports with RMarkdown | An R companion to Statistics: data analysis and modelling" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2022-12-13" />
+<meta name="date" content="2023-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -235,7 +239,7 @@ div.csl-indent {
 <li class="chapter" data-level="5.3" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#mediation-analysis"><i class="fa fa-check"></i><b>5.3</b> Mediation analysis</a>
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#causal-steps"><i class="fa fa-check"></i><b>5.3.1</b> Causal steps</a></li>
-<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-moderated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the moderated (indirect) effect with a bootstrap test</a></li>
+<li class="chapter" data-level="5.3.2" data-path="moderation-and-mediation.html"><a href="moderation-and-mediation.html#investigating-the-mediated-indirect-effect-with-a-bootstrap-test"><i class="fa fa-check"></i><b>5.3.2</b> Investigating the mediated (indirect) effect with a bootstrap test</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="contrast-coding-and-oneway-anova.html"><a href="contrast-coding-and-oneway-anova.html"><i class="fa fa-check"></i><b>6</b> Contrast coding and oneway ANOVA</a>
@@ -293,7 +297,10 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#confidence-intervals-1"><i class="fa fa-check"></i><b>10.2</b> Confidence intervals</a></li>
 <li class="chapter" data-level="10.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-predictions"><i class="fa fa-check"></i><b>10.3</b> Model predictions</a></li>
 <li class="chapter" data-level="10.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#alternative-link-functions-for-logistic-regression"><i class="fa fa-check"></i><b>10.4</b> Alternative link functions for logistic regression</a></li>
-<li class="chapter" data-level="10.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-poisson-regression"><i class="fa fa-check"></i><b>10.5</b> Quasi-Poisson regression</a></li>
+<li class="chapter" data-level="10.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#poisson-regression"><i class="fa fa-check"></i><b>10.5</b> Poisson regression</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-poisson-regression"><i class="fa fa-check"></i><b>10.5.1</b> Quasi-Poisson regression</a></li>
+</ul></li>
 <li class="chapter" data-level="10.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#log-linear-models"><i class="fa fa-check"></i><b>10.6</b> Log-linear models</a></li>
 <li class="chapter" data-level="10.7" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#multinomial-regression"><i class="fa fa-check"></i><b>10.7</b> Multinomial regression</a></li>
 <li class="chapter" data-level="10.8" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#generalized-linear-mixed-effects-models"><i class="fa fa-check"></i><b>10.8</b> Generalized linear mixed effects models</a></li>
@@ -313,14 +320,14 @@ div.csl-indent {
 <li class="chapter" data-level="11.3.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#mediation-models"><i class="fa fa-check"></i><b>11.3.2</b> Mediation models</a></li>
 <li class="chapter" data-level="11.3.3" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#a-more-complex-path-model"><i class="fa fa-check"></i><b>11.3.3</b> A more complex path model</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package"><i class="fa fa-check"></i><b>11.4</b> Exploratory factor analysis with the <code>psych</code> package</a>
-<ul>
-<li class="chapter" data-level="11.4.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis"><i class="fa fa-check"></i><b>11.4.1</b> Determining the number of factors with Parallel Analysis</a></li>
-<li class="chapter" data-level="11.4.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions"><i class="fa fa-check"></i><b>11.4.2</b> Estimating and rotating EFA solutions</a></li>
-</ul></li>
+<li class="chapter" data-level="11.4" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.4</b> Modification indices</a></li>
 <li class="chapter" data-level="11.5" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#confirmatory-factor-analysis"><i class="fa fa-check"></i><b>11.5</b> Confirmatory factor analysis</a></li>
-<li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#modification-indices"><i class="fa fa-check"></i><b>11.6</b> Modification indices</a></li>
-<li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.7</b> General SEM models</a></li>
+<li class="chapter" data-level="11.6" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#general-sem-models"><i class="fa fa-check"></i><b>11.6</b> General SEM models</a></li>
+<li class="chapter" data-level="11.7" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#exploratory-factor-analysis-with-the-psych-package"><i class="fa fa-check"></i><b>11.7</b> Exploratory factor analysis with the <code>psych</code> package</a>
+<ul>
+<li class="chapter" data-level="11.7.1" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#determining-the-number-of-factors-with-parallel-analysis"><i class="fa fa-check"></i><b>11.7.1</b> Determining the number of factors with Parallel Analysis</a></li>
+<li class="chapter" data-level="11.7.2" data-path="structural-equation-modelling-with-lavaan.html"><a href="structural-equation-modelling-with-lavaan.html#estimating-and-rotating-efa-solutions"><i class="fa fa-check"></i><b>11.7.2</b> Estimating and rotating EFA solutions</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="bayesian-estimation-with-brms.html"><a href="bayesian-estimation-with-brms.html"><i class="fa fa-check"></i><b>12</b> Bayesian estimation with brms</a>
 <ul>
@@ -398,30 +405,30 @@ div.csl-indent {
 <div id="yaml-headers" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> YAML headers<a href="reproducible-reports-with-rmarkdown.html#yaml-headers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Headers in R Markdown files contain some metadata about your document, which you can customize to your liking. They use a syntax called <a href="https://en.wikipedia.org/wiki/YAML">YAML</a>. Below is a simple example that purely states the title, author name(s), date, and output format.</p>
-<div class="sourceCode" id="cb806"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb806-1"><a href="reproducible-reports-with-rmarkdown.html#cb806-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb806-2"><a href="reproducible-reports-with-rmarkdown.html#cb806-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;My title&quot;</span></span>
-<span id="cb806-3"><a href="reproducible-reports-with-rmarkdown.html#cb806-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Mr My full Name&quot;</span></span>
-<span id="cb806-4"><a href="reproducible-reports-with-rmarkdown.html#cb806-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;December 21, 2020&quot;</span></span>
-<span id="cb806-5"><a href="reproducible-reports-with-rmarkdown.html#cb806-5" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
-<span id="cb806-6"><a href="reproducible-reports-with-rmarkdown.html#cb806-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb807"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb807-1"><a href="reproducible-reports-with-rmarkdown.html#cb807-1" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb807-2"><a href="reproducible-reports-with-rmarkdown.html#cb807-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;My title&quot;</span></span>
+<span id="cb807-3"><a href="reproducible-reports-with-rmarkdown.html#cb807-3" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Mr My full Name&quot;</span></span>
+<span id="cb807-4"><a href="reproducible-reports-with-rmarkdown.html#cb807-4" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;December 21, 2020&quot;</span></span>
+<span id="cb807-5"><a href="reproducible-reports-with-rmarkdown.html#cb807-5" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
+<span id="cb807-6"><a href="reproducible-reports-with-rmarkdown.html#cb807-6" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
 <p>You can change the output option to <code>pdf_document</code>, or <code>word_document</code>. Some other arguments you may want to provide in the YAML header are for the bibliography and the style of the output. For example, the previous header can be expanded to</p>
-<div class="sourceCode" id="cb807"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb807-1"><a href="reproducible-reports-with-rmarkdown.html#cb807-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb807-2"><a href="reproducible-reports-with-rmarkdown.html#cb807-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;My title&quot;</span></span>
-<span id="cb807-3"><a href="reproducible-reports-with-rmarkdown.html#cb807-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Mr My full Name&quot;</span></span>
-<span id="cb807-4"><a href="reproducible-reports-with-rmarkdown.html#cb807-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;December 21, 2020&quot;</span></span>
-<span id="cb807-5"><a href="reproducible-reports-with-rmarkdown.html#cb807-5" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> </span></span>
-<span id="cb807-6"><a href="reproducible-reports-with-rmarkdown.html#cb807-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html_document:</span></span>
-<span id="cb807-7"><a href="reproducible-reports-with-rmarkdown.html#cb807-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb807-8"><a href="reproducible-reports-with-rmarkdown.html#cb807-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc_float: true</span></span>
-<span id="cb807-9"><a href="reproducible-reports-with-rmarkdown.html#cb807-9" aria-hidden="true" tabindex="-1"></a><span class="co">    number_sections: true</span></span>
-<span id="cb807-10"><a href="reproducible-reports-with-rmarkdown.html#cb807-10" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cerulian</span></span>
-<span id="cb807-11"><a href="reproducible-reports-with-rmarkdown.html#cb807-11" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
-<span id="cb807-12"><a href="reproducible-reports-with-rmarkdown.html#cb807-12" aria-hidden="true" tabindex="-1"></a><span class="an">biblio-style:</span><span class="co"> apalike</span></span>
-<span id="cb807-13"><a href="reproducible-reports-with-rmarkdown.html#cb807-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb808"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb808-1"><a href="reproducible-reports-with-rmarkdown.html#cb808-1" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb808-2"><a href="reproducible-reports-with-rmarkdown.html#cb808-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;My title&quot;</span></span>
+<span id="cb808-3"><a href="reproducible-reports-with-rmarkdown.html#cb808-3" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Mr My full Name&quot;</span></span>
+<span id="cb808-4"><a href="reproducible-reports-with-rmarkdown.html#cb808-4" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;December 21, 2020&quot;</span></span>
+<span id="cb808-5"><a href="reproducible-reports-with-rmarkdown.html#cb808-5" tabindex="-1"></a><span class="an">output:</span><span class="co"> </span></span>
+<span id="cb808-6"><a href="reproducible-reports-with-rmarkdown.html#cb808-6" tabindex="-1"></a><span class="co">  html_document:</span></span>
+<span id="cb808-7"><a href="reproducible-reports-with-rmarkdown.html#cb808-7" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb808-8"><a href="reproducible-reports-with-rmarkdown.html#cb808-8" tabindex="-1"></a><span class="co">    toc_float: true</span></span>
+<span id="cb808-9"><a href="reproducible-reports-with-rmarkdown.html#cb808-9" tabindex="-1"></a><span class="co">    number_sections: true</span></span>
+<span id="cb808-10"><a href="reproducible-reports-with-rmarkdown.html#cb808-10" tabindex="-1"></a><span class="co">    theme: cerulian</span></span>
+<span id="cb808-11"><a href="reproducible-reports-with-rmarkdown.html#cb808-11" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb808-12"><a href="reproducible-reports-with-rmarkdown.html#cb808-12" tabindex="-1"></a><span class="an">biblio-style:</span><span class="co"> apalike</span></span>
+<span id="cb808-13"><a href="reproducible-reports-with-rmarkdown.html#cb808-13" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
 <p>This would produce an HTML output with a floating table of contents (<code>toc: true</code>, <code>toc_float: true</code>), numbered sections, and the “cerulian” theme (see e.g. <a href="https://www.datadreaming.org/post/r-markdown-theme-gallery/" class="uri">https://www.datadreaming.org/post/r-markdown-theme-gallery/</a> for some of the available themes). In addition, it tells the R Markdown compiler to look for BibTex references in the <code>references.bib</code> file, and use an APA style for references. There are many things that can be specified in the header file. To make this process easier, you can install the <code>ymlthis</code> package, which also provides an RStudio plugin with a graphical user interface for some common options (see <a href="https://ymlthis.r-lib.org/" class="uri">https://ymlthis.r-lib.org/</a>).</p>
 <p>Note that if you want to create PDF documents you additionally need a <a href="http://de.wikipedia.org/wiki/TeX">TeX</a> distribution. If you have no use for TeX beyond rendering R Markdown documents, I recommend you use <a href="https://yihui.name/tinytex/">TinyTex</a>. TinyTex can be installed from within R as follows.</p>
-<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb808-1"><a href="reproducible-reports-with-rmarkdown.html#cb808-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="st">&quot;tinytex&quot;</span> <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())) <span class="fu">install.packages</span>(<span class="st">&quot;tinytex&quot;</span>)</span>
-<span id="cb808-2"><a href="reproducible-reports-with-rmarkdown.html#cb808-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb809-1"><a href="reproducible-reports-with-rmarkdown.html#cb809-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="st">&quot;tinytex&quot;</span> <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())) <span class="fu">install.packages</span>(<span class="st">&quot;tinytex&quot;</span>)</span>
+<span id="cb809-2"><a href="reproducible-reports-with-rmarkdown.html#cb809-2" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code></pre></div>
 <p>Other, more full-fledged LaTeX <a href="http://miktex.org/">MikTeX</a> for Windows, <a href="https://tug.org/mactex/">MacTeX</a> for Mac, or <a href="http://www.tug.org/texlive/">TeX Live</a> for Linux.</p>
 </div>
 <div id="markdown-syntax" class="section level2 hasAnchor" number="14.2">
@@ -432,35 +439,35 @@ div.csl-indent {
 <p>Inline text will be <em>italic</em> if surrounded by underscores or asterisks, e.g., <code>_text_</code> or <code>*text*</code>. <strong>Bold</strong> text is produced using a pair of double asterisks (<code>**text**</code>). A pair of tildes (<code>~</code>) turn text to a subscript (e.g., <code>H~3~PO~4~</code> renders H<sub>3</sub>PO<sub>4</sub>). A pair of carets (<code>^</code>) produce a superscript (e.g., <code>Cu^2+^</code> renders Cu<sup>2+</sup>).</p>
 <p>To mark text as <code>inline code</code>, use a pair of backticks, e.g., <code>`code`</code>. To include <span class="math inline">\(n\)</span> literal backticks, use at least <span class="math inline">\(n+1\)</span> backticks outside, e.g., you can use four backticks to preserve three backtick inside: <code>```` ```code``` ````</code>, which is rendered as <code>```code```</code>.</p>
 <p>Hyperlinks are created using the syntax <code>[text](link)</code>, e.g., <code>[RStudio](https://www.rstudio.com)</code>. The syntax for images is similar: just add an exclamation mark, e.g., <code>![alt text or image title](path/to/image)</code>. Footnotes are put inside the square brackets after a caret <code>^[]</code>, e.g., <code>^[This is a footnote.]</code>.</p>
-<p>There are multiple ways to insert citations, and we recommend that you use BibTeX databases, because they work better when the output format is LaTeX/PDF. <a href="https://bookdown.org/yihui/bookdown/citations.html">Section 2.8</a> of <span class="citation">Xie (<a href="#ref-xie2016bookdown" role="doc-biblioref">2016</a>)</span> explains the details. The key idea is that when you have a BibTeX database (a plain-text file with the conventional filename extension <code>.bib</code>) that contains entries like:</p>
-<div class="sourceCode" id="cb809"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb809-1"><a href="reproducible-reports-with-rmarkdown.html#cb809-1" aria-hidden="true" tabindex="-1"></a><span class="va">@Manual</span>{<span class="ot">R</span>-<span class="ot">base</span>,</span>
-<span id="cb809-2"><a href="reproducible-reports-with-rmarkdown.html#cb809-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span> = {R: A Language and Environment for Statistical</span>
-<span id="cb809-3"><a href="reproducible-reports-with-rmarkdown.html#cb809-3" aria-hidden="true" tabindex="-1"></a>    Computing},</span>
-<span id="cb809-4"><a href="reproducible-reports-with-rmarkdown.html#cb809-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span> = {{R Core Team}},</span>
-<span id="cb809-5"><a href="reproducible-reports-with-rmarkdown.html#cb809-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">organization</span> = {R Foundation for Statistical Computing},</span>
-<span id="cb809-6"><a href="reproducible-reports-with-rmarkdown.html#cb809-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">address</span> = {Vienna, Austria},</span>
-<span id="cb809-7"><a href="reproducible-reports-with-rmarkdown.html#cb809-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span> = {2017},</span>
-<span id="cb809-8"><a href="reproducible-reports-with-rmarkdown.html#cb809-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span> = {https://www.R-project.org/},</span>
-<span id="cb809-9"><a href="reproducible-reports-with-rmarkdown.html#cb809-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>You may add a field named <code>bibliography</code> to the YAML metadata, and set its value to the path of the BibTeX file. Then in Markdown, you may use <code>@R-base</code> (which generates “<span class="citation">R Core Team (<a href="#ref-R-base" role="doc-biblioref">2022</a>)</span>”) or <code>[@R-base]</code> (which generates “<span class="citation">(<a href="#ref-R-base" role="doc-biblioref">R Core Team 2022</a>)</span>”) to reference the BibTeX entry. Pandoc will automatically generated a list of references in the end of the document.</p>
+<p>There are multiple ways to insert citations, and we recommend that you use BibTeX databases, because they work better when the output format is LaTeX/PDF. <a href="https://bookdown.org/yihui/bookdown/citations.html">Section 2.8</a> of <span class="citation">Xie (<a href="#ref-xie2016bookdown">2016</a>)</span> explains the details. The key idea is that when you have a BibTeX database (a plain-text file with the conventional filename extension <code>.bib</code>) that contains entries like:</p>
+<div class="sourceCode" id="cb810"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb810-1"><a href="reproducible-reports-with-rmarkdown.html#cb810-1" tabindex="-1"></a><span class="va">@Manual</span>{<span class="ot">R</span>-<span class="ot">base</span>,</span>
+<span id="cb810-2"><a href="reproducible-reports-with-rmarkdown.html#cb810-2" tabindex="-1"></a>  <span class="dt">title</span> = {R: A Language and Environment for Statistical</span>
+<span id="cb810-3"><a href="reproducible-reports-with-rmarkdown.html#cb810-3" tabindex="-1"></a>    Computing},</span>
+<span id="cb810-4"><a href="reproducible-reports-with-rmarkdown.html#cb810-4" tabindex="-1"></a>  <span class="dt">author</span> = {{R Core Team}},</span>
+<span id="cb810-5"><a href="reproducible-reports-with-rmarkdown.html#cb810-5" tabindex="-1"></a>  <span class="dt">organization</span> = {R Foundation for Statistical Computing},</span>
+<span id="cb810-6"><a href="reproducible-reports-with-rmarkdown.html#cb810-6" tabindex="-1"></a>  <span class="dt">address</span> = {Vienna, Austria},</span>
+<span id="cb810-7"><a href="reproducible-reports-with-rmarkdown.html#cb810-7" tabindex="-1"></a>  <span class="dt">year</span> = {2017},</span>
+<span id="cb810-8"><a href="reproducible-reports-with-rmarkdown.html#cb810-8" tabindex="-1"></a>  <span class="dt">url</span> = {https://www.R-project.org/},</span>
+<span id="cb810-9"><a href="reproducible-reports-with-rmarkdown.html#cb810-9" tabindex="-1"></a>}</span></code></pre></div>
+<p>You may add a field named <code>bibliography</code> to the YAML metadata, and set its value to the path of the BibTeX file. Then in Markdown, you may use <code>@R-base</code> (which generates “<span class="citation">R Core Team (<a href="#ref-R-base">2023</a>)</span>”) or <code>[@R-base]</code> (which generates “<span class="citation">(<a href="#ref-R-base">R Core Team 2023</a>)</span>”) to reference the BibTeX entry. Pandoc will automatically generated a list of references in the end of the document.</p>
 </div>
 <div id="block-level-elements" class="section level3 hasAnchor" number="14.2.2">
 <h3><span class="header-section-number">14.2.2</span> Block-level elements<a href="reproducible-reports-with-rmarkdown.html#block-level-elements" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Section headers can be written after a number of pound signs, e.g.,</p>
-<div class="sourceCode" id="cb810"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb810-1"><a href="reproducible-reports-with-rmarkdown.html#cb810-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># First-level header</span></span>
-<span id="cb810-2"><a href="reproducible-reports-with-rmarkdown.html#cb810-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb810-3"><a href="reproducible-reports-with-rmarkdown.html#cb810-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Second-level header</span></span>
-<span id="cb810-4"><a href="reproducible-reports-with-rmarkdown.html#cb810-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb810-5"><a href="reproducible-reports-with-rmarkdown.html#cb810-5" aria-hidden="true" tabindex="-1"></a><span class="fu">### Third-level header</span></span></code></pre></div>
+<div class="sourceCode" id="cb811"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb811-1"><a href="reproducible-reports-with-rmarkdown.html#cb811-1" tabindex="-1"></a><span class="fu"># First-level header</span></span>
+<span id="cb811-2"><a href="reproducible-reports-with-rmarkdown.html#cb811-2" tabindex="-1"></a></span>
+<span id="cb811-3"><a href="reproducible-reports-with-rmarkdown.html#cb811-3" tabindex="-1"></a><span class="fu">## Second-level header</span></span>
+<span id="cb811-4"><a href="reproducible-reports-with-rmarkdown.html#cb811-4" tabindex="-1"></a></span>
+<span id="cb811-5"><a href="reproducible-reports-with-rmarkdown.html#cb811-5" tabindex="-1"></a><span class="fu">### Third-level header</span></span></code></pre></div>
 <p>If you do not want a certain heading to be numbered, you can add <code>{-}</code> or <code>{.unnumbered}</code> after the heading, e.g.,</p>
-<div class="sourceCode" id="cb811"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb811-1"><a href="reproducible-reports-with-rmarkdown.html#cb811-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Preface {-}</span></span></code></pre></div>
+<div class="sourceCode" id="cb812"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb812-1"><a href="reproducible-reports-with-rmarkdown.html#cb812-1" tabindex="-1"></a><span class="fu"># Preface {-}</span></span></code></pre></div>
 <p>Unordered list items start with <code>*</code>, <code>-</code>, or <code>+</code>, and you can nest one list within another list by indenting the sub-list, e.g.,</p>
-<div class="sourceCode" id="cb812"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb812-1"><a href="reproducible-reports-with-rmarkdown.html#cb812-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>one item</span>
-<span id="cb812-2"><a href="reproducible-reports-with-rmarkdown.html#cb812-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>one item</span>
-<span id="cb812-3"><a href="reproducible-reports-with-rmarkdown.html#cb812-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>one item</span>
-<span id="cb812-4"><a href="reproducible-reports-with-rmarkdown.html#cb812-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>one more item</span>
-<span id="cb812-5"><a href="reproducible-reports-with-rmarkdown.html#cb812-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>one more item</span>
-<span id="cb812-6"><a href="reproducible-reports-with-rmarkdown.html#cb812-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>one more item</span></code></pre></div>
+<div class="sourceCode" id="cb813"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb813-1"><a href="reproducible-reports-with-rmarkdown.html#cb813-1" tabindex="-1"></a><span class="ss">- </span>one item</span>
+<span id="cb813-2"><a href="reproducible-reports-with-rmarkdown.html#cb813-2" tabindex="-1"></a><span class="ss">- </span>one item</span>
+<span id="cb813-3"><a href="reproducible-reports-with-rmarkdown.html#cb813-3" tabindex="-1"></a><span class="ss">- </span>one item</span>
+<span id="cb813-4"><a href="reproducible-reports-with-rmarkdown.html#cb813-4" tabindex="-1"></a><span class="ss">    - </span>one more item</span>
+<span id="cb813-5"><a href="reproducible-reports-with-rmarkdown.html#cb813-5" tabindex="-1"></a><span class="ss">    - </span>one more item</span>
+<span id="cb813-6"><a href="reproducible-reports-with-rmarkdown.html#cb813-6" tabindex="-1"></a><span class="ss">    - </span>one more item</span></code></pre></div>
 <p>The output is:</p>
 <ul>
 <li>one item</li>
@@ -473,11 +480,11 @@ div.csl-indent {
 </ul></li>
 </ul>
 <p>Ordered list items start with numbers (you can also nest lists within lists), e.g.,</p>
-<div class="sourceCode" id="cb813"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb813-1"><a href="reproducible-reports-with-rmarkdown.html#cb813-1" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>the first item</span>
-<span id="cb813-2"><a href="reproducible-reports-with-rmarkdown.html#cb813-2" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>the second item</span>
-<span id="cb813-3"><a href="reproducible-reports-with-rmarkdown.html#cb813-3" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>the third item</span>
-<span id="cb813-4"><a href="reproducible-reports-with-rmarkdown.html#cb813-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>one unordered item</span>
-<span id="cb813-5"><a href="reproducible-reports-with-rmarkdown.html#cb813-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>one unordered item</span></code></pre></div>
+<div class="sourceCode" id="cb814"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb814-1"><a href="reproducible-reports-with-rmarkdown.html#cb814-1" tabindex="-1"></a><span class="ss">1. </span>the first item</span>
+<span id="cb814-2"><a href="reproducible-reports-with-rmarkdown.html#cb814-2" tabindex="-1"></a><span class="ss">2. </span>the second item</span>
+<span id="cb814-3"><a href="reproducible-reports-with-rmarkdown.html#cb814-3" tabindex="-1"></a><span class="ss">3. </span>the third item</span>
+<span id="cb814-4"><a href="reproducible-reports-with-rmarkdown.html#cb814-4" tabindex="-1"></a><span class="ss">    - </span>one unordered item</span>
+<span id="cb814-5"><a href="reproducible-reports-with-rmarkdown.html#cb814-5" tabindex="-1"></a><span class="ss">    - </span>one unordered item</span></code></pre></div>
 <p>The output does not look too much different with the Markdown source:</p>
 <ol style="list-style-type: decimal">
 <li>the first item</li>
@@ -489,11 +496,11 @@ div.csl-indent {
 </ul></li>
 </ol>
 <p>Blockquotes are written after <code>&gt;</code>, e.g.,</p>
-<div class="sourceCode" id="cb814"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb814-1"><a href="reproducible-reports-with-rmarkdown.html#cb814-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; &quot;I thoroughly disapprove of duels. If a man should challenge me,</span></span>
-<span id="cb814-2"><a href="reproducible-reports-with-rmarkdown.html#cb814-2" aria-hidden="true" tabindex="-1"></a><span class="at">  I would take him kindly and forgivingly by the hand and lead him</span></span>
-<span id="cb814-3"><a href="reproducible-reports-with-rmarkdown.html#cb814-3" aria-hidden="true" tabindex="-1"></a><span class="at">  to a quiet place and kill him.&quot;</span></span>
-<span id="cb814-4"><a href="reproducible-reports-with-rmarkdown.html#cb814-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
-<span id="cb814-5"><a href="reproducible-reports-with-rmarkdown.html#cb814-5" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; --- Mark Twain</span></span></code></pre></div>
+<div class="sourceCode" id="cb815"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb815-1"><a href="reproducible-reports-with-rmarkdown.html#cb815-1" tabindex="-1"></a><span class="at">&gt; &quot;I thoroughly disapprove of duels. If a man should challenge me,</span></span>
+<span id="cb815-2"><a href="reproducible-reports-with-rmarkdown.html#cb815-2" tabindex="-1"></a><span class="at">  I would take him kindly and forgivingly by the hand and lead him</span></span>
+<span id="cb815-3"><a href="reproducible-reports-with-rmarkdown.html#cb815-3" tabindex="-1"></a><span class="at">  to a quiet place and kill him.&quot;</span></span>
+<span id="cb815-4"><a href="reproducible-reports-with-rmarkdown.html#cb815-4" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb815-5"><a href="reproducible-reports-with-rmarkdown.html#cb815-5" tabindex="-1"></a><span class="at">&gt; --- Mark Twain</span></span></code></pre></div>
 <p>The actual output (we customized the style for blockquotes in this book):</p>
 <blockquote>
 <p>“I thoroughly disapprove of duels. If a man should challenge me,
@@ -502,17 +509,17 @@ to a quiet place and kill him.”</p>
 <p>— Mark Twain</p>
 </blockquote>
 <p>Plain code blocks can be written after three or more backticks, and you can also indent the blocks by four spaces, e.g.,</p>
-<div class="sourceCode" id="cb815"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb815-1"><a href="reproducible-reports-with-rmarkdown.html#cb815-1" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb815-2"><a href="reproducible-reports-with-rmarkdown.html#cb815-2" aria-hidden="true" tabindex="-1"></a><span class="in">This text is displayed verbatim / preformatted</span></span>
-<span id="cb815-3"><a href="reproducible-reports-with-rmarkdown.html#cb815-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb815-4"><a href="reproducible-reports-with-rmarkdown.html#cb815-4" aria-hidden="true" tabindex="-1"></a>Or indent by four spaces:</span>
-<span id="cb815-5"><a href="reproducible-reports-with-rmarkdown.html#cb815-5" aria-hidden="true" tabindex="-1"></a>    This text is displayed verbatim / preformatted</span></code></pre></div>
+<div class="sourceCode" id="cb816"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb816-1"><a href="reproducible-reports-with-rmarkdown.html#cb816-1" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb816-2"><a href="reproducible-reports-with-rmarkdown.html#cb816-2" tabindex="-1"></a><span class="in">This text is displayed verbatim / preformatted</span></span>
+<span id="cb816-3"><a href="reproducible-reports-with-rmarkdown.html#cb816-3" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb816-4"><a href="reproducible-reports-with-rmarkdown.html#cb816-4" tabindex="-1"></a>Or indent by four spaces:</span>
+<span id="cb816-5"><a href="reproducible-reports-with-rmarkdown.html#cb816-5" tabindex="-1"></a>    This text is displayed verbatim / preformatted</span></code></pre></div>
 <p>In general, you’d better leave at least one empty line between adjacent but different elements, e.g., a header and a paragraph. This is to avoid ambiguity to the Markdown renderer. For example, does “<code>#</code>” indicate a header below?</p>
-<div class="sourceCode" id="cb816"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb816-1"><a href="reproducible-reports-with-rmarkdown.html#cb816-1" aria-hidden="true" tabindex="-1"></a>In R, the character</span>
-<span id="cb816-2"><a href="reproducible-reports-with-rmarkdown.html#cb816-2" aria-hidden="true" tabindex="-1"></a><span class="fu"># indicates a comment.</span></span></code></pre></div>
+<div class="sourceCode" id="cb817"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb817-1"><a href="reproducible-reports-with-rmarkdown.html#cb817-1" tabindex="-1"></a>In R, the character</span>
+<span id="cb817-2"><a href="reproducible-reports-with-rmarkdown.html#cb817-2" tabindex="-1"></a><span class="fu"># indicates a comment.</span></span></code></pre></div>
 <p>And does “<code>-</code>” mean a bullet point below?</p>
-<div class="sourceCode" id="cb817"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb817-1"><a href="reproducible-reports-with-rmarkdown.html#cb817-1" aria-hidden="true" tabindex="-1"></a>The result of 5</span>
-<span id="cb817-2"><a href="reproducible-reports-with-rmarkdown.html#cb817-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3 is 2.</span></code></pre></div>
+<div class="sourceCode" id="cb818"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb818-1"><a href="reproducible-reports-with-rmarkdown.html#cb818-1" tabindex="-1"></a>The result of 5</span>
+<span id="cb818-2"><a href="reproducible-reports-with-rmarkdown.html#cb818-2" tabindex="-1"></a><span class="ss">- </span>3 is 2.</span></code></pre></div>
 <p>Different flavours of Markdown may produce different results if there are no blank lines.</p>
 </div>
 <div id="math-expressions" class="section level3 hasAnchor" number="14.2.3">
@@ -521,31 +528,31 @@ to a quiet place and kill him.”</p>
 <p>Inline LaTeX equations can be written in a pair of dollar signs using the LaTeX syntax, e.g., <code>$f(k) = {n \choose k} p^{k} (1-p)^{n-k}$</code> (actual output: <span class="math inline">\(f(k)={n \choose k}p^{k}(1-p)^{n-k}\)</span>); math expressions of the display style can be written in a pair of double dollar signs, e.g., <code>$$f(k) = {n \choose k} p^{k} (1-p)^{n-k}$$</code>, and the output looks like this:</p>
 <p><span class="math display">\[f\left(k\right)=\binom{n}{k}p^k\left(1-p\right)^{n-k}\]</span></p>
 <p>You can also use math environments inside <code>$ $</code> or <code>$$ $$</code>, e.g.,</p>
-<div class="sourceCode" id="cb818"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb818-1"><a href="reproducible-reports-with-rmarkdown.html#cb818-1" aria-hidden="true" tabindex="-1"></a><span class="ss">$$</span><span class="kw">\begin</span>{<span class="ex">array</span>}<span class="ss">{ccc}</span></span>
-<span id="cb818-2"><a href="reproducible-reports-with-rmarkdown.html#cb818-2" aria-hidden="true" tabindex="-1"></a><span class="ss">x_{11} &amp; x_{12} &amp; x_{13}</span><span class="sc">\\</span></span>
-<span id="cb818-3"><a href="reproducible-reports-with-rmarkdown.html#cb818-3" aria-hidden="true" tabindex="-1"></a><span class="ss">x_{21} &amp; x_{22} &amp; x_{23}</span></span>
-<span id="cb818-4"><a href="reproducible-reports-with-rmarkdown.html#cb818-4" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">array</span>}<span class="ss">$$</span></span></code></pre></div>
+<div class="sourceCode" id="cb819"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb819-1"><a href="reproducible-reports-with-rmarkdown.html#cb819-1" tabindex="-1"></a><span class="ss">$$</span><span class="kw">\begin</span>{<span class="ex">array</span>}<span class="ss">{ccc}</span></span>
+<span id="cb819-2"><a href="reproducible-reports-with-rmarkdown.html#cb819-2" tabindex="-1"></a><span class="ss">x_{11} &amp; x_{12} &amp; x_{13}</span><span class="sc">\\</span></span>
+<span id="cb819-3"><a href="reproducible-reports-with-rmarkdown.html#cb819-3" tabindex="-1"></a><span class="ss">x_{21} &amp; x_{22} &amp; x_{23}</span></span>
+<span id="cb819-4"><a href="reproducible-reports-with-rmarkdown.html#cb819-4" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">array</span>}<span class="ss">$$</span></span></code></pre></div>
 <p><span class="math display">\[\begin{array}{ccc}
 x_{11} &amp; x_{12} &amp; x_{13}\\
 x_{21} &amp; x_{22} &amp; x_{23}
 \end{array}\]</span></p>
-<div class="sourceCode" id="cb819"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb819-1"><a href="reproducible-reports-with-rmarkdown.html#cb819-1" aria-hidden="true" tabindex="-1"></a><span class="ss">$$X = </span><span class="kw">\begin</span>{<span class="ex">bmatrix</span>}<span class="ss">1 &amp; x_{1}</span><span class="sc">\\</span></span>
-<span id="cb819-2"><a href="reproducible-reports-with-rmarkdown.html#cb819-2" aria-hidden="true" tabindex="-1"></a><span class="ss">1 &amp; x_{2}</span><span class="sc">\\</span></span>
-<span id="cb819-3"><a href="reproducible-reports-with-rmarkdown.html#cb819-3" aria-hidden="true" tabindex="-1"></a><span class="ss">1 &amp; x_{3}</span></span>
-<span id="cb819-4"><a href="reproducible-reports-with-rmarkdown.html#cb819-4" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">bmatrix</span>}<span class="ss">$$</span></span></code></pre></div>
+<div class="sourceCode" id="cb820"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb820-1"><a href="reproducible-reports-with-rmarkdown.html#cb820-1" tabindex="-1"></a><span class="ss">$$X = </span><span class="kw">\begin</span>{<span class="ex">bmatrix</span>}<span class="ss">1 &amp; x_{1}</span><span class="sc">\\</span></span>
+<span id="cb820-2"><a href="reproducible-reports-with-rmarkdown.html#cb820-2" tabindex="-1"></a><span class="ss">1 &amp; x_{2}</span><span class="sc">\\</span></span>
+<span id="cb820-3"><a href="reproducible-reports-with-rmarkdown.html#cb820-3" tabindex="-1"></a><span class="ss">1 &amp; x_{3}</span></span>
+<span id="cb820-4"><a href="reproducible-reports-with-rmarkdown.html#cb820-4" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">bmatrix</span>}<span class="ss">$$</span></span></code></pre></div>
 <p><span class="math display">\[X = \begin{bmatrix}1 &amp; x_{1}\\
 1 &amp; x_{2}\\
 1 &amp; x_{3}
 \end{bmatrix}\]</span></p>
-<div class="sourceCode" id="cb820"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb820-1"><a href="reproducible-reports-with-rmarkdown.html#cb820-1" aria-hidden="true" tabindex="-1"></a><span class="ss">$$</span><span class="sc">\Theta</span><span class="ss"> = </span><span class="kw">\begin</span>{<span class="ex">pmatrix</span>}<span class="sc">\alpha</span><span class="ss"> &amp; </span><span class="sc">\beta\\</span></span>
-<span id="cb820-2"><a href="reproducible-reports-with-rmarkdown.html#cb820-2" aria-hidden="true" tabindex="-1"></a><span class="sc">\gamma</span><span class="ss"> &amp; </span><span class="sc">\delta</span></span>
-<span id="cb820-3"><a href="reproducible-reports-with-rmarkdown.html#cb820-3" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">pmatrix</span>}<span class="ss">$$</span></span></code></pre></div>
+<div class="sourceCode" id="cb821"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb821-1"><a href="reproducible-reports-with-rmarkdown.html#cb821-1" tabindex="-1"></a><span class="ss">$$</span><span class="sc">\Theta</span><span class="ss"> = </span><span class="kw">\begin</span>{<span class="ex">pmatrix</span>}<span class="sc">\alpha</span><span class="ss"> &amp; </span><span class="sc">\beta\\</span></span>
+<span id="cb821-2"><a href="reproducible-reports-with-rmarkdown.html#cb821-2" tabindex="-1"></a><span class="sc">\gamma</span><span class="ss"> &amp; </span><span class="sc">\delta</span></span>
+<span id="cb821-3"><a href="reproducible-reports-with-rmarkdown.html#cb821-3" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">pmatrix</span>}<span class="ss">$$</span></span></code></pre></div>
 <p><span class="math display">\[\Theta = \begin{pmatrix}\alpha &amp; \beta\\
 \gamma &amp; \delta
 \end{pmatrix}\]</span></p>
-<div class="sourceCode" id="cb821"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb821-1"><a href="reproducible-reports-with-rmarkdown.html#cb821-1" aria-hidden="true" tabindex="-1"></a><span class="ss">$$</span><span class="kw">\begin</span>{<span class="ex">vmatrix</span>}<span class="ss">a &amp; b</span><span class="sc">\\</span></span>
-<span id="cb821-2"><a href="reproducible-reports-with-rmarkdown.html#cb821-2" aria-hidden="true" tabindex="-1"></a><span class="ss">c &amp; d</span></span>
-<span id="cb821-3"><a href="reproducible-reports-with-rmarkdown.html#cb821-3" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">vmatrix</span>}<span class="ss">=ad-bc$$</span></span></code></pre></div>
+<div class="sourceCode" id="cb822"><pre class="sourceCode latex"><code class="sourceCode latex"><span id="cb822-1"><a href="reproducible-reports-with-rmarkdown.html#cb822-1" tabindex="-1"></a><span class="ss">$$</span><span class="kw">\begin</span>{<span class="ex">vmatrix</span>}<span class="ss">a &amp; b</span><span class="sc">\\</span></span>
+<span id="cb822-2"><a href="reproducible-reports-with-rmarkdown.html#cb822-2" tabindex="-1"></a><span class="ss">c &amp; d</span></span>
+<span id="cb822-3"><a href="reproducible-reports-with-rmarkdown.html#cb822-3" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">vmatrix</span>}<span class="ss">=ad-bc$$</span></span></code></pre></div>
 <p><span class="math display">\[\begin{vmatrix}a &amp; b\\
 c &amp; d
 \end{vmatrix}=ad-bc\]</span></p>
@@ -555,16 +562,16 @@ c &amp; d
 <h2><span class="header-section-number">14.3</span> R code chunks and inline R code<a href="reproducible-reports-with-rmarkdown.html#r-code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In R Studio, you can insert an R code chunk either using the RStudio toolbar (the <code>Insert</code> button) or the keyboard shortcut <code>Ctrl + Alt + I</code> (<code>Cmd + Option + I</code> on macOS).</p>
 <p>There are a lot of things you can do in a code chunk: you can produce text output, tables, or graphics. You have fine control over all these output via <strong>chunk options</strong>, which can be provided inside the curly braces (between <code>```{r</code> and <code>}</code>). For example, you can choose hide text output via the chunk option <code>results = 'hide'</code>, or set the figure height to 4 inches via <code>fig.height = 4</code>. Chunk options are separated by commas, e.g.,</p>
-<div class="sourceCode" id="cb822"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb822-1"><a href="reproducible-reports-with-rmarkdown.html#cb822-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, chunk-label, results=&#39;hide&#39;, fig.height=4}</span></span></code></pre></div>
+<div class="sourceCode" id="cb823"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb823-1"><a href="reproducible-reports-with-rmarkdown.html#cb823-1" tabindex="-1"></a><span class="in">```{r, chunk-label, results=&#39;hide&#39;, fig.height=4}</span></span></code></pre></div>
 <p>The value of a chunk option can be an arbitrary R expression, which makes chunk options extremely flexible. For example, the chunk option <code>eval</code> controls whether to evaluate (execute) a code chunk, and you may conditionally evaluate a chunk via a variable defined previously, e.g.,</p>
-<div class="sourceCode" id="cb823"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb823-1"><a href="reproducible-reports-with-rmarkdown.html#cb823-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb823-2"><a href="reproducible-reports-with-rmarkdown.html#cb823-2" aria-hidden="true" tabindex="-1"></a><span class="in"># execute code if the date is later than a specified day</span></span>
-<span id="cb823-3"><a href="reproducible-reports-with-rmarkdown.html#cb823-3" aria-hidden="true" tabindex="-1"></a><span class="in">do_it = Sys.Date() &gt; &#39;2018-02-14&#39;</span></span>
-<span id="cb823-4"><a href="reproducible-reports-with-rmarkdown.html#cb823-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb823-5"><a href="reproducible-reports-with-rmarkdown.html#cb823-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb823-6"><a href="reproducible-reports-with-rmarkdown.html#cb823-6" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=do_it}</span></span>
-<span id="cb823-7"><a href="reproducible-reports-with-rmarkdown.html#cb823-7" aria-hidden="true" tabindex="-1"></a><span class="in">x = rnorm(100)</span></span>
-<span id="cb823-8"><a href="reproducible-reports-with-rmarkdown.html#cb823-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb824"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb824-1"><a href="reproducible-reports-with-rmarkdown.html#cb824-1" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb824-2"><a href="reproducible-reports-with-rmarkdown.html#cb824-2" tabindex="-1"></a><span class="in"># execute code if the date is later than a specified day</span></span>
+<span id="cb824-3"><a href="reproducible-reports-with-rmarkdown.html#cb824-3" tabindex="-1"></a><span class="in">do_it = Sys.Date() &gt; &#39;2018-02-14&#39;</span></span>
+<span id="cb824-4"><a href="reproducible-reports-with-rmarkdown.html#cb824-4" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb824-5"><a href="reproducible-reports-with-rmarkdown.html#cb824-5" tabindex="-1"></a></span>
+<span id="cb824-6"><a href="reproducible-reports-with-rmarkdown.html#cb824-6" tabindex="-1"></a><span class="in">```{r, eval=do_it}</span></span>
+<span id="cb824-7"><a href="reproducible-reports-with-rmarkdown.html#cb824-7" tabindex="-1"></a><span class="in">x = rnorm(100)</span></span>
+<span id="cb824-8"><a href="reproducible-reports-with-rmarkdown.html#cb824-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>There are a large number of chunk options in <strong>knitr</strong> documented at <a href="https://yihui.name/knitr/options" class="uri">https://yihui.name/knitr/options</a>. We list a subset of them below:</p>
 <ul>
 <li><p><code>eval</code>: Whether to evaluate a code chunk.</p></li>
@@ -581,31 +588,31 @@ c &amp; d
 <li><p><code>fig.cap</code>: The figure caption.</p></li>
 <li><p><code>child</code>: You can include a child document in the main document. This option takes a path to an external file.</p></li>
 </ul>
-<p>Chunk options in <strong>knitr</strong> can be surprisingly powerful. You are encouraged to read the <code>knitr</code> documentation to discover the possibilities. You may also read <span class="citation">Xie, Allaire, and Grolemund (<a href="#ref-xie2018r" role="doc-biblioref">2018</a>)</span>, which is freely available online at <a href="https://bookdown.org/yihui/rmarkdown/" class="uri">https://bookdown.org/yihui/rmarkdown/</a>.</p>
+<p>Chunk options in <strong>knitr</strong> can be surprisingly powerful. You are encouraged to read the <code>knitr</code> documentation to discover the possibilities. You may also read <span class="citation">Xie, Allaire, and Grolemund (<a href="#ref-xie2018r">2018</a>)</span>, which is freely available online at <a href="https://bookdown.org/yihui/rmarkdown/" class="uri">https://bookdown.org/yihui/rmarkdown/</a>.</p>
 <p>There is an optional chunk option that does not take any value, which is the chunk label. It should be the first option in the chunk header. Chunk labels are mainly used in filenames of plots and cache. If the label of a chunk is missing, a default one of the form <code>unnamed-chunk-i</code> will be generated, where <code>i</code> is incremental. I strongly recommend that you only use alphanumeric characters (<code>a-z</code>, <code>A-Z</code> and <code>0-9</code>) and dashes (<code>-</code>) in labels, because they are not special characters and will surely work for all output formats. Other characters, spaces and underscores in particular, may cause trouble in certain packages, such as <strong>bookdown</strong>.</p>
 <p>If a certain option needs to be frequently set to a value in multiple code chunks, you can consider setting it globally in the first code chunk of your document, e.g.,</p>
-<div class="sourceCode" id="cb824"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb824-1"><a href="reproducible-reports-with-rmarkdown.html#cb824-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, setup, include=FALSE}</span></span>
-<span id="cb824-2"><a href="reproducible-reports-with-rmarkdown.html#cb824-2" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(fig.width = 8, collapse = TRUE)</span></span>
-<span id="cb824-3"><a href="reproducible-reports-with-rmarkdown.html#cb824-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb825"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb825-1"><a href="reproducible-reports-with-rmarkdown.html#cb825-1" tabindex="-1"></a><span class="in">```{r, setup, include=FALSE}</span></span>
+<span id="cb825-2"><a href="reproducible-reports-with-rmarkdown.html#cb825-2" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(fig.width = 8, collapse = TRUE)</span></span>
+<span id="cb825-3"><a href="reproducible-reports-with-rmarkdown.html#cb825-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>Besides code chunks, you can also insert values of R objects inline in text. For example:</p>
-<div class="sourceCode" id="cb825"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb825-1"><a href="reproducible-reports-with-rmarkdown.html#cb825-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb825-2"><a href="reproducible-reports-with-rmarkdown.html#cb825-2" aria-hidden="true" tabindex="-1"></a><span class="in">x = 5  # radius of a circle</span></span>
-<span id="cb825-3"><a href="reproducible-reports-with-rmarkdown.html#cb825-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb825-4"><a href="reproducible-reports-with-rmarkdown.html#cb825-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb825-5"><a href="reproducible-reports-with-rmarkdown.html#cb825-5" aria-hidden="true" tabindex="-1"></a>For a circle with the radius <span class="in">`r x`</span>,</span>
-<span id="cb825-6"><a href="reproducible-reports-with-rmarkdown.html#cb825-6" aria-hidden="true" tabindex="-1"></a>its area is <span class="in">`r pi * x^2`</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb826"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb826-1"><a href="reproducible-reports-with-rmarkdown.html#cb826-1" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb826-2"><a href="reproducible-reports-with-rmarkdown.html#cb826-2" tabindex="-1"></a><span class="in">x = 5  # radius of a circle</span></span>
+<span id="cb826-3"><a href="reproducible-reports-with-rmarkdown.html#cb826-3" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb826-4"><a href="reproducible-reports-with-rmarkdown.html#cb826-4" tabindex="-1"></a></span>
+<span id="cb826-5"><a href="reproducible-reports-with-rmarkdown.html#cb826-5" tabindex="-1"></a>For a circle with the radius <span class="in">`r x`</span>,</span>
+<span id="cb826-6"><a href="reproducible-reports-with-rmarkdown.html#cb826-6" tabindex="-1"></a>its area is <span class="in">`r pi * x^2`</span>.</span></code></pre></div>
 <div id="figures" class="section level3 hasAnchor" number="14.3.1">
 <h3><span class="header-section-number">14.3.1</span> Figures<a href="reproducible-reports-with-rmarkdown.html#figures" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>By default, figures produced by R code will be placed immediately after the code chunk they were generated from. For example:</p>
-<div class="sourceCode" id="cb826"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb826-1"><a href="reproducible-reports-with-rmarkdown.html#cb826-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb826-2"><a href="reproducible-reports-with-rmarkdown.html#cb826-2" aria-hidden="true" tabindex="-1"></a><span class="in">plot(cars, pch = 18)</span></span>
-<span id="cb826-3"><a href="reproducible-reports-with-rmarkdown.html#cb826-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb827"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb827-1"><a href="reproducible-reports-with-rmarkdown.html#cb827-1" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb827-2"><a href="reproducible-reports-with-rmarkdown.html#cb827-2" tabindex="-1"></a><span class="in">plot(cars, pch = 18)</span></span>
+<span id="cb827-3"><a href="reproducible-reports-with-rmarkdown.html#cb827-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>You can provide a figure caption using <code>fig.cap</code> in the chunk options. If the document output format supports the option <code>fig_caption: true</code> (e.g., the output format <code>rmarkdown::html_document</code>), the R plots will be placed into figure environments. In the case of PDF output, such figures will be automatically numbered. If you also want to number figures in other formats (such as HTML), please see the <strong>bookdown</strong> package in <a href="https://bookdown.org/yihui/rmarkdown/books.html" class="uri">https://bookdown.org/yihui/rmarkdown/books.html</a>.</p>
 <p>PDF documents are generated through the LaTeX files generated from R Markdown. A highly surprising fact to LaTeX beginners is that figures float by default: even if you generate a plot in a code chunk on the first page, the whole figure environment may float to the next page. This is just how LaTeX works by default. It has a tendency to float figures to the top or bottom of pages. Although it can be annoying and distracting, we recommend that you refrain from playing the “Whac-A-Mole” game in the beginning of your writing, i.e., desparately trying to position figures “correctly” while they seem to be always dodging you. You may wish to fine-tune the positions once the content is complete using the <code>fig.pos</code> chunk option (e.g., <code>fig.pos = 'h')</code>. See <a href="https://www.overleaf.com/learn/latex/Positioning_images_and_tables" class="uri">https://www.overleaf.com/learn/latex/Positioning_images_and_tables</a> for possible values of <code>fig.pos</code> and more general tips about this behavior in LaTeX. In short, this can be a difficult problem for PDF output.</p>
 <p>To place multiple figures side-by-side from the same code chunk, you can use the <code>fig.show='hold'</code> option along with the <code>out.width</code> option. Figure <a href="reproducible-reports-with-rmarkdown.html#fig:hold-position">14.1</a> shows an example with two plots, each with a width of <code>50%</code>.</p>
-<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb827-1"><a href="reproducible-reports-with-rmarkdown.html#cb827-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, .<span class="dv">2</span>, .<span class="dv">1</span>))</span>
-<span id="cb827-2"><a href="reproducible-reports-with-rmarkdown.html#cb827-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb827-3"><a href="reproducible-reports-with-rmarkdown.html#cb827-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pressure, <span class="at">pch =</span> <span class="dv">17</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb828-1"><a href="reproducible-reports-with-rmarkdown.html#cb828-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, .<span class="dv">2</span>, .<span class="dv">1</span>))</span>
+<span id="cb828-2"><a href="reproducible-reports-with-rmarkdown.html#cb828-2" tabindex="-1"></a><span class="fu">plot</span>(cars, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb828-3"><a href="reproducible-reports-with-rmarkdown.html#cb828-3" tabindex="-1"></a><span class="fu">plot</span>(pressure, <span class="at">pch =</span> <span class="dv">17</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:hold-position"></span>
 <img src="14-reproducible_files/figure-html/hold-position-1.png" alt="Two plots side-by-side." width="50%" /><img src="14-reproducible_files/figure-html/hold-position-2.png" alt="Two plots side-by-side." width="50%" />
 <p class="caption">
@@ -613,16 +620,16 @@ Figure 14.1: Two plots side-by-side.
 </p>
 </div>
 <p>If you want to include a graphic that is not generated from R code, you may use the <code>knitr::include_graphics()</code> function, which gives you more control over the attributes of the image than the Markdown syntax of <code>![alt text or image title](path/to/image)</code> (e.g., you can specify the image width via <code>out.width</code>).</p>
-<div class="sourceCode" id="cb828"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb828-1"><a href="reproducible-reports-with-rmarkdown.html#cb828-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, out.width=&#39;25%&#39;, fig.align=&#39;center&#39;, fig.cap=&#39;...&#39;}</span></span>
-<span id="cb828-2"><a href="reproducible-reports-with-rmarkdown.html#cb828-2" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics(&#39;images/cute-cat-picture.png&#39;)</span></span>
-<span id="cb828-3"><a href="reproducible-reports-with-rmarkdown.html#cb828-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb829"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb829-1"><a href="reproducible-reports-with-rmarkdown.html#cb829-1" tabindex="-1"></a><span class="in">```{r, out.width=&#39;25%&#39;, fig.align=&#39;center&#39;, fig.cap=&#39;...&#39;}</span></span>
+<span id="cb829-2"><a href="reproducible-reports-with-rmarkdown.html#cb829-2" tabindex="-1"></a><span class="in">knitr::include_graphics(&#39;images/cute-cat-picture.png&#39;)</span></span>
+<span id="cb829-3"><a href="reproducible-reports-with-rmarkdown.html#cb829-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div id="tables" class="section level3 hasAnchor" number="14.3.2">
 <h3><span class="header-section-number">14.3.2</span> Tables<a href="reproducible-reports-with-rmarkdown.html#tables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The easiest way to include tables is by using <code>knitr::kable()</code>, which can create tables for HTML, PDF and Word outputs.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> Table captions can be included by passing <code>caption</code> to the function, e.g.,</p>
-<div class="sourceCode" id="cb829"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb829-1"><a href="reproducible-reports-with-rmarkdown.html#cb829-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tables-mtcars}</span></span>
-<span id="cb829-2"><a href="reproducible-reports-with-rmarkdown.html#cb829-2" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::kable(iris[1:5, ], caption = &#39;A caption&#39;)</span></span>
-<span id="cb829-3"><a href="reproducible-reports-with-rmarkdown.html#cb829-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb830"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb830-1"><a href="reproducible-reports-with-rmarkdown.html#cb830-1" tabindex="-1"></a><span class="in">```{r tables-mtcars}</span></span>
+<span id="cb830-2"><a href="reproducible-reports-with-rmarkdown.html#cb830-2" tabindex="-1"></a><span class="in">knitr::kable(iris[1:5, ], caption = &#39;A caption&#39;)</span></span>
+<span id="cb830-3"><a href="reproducible-reports-with-rmarkdown.html#cb830-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>Tables in non-LaTeX output formats will always be placed after the code block. For LaTeX/PDF output formats, tables have the same issue as figures: they may float. If you want to avoid this behavior, you will need to use the LaTeX package <a href="https://www.ctan.org/pkg/longtable">longtable</a>, which can break tables across multiple pages. This can be achieved by adding <code>\usepackage{longtable}</code> to your LaTeX preamble, and passing <code>longtable = TRUE</code> to <code>kable()</code>.</p>
 <p>If you are looking for more advanced control of the styling of tables, you are recommended to use the <a href="https://cran.r-project.org/package=kableExtra"><strong>kableExtra</strong></a> package, which provides functions to customize the appearance of PDF and HTML tables. Formatting tables can be a very complicated task, especially when certain cells span more than one column or row. It is even more complicated when you have to consider different output formats. For example, it is difficult to make a complex table work for both PDF and HTML output. We know it is disappointing, but sometimes you may have to consider alternative ways of presenting data, such as using graphics.</p>
 </div>
@@ -634,19 +641,19 @@ Figure 14.1: Two plots side-by-side.
 <h3><span class="header-section-number">14.4.1</span> Installation<a href="reproducible-reports-with-rmarkdown.html#installation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To use <code>papaja</code> you need either an up-to-date version of <a href="http://www.rstudio.com/">RStudio</a> or <a href="http://johnmacfarlane.net/pandoc/">pandoc</a>.</p>
 <p><code>papaja</code> is not yet available on CRAN but you can install it from this repository:</p>
-<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb830-1"><a href="reproducible-reports-with-rmarkdown.html#cb830-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install devtools package if necessary</span></span>
-<span id="cb830-2"><a href="reproducible-reports-with-rmarkdown.html#cb830-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="st">&quot;devtools&quot;</span> <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())) <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
-<span id="cb830-3"><a href="reproducible-reports-with-rmarkdown.html#cb830-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the stable development verions from GitHub</span></span>
-<span id="cb830-4"><a href="reproducible-reports-with-rmarkdown.html#cb830-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;crsh/papaja&quot;</span>)</span>
-<span id="cb830-5"><a href="reproducible-reports-with-rmarkdown.html#cb830-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the latest development snapshot from GitHub</span></span>
-<span id="cb830-6"><a href="reproducible-reports-with-rmarkdown.html#cb830-6" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;crsh/papaja@devel&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb831-1"><a href="reproducible-reports-with-rmarkdown.html#cb831-1" tabindex="-1"></a><span class="co"># Install devtools package if necessary</span></span>
+<span id="cb831-2"><a href="reproducible-reports-with-rmarkdown.html#cb831-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="st">&quot;devtools&quot;</span> <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())) <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb831-3"><a href="reproducible-reports-with-rmarkdown.html#cb831-3" tabindex="-1"></a><span class="co"># Install the stable development verions from GitHub</span></span>
+<span id="cb831-4"><a href="reproducible-reports-with-rmarkdown.html#cb831-4" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;crsh/papaja&quot;</span>)</span>
+<span id="cb831-5"><a href="reproducible-reports-with-rmarkdown.html#cb831-5" tabindex="-1"></a><span class="co"># Install the latest development snapshot from GitHub</span></span>
+<span id="cb831-6"><a href="reproducible-reports-with-rmarkdown.html#cb831-6" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;crsh/papaja@devel&quot;</span>)</span></code></pre></div>
 </div>
 <div id="how-to-use-papaja" class="section level3 hasAnchor" number="14.4.2">
 <h3><span class="header-section-number">14.4.2</span> How to use papaja<a href="reproducible-reports-with-rmarkdown.html#how-to-use-papaja" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Once <code>papaja</code> is installed, you can select the APA template when creating a new Markdown file through the RStudio menus.</p>
-<div class="figure">
-<img src="images/papaja_template_selection.png" alt="" />
-<p class="caption">APA template selection</p>
+<div class="float">
+<img src="images/papaja_template_selection.png" alt="APA template selection" />
+<div class="figcaption">APA template selection</div>
 </div>
 <p>If you want to add citations specify your BibTeX-file in the YAML front matter of the document (<code>bibliography: my.bib</code>) and you can start citing. If necessary, have a look at R Markdown’s <a href="http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html">overview of the citation syntax</a>. You may also be interested in <a href="https://github.com/crsh/citr">citr</a>, an R Studio addin to swiftly insert Markdown citations.</p>
 <div id="helper-functions-to-report-analyses" class="section level4 hasAnchor" number="14.4.2.1">
@@ -654,17 +661,12 @@ Figure 14.1: Two plots side-by-side.
 <p>The functions <code>apa_print()</code> and <code>apa_table()</code> facilitate reporting results of your analyses. Take a look at the <a href="https://github.com/crsh/papaja/blob/master/inst/example/example.Rmd">R Markdown-file</a> of the example manuscript in the folder <code>example</code> and the resulting <a href="https://raw.githubusercontent.com/crsh/papaja/master/inst/example/example.pdf">PDF</a>.</p>
 <p>Drop a supported analysis result, such as an <code>htest</code>- or <code>lm</code>-object, into <code>apa_print()</code> and receive a list of possible character strings that you can use to report the results of your analysis.</p>
 <pre><code>## Loading required package: tinylabels</code></pre>
-<div class="sourceCode" id="cb832"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb832-1"><a href="reproducible-reports-with-rmarkdown.html#cb832-1" aria-hidden="true" tabindex="-1"></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sepal.Width <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Petal.Width <span class="sc">+</span> Petal.Length, <span class="at">data =</span> iris)</span>
-<span id="cb832-2"><a href="reproducible-reports-with-rmarkdown.html#cb832-2" aria-hidden="true" tabindex="-1"></a>apa_lm <span class="ot">&lt;-</span> <span class="fu">apa_print</span>(my_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb833-1"><a href="reproducible-reports-with-rmarkdown.html#cb833-1" tabindex="-1"></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sepal.Width <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Petal.Width <span class="sc">+</span> Petal.Length, <span class="at">data =</span> iris)</span>
+<span id="cb833-2"><a href="reproducible-reports-with-rmarkdown.html#cb833-2" tabindex="-1"></a>apa_lm <span class="ot">&lt;-</span> <span class="fu">apa_print</span>(my_lm)</span></code></pre></div>
 <p>One element of this list is <code>apa_lm$table</code> that, in the case of an <code>lm</code>-object, will contain a complete regression table. Pass <code>apa_lm$table</code> to <code>apa_table()</code> to turn it into a proper table in your PDF or Word document.</p>
-<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb833-1"><a href="reproducible-reports-with-rmarkdown.html#cb833-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apa_table</span>(apa_lm<span class="sc">$</span>table, <span class="at">caption =</span> <span class="st">&quot;Iris regression table.&quot;</span>)</span></code></pre></div>
-<caption>
-<span id="tab:unnamed-chunk-6">Table 14.1: </span>
-</caption>
-<div custom-style="Table Caption">
-<em>Iris regression table.</em>
-</div>
+<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb834-1"><a href="reproducible-reports-with-rmarkdown.html#cb834-1" tabindex="-1"></a><span class="fu">apa_table</span>(apa_lm<span class="sc">$</span>table, <span class="at">caption =</span> <span class="st">&quot;Iris regression table.&quot;</span>)</span></code></pre></div>
 <table>
+<caption><span id="tab:unnamed-chunk-6">Table 14.1: </span> Iris regression table.</caption>
 <thead>
 <tr class="header">
 <th align="left">Predictor</th>
@@ -782,17 +784,17 @@ Figure 14.1: Two plots side-by-side.
 <div id="plot-functions" class="section level4 hasAnchor" number="14.4.2.2">
 <h4><span class="header-section-number">14.4.2.2</span> Plot functions<a href="reproducible-reports-with-rmarkdown.html#plot-functions" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Be sure to also check out <code>apa_barplot()</code>, <code>apa_lineplot()</code>, and <code>apa_beeplot()</code> (or the general function <code>apa_factorial_plot()</code>) if you work with factorial designs:</p>
-<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb834-1"><a href="reproducible-reports-with-rmarkdown.html#cb834-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apa_factorial_plot</span>(</span>
-<span id="cb834-2"><a href="reproducible-reports-with-rmarkdown.html#cb834-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> npk</span>
-<span id="cb834-3"><a href="reproducible-reports-with-rmarkdown.html#cb834-3" aria-hidden="true" tabindex="-1"></a>  , <span class="at">id =</span> <span class="st">&quot;block&quot;</span></span>
-<span id="cb834-4"><a href="reproducible-reports-with-rmarkdown.html#cb834-4" aria-hidden="true" tabindex="-1"></a>  , <span class="at">dv =</span> <span class="st">&quot;yield&quot;</span></span>
-<span id="cb834-5"><a href="reproducible-reports-with-rmarkdown.html#cb834-5" aria-hidden="true" tabindex="-1"></a>  , <span class="at">factors =</span> <span class="fu">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>)</span>
-<span id="cb834-6"><a href="reproducible-reports-with-rmarkdown.html#cb834-6" aria-hidden="true" tabindex="-1"></a>  , <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">80</span>)</span>
-<span id="cb834-7"><a href="reproducible-reports-with-rmarkdown.html#cb834-7" aria-hidden="true" tabindex="-1"></a>  , <span class="at">level =</span> .<span class="dv">34</span></span>
-<span id="cb834-8"><a href="reproducible-reports-with-rmarkdown.html#cb834-8" aria-hidden="true" tabindex="-1"></a>  , <span class="at">las =</span> <span class="dv">1</span></span>
-<span id="cb834-9"><a href="reproducible-reports-with-rmarkdown.html#cb834-9" aria-hidden="true" tabindex="-1"></a>  , <span class="at">ylab =</span> <span class="st">&quot;Yield&quot;</span></span>
-<span id="cb834-10"><a href="reproducible-reports-with-rmarkdown.html#cb834-10" aria-hidden="true" tabindex="-1"></a>  , <span class="at">plot =</span> <span class="fu">c</span>(<span class="st">&quot;swarms&quot;</span>, <span class="st">&quot;lines&quot;</span>, <span class="st">&quot;error_bars&quot;</span>, <span class="st">&quot;points&quot;</span>)</span>
-<span id="cb834-11"><a href="reproducible-reports-with-rmarkdown.html#cb834-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb835"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb835-1"><a href="reproducible-reports-with-rmarkdown.html#cb835-1" tabindex="-1"></a><span class="fu">apa_factorial_plot</span>(</span>
+<span id="cb835-2"><a href="reproducible-reports-with-rmarkdown.html#cb835-2" tabindex="-1"></a>  <span class="at">data =</span> npk</span>
+<span id="cb835-3"><a href="reproducible-reports-with-rmarkdown.html#cb835-3" tabindex="-1"></a>  , <span class="at">id =</span> <span class="st">&quot;block&quot;</span></span>
+<span id="cb835-4"><a href="reproducible-reports-with-rmarkdown.html#cb835-4" tabindex="-1"></a>  , <span class="at">dv =</span> <span class="st">&quot;yield&quot;</span></span>
+<span id="cb835-5"><a href="reproducible-reports-with-rmarkdown.html#cb835-5" tabindex="-1"></a>  , <span class="at">factors =</span> <span class="fu">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>)</span>
+<span id="cb835-6"><a href="reproducible-reports-with-rmarkdown.html#cb835-6" tabindex="-1"></a>  , <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">80</span>)</span>
+<span id="cb835-7"><a href="reproducible-reports-with-rmarkdown.html#cb835-7" tabindex="-1"></a>  , <span class="at">level =</span> .<span class="dv">34</span></span>
+<span id="cb835-8"><a href="reproducible-reports-with-rmarkdown.html#cb835-8" tabindex="-1"></a>  , <span class="at">las =</span> <span class="dv">1</span></span>
+<span id="cb835-9"><a href="reproducible-reports-with-rmarkdown.html#cb835-9" tabindex="-1"></a>  , <span class="at">ylab =</span> <span class="st">&quot;Yield&quot;</span></span>
+<span id="cb835-10"><a href="reproducible-reports-with-rmarkdown.html#cb835-10" tabindex="-1"></a>  , <span class="at">plot =</span> <span class="fu">c</span>(<span class="st">&quot;swarms&quot;</span>, <span class="st">&quot;lines&quot;</span>, <span class="st">&quot;error_bars&quot;</span>, <span class="st">&quot;points&quot;</span>)</span>
+<span id="cb835-11"><a href="reproducible-reports-with-rmarkdown.html#cb835-11" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="14-reproducible_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>If you prefer creating your plots with <code>ggplot2</code> try <code>theme_apa()</code>.</p>
 </div>
@@ -826,7 +828,7 @@ If you are looking for other journal article templates, the following list of <c
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-R-base" class="csl-entry">
-R Core Team. 2022. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+R Core Team. 2023. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
 <div id="ref-xie2016bookdown" class="csl-entry">
 Xie, Yihui. 2016. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. CRC Press.
