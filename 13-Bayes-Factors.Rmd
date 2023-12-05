@@ -2,6 +2,11 @@
 
 In this chapter, we will discuss how to compute Bayes Factors for a variety of General Linear Models using the `BayesFactor` package [@R-BayesFactor]. The package implements the "default" priors discussed in the SDAM book. <!-- More complex Bayesian models, such as mixed-effects and multilevel models, can be estimated with the `brms` package, and we will briefly touch upon this at the end of the chapter. -->
 
+```{r load-Bayes-Factor, echo=FALSE, include=FALSE}
+library(BayesFactor)
+library(brms)
+```
+
 ## The `BayesFactor` package
 
 The `BayesFactor` package implements Bayesian model comparisons for General Linear Models (as well as some other models for e.g. contingency tables and proportions) using JZS-priors for the parameters, or fixing those parameters to 0. Because Bayes Factors are __transitive__, in the sense that a ratio of Bayes Factors is itself another Bayes factor:

@@ -23,7 +23,7 @@
 <meta name="author" content="Maarten Speekenbrink" />
 
 
-<meta name="date" content="2023-11-20" />
+<meta name="date" content="2023-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -524,8 +524,8 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 <pre><code>## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 1.7e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
+## Chain 1: Gradient evaluation took 1.4e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.14 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -542,9 +542,9 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.041 seconds (Warm-up)
-## Chain 1:                0.034 seconds (Sampling)
-## Chain 1:                0.075 seconds (Total)
+## Chain 1:  Elapsed Time: 0.038 seconds (Warm-up)
+## Chain 1:                0.032 seconds (Sampling)
+## Chain 1:                0.07 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 2).
@@ -567,9 +567,9 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.042 seconds (Warm-up)
-## Chain 2:                0.035 seconds (Sampling)
-## Chain 2:                0.077 seconds (Total)
+## Chain 2:  Elapsed Time: 0.038 seconds (Warm-up)
+## Chain 2:                0.032 seconds (Sampling)
+## Chain 2:                0.07 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 3).
@@ -592,9 +592,9 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 3:                0.037 seconds (Sampling)
-## Chain 3:                0.076 seconds (Total)
+## Chain 3:  Elapsed Time: 0.037 seconds (Warm-up)
+## Chain 3:                0.035 seconds (Sampling)
+## Chain 3:                0.072 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 4).
@@ -617,9 +617,9 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 4:                0.033 seconds (Sampling)
-## Chain 4:                0.072 seconds (Total)
+## Chain 4:  Elapsed Time: 0.037 seconds (Warm-up)
+## Chain 4:                0.031 seconds (Sampling)
+## Chain 4:                0.068 seconds (Total)
 ## Chain 4:</code></pre>
 <p>Because estimation with <code>brms</code> involves random sampling via <code>stan</code>, we use the <code>seed</code> argument to be able to reproduce the results.</p>
 <p>You can obtain a summary of the model via the <code>summary()</code> function:</p>
@@ -648,7 +648,7 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
-<p>The output first shows details of the model (e.g. family and model formula), and MCMC estimation (e.g. number of chains and iterations). Under <code>Population-Level Effects:</code> you will find a summary of the approximate posterior distribution for the main parameters of interest (<code>Intercept</code>, and slopes for <code>hate_groups_per_million</code> and <code>percent_bachelors_degree_or_higher</code>). The <code>Estimate</code> is the posterior mean, the <code>Est.Error</code> is the posterior standard deviation, the <code>l-95% CI</code> and <code>u-95% CI</code> provide respectively the lower and upper bound of the 95% Highest Density Interval. The width of the latter interval can be changed by supplying a <code>prob</code> argument to the summary function. For example, <code>summary(mod, prob=.9)</code> would return the 90% HDI.</p>
+<p>The output first shows details of the model (e.g. family and model formula), and MCMC estimation (e.g. number of chains and iterations). Under <code>Population-Level Effects:</code> you will find a summary of the approximate posterior distribution for the main parameters of interest (<code>Intercept</code>, and slopes for <code>hate_groups_per_million</code> and <code>percent_bachelors_degree_or_higher</code>). The <code>Estimate</code> is the posterior mean, the <code>Est.Error</code> is the posterior standard deviation, the <code>l-95% CI</code> and <code>u-95% CI</code> provide respectively the lower and upper bound of the 95% Credible Interval (CI) computed with the Equal-Tailed Interval (ETI) method. The width of the latter interval can be changed by supplying a <code>prob</code> argument to the summary function. For example, <code>summary(mod, prob=.9)</code> would return the 90% CI.</p>
 <p>The <code>Rhat</code> the <span class="math inline">\(\hat{R}\)</span> values, and <code>Bulk_ESS</code> an estimate of the Effective Sample Size (ESS). The <code>Tail_ESS</code> provides somewhat of a lower bound on the ESS estimate <span class="citation">(see <a href="#ref-vehtari2019rank">Vehtari et al. 2019</a>)</span>. Under <code>Family Specific Parameters:</code>, you will find the same information for the non-regression parameters (i.e. <span class="math inline">\(\sigma_\epsilon\)</span> for a linear regression model).</p>
 <p>You can obtain a quick plot showing a nonparametric density estimate for each parameter, and a plot of the sampled values per iteration and chain, via the <code>plot()</code> function:</p>
 <div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="bayesian-estimation-with-brms.html#cb696-1" tabindex="-1"></a><span class="fu">plot</span>(mod_regression)</span></code></pre></div>
@@ -712,8 +712,8 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 <pre><code>## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 1.7e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
+## Chain 1: Gradient evaluation took 1.6e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -731,14 +731,14 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
 ## Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 1:                0.032 seconds (Sampling)
-## Chain 1:                0.071 seconds (Total)
+## Chain 1:                0.033 seconds (Sampling)
+## Chain 1:                0.072 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 5e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+## Chain 2: Gradient evaluation took 8e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -756,14 +756,14 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
 ## Chain 2:  Elapsed Time: 0.04 seconds (Warm-up)
-## Chain 2:                0.032 seconds (Sampling)
-## Chain 2:                0.072 seconds (Total)
+## Chain 2:                0.033 seconds (Sampling)
+## Chain 2:                0.073 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 5e-06 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+## Chain 3: Gradient evaluation took 7e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -787,8 +787,8 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 5e-06 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+## Chain 4: Gradient evaluation took 8e-06 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -806,8 +806,8 @@ formula interface as <code>lm</code>, <code>glm</code>, and <code>lme4</code>. T
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
 ## Chain 4:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 4:                0.034 seconds (Sampling)
-## Chain 4:                0.073 seconds (Total)
+## Chain 4:                0.035 seconds (Sampling)
+## Chain 4:                0.074 seconds (Total)
 ## Chain 4:</code></pre>
 <p>I have set <code>sample_prior = TRUE</code> so that we also get samples from the prior distributions. For example, we can get a histogram of the prior for <span class="math inline">\(\sigma_epsilon\)</span> as:</p>
 <div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb706-1"><a href="bayesian-estimation-with-brms.html#cb706-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -846,7 +846,7 @@ The overall summary for this model is:</p>
 <p>Besides the default <code>plot()</code> function, the <code>brms::mcmc_plot()</code> function can be used to obtain plots. Important arguments to this function are:</p>
 <ul>
 <li><code>object</code>: a fitted <code>brms::brm()</code> model</li>
-<li><code>type</code>: A specification of the type of plot. For example, <code>hist</code> (histogram), <code>hist_by_chain</code> (separate histograms for each MCMC chain), <code>dens</code> (nonparametric density plot), <code>dens_overlay</code> (overlaid density plots for each chain), <code>violin</code> (violin plots per chain), <code>intervals</code> (HDI intervals for each parameter in the same plot), <code>areas</code> (densities for each parameter in the same plot, and <code>trace</code> (sampled parameters per iteration). For full details of all the options, see <code>help("MCMC-overview", package="bayesplot")</code>.</li>
+<li><code>type</code>: A specification of the type of plot. For example, <code>hist</code> (histogram), <code>hist_by_chain</code> (separate histograms for each MCMC chain), <code>dens</code> (nonparametric density plot), <code>dens_overlay</code> (overlaid density plots for each chain), <code>violin</code> (violin plots per chain), <code>intervals</code> (CI intervals for each parameter in the same plot), <code>areas</code> (densities for each parameter in the same plot, and <code>trace</code> (sampled parameters per iteration). For full details of all the options, see <code>help("MCMC-overview", package="bayesplot")</code>.</li>
 <li><code>variable</code>: Names of the variables (parameters) to plot, as e.g. a character vector. The names of the variables correspond to those provided as the column names in <code>brms::as_draws_df(mod)</code>.</li>
 </ul>
 <p>For example, we can get histograms of the posterior for each parameter as</p>
@@ -911,27 +911,27 @@ and density plots for the prior distributions as</p>
 ## Group-Level Effects: 
 ## ~ID (Number of levels: 27) 
 ##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## sd(Intercept)     0.40      0.07     0.28     0.56 1.00      993     1785
+## sd(Intercept)     0.40      0.07     0.28     0.57 1.01      951     1608
 ## 
 ## Population-Level Effects: 
 ##                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## Intercept                     -1.03      0.08    -1.19    -0.87 1.00     1103
-## context1                       0.05      0.02     0.01     0.09 1.00     3223
-## language1                      0.04      0.08    -0.12     0.20 1.01     1142
-## gender1                        0.06      0.08    -0.10     0.23 1.00     1236
-## context1:language1            -0.04      0.02    -0.08     0.00 1.00     3602
-## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3350
-## language1:gender1             -0.01      0.08    -0.17     0.14 1.00     1163
-## context1:language1:gender1     0.03      0.02    -0.00     0.07 1.00     3722
+## Intercept                     -1.03      0.08    -1.19    -0.87 1.00     1197
+## context1                       0.05      0.02     0.02     0.09 1.00     3576
+## language1                      0.04      0.08    -0.12     0.20 1.00     1039
+## gender1                        0.06      0.08    -0.10     0.22 1.01     1126
+## context1:language1            -0.04      0.02    -0.08     0.00 1.00     3555
+## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3646
+## language1:gender1             -0.01      0.08    -0.17     0.15 1.00     1042
+## context1:language1:gender1     0.03      0.02    -0.01     0.07 1.00     3725
 ##                            Tail_ESS
-## Intercept                      1568
-## context1                       2722
-## language1                      1772
-## gender1                        1606
-## context1:language1             3056
-## context1:gender1               2766
-## language1:gender1              1782
-## context1:language1:gender1     2988
+## Intercept                      1540
+## context1                       2890
+## language1                      1708
+## gender1                        1698
+## context1:language1             2705
+## context1:gender1               2877
+## language1:gender1              1465
+## context1:language1:gender1     3220
 ## 
 ## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -963,27 +963,27 @@ This shows reasonably high autocorrelation. For the other parameters, the autoco
 ## Group-Level Effects: 
 ## ~ID (Number of levels: 27) 
 ##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## sd(Intercept)     0.40      0.07     0.29     0.57 1.00     3142     3700
+## sd(Intercept)     0.40      0.07     0.29     0.55 1.00     2778     3397
 ## 
 ## Population-Level Effects: 
 ##                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## Intercept                     -1.03      0.08    -1.20    -0.88 1.00     3343
-## context1                       0.05      0.02     0.01     0.09 1.00     4006
-## language1                      0.04      0.08    -0.13     0.21 1.00     3273
-## gender1                        0.06      0.08    -0.10     0.22 1.00     3375
-## context1:language1            -0.04      0.02    -0.08     0.00 1.00     4025
-## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     4024
-## language1:gender1             -0.01      0.08    -0.17     0.15 1.00     3239
-## context1:language1:gender1     0.03      0.02    -0.01     0.07 1.00     3942
+## Intercept                     -1.03      0.08    -1.20    -0.88 1.00     3365
+## context1                       0.05      0.02     0.01     0.09 1.00     3529
+## language1                      0.04      0.08    -0.12     0.20 1.00     3335
+## gender1                        0.06      0.08    -0.10     0.22 1.00     2933
+## context1:language1            -0.04      0.02    -0.08     0.00 1.00     4021
+## context1:gender1              -0.02      0.02    -0.06     0.02 1.00     3880
+## language1:gender1             -0.01      0.08    -0.17     0.15 1.00     3107
+## context1:language1:gender1     0.03      0.02    -0.00     0.07 1.00     3567
 ##                            Tail_ESS
-## Intercept                      3561
-## context1                       3654
-## language1                      3261
-## gender1                        3385
-## context1:language1             3792
-## context1:gender1               3729
-## language1:gender1              3304
-## context1:language1:gender1     3905
+## Intercept                      3425
+## context1                       4187
+## language1                      2881
+## gender1                        3301
+## context1:language1             3924
+## context1:gender1               3962
+## language1:gender1              3249
+## context1:language1:gender1     3851
 ## 
 ## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential

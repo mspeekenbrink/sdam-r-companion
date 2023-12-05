@@ -4,6 +4,10 @@
 <!-- https://www.rensvandeschoot.com/tutorials/generalised-linear-models-with-brms/ -->
 <!-- https://psyc573-2022spring.netlify.app/mcmc.html?panelset=poor-mixing -->
 
+```{r load-brms, echo=FALSE, include=FALSE}
+library(brms)
+```
+
 ## The brms package
 
 `brms` [@R-brms] stands for Bayesian Regression Models using Stan. (https://mc-stan.org/)[Stan] is general software for Bayesian model specification and estimation, implementing Hamiltonian Monte Carlo as the main MCMC algorithm. Due to its efficiency and flexibility, it has quickly become one of the most popular software packages for Bayesian modelling. Stan uses its own language to define Bayesian models, which may pose a learning curve. The `brms` package provides an easy-to-use interface to Stan for estimating generalized linear mixed-effects models. As this covers a large part of the models used for data analysis in psychology, 
@@ -74,7 +78,7 @@ You can obtain a summary of the model via the `summary()` function:
 ```{r}
 summary(mod_regression)
 ```
-The output first shows details of the model (e.g. family and model formula), and MCMC estimation (e.g. number of chains and iterations). Under `Population-Level Effects:` you will find a summary of the approximate posterior distribution for the main parameters of interest (`Intercept`, and slopes for `hate_groups_per_million` and `percent_bachelors_degree_or_higher`). The `Estimate` is the posterior mean, the `Est.Error` is the posterior standard deviation, the `l-95% CI` and `u-95% CI` provide respectively the lower and upper bound of the 95% Highest Density Interval. The width of the latter interval can be changed by supplying a `prob` argument to the summary function. For example, `summary(mod, prob=.9)` would return the 90% HDI. 
+The output first shows details of the model (e.g. family and model formula), and MCMC estimation (e.g. number of chains and iterations). Under `Population-Level Effects:` you will find a summary of the approximate posterior distribution for the main parameters of interest (`Intercept`, and slopes for `hate_groups_per_million` and `percent_bachelors_degree_or_higher`). The `Estimate` is the posterior mean, the `Est.Error` is the posterior standard deviation, the `l-95% CI` and `u-95% CI` provide respectively the lower and upper bound of the 95% Credible Interval (CI) computed with the Equal-Tailed Interval (ETI) method. The width of the latter interval can be changed by supplying a `prob` argument to the summary function. For example, `summary(mod, prob=.9)` would return the 90% CI. 
 
 The `Rhat` the $\hat{R}$ values, and `Bulk_ESS` an estimate of the Effective Sample Size (ESS). The `Tail_ESS` provides somewhat of a lower bound on the ESS estimate [see @vehtari2019rank]. Under `Family Specific Parameters:`, you will find the same information for the non-regression parameters (i.e. $\sigma_\epsilon$ for a linear regression model).
 
@@ -135,7 +139,7 @@ summary(mod_regression_2)
 Besides the default `plot()` function, the `brms::mcmc_plot()` function can be used to obtain plots. Important arguments to this function are:
 
 * `object`: a fitted `brms::brm()` model
-* `type`: A specification of the type of plot. For example, `hist` (histogram), `hist_by_chain` (separate histograms for each MCMC chain), `dens` (nonparametric density plot), `dens_overlay` (overlaid density plots for each chain), `violin` (violin plots per chain), `intervals` (HDI intervals for each parameter in the same plot), `areas` (densities for each parameter in the same plot, and `trace` (sampled parameters per iteration). For full details of all the options, see `help("MCMC-overview", package="bayesplot")`.
+* `type`: A specification of the type of plot. For example, `hist` (histogram), `hist_by_chain` (separate histograms for each MCMC chain), `dens` (nonparametric density plot), `dens_overlay` (overlaid density plots for each chain), `violin` (violin plots per chain), `intervals` (CI intervals for each parameter in the same plot), `areas` (densities for each parameter in the same plot, and `trace` (sampled parameters per iteration). For full details of all the options, see `help("MCMC-overview", package="bayesplot")`.
 * `variable`: Names of the variables (parameters) to plot, as e.g. a character vector. The names of the variables correspond to those provided as the column names in `brms::as_draws_df(mod)`.
 
 For example, we can get histograms of the posterior for each parameter as
